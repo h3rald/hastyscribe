@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+/usr/local/Cellar/nimrod/0.9.2/libexec/bin/nimrod c --clib:markdown --clibdir:$PWD hastyscribe.nim
+if [ -f hastyscribe ];
+then
+  mv hastyscribe build/osx/
+fi
