@@ -124,13 +124,29 @@ const
 
 # special flags for mkd_in() and mkd_string()
 
+type TMDMetaData* = object of TObject
+  title*: string
+  author*: string
+  date*: string
+
 proc md*(s: string, f = 0): string =
   var flags = uint32(f)
   var str = cstring(s)
   var mmiot = mkd_string(str, cint(str.len-1), flags)
-  discard mkd_doc_title(mmiot)
-  discard mkd_doc_author(mmiot)
-  discard mkd_doc_date(mmiot)
+  discard mkd_compile(mmiot, flags)
+  var res = allocCStringArray([""])
+  discard mkd_document(mmiot, res)
+  result = cstringArrayToSeq(res)[0]
+  mkd_cleanup(mmiot)
+  return
+
+proc md*(s: string, f = 0, data: var TMDMetadata): string =
+  var flags = uint32(f)
+  var str = cstring(s)
+  var mmiot = mkd_string(str, cint(str.len-1), flags)
+  data.title = $mkd_doc_title(mmiot)
+  data.author = $mkd_doc_author(mmiot)
+  data.date = $mkd_doc_date(mmiot)
   discard mkd_compile(mmiot, flags)
   var res = allocCStringArray([""])
   discard mkd_document(mmiot, res)

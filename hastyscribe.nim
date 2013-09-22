@@ -27,13 +27,17 @@ let output_file = inputsplit.dir/inputsplit.name & ".htm"
 let source = input_file.readFile
 
 # Document Variables
-let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE)
+var metadata = TMDMetaData(title:"", author:"", date:"")
+let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
 
 let document = """<!doctype html>
 <html lang="en">
 <head>
+  <title>$title</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="$author">
+  <meta name="date" content="$date" scheme="YYYY-MM-DD">
   $css
 </head> 
 <body>
@@ -42,6 +46,6 @@ let document = """<!doctype html>
 $body
     </div>
   </div>
-</body>""" % ["css", css, "body", body]
+</body>""" % ["title", metadata.title, "author", metadata.author, "date", metadata.date, "css", css, "body", body]
 
 output_file.writeFile(document)
