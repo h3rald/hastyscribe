@@ -1,0 +1,50 @@
+.tasks {
+  .mix-titled-box(transparent, @dark-gray, @gray, @icon-ok);
+  .mix-special-list;
+  strong:before {
+    .mix-icon(@icon-check-empty);
+  }
+  del:before {
+    .mix-icon(@icon-check);
+  }
+}
+
+.people {
+  .mix-titled-box(transparent, @dark-gray, @gray, @icon-group);
+  .mix-special-list;
+  strong:before {
+    .mix-icon(@icon-user);
+  }
+  del:before {
+    .mix-icon(@icon-user);
+  }
+}
+
+.objectives {
+  .mix-titled-box(transparent, @dark-gray, @gray, @icon-bullseye);
+  .mix-special-list;
+  strong {
+    font-weight: bold;
+  }
+  @media screen and (min-width: 320px) {
+    ul {
+      margin-left: 30px;
+    }
+    li {
+      text-indent: -45px;
+    }
+    strong { font-weight: normal; }
+  }
+  strong:before {
+    .mix-icon(@icon-3-stars);
+    color: @dark-gray;
+  }
+  em:before {
+    .mix-icon(@icon-2-stars);
+    color: @dark-gray;
+  }
+  del:before {
+    .mix-icon(@icon-1-stars);
+    color: @dark-gray;
+  }
+}
