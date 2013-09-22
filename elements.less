@@ -1,9 +1,33 @@
+body {
+  padding: 5px 10px;
+  background-color:#fff;
+  margin: 0 auto;
+  height:100%;
+  zoom: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color:@text-color;
+  font:15px @sans-font;
+  line-height:1.4;
+  -webkit-font-smoothing:antialiased;
+}
+
+@media screen and (min-width: 960px) {
+  body {
+    width: 960px;
+  }
+}
+
+
+ul, ol {
+  margin-top: -0.5em;
+}
 
 h1, h2, h3, h4, h5, h6 {
-  color: #222;
+  color: @heading-color;
 }
 a,a:visited {
-  color:#4183c4;
+  color: @link-color;
   text-decoration:none;
   &:hover {
     text-decoration:underline;
@@ -17,38 +41,33 @@ blockquote {
   font-style: italic;
 }
 
+dl {
+  margin-left: 5px;
+
+  dt {
+    font-weight: bold;
+  }
+}
 
 code {
-  padding:0 3px 2px;
-  border:1px solid #dddddd;
-  -webkit-border-radius:2px;
-  -moz-border-radius:2px;
-  border-radius:2px;
-  -moz-background-clip:padding;
-  -webkit-background-clip:padding-box;
-  background-clip:padding-box;
-  font-family:Monaco, "DejaVu Sans Mono", "Courier New", monospace;
-  font-size:80%;
-  color:#666666;
+  .mix-inline-box(@light-gray, @dark-gray, @gray);
+  font-family: @monospace-font;
+  font-size: 80%;
+}
+
+kbd {
+  .mix-inline-box(@light-gray, @dark-gray, @gray);
+  font-weight: bold;
+  border-right: 1px solid @dark-gray;
+  border-bottom: 1px solid @dark-gray;
 }
 
 
 pre {
-  padding:8px 10px;
-  margin:10px 0;
-  border:1px solid #dddddd;
-  border-bottom-width:2px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -moz-background-clip:padding;
-  -webkit-background-clip:padding-box;
-  background-clip:padding-box;
-  font-family:Monaco, "DejaVu Sans Mono", "Courier New", monospace;
-  color:#666666;
-  -webkit-font-smoothing:inherit;
-  overflow:auto;
+  .mix-box(@light-gray, @dark-gray, @gray);
+  font-family: @monospace-font;
   code {
+    box-shadow: none;
     padding: 0;
     border: none;
   }
@@ -56,11 +75,11 @@ pre {
 
 
 table {
+  .mix-box(transparent, @dark-gray, @gray);
   border-collapse:collapse;
   margin: 0.2em auto;
   border-spacing:0;
   empty-cells:show;
-  border:1px solid #cbcbcb;
   thead {
     background:#e0e0e0;
     color:#222;
