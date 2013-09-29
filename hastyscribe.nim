@@ -41,11 +41,16 @@ let document = """<!doctype html>
   $css
 </head> 
 <body>
-  <div class="pure-g-r">
-    <div class="pure-u">
+  <h1>$title</h1>
+  <div id="toc">
+    $toc
+  </nav>
+  <div>
 $body
-    </div>
+  </main>
+  <div id="footer">
+    <p>by $author &ndash; Generated with <a href="http://h3rald.com/hastyscribe/">HastyScribe</a></p>
   </div>
-</body>""" % ["title", metadata.title, "author", metadata.author, "date", metadata.date, "css", css, "body", body]
+</body>""" % ["title", metadata.title, "author", metadata.author, "date", metadata.date, "toc", metadata.toc, "css", css, "body", body]
 
 output_file.writeFile(document)

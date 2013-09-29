@@ -1,20 +1,63 @@
-.caution {
-  .mix-titled-box(@light-red, @dark-red, @red, @icon-bolt);
+.danger {
+  .mix-titled-box(@light-red, @dark-red, @red, @icon-warning-sign);
 }
-.note, .info {
+.important {
+  .mix-titled-box(@light-red, @dark-red, @red, @icon-pushpin);
+}
+.warning, .caution {
+  .mix-titled-box(@light-yellow, @dark-yellow, @yellow, @icon-warning-sign);
+}
+.attention {
+  .mix-titled-box(@light-yellow, @dark-yellow, @yellow, @icon-bell);
+}
+.note {
+  .mix-titled-box(@light-gray, @dark-gray, @gray, @icon-edit);
+}
+.info {
   .mix-titled-box(@light-gray, @dark-gray, @gray, @icon-info-sign);
+}
+.see-also {
+  .mix-titled-box(@light-blue, @dark-blue, @blue, @icon-circle-arrow-right);
 }
 .tip {
   .mix-titled-box(@light-blue, @dark-blue, @blue, @icon-lightbulb);
 }
-.warning, .important, .attention {
-  .mix-titled-box(@light-yellow, @dark-yellow, @yellow, @icon-warning-sign);
-}
 
+.warning,
+.important,
+.caution,
+.attention,
+.caution,
+.danger,
+.see-also,
+.info,
+.tip,
+.note {
+  width: 66.6667%;
+}
+@media screen and (max-width: 599px) {
+  .warning,
+  .important,
+  .caution,
+  .attention,
+  .caution,
+  .danger,
+  .see-also,
+  .info,
+  .tip,
+  .note{
+    width: 100%;
+  }
+}
 @media screen and (min-width: 600px) {
   .warning,
   .important,
   .caution,
+  .attention,
+  .caution,
+  .danger,
+  .see-also,
+  .info,
   .tip,
   .note{
     width: 66.6667%;
