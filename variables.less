@@ -1,7 +1,15 @@
+/* Queries */
+
+@SupportsEmbeddedWoff: ~"(min-width: 320px)"; 
+// IE8 or less won't understand the media query, so it will not load the icons
+// Same goes for low-resolution phones that are not likely to support embedded woff fonts.
+
 /* Fonts */
 
 @sans-font: "Calibri", "Helvetica", "Ubuntu Sans", "Arial", "Freesans", "Clean", sans-serif;
 @monospace-font: "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
+@FontAwesomePath: "http://netdna.bootstrapcdn.com/font-awesome/3.2.1/font";
+@FontAwesomeVersion: "3.2.1";
 
 /* Colors */
 

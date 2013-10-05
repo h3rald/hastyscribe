@@ -12,7 +12,7 @@
 }
 
 .presence {
-  .mix-icon-title(@icon-group);
+  .mix-icon-title(@icon-th-list);
   .mix-special-list;
   strong:before {
     .mix-icon(@icon-user);
@@ -122,10 +122,8 @@
 
 .org {
   .mix-icon-title(@icon-sitemap);
-  @media screen and (min-width: 320px) {
-    ul, ol {
-      list-style-type: none;
-    }
+  ul, ol {
+    list-style-type: none;
   }
   li {
     font-weight: bold;
@@ -140,6 +138,7 @@
     &:before { 
       color: @bright-blue; 
       .mix-icon(@icon-user);
+      font-style: normal;
     }
   }
   li li li {
