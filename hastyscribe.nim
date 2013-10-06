@@ -1,24 +1,49 @@
 import os, parseopt, strutils, times, base64, markdown
 
+let v = "0.1"
+let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
+
+  (c) 2013 Fabio Cevasco
+  
+  Usage:
+    hastyscribe markdown_file
+
+  Arguments:
+    markdown_file          the markdown file to compile into HTML."""
+
 # Source
 const src_css = "assets/hastyscribe.css".slurp
+
 
 proc style_tag(css): string =
   result = "<style>$1</style>" % [css]
 
 let css = src_css.style_tag
 
+proc encode_image(file, format): string =
+  let contents = file.readFile
+  let enc_contents = contents.encode(contents.len*3) 
+  return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
+
+
 ### MAIN
+
+var input_file = ""
 
 var opt = initOptParser()
 
 opt.next
 
-if opt.kind != cmdArgument:
-  quit()
+if opt.kind == cmdArgument:
+  # Input file name
+  input_file = opt.key
 
-# Input file name
-let input_file = opt.key
+if input_file == "":
+  quit(usage, 1)
+
+if input_file.existsFile == false:
+  quit("Error: file \"$1\" does not exist" % [input_file], 2)
+
 let inputsplit = input_file.splitFile
 
 # Output file name
@@ -26,12 +51,7 @@ let output_file = inputsplit.dir/inputsplit.name & ".htm"
 
 let source = input_file.readFile
 
-proc encode_image(file, format): string =
-  let contents = file.readFile
-  let enc_contents = contents.encode(contents.len*3) 
-  return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
-
-# URL callback
+# URL callback to base64-encode and embed images
 proc callback(url: cstring, size: cint, p: pointer): cstring =
   let str_url = $url
   var target = str_url[0..size-1]
@@ -54,10 +74,8 @@ let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata, callback)
 
 
 # Manage metadata
-
 if metadata.author != "":
   metadata.author = "by <em>" & metadata.author & "</em> &ndash;"
-
 
 var title_tag, header_tag, toc: string
 
@@ -73,6 +91,7 @@ if metadata.toc != "":
 else:
   toc = ""
 
+# Date parsing and validation
 var timeinfo: TTimeInfo
 
 proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
@@ -109,7 +128,7 @@ let document = """<!doctype html>
 $body
   </div>
   <div id="footer">
-    <p>$author Generated with <a href="https://github.com/h3rald/hastyscribe/">HastyScribe</a> on <em>$date</em></p>
+    <p>$author Generated with <a href="https://github.com/h3rald/hastyscribe/">HastyScribe</a> on $date</p>
   </div>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body]
 
