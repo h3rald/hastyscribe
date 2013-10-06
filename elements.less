@@ -1,5 +1,4 @@
 body {
-  padding: 5px 10px;
   background-color:#fff;
   margin: 0 auto;
   height:100%;
@@ -11,6 +10,11 @@ body {
   line-height:1.4;
   -webkit-font-smoothing:antialiased;
   width: 960px;
+}
+
+#main, #footer, #header {
+  width: 96%;
+  margin:auto;
 }
 
 ul, ol {
@@ -77,7 +81,6 @@ kbd {
 
 pre {
   .mix-box(@light-gray, @dark-gray, @gray);
-  width: 96%;
   margin: auto;
   font-family: @monospace-font;
   code {
@@ -91,18 +94,18 @@ pre {
 table {
   .mix-box(transparent, @dark-gray, @gray);
   border-collapse:collapse;
-  margin: 0.2em auto;
+  margin: 15px auto;
   border-spacing:0;
   empty-cells:show;
   thead {
-    background:#e0e0e0;
+    background: @light-gray;
     color:#222;
     text-align:left;
     vertical-align:bottom;
   }
   td, th {
     background-color:transparent;
-    border:1px solid #cbcbcb;
+    border:1px solid @gray;
     font-size:inherit;
     margin:0;
     overflow:visible;

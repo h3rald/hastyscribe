@@ -1,7 +1,4 @@
 .mix-box (@bg-color, @fg-color, @border-color) {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   -moz-background-clip:padding;
   -webkit-background-clip:padding-box;
   background-clip:padding-box;
@@ -115,6 +112,9 @@
   color: @fg-color;
   background-color: @bg-color;
   padding:0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
   border:1px solid @border-color;
   -webkit-border-radius:2px;
   -moz-border-radius:2px;
@@ -135,6 +135,7 @@
   font-family: @sans-font;
   font-weight: bold;
   font-size: 90%;
+  white-space: nowrap;
 }
 
 .mix-tag-2 (@bg-color, @fg-color, @border-color, @icon, @icon-color, @alt) {
@@ -142,6 +143,21 @@
     color: @icon-color;
   }
   .mix-tag (@bg-color, @fg-color, @border-color, @icon, @alt)
+}
+
+.mix-badge (@bg-color, @fg-color, @border-color, @icon, @text) {
+  &:after {
+    content: @text;
+    font-size: 90%;
+  }
+  .mix-tag (@bg-color, @fg-color, @border-color, @icon, "");
+}
+
+.mix-badge-2 (@bg-color, @fg-color, @border-color, @icon, @icon-color, @text) {
+  &:before {
+    color: @icon-color;
+  }
+  .mix-badge (@bg-color, @fg-color, @border-color, @icon, @text);
 }
 
 .mix-link (@icon) {
