@@ -141,13 +141,14 @@ proc md*(s: string, f = 0): string =
   mkd_cleanup(mmiot)
   return
 
-proc md*(s: string, f = 0, data: var TMDMetadata): string =
+proc md*(s: string, f = 0, data: var TMDMetadata, callback: mkd_callback_t): string =
   var flags = uint32(f)
   var str = cstring(s)
   var mmiot = mkd_string(str, cint(str.len-1), flags)
   data.title = $mkd_doc_title(mmiot)
   data.author = $mkd_doc_author(mmiot)
   data.date = $mkd_doc_date(mmiot)
+  mkd_e_url(mmiot, callback) 
   discard mkd_compile(mmiot, flags)
   if (int(flags) and MKD_DOTOC) == MKD_DOTOC:
     var toc = allocCStringArray([""])
@@ -158,4 +159,3 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
   result = cstringArrayToSeq(res)[0]
   mkd_cleanup(mmiot)
   return
-

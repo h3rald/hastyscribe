@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, markdown
+import os, parseopt, strutils, times, base64, markdown
 
 # Source
 const src_css = "assets/hastyscribe.css".slurp
@@ -26,9 +26,31 @@ let output_file = inputsplit.dir/inputsplit.name & ".htm"
 
 let source = input_file.readFile
 
+proc encode_image(file, format): string =
+  let contents = file.readFile
+  let enc_contents = contents.encode(contents.len*3) 
+  return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
+
+# URL callback
+proc callback(url: cstring, size: cint, p: pointer): cstring =
+  let str_url = $url
+  var target = str_url[0..size-1]
+  let file = inputsplit.dir/target
+  if file.existsFile:
+    let filesplit = target.splitFile
+    case filesplit.ext
+    of ".png":
+      target = encode_image(file, "png")
+    of ".jpg":
+      target = encode_image(file, "jpeg")
+    of ".gif":
+      target = encode_image(file, "gif")
+    else: nil
+  return target
+
 # Document Variables
 var metadata = TMDMetaData(title:"", author:"", date:"")
-let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
+let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata, callback)
 
 # TODO handle invalid date errors
 
