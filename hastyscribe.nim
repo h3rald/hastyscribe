@@ -52,28 +52,56 @@ proc callback(url: cstring, size: cint, p: pointer): cstring =
 var metadata = TMDMetaData(title:"", author:"", date:"")
 let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata, callback)
 
-# TODO handle invalid date errors
+
+# Manage metadata
+
+if metadata.author != "":
+  metadata.author = "by <em>" & metadata.author & "</em> &ndash;"
+
+
+var title_tag, header_tag, toc: string
+
+if metadata.title != "":
+  title_tag = "<title>" & metadata.title & "</title>"
+  header_tag = "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
+else:
+  title_tag = ""
+  header_tag = ""
+
+if metadata.toc != "":
+  toc = "<div id=\"toc\">" & metadata.toc & "</div>"
+else:
+  toc = ""
+
+var timeinfo: TTimeInfo
+
+proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
+  var parts = metadata.date.split('-').map(proc(i:string): int = i.parseInt)
+  try:
+    timeinfo = TTimeInfo(year: parts[0], month: TMonth(parts[1]-1), monthday: parts[2])
+    # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
+    timeinfo = getLocalTime(timeinfo.TimeInfoToTime);
+    return true
+  except:
+    return false
 
 if metadata.date == "":
-  metadata.date = getDateStr()
-
-var date = metadata.date.split('-')
-
-var timeinfo = TTimeInfo(year: date[0].parseInt, month: TMonth(date[1].parseInt-1), monthday: date[2].parseInt)
+  discard parse_date(getDateStr(), timeinfo)
+else:
+  if parse_date(metadata.date, timeinfo) == false:
+    discard parse_date(getDateStr(), timeinfo)
 
 let document = """<!doctype html>
 <html lang="en">
 <head>
-  <title>$title</title>
+  $title_tag
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="$author">
   $css
 </head> 
 <body>
-  <div id="header">
-    <h1>$title</h1>
-  </div>
+  $header_tag
   <div id="toc">
     $toc
   </div>
@@ -81,8 +109,8 @@ let document = """<!doctype html>
 $body
   </div>
   <div id="footer">
-    <p>by <em>$author</em> &ndash; Generated with <a href="https://github.com/h3rald/hastyscribe/">HastyScribe</a> on <em>$date</em></p>
+    <p>$author Generated with <a href="https://github.com/h3rald/hastyscribe/">HastyScribe</a> on <em>$date</em></p>
   </div>
-</body>""" % ["title", metadata.title, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", metadata.toc, "css", css, "body", body]
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body]
 
 output_file.writeFile(document)

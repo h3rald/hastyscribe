@@ -1,5 +1,4 @@
-##ifndef _MKDIO_D
-##define _MKDIO_D
+import strutils
 
 type 
   MMIOT* = int
@@ -143,11 +142,24 @@ proc md*(s: string, f = 0): string =
 
 proc md*(s: string, f = 0, data: var TMDMetadata, callback: mkd_callback_t): string =
   var flags = uint32(f)
-  var str = cstring(s)
+  # Check if metadata is present
+  var lns = s.splitLines
+  var valid_metadata = false
+  var offset = 0
+  if (lns[0][0] == '%') and (lns[1][0] == '%') and (lns[2][0] == '%'):
+    valid_metadata = true
+  else:
+    valid_metadata = false
+    if lns[0][0] == '%':
+      offset = 1
+      if lns[1][0] == '%':
+        offset = 2
+  var str = cstring(lns[offset..lns.len-1].join("\n"))
   var mmiot = mkd_string(str, cint(str.len-1), flags)
-  data.title = $mkd_doc_title(mmiot)
-  data.author = $mkd_doc_author(mmiot)
-  data.date = $mkd_doc_date(mmiot)
+  if valid_metadata:
+    data.title = $mkd_doc_title(mmiot)
+    data.author = $mkd_doc_author(mmiot)
+    data.date = $mkd_doc_date(mmiot)
   mkd_e_url(mmiot, callback) 
   discard mkd_compile(mmiot, flags)
   if (int(flags) and MKD_DOTOC) == MKD_DOTOC:
