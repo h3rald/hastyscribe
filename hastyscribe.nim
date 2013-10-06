@@ -59,7 +59,7 @@ if metadata.date == "":
 
 var date = metadata.date.split('-')
 
-var timeinfo = TTimeInfo(year: date[0].parseInt, month: TMonth(date[1].parseInt), monthday: date[2].parseInt)
+var timeinfo = TTimeInfo(year: date[0].parseInt, month: TMonth(date[1].parseInt-1), monthday: date[2].parseInt)
 
 let document = """<!doctype html>
 <html lang="en">
