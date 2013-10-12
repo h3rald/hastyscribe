@@ -140,7 +140,7 @@ proc md*(s: string, f = 0): string =
   mkd_cleanup(mmiot)
   return
 
-proc md*(s: string, f = 0, data: var TMDMetadata, callback: mkd_callback_t): string =
+proc md*(s: string, f = 0, data: var TMDMetadata): string =
   var flags = uint32(f)
   # Check if metadata is present
   var lns = s.splitLines
@@ -160,7 +160,6 @@ proc md*(s: string, f = 0, data: var TMDMetadata, callback: mkd_callback_t): str
     data.title = $mkd_doc_title(mmiot)
     data.author = $mkd_doc_author(mmiot)
     data.date = $mkd_doc_date(mmiot)
-  mkd_e_url(mmiot, callback) 
   discard mkd_compile(mmiot, flags)
   if (int(flags) and MKD_DOTOC) == MKD_DOTOC:
     var toc = allocCStringArray([""])

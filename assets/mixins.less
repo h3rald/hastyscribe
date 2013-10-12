@@ -14,100 +14,6 @@
   border:1px solid @border-color;
 }
 
-.mix-icon (@icon) {
-  @media screen, @SupportsEmbeddedWoff {
-    font-family: "FontAwesome";
-    font-weight: normal;
-    white-space: pre-wrap;
-    content: @icon + " ";
-  }
-}
-
-.mix-icon-color (@icon, @color) {
-  .mix-icon(@icon);
-  color: @color;
-}
-
-.mix-icon-title (@icon) {
-  p:first-child {
-    margin: 0;
-    padding: 0;
-  }
-  p, h1, h2, h3, h4, h5, h6 {
-    &:first-child {
-      font-weight: bold;
-      &:before {
-        .mix-icon(@icon);
-        width: 1.1em;
-      }
-    }
-  }
-  h1, h2, h3, h4, h5, h6 {
-    &:first-child {
-      margin-bottom: 2px;
-    }
-  }
-  p:nth-child(2) {
-    margin-top: 2px;
-  }
-  p:last-child, li:last-child {
-    margin-bottom: 5px;
-  }
-}
-
-.mix-titled-box (@bg-color, @fg-color, @border-color, @icon) {
-  .mix-box(@bg-color, @fg-color, @border-color);
-  .mix-icon-title(@icon);
-}
-
-.mix-special-list {
-  strong, em, del, code {
-    display: list-item;
-    margin-left: 30px;
-    list-style-type: none;
-    font-family: @sans-font;
-    font-weight: normal;
-  }
-  code {
-    box-shadow: none;
-    padding: 0;
-    border: none;
-    font-size: 100%;
-    background: transparent;
-  }
-  del {
-    color: @gray-9;
-  }
-  em {
-    color: @gray-5;
-  }
-  strong {
-    color: @gray-1;
-  }
-  @media screen, @SupportsEmbeddedWoff {
-    list-style-type: none;
-    em, del, strong, code {
-      &:before {
-        width: 1.2em;
-      }
-    }
-    del {
-      text-decoration: none;
-    }
-    del {
-      color: @text-color;
-    }
-    em {
-      color: @text-color;
-      font-style: normal;
-    }
-    strong {
-      color: @text-color;
-      font-weight: normal;
-    }
-  }
-}
-
 .mix-inline-box (@bg-color, @fg-color, @border-color) {
   color: @fg-color;
   background-color: @bg-color;
@@ -126,43 +32,37 @@
   box-shadow:0 1px 3px rgba(0,0,0,0.1);
 }
 
-.mix-tag (@bg-color, @fg-color, @border-color, @icon, @alt) {
-  .mix-inline-box (@bg-color, @fg-color, @border-color);
-  &:before {
-    content: @alt;
-    .mix-icon(@icon);
-  }
-  font-family: @sans-font;
+.mix-red-badge (@text){
   font-weight: bold;
-  font-size: 90%;
-  white-space: nowrap;
-}
-
-.mix-tag-2 (@bg-color, @fg-color, @border-color, @icon, @icon-color, @alt) {
+  color: @bright-red;
+  text-decoration: underline;
+  vertical-align: top;
   &:before {
-    color: @icon-color;
-  }
-  .mix-tag (@bg-color, @fg-color, @border-color, @icon, @alt)
-}
-
-.mix-badge (@bg-color, @fg-color, @border-color, @icon, @text) {
-  &:after {
+    font-variant: small-caps;
+    font-size: 120%;
     content: @text;
-    font-size: 90%;
   }
-  .mix-tag (@bg-color, @fg-color, @border-color, @icon, "");
 }
 
-.mix-badge-2 (@bg-color, @fg-color, @border-color, @icon, @icon-color, @text) {
+.mix-symbol (@symbol, @color, @size:100%){
   &:before {
-    color: @icon-color;
+    font-style: normal;
+    font-size: @size;
+    color: @color;
+    content: @symbol;
   }
-  .mix-badge (@bg-color, @fg-color, @border-color, @icon, @text);
 }
 
-.mix-link (@icon) {
-  &:before {
-    .mix-icon(@icon);
-    margin-right: -0.1em;
-  }
+.mix-circle (@color, @size:100%){
+  .mix-symbol("\25CF", @color, @size);
+}
+
+
+.mix-hyphens (@val) {
+	// Accepted values: [ none | manual | auto ]
+	-webkit-hyphens: $val; 
+	-moz-hyphens: $val; 
+	-ms-hyphens: $val; 
+	-o-hyphens: $val; 
+	hyphens: $val;
 }

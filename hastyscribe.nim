@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, base64, markdown
+import os, parseopt, strutils, times, base64, pegs, markdown
 
 let v = "0.1"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
@@ -11,24 +11,32 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
   Arguments:
     markdown_file          the markdown file to compile into HTML."""
 
-# Source
-const src_css = "assets/hastyscribe.css".slurp
+# Procedures
+
+proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
+  var parts = date.split('-').map(proc(i:string): int = i.parseInt)
+  try:
+    timeinfo = TTimeInfo(year: parts[0], month: TMonth(parts[1]-1), monthday: parts[2])
+    # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
+    timeinfo = getLocalTime(timeinfo.TimeInfoToTime);
+    return true
+  except:
+    return false
 
 
 proc style_tag(css): string =
   result = "<style>$1</style>" % [css]
 
-let css = src_css.style_tag
+# Source Files
+const src_css = "assets/hastyscribe.css".slurp
 
-proc encode_image(file, format): string =
-  let contents = file.readFile
-  let enc_contents = contents.encode(contents.len*3) 
-  return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
 
 ### MAIN
 
 var input_file = ""
+
+# Parse Parameters
 
 var opt = initOptParser()
 
@@ -44,6 +52,7 @@ if input_file == "":
 if input_file.existsFile == false:
   quit("Error: file \"$1\" does not exist" % [input_file], 2)
 
+
 let inputsplit = input_file.splitFile
 
 # Output file name
@@ -51,26 +60,11 @@ let output_file = inputsplit.dir/inputsplit.name & ".htm"
 
 let source = input_file.readFile
 
-# URL callback to base64-encode and embed images
-proc callback(url: cstring, size: cint, p: pointer): cstring =
-  let str_url = $url
-  var target = str_url[0..size-1]
-  let file = inputsplit.dir/target
-  if file.existsFile:
-    let filesplit = target.splitFile
-    case filesplit.ext
-    of ".png":
-      target = encode_image(file, "png")
-    of ".jpg":
-      target = encode_image(file, "jpeg")
-    of ".gif":
-      target = encode_image(file, "gif")
-    else: nil
-  return target
 
 # Document Variables
 var metadata = TMDMetaData(title:"", author:"", date:"")
-let body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata, callback)
+var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
+let css = src_css.style_tag
 
 
 # Manage metadata
@@ -93,16 +87,6 @@ else:
 
 # Date parsing and validation
 var timeinfo: TTimeInfo
-
-proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
-  var parts = metadata.date.split('-').map(proc(i:string): int = i.parseInt)
-  try:
-    timeinfo = TTimeInfo(year: parts[0], month: TMonth(parts[1]-1), monthday: parts[2])
-    # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
-    timeinfo = getLocalTime(timeinfo.TimeInfoToTime);
-    return true
-  except:
-    return false
 
 if metadata.date == "":
   discard parse_date(getDateStr(), timeinfo)
