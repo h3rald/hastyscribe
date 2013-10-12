@@ -6,15 +6,22 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
   (c) 2013 Fabio Cevasco
   
   Usage:
-    hastyscribe markdown_file
+    hastyscribe markdown_file [--notoc]
 
   Arguments:
-    markdown_file          the markdown file to compile into HTML."""
+    markdown_file          The markdown file to compile into HTML.
+  Options:
+    --notoc                Do not generate a Table of Contents."""
 
 # Procedures
 
 proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
-  var parts = date.split('-').map(proc(i:string): int = i.parseInt)
+  var parts = date.split('-').map(proc(i:string): int = 
+    try:
+      i.parseInt
+    except:
+      0
+  )
   try:
     timeinfo = TTimeInfo(year: parts[0], month: TMonth(parts[1]-1), monthday: parts[2])
     # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
@@ -35,16 +42,18 @@ const src_css = "assets/hastyscribe.css".slurp
 ### MAIN
 
 var input_file = ""
+var generate_toc = true
 
 # Parse Parameters
 
-var opt = initOptParser()
-
-opt.next
-
-if opt.kind == cmdArgument:
-  # Input file name
-  input_file = opt.key
+for kind, key, val in getopt():
+  case kind
+  of cmdArgument:
+    input_file = key
+  of cmdLongOption:
+    if key == "notoc":
+      generate_toc = false
+  else: nil
 
 if input_file == "":
   quit(usage, 1)
@@ -66,7 +75,6 @@ var metadata = TMDMetaData(title:"", author:"", date:"")
 var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
 let css = src_css.style_tag
 
-
 # Manage metadata
 if metadata.author != "":
   metadata.author = "by <em>" & metadata.author & "</em> &ndash;"
@@ -80,7 +88,7 @@ else:
   title_tag = ""
   header_tag = ""
 
-if metadata.toc != "":
+if generate_toc == true and metadata.toc != "":
   toc = "<div id=\"toc\">" & metadata.toc & "</div>"
 else:
   toc = ""
