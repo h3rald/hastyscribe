@@ -1,26 +1,13 @@
+span.todo { .mix-red-badge("todo");}
+span.fixme { .mix-red-badge("fixme");}
 
-span.danger { .mix-badge(@light-red, @dark-red, @red, @icon-warning-sign, "DANGER");}
-span.warning { .mix-badge(@light-yellow, @dark-yellow, @yellow, @icon-warning-sign, "WARNING");}
-span.ok { .mix-badge(@light-green, @dark-green, @green, @icon-ok, "OK");}
+.red-circle {.mix-circle(@bright-red)}
+.green-circle {.mix-circle(@bright-green)}
+.yellow-circle {.mix-circle(@bright-yellow)}
+.gray-circle {.mix-circle(@gray)}
 
-span.idea { .mix-badge(@light-yellow, @dark-yellow, @yellow, @icon-lightbulb, "IDEA");}
-span.done { .mix-badge(@light-green, @dark-green, @green, @icon-check, "DONE");}
-span.todo { .mix-badge(@light-red, @dark-red, @red, @icon-arrow-right, "TODO");}
-span.experimental { .mix-badge-2(@light-yellow, @bright-red, @yellow, @icon-beaker, @bright-red, "EXPERIMENTAL");}
-
-span.home { .mix-badge-2(@light-green, @dark-green, @green, @icon-home, @bright-red, "HOME");}
-span.office { .mix-badge-2(@light-green, @dark-green, @green, @icon-building, @bright-red, "OFFICE");}
-
-span.action { .mix-badge(@light-red, @dark-red, @red, @icon-bolt, "ACTION");}
-span.decision { .mix-badge(@light-blue, @dark-blue, @blue, @icon-legal, "DECISION");}
-span.observation { .mix-badge(@light-green, @dark-green, @green, @icon-eye-open, "OBSERVATION");}
-
-span.star-1 { &:before { .mix-icon-color("@{icon-star}@{icon-star-empty}@{icon-star-empty}", @yellow)}}
-span.star-2 { &:before { .mix-icon-color("@{icon-star}@{icon-star}@{icon-star-empty}", @yellow)}}
-span.star-3 { &:before { .mix-icon-color("@{icon-star}@{icon-star}@{icon-star}", @yellow)}}
-
-span.locked { .mix-badge(@light-red, @dark-red, @red, @icon-lock, "LOCKED");}
-span.unlocked { .mix-badge(@light-green, @dark-green, @green, @icon-unlock, "UNLOCKED");}
-
-span.no { .mix-badge(@light-red, @dark-red, @red, @icon-thumbs-down, "NO");}
-span.yes { .mix-badge(@light-green, @dark-green, @green, @icon-thumbs-up, "YES");}
+.star { .mix-symbol("\2605", @bright-yellow)}
+.heart {.mix-symbol("\2665", @bright-red)}
+.shamrock {.mix-symbol("\2618", @bright-green, 105%)}
+.cross {.mix-symbol("\2718 ", @bright-red)}
+.check {.mix-symbol("\2714 ", @bright-green)}
