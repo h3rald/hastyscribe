@@ -47,9 +47,11 @@ If you choose to build your own:
 1. Download/clone [Discount](https://github.com/Orc/discount) source code
 2. In the directory containing Discount source code, run the following commands:
 
-   <tt>./configure.sh --with-tabstops=2 --with-dl=both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features</tt>
+   ```
+   ./configure.sh --with-tabstops=2 --with-dl=both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features
 
-   <tt>make</tt>
+   make
+   ```
 
   Note: If you are on Windows, you can compile it using [MinGW](http://www.mingw.org/).
 
@@ -60,6 +62,8 @@ Once you have a **libmarkdown.a** static library for your platform:
 3. Put your **libmarkdown.a** file in the **vendor** directory.
 4. Run **osxbuild** (if you are on OSX) or **winbuild.bat** (if you are on windows) or the following:
 
-   <tt>nimrod --clibdir:vendor --clib:markdown c hastyscribe.nim</tt>
+   ```
+   nimrod --clibdir:vendor --clib:markdown c hastyscribe.nim
+   ```
 
 [nimrod]: http://nimrod-code.org/
