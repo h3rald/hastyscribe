@@ -1,5 +1,2 @@
 nimcache/
 libmarkdown.a
-test/
-*.htm
-*.html

@@ -13,15 +13,6 @@ body {
   .mix-hyphens(auto);
 }
 
-#main, #footer, #header {
-  width: 96%;
-  margin:auto;
-}
-
-ul, ol {
-  padding-left: 30px;
-}
-
 @media screen and (max-width: 959px) {
   body {
     width: 100%;
@@ -34,10 +25,16 @@ ul, ol {
   }
 }
 
+/* Layout */
 
-h1, h2, h3, h4, h5, h6 {
-  color: @heading-color;
-  border-bottom: 1px solid @gray-d; 
+#main, #footer, #header {
+  width: 96%;
+  margin:auto;
+}
+
+#footer {
+  text-align: center;
+  font-size: 70%;
 }
 
 #toc {
@@ -51,11 +48,10 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-blockquote {
-  border-left: 3px solid #dedede;
-  padding:0px 10px;
-  margin:10px 0;
-  font-style: italic;
+/* Lists */
+
+ul, ol {
+  padding-left: 30px;
 }
 
 dl {
@@ -66,26 +62,21 @@ dl {
   }
 }
 
-code {
-  .mix-inline-box(@light-gray, @dark-gray, @gray);
-  font-family: @monospace-font;
-  font-size: 80%;
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+  color: @heading-color;
+  border-bottom: 1px solid @gray-d; 
 }
 
-kbd, span.kbd {
-  .mix-inline-box(@light-gray, @dark-gray, @gray);
-  font-weight: bold;
-  border-right: 1px solid @dark-gray;
-  border-bottom: 1px solid @dark-gray;
-  line-height: 0.9em;
-  font-size: 85%;
-}
+/* Blocks */
 
-mark, span.mark {
-  padding: 0 1px;
-  color: @gray-2;
+blockquote {
+  border-left: 3px solid #dedede;
+  padding:0px 10px;
+  margin:10px 0;
+  font-style: italic;
 }
-
 
 pre {
   .mix-box(@light-gray, @dark-gray, @gray);
@@ -97,7 +88,6 @@ pre {
     border: none;
   }
 }
-
 
 table {
   .mix-box(transparent, @dark-gray, @gray);
@@ -121,10 +111,87 @@ table {
   }
 }
 
-#footer {
-  text-align: center;
-  font-size: 70%;
+address {
+  font-style: italic;
+  color: @gray;
 }
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+}
+
+
+/* Inline */
+
+code, span.code {
+  .mix-inline-box(@light-gray, @dark-gray, @gray);
+  font-family: @monospace-font;
+  font-size: 80%;
+  .mix-hyphens(none);
+}
+
+kbd, span.kbd {
+  .mix-inline-box(@light-gray, @dark-gray, @gray);
+  font-weight: bold;
+  border-right: 1px solid @dark-gray;
+  border-bottom: 1px solid @dark-gray;
+  line-height: 0.9em;
+  font-size: 85%;
+  .mix-hyphens(none);
+}
+
+mark, span.mark {
+  padding: 0 1px;
+  color: @gray-2;
+}
+
+abbr, span.abbr {
+  font-variant: small-caps;
+  font-weight: bolder;
+  .mix-hyphens(none);
+  &:hover {
+    cursor: help;
+  }
+}
+
+samp, span.samp {
+  font-size: 80%;
+  .mix-inline-box(@light-gray, @dark-gray, @light-gray);
+  .mix-hyphens(none);
+}
+
+var, span.var {
+  font-size: 80%;
+  font-family: @monospace-font; 
+  font-weight: bold;
+  font-style: normal;
+  .mix-hyphens(none);
+}
+
+cite, span.cite {
+  font-weight: bold;
+  font-style: italic;
+  .mix-hyphens(none);
+}
+
+q, span.q {
+  font-style: italic;
+  color: @gray-6;
+  .mix-hyphens(none);
+}
+
+tt, span.tt {
+  font-family: @monospace-font;
+  font-size: 80%;
+  .mix-hyphens(none);
+}
+
+/* Links */
 
 a,a:visited {
   color: @link-color;
@@ -150,64 +217,4 @@ a[href^=tel]:before {
   font-weight: bold;
   font-size: 110%;
   content: "\2706 "
-}
-
-abbr,
-blockquote,
-code,
-kbd,
-q,
-samp,
-tt,
-var {
-  .mix-hyphens(none);
-}
-
-abbr {
-  font-variant: small-caps;
-  font-weight: bolder;
-  &:hover {
-    cursor: help;
-  }
-}
-
-address {
-  font-style: italic;
-  color: @gray;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-}
-
-samp, span.samp {
-  font-size: 80%;
-  .mix-inline-box(@light-gray, @dark-gray, @light-gray);
-}
-
-var, span.var {
-  font-size: 80%;
-  font-family: @monospace-font; 
-  font-weight: bold;
-  font-style: normal;
-}
-
-cite, span.cite {
-  font-weight: bold;
-  font-style: italic;
-}
-
-q, span.q {
-  font-style: italic;
-  color: @gray-6;
-}
-
-tt, span.tt {
-  font-family: @monospace-font;
-  font-size: 80%;
 }

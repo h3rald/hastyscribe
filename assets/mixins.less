@@ -57,12 +57,10 @@
   .mix-symbol("\25CF", @color, @size);
 }
 
-
 .mix-hyphens (@val) {
-	// Accepted values: [ none | manual | auto ]
-	-webkit-hyphens: $val; 
-	-moz-hyphens: $val; 
-	-ms-hyphens: $val; 
-	-o-hyphens: $val; 
-	hyphens: $val;
+	-webkit-hyphens: @val; 
+	-moz-hyphens: @val; 
+	-ms-hyphens: @val; 
+	-o-hyphens: @val; 
+	hyphens: @val;
 }
