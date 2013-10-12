@@ -1,2 +1,4 @@
 nimcache/
+build/
 libmarkdown.a
+README.htm
