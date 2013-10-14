@@ -109,6 +109,7 @@ let document = """<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="$author">
+  <meta name="generator" content="HastyScribe">
   $css
 </head> 
 <body>
@@ -120,7 +121,7 @@ let document = """<!doctype html>
 $body
   </div>
   <div id="footer">
-    <p>$author Generated with <a href="https://github.com/h3rald/hastyscribe/">HastyScribe</a> on $date</p>
+    <p>$author Created on $date</p>
   </div>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body]
 
