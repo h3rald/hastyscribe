@@ -13,6 +13,9 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
   Options:
     --notoc                Do not generate a Table of Contents."""
 
+var generate_toc = true
+const src_css = "assets/hastyscribe.css".slurp
+
 # Procedures
 
 proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
@@ -34,75 +37,47 @@ proc parse_date(date: string, timeinfo: var TTimeInfo): bool =
 proc style_tag(css): string =
   result = "<style>$1</style>" % [css]
 
-# Source Files
-const src_css = "assets/hastyscribe.css".slurp
 
+proc convert_file(input_file: string) =
+  let inputsplit = input_file.splitFile
 
+  # Output file name
+  let output_file = inputsplit.dir/inputsplit.name & ".htm"
+  let source = input_file.readFile
 
-### MAIN
+  # Document Variables
+  var metadata = TMDMetaData(title:"", author:"", date:"")
+  var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
+  let css = src_css.style_tag
 
-var input_file = ""
-var generate_toc = true
+  # Manage metadata
+  if metadata.author != "":
+    metadata.author = "by <em>" & metadata.author & "</em> &ndash;"
 
-# Parse Parameters
+  var title_tag, header_tag, toc: string
 
-for kind, key, val in getopt():
-  case kind
-  of cmdArgument:
-    input_file = key
-  of cmdLongOption:
-    if key == "notoc":
-      generate_toc = false
-  else: nil
+  if metadata.title != "":
+    title_tag = "<title>" & metadata.title & "</title>"
+    header_tag = "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
+  else:
+    title_tag = ""
+    header_tag = ""
 
-if input_file == "":
-  quit(usage, 1)
+  if generate_toc == true and metadata.toc != "":
+    toc = "<div id=\"toc\">" & metadata.toc & "</div>"
+  else:
+    toc = ""
 
-if input_file.existsFile == false:
-  quit("Error: file \"$1\" does not exist" % [input_file], 2)
+  # Date parsing and validation
+  var timeinfo: TTimeInfo
 
-
-let inputsplit = input_file.splitFile
-
-# Output file name
-let output_file = inputsplit.dir/inputsplit.name & ".htm"
-
-let source = input_file.readFile
-
-
-# Document Variables
-var metadata = TMDMetaData(title:"", author:"", date:"")
-var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
-let css = src_css.style_tag
-
-# Manage metadata
-if metadata.author != "":
-  metadata.author = "by <em>" & metadata.author & "</em> &ndash;"
-
-var title_tag, header_tag, toc: string
-
-if metadata.title != "":
-  title_tag = "<title>" & metadata.title & "</title>"
-  header_tag = "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
-else:
-  title_tag = ""
-  header_tag = ""
-
-if generate_toc == true and metadata.toc != "":
-  toc = "<div id=\"toc\">" & metadata.toc & "</div>"
-else:
-  toc = ""
-
-# Date parsing and validation
-var timeinfo: TTimeInfo
-
-if metadata.date == "":
-  discard parse_date(getDateStr(), timeinfo)
-else:
-  if parse_date(metadata.date, timeinfo) == false:
+  if metadata.date == "":
     discard parse_date(getDateStr(), timeinfo)
+  else:
+    if parse_date(metadata.date, timeinfo) == false:
+      discard parse_date(getDateStr(), timeinfo)
 
-let document = """<!doctype html>
+  let document = """<!doctype html>
 <html lang="en">
 <head>
   $title_tag
@@ -114,9 +89,7 @@ let document = """<!doctype html>
 </head> 
 <body>
   $header_tag
-  <div id="toc">
-    $toc
-  </div>
+  $toc
   <div id="main">
 $body
   </div>
@@ -124,5 +97,39 @@ $body
     <p>$author Created on $date</p>
   </div>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body]
+  output_file.writeFile(document)
 
-output_file.writeFile(document)
+
+### MAIN
+
+var input = ""
+var files = @[""]
+
+discard files.pop
+
+# Parse Parameters
+
+for kind, key, val in getopt():
+  case kind
+  of cmdArgument:
+    input = key
+  of cmdLongOption:
+    if key == "notoc":
+      generate_toc = false
+  else: nil
+
+if input == "":
+  quit(usage, 1)
+
+for file in walkFiles(input):
+  let filesplit = file.splitFile
+  if (filesplit.ext == ".md" or filesplit.ext == ".markdown"):
+    files.add(file)
+
+if files.len == 0:
+  quit("Error: \"$1\" does not match any markdown file" % [input], 2)
+else:
+  for file in files:
+    convert_file(file)
+
+

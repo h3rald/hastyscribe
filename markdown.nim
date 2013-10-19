@@ -151,9 +151,9 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
   else:
     valid_metadata = false
     if lns[0][0] == '%':
-      offset = 1
+      offset = 2
       if lns[1][0] == '%':
-        offset = 2
+        offset = 3
   var str = cstring(lns[offset..lns.len-1].join("\n"))
   var mmiot = mkd_string(str, cint(str.len-1), flags)
   if valid_metadata:
@@ -164,7 +164,10 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
   if (int(flags) and MKD_DOTOC) == MKD_DOTOC:
     var toc = allocCStringArray([""])
     discard $mkd_toc(mmiot, toc)
-    data.toc = cstringArrayToSeq(toc)[0]
+    try:
+      data.toc = cstringArrayToSeq(toc)[0]
+    except:
+      data.toc = ""
   var res = allocCStringArray([""])
   discard mkd_document(mmiot, res)
   result = cstringArrayToSeq(res)[0]
