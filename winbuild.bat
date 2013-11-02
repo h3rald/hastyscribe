@@ -1,2 +1,2 @@
 @echo off
-nimrod --clibdir:vendor --clib:markdown_win c hastyscribe.nim
+nimrod --clibdir:vendor --clib:markdown c hastyscribe.nim

@@ -15,6 +15,7 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
 var generate_toc = true
 const src_css = "assets/hastyscribe.css".slurp
+const src_highlight_js = "assets/highlight.pack.js".slurp
 
 # Procedures
 
@@ -96,7 +97,12 @@ $body
   <div id="footer">
     <p>$author Created on $date</p>
   </div>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body]
+  <script type="text/javascript">
+    $highlight
+    hljs.tabReplace = '  ';
+    hljs.initHighlighting();
+  </script>
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body, "highlight", src_highlight_js]
   output_file.writeFile(document)
 
 
