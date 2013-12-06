@@ -55,7 +55,7 @@ proc convert_file(input_file: string) =
 
   # Manage metadata
   if metadata.author != "":
-    metadata.author = "by <em>" & metadata.author & "</em> &ndash;"
+    metadata.author = metadata.author & " &ndash;"
 
   var title_tag, header_tag, toc: string
 
@@ -99,7 +99,7 @@ proc convert_file(input_file: string) =
 $body
   </div>
   <div id="footer">
-    <p>$author Created on $date</p>
+    <p>$author $date</p>
   </div>
   <script type="text/javascript">
     $highlight
