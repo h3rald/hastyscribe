@@ -15,6 +15,7 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
 var generate_toc = true
 const src_css = "assets/hastyscribe.css".slurp
+const src_headings_css = "assets/headings.css".slurp
 const src_highlight_js = "assets/highlight.pack.js".slurp
 
 # Procedures
@@ -49,7 +50,8 @@ proc convert_file(input_file: string) =
   # Document Variables
   var metadata = TMDMetaData(title:"", author:"", date:"")
   var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
-  let css = src_css.style_tag
+  var main_css = src_css.style_tag
+  var headings_css = src_headings_css.style_tag
 
   # Manage metadata
   if metadata.author != "":
@@ -67,6 +69,7 @@ proc convert_file(input_file: string) =
   if generate_toc == true and metadata.toc != "":
     toc = "<div id=\"toc\">" & metadata.toc & "</div>"
   else:
+    headings_css = ""
     toc = ""
 
   # Date parsing and validation
@@ -86,7 +89,8 @@ proc convert_file(input_file: string) =
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="$author">
   <meta name="generator" content="HastyScribe">
-  $css
+  $main_css
+  $headings_css
 </head> 
 <body>
   $header_tag
@@ -102,9 +106,10 @@ $body
     hljs.tabReplace = '  ';
     hljs.initHighlighting();
   </script>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "css", css, "body", body, "highlight", src_highlight_js]
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings_css", headings_css, "body", body, "highlight", src_highlight_js]
   output_file.writeFile(document)
 
+ 
 
 ### MAIN
 
