@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, markdown
+import os, parseopt, strutils, times, pegs, base64, markdown
 
 let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
@@ -39,6 +39,32 @@ proc parse_date(date: string, timeinfo: var TTimeInfo): bool =
 proc style_tag(css): string =
   result = "<style>$1</style>" % [css]
 
+proc encode_image(file, format): string =
+  if (file.existsFile):
+    let contents = file.readFile
+    let enc_contents = contents.encode(contents.len*3) 
+    return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
+  else: 
+    echo("Warning: image '"& file &"' not found.")
+    return file
+
+proc embed_images(document): string =
+  type TImgData = tuple[img: string, rep: string] 
+  var imgdata: seq[TImgData] = @[]
+  let imgpeg = peg"'<img src=""' [^""]+ '""'"
+  let imgpegs = peg"@'<img src=""' [^""]+ '""'"
+  let imgpegf = peg"'""' [^""]+ '""'"
+  var doc = document
+  for img in findAll(document, imgpegs):
+    let imgsrc = img.substr(img.find(imgpeg), img.len-1)
+    let imgfile = imgsrc.substr(imgsrc.find(imgpegf)+1, imgsrc.len-2)
+    let imgformat = imgfile.substr(imgfile.find(peg"'.' [^.]+$")+1, imgfile.len-1)
+    let imgcontent = encode_image(imgfile, imgformat)
+    let imgrep = imgsrc.replace(imgpegf, "\""& imgcontent &"\"")
+    imgdata.add((img: imgsrc, rep: imgrep))
+  for i in imgdata:
+    doc = document.replace(i.img, i.rep)
+  return doc
 
 proc convert_file(input_file: string) =
   let inputsplit = input_file.splitFile
@@ -81,7 +107,7 @@ proc convert_file(input_file: string) =
     if parse_date(metadata.date, timeinfo) == false:
       discard parse_date(getDateStr(), timeinfo)
 
-  let document = """<!doctype html>
+  var document = """<!doctype html>
 <html lang="en">
 <head>
   $title_tag
@@ -107,10 +133,10 @@ $body
     hljs.initHighlighting();
   </script>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings_css", headings_css, "body", body, "highlight", src_highlight_js]
+  document = embed_images(document)
   output_file.writeFile(document)
 
  
-
 ### MAIN
 
 var input = ""
