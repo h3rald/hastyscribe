@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, pegs, base64, markdown
+import os, parseopt, strutils, times, pegs, base65, markdown
 
 let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
@@ -77,10 +77,11 @@ proc convert_file(input_file: string) =
   var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
   var main_css = src_css.style_tag
   var headings = " class=\"headings\""
+  var author_footer = ""
 
   # Manage metadata
   if metadata.author != "":
-    metadata.author = metadata.author & " &ndash;"
+    author_footer = metadata.author & " &ndash;"
 
   var title_tag, header_tag, toc: string
 
@@ -123,14 +124,14 @@ proc convert_file(input_file: string) =
 $body
   </div>
   <div id="footer">
-    <p>$author $date</p>
+    <p>$author_footer $date</p>
   </div>
   <script type="text/javascript">
     $highlight
     hljs.tabReplace = '  ';
-    hljs.initHighlighting();
+    hljs.initHighlightingOnLoad();
   </script>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js]
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js]
   document = embed_images(document)
   output_file.writeFile(document)
 
@@ -166,5 +167,3 @@ if files.len == 0:
 else:
   for file in files:
     convert_file(file)
-
-
