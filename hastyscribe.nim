@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, pegs, base65, markdown
+import os, parseopt, strutils, times, pegs, base64, markdown
 
 let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
@@ -62,7 +62,7 @@ proc embed_images(document): string =
     let imgrep = imgsrc.replace(imgpegf, "\""& imgcontent &"\"")
     imgdata.add((img: imgsrc, rep: imgrep))
   for i in imgdata:
-    doc = document.replace(i.img, i.rep)
+    doc = doc.replace(i.img, i.rep)
   return doc
 
 proc convert_file(input_file: string) =
