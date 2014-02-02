@@ -32,16 +32,23 @@
   box-shadow:0 1px 3px rgba(0,0,0,0.1);
 }
 
-.mix-red-badge (@text){
-  font-weight: bold;
-  color: @bright-red;
-  text-decoration: underline;
-  vertical-align: super;
+.mix-badge (@text, @color){
   &:before {
+    font-weight: bold;
+    color: @color;
     font-variant: small-caps;
     font-size: 120%;
+    margin-right: 3px;
     content: @text;
   }
+}
+
+.mix-red-badge (@text){
+  .mix-badge(@text, @bright-red);
+}
+
+.mix-green-badge (@text){
+  .mix-badge(@text, @bright-green);
 }
 
 .mix-symbol (@symbol, @color, @size:100%){

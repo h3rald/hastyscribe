@@ -49,9 +49,10 @@ c. Third item
 
 test
 : Test definition
-test 2
+test 2 
 : Another test definition
-
+test 3
+: Another test definition
 
 ## Block Styles
 
@@ -111,18 +112,11 @@ USA
 
 ## Badges
 
-* [](class:todo) Do something.
-* [](class:fixme) Do something.
+* [Do Something](class:todo)
+* [Do something](class:fixme) 
+* [This is a comment](class:comment)
 * [Red circle](class:red-circle) [Yellow circle](class:yellow-circle) [Green circle](class:green-circle) [Gray circle](class:gray-circle)
 * [](class:star) [](class:heart) 
 * [no](class:cross) [yes!](class:check)
-
-## Links
-
-* Internal Link: [Lists](#Lists)
-* External Link: [H3RALD.com](http://h3rald.com)
-* Telephone: [+1 353 6326](tel://+13536326)
-* Auto External Link: <http://www.google.com>
-* Auto Email Link: <h3rald@h3rald.com>
 
 ---

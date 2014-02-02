@@ -55,10 +55,25 @@ ul, ol {
 }
 
 dl {
-  margin-left: 5px;
+  padding: 0.5em;
+  clear: both;
+  margin: 5px 0;
 
   dt {
+    float: left;
+    clear: left;
+    width: 100px;
+    text-align: right;
     font-weight: bold;
+
+    &:after {
+      content: ":";
+    }
+  }
+
+  dd {
+    margin: 0 0 0 110px;
+    padding: 0 0 0.5em 0;
   }
 }
 
@@ -84,6 +99,7 @@ pre {
   font-family: @monospace-font;
   code {
     box-shadow: none;
+    background: @light-gray;
     padding: 0;
     border: none;
   }
