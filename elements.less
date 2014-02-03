@@ -216,4 +216,12 @@ a,a:visited {
     text-decoration:underline;
   }
 }
-
+a[href^="http://"]:before, 
+a[href^="https://"]:before,
+a[href^="ftp://"]:before,
+a[href^="sftp://"]:before,
+a[href^="mailto://"]:before
+{
+  content: "\2197";
+  font-size: 0.8em;
+}
