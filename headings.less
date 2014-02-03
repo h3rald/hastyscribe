@@ -1,4 +1,8 @@
+.headings h1 {
+  font-size: 2em;
+}
 .headings h2 {
+  font-size: 1.5em;
   counter-reset:h3;
   counter-increment: h2;
 }
@@ -6,6 +10,7 @@
   content: counter(h2) "\00A0\00A0";
 }
 .headings h3 {
+  font-size: 1.2em;
   counter-reset:h4;
   counter-increment: h3;
 }
@@ -13,6 +18,7 @@
   content: counter(h2) "." counter(h3) "\00A0\00A0";
 }
 .headings h4 {
+  font-size: 1.1em;
   counter-reset:h5;
   counter-increment: h4;
 }
@@ -20,6 +26,7 @@
   content: counter(h2) "." counter(h3) "." counter(h4) "\00A0\00A0";
 }
 .headings h5 {
+  font-size: 1em;
   counter-reset:h6;
   counter-increment: h5;
 }
@@ -27,6 +34,7 @@
   content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "\00A0\00A0";
 }
 .headings h6 {
+  font-size: 1em;
   counter-increment: h6;
 }
 .headings h6::before {
