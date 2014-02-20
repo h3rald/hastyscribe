@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, pegs, base64, markdown
+import os, parseopt, strutils, times, pegs, base64, markdown, tables
 
 let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
@@ -65,12 +65,51 @@ proc embed_images(document): string =
     doc = doc.replace(i.img, i.rep)
   return doc
 
+# Snippet Definition:
+# {{test -> My test snippet}}
+# 
+# Snippet Usage:
+# {{test}}
+
+proc parse_snippets(document): string =
+  var snippets:TTable[string, string] = initTable[string, string]()
+  let sndefpegs = peg"@'{{' \s* [a-zA-Z0-9_-]+ \s* '->' \s* @ '}}'"
+  let sndefpeg = peg"'{{' \s* [a-zA-Z0-9_-]+ \s* '->' \s* @ '}}'"
+  let idpeg = peg"[a-zA-Z0-9_-]+ \s* '->'"
+  let snpegs = peg"@'{{' \s* [a-zA-Z0-9_-]+ @ '}}'"
+  let snpeg = peg"'{{' \s* [a-zA-Z0-9_-]+ \s* '}}'"
+  var doc = document
+  # Parse snippet definitions
+  for def in findAll(document, sndefpegs):
+    let sndef = def.substr(def.find(sndefpeg), def.len-1)
+    let idstart = sndef.find(idpeg)
+    let idend = sndef.find(peg"\s* '->'")-1
+    let id = sndef.substr(idstart, idend)
+    let valstart = sndef.find(peg"'->' \s* @ '}}'")
+    let valend = sndef.find("}}")-1
+    let val = sndef.substr(valstart, valend).replace(peg"^'->' \s*", "").replace(peg"\s*$", "")
+    snippets[id] = val
+    doc = doc.replace(sndef)
+  for s in findAll(doc, snpegs):
+    if (s.find(snpeg) >= 0):
+      let sn = s.substr(s.find(snpeg), s.len-1)
+      let idstart = sn.find(peg"[a-zA-Z0-9_-]+")
+      let idend = sn.len-3
+      let id = sn.substr(idstart, idend).strip
+      doc = doc.replace(sn, snippets[id])
+  doc = doc.replace("\\}", "}").replace("\\>", ">")
+  return doc
+
+
 proc convert_file(input_file: string) =
   let inputsplit = input_file.splitFile
 
   # Output file name
   let output_file = inputsplit.dir/inputsplit.name & ".htm"
-  let source = input_file.readFile
+  var source = input_file.readFile
+
+  # Parse snippets
+  source = parse_snippets(source)
 
   # Document Variables
   var metadata = TMDMetaData(title:"", author:"", date:"")
