@@ -17,6 +17,19 @@ var generate_toc = true
 const src_css = "assets/hastyscribe.css".slurp
 const src_highlight_js = "assets/highlight.pack.js".slurp
 
+
+iterator findAllSubs(s: string, pattern: TPeg, start = 0): string =
+  ## yields all matching *substrings* of `s` that match `pattern`.
+  ## (rewrite of the default findAll iterator).
+  var i = start
+  while i < s.len:
+    var L = matchLen(s, pattern, i)
+    if L < 0:
+      inc(i, 1)
+      continue
+    yield substr(s, i, i+L-1)
+    inc(i, L)
+
 # Procedures
 
 proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
@@ -73,33 +86,35 @@ proc embed_images(document): string =
 
 proc parse_snippets(document): string =
   var snippets:TTable[string, string] = initTable[string, string]()
-  let sndefpegs = peg"@'{{' \s* [a-zA-Z0-9_-]+ \s* '->' \s* @ '}}'"
-  let sndefpeg = peg"'{{' \s* [a-zA-Z0-9_-]+ \s* '->' \s* @ '}}'"
-  let idpeg = peg"[a-zA-Z0-9_-]+ \s* '->'"
-  let snpegs = peg"@'{{' \s* [a-zA-Z0-9_-]+ @ '}}'"
-  let snpeg = peg"'{{' \s* [a-zA-Z0-9_-]+ \s* '}}'"
+  let peg_def = peg"""
+    definition <- '{{' \s* {id} \s* '->' {@} '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  let peg_snippet = peg"""
+    snippet <- '{{' \s* {id} \s* '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  type
+    TSnippetDef = array[0..1, string]
+    TSnippet = array[0..0, string]
   var doc = document
-  # Parse snippet definitions
-  for def in findAll(document, sndefpegs):
-    let sndef = def.substr(def.find(sndefpeg), def.len-1)
-    let idstart = sndef.find(idpeg)
-    let idend = sndef.find(peg"\s* '->'")-1
-    let id = sndef.substr(idstart, idend)
-    let valstart = sndef.find(peg"'->' \s* @ '}}'")
-    let valend = sndef.find("}}")-1
-    let val = sndef.substr(valstart, valend).replace(peg"^'->' \s*", "").replace(peg"\s*$", "")
-    snippets[id] = val
-    doc = doc.replace(sndef)
-  for s in findAll(doc, snpegs):
-    if (s.find(snpeg) >= 0):
-      let sn = s.substr(s.find(snpeg), s.len-1)
-      let idstart = sn.find(peg"[a-zA-Z0-9_-]+")
-      let idend = sn.len-3
-      let id = sn.substr(idstart, idend).strip
-      doc = doc.replace(sn, snippets[id])
-  doc = doc.replace("\\}", "}").replace("\\>", ">")
+  for def in findAllSubs(document, peg_def):
+    var matches:TSnippetDef
+    discard def.match(peg_def, matches)
+    var id = matches[0].strip
+    var value = matches[1].strip(true, false)
+    snippets[id] = value
+    doc = doc.replace(def, value)
+  for snippet in findAllSubs(document, peg_snippet):
+    var matches:TSnippet
+    discard snippet.match(peg_snippet, matches)
+    var id = matches[0].strip
+    if snippets[id] == nil:
+      echo "Warning: Snippet '" & id & "' not defined." 
+      doc = doc.replace(snippet, "")
+    else:
+      doc = doc.replace(snippet, snippets[id])
   return doc
-
 
 proc convert_file(input_file: string) =
   let inputsplit = input_file.splitFile
