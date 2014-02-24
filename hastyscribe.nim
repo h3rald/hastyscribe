@@ -61,6 +61,11 @@ proc encode_image(file, format): string =
     return file
 
 proc embed_images(document, dir): string =
+  var current_dir:string
+  if dir.len == 0:
+    current_dir = ""
+  else:
+    current_dir = dir & "/"
   type 
     TImgData = tuple[img: string, rep: string] 
     TImgTagStart = array[0..0, string]
@@ -75,7 +80,7 @@ proc embed_images(document, dir): string =
     discard img.match(img_peg, matches)
     let imgfile = matches[0]
     let imgformat = imgfile.substr(imgfile.find(peg"'.' @$")+1, imgfile.len-1)
-    let imgcontent = encode_image(dir & "/" & imgfile, imgformat)
+    let imgcontent = encode_image(current_dir & imgfile, imgformat)
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
     imgdata.add((img: img, rep: imgrep))
   for i in imgdata:
