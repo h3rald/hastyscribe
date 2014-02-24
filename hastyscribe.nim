@@ -60,20 +60,24 @@ proc encode_image(file, format): string =
     echo("Warning: image '"& file &"' not found.")
     return file
 
-proc embed_images(document): string =
-  type TImgData = tuple[img: string, rep: string] 
+proc embed_images(document, dir): string =
+  type 
+    TImgData = tuple[img: string, rep: string] 
+    TImgTagStart = array[0..0, string]
   var imgdata: seq[TImgData] = @[]
-  let imgpeg = peg"'<img src=""' [^""]+ '""'"
-  let imgpegs = peg"@'<img src=""' [^""]+ '""'"
-  let imgpegf = peg"'""' [^""]+ '""'"
+  let img_peg = peg"""
+    image <- '<img' \s+ 'src=' ["] {file} ["]
+    file <- [^"]+
+  """
   var doc = document
-  for img in findAll(document, imgpegs):
-    let imgsrc = img.substr(img.find(imgpeg), img.len-1)
-    let imgfile = imgsrc.substr(imgsrc.find(imgpegf)+1, imgsrc.len-2)
-    let imgformat = imgfile.substr(imgfile.find(peg"'.' [^.]+$")+1, imgfile.len-1)
-    let imgcontent = encode_image(imgfile, imgformat)
-    let imgrep = imgsrc.replace(imgpegf, "\""& imgcontent &"\"")
-    imgdata.add((img: imgsrc, rep: imgrep))
+  for img in findAllSubs(document, img_peg):
+    var matches:TImgTagStart
+    discard img.match(img_peg, matches)
+    let imgfile = matches[0]
+    let imgformat = imgfile.substr(imgfile.find(peg"'.' @$")+1, imgfile.len-1)
+    let imgcontent = encode_image(dir & "/" & imgfile, imgformat)
+    let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
+    imgdata.add((img: img, rep: imgrep))
   for i in imgdata:
     doc = doc.replace(i.img, i.rep)
   return doc
@@ -186,7 +190,7 @@ $body
     hljs.initHighlightingOnLoad();
   </script>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js]
-  document = embed_images(document)
+  document = embed_images(document, inputsplit.dir)
   output_file.writeFile(document)
 
  
