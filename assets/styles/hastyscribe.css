@@ -1801,11 +1801,12 @@ span.kbd {
   background-clip: padding-box;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
   font-weight: bold;
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
-  line-height: 0.9em;
-  font-size: 85%;
+  line-height: 1em;
+  font-size: 80%;
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
@@ -1910,10 +1911,78 @@ a:visited:hover {
 a[href^="http://"]:before,
 a[href^="https://"]:before,
 a[href^="ftp://"]:before,
-a[href^="sftp://"]:before,
+a[href^="sftp://"]:before {
+  content: "\f064" " ";
+  font-family: "FontAwesome";
+}
 a[href^="mailto://"]:before {
-  content: "\2197";
-  font-size: 0.8em;
+  content: "\f0e0" " ";
+  font-family: "FontAwesome";
+}
+a[href^="skype://"]:before,
+a[href*="skype.com"]:before {
+  content: "\f17e" " ";
+  font-family: "FontAwesome";
+}
+a[href*="twitter.com"]:before {
+  content: "\f099" " ";
+  font-family: "FontAwesome";
+}
+a[href*="linkedin.com"]:before {
+  content: "\f08c" " ";
+  font-family: "FontAwesome";
+}
+a[href*="foursquare.com"]:before {
+  content: "\f180" " ";
+  font-family: "FontAwesome";
+}
+a[href*="facebook.com"]:before {
+  content: "\f082" " ";
+  font-family: "FontAwesome";
+}
+a[href*="flickr.com"]:before {
+  content: "\f16e" " ";
+  font-family: "FontAwesome";
+}
+a[href*="github.com"]:before {
+  content: "\f09b" " ";
+  font-family: "FontAwesome";
+}
+a[href*="stackoverflow.com"]:before {
+  content: "\f16c" " ";
+  font-family: "FontAwesome";
+}
+a[href*="youtube.com"]:before {
+  content: "\f167" " ";
+  font-family: "FontAwesome";
+}
+a[href*="dropbox.com"]:before {
+  content: "\f16b" " ";
+  font-family: "FontAwesome";
+}
+a[href*="instagram.com"]:before {
+  content: "\f16d" " ";
+  font-family: "FontAwesome";
+}
+a[href*="plus.google.com"]:before {
+  content: "\f0d4" " ";
+  font-family: "FontAwesome";
+}
+a[href*="tumblr.com"]:before {
+  content: "\f174" " ";
+  font-family: "FontAwesome";
+}
+a[href*="vimeo.com"]:before {
+  content: "\f194" " ";
+  font-family: "FontAwesome";
+}
+a[href*="bitbucket.com"]:before {
+  content: "\f171" " ";
+  font-family: "FontAwesome";
+}
+a[href*="pinterest.com"]:before {
+  content: "\f0d2" " ";
+  font-family: "FontAwesome";
 }
 .note {
   -moz-background-clip: padding;
@@ -1926,9 +1995,9 @@ a[href^="mailto://"]:before {
   padding: 7px 7px 0 7px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  color: #555555;
-  background-color: #efefef;
-  border: 1px solid #efefef;
+  color: #264c72;
+  background-color: #d8ebf8;
+  border: 1px solid #264c72;
 }
 .note p {
   margin-top: 0;
@@ -1936,8 +2005,48 @@ a[href^="mailto://"]:before {
 }
 .note p:first-child {
   font-size: 105%;
-  font-style: italic;
-  color: #333333;
+  font-weight: bold;
+  color: #264c72;
+}
+.note p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #264c72;
+  content: "\f08d" " ";
+}
+.tip {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 7px 7px 0 7px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #009926;
+  background-color: #d8f5cd;
+  border: 1px solid #009926;
+}
+.tip p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.tip p:first-child {
+  font-size: 105%;
+  font-weight: bold;
+  color: #009926;
+}
+.tip p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #009926;
+  content: "\f0eb" " ";
 }
 .warning {
   -moz-background-clip: padding;
@@ -1947,12 +2056,12 @@ a[href^="mailto://"]:before {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
+  padding: 7px 7px 0 7px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  color: #555555;
-  background-color: #efefef;
-  border: 1px solid #555555;
-  padding: 7px 7px 0 7px;
+  color: #9c2400;
+  background-color: #f8d8d8;
+  border: 1px solid #9c2400;
 }
 .warning p {
   margin-top: 0;
@@ -1961,7 +2070,15 @@ a[href^="mailto://"]:before {
 .warning p:first-child {
   font-size: 105%;
   font-weight: bold;
-  color: #333333;
+  color: #9c2400;
+}
+.warning p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #9c2400;
+  content: "\f071" " ";
 }
 .sidebar {
   -moz-background-clip: padding;
@@ -1976,7 +2093,7 @@ a[href^="mailto://"]:before {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #efefef;
-  border: 1px solid #efefef;
+  border: 1px solid #555555;
 }
 .sidebar p {
   margin-top: 0;
@@ -1985,10 +2102,19 @@ a[href^="mailto://"]:before {
 .sidebar p:first-child {
   font-size: 105%;
   font-weight: bold;
-  color: #333333;
+  color: #444444;
+}
+.sidebar p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #444444;
+  content: "\f05a" " ";
 }
 .note,
-.warning {
+.warning,
+.tip {
   width: 66.6667%;
 }
 @media screen and (max-width: 599px) {
@@ -2060,52 +2186,188 @@ a[href^="mailto://"]:before {
   content: "[comment]";
 }
 .red-circle:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #cc3300;
-  content: "\25CF";
+  content: "\f111" " ";
 }
 .green-circle:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #00cc33;
-  content: "\25CF";
+  content: "\f111" " ";
 }
 .yellow-circle:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #f5b800;
-  content: "\25CF";
+  content: "\f111" " ";
 }
 .gray-circle:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #999999;
-  content: "\25CF";
+  content: "\f111" " ";
 }
 .star:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #f5b800;
-  content: "\2605";
+  content: "\f005" " ";
 }
 .heart:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #cc3300;
-  content: "\2665";
+  content: "\f004" " ";
 }
-.cross:before {
+.square:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #cc3300;
-  content: "\2718 ";
+  content: "\f096" " ";
 }
 .check:before {
+  font-family: "FontAwesome";
   font-style: normal;
+  font-weight: normal;
   font-size: 100%;
   color: #00cc33;
-  content: "\2714 ";
+  content: "\f046" " ";
+}
+.lock:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #f5b800;
+  content: "\f023" " ";
+}
+.unlock:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #f5b800;
+  content: "\f09c" " ";
+}
+.bug:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #cc3300;
+  content: "\f188" " ";
+}
+.tag:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #0f4bff;
+  content: "\f02b" " ";
+}
+.date:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #0f4bff;
+  content: "\f073" " ";
+}
+.attachment:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #333333;
+  content: "\f0c6" " ";
+}
+.btc:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f15a" "";
+}
+.eur:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f153" "";
+}
+.usd:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f155" "";
+}
+.gbp:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f154" "";
+}
+.jpy:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f157" "";
+}
+.inr:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f156" "";
+}
+.krw:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f159" "";
+}
+.rub:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f158" "";
+}
+.try:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 90%;
+  color: #333333;
+  content: "\f195" "";
 }
 .headings h1 {
   font-size: 2em;

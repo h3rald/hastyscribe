@@ -51,17 +51,19 @@
   .mix-badge(@text, @bright-green);
 }
 
-.mix-symbol (@symbol, @color, @size:100%){
+.mix-symbol (@symbol, @color, @size:100%, @space:" "){
   &:before {
+    font-family: "FontAwesome";
     font-style: normal;
+    font-weight: normal;
     font-size: @size;
     color: @color;
-    content: @symbol;
+    content: @symbol @space;
   }
 }
 
 .mix-circle (@color, @size:100%){
-  .mix-symbol("\25CF", @color, @size);
+  .mix-symbol(@fa-var-circle, @color, @size);
 }
 
 .mix-hyphens (@val) {
@@ -70,4 +72,11 @@
 	-ms-hyphens: @val; 
 	-o-hyphens: @val; 
 	hyphens: @val;
+}
+
+.mix-link-icon (@icon) {
+  &:before {
+    content: @icon " ";
+    font-family: "FontAwesome";
+  }
 }

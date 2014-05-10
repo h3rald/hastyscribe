@@ -1,22 +1,37 @@
 // TODO
 
 .note {
-  .mix-box(@light-gray, @gray-5, @light-gray);
+  .mix-box(@light-blue, @dark-blue, @dark-blue);
   p {
     margin-top: 0;
     margin-bottom: 0;
 
     &:first-child {
       font-size: 105%;
-      font-style: italic;
-      color: @text-color;
+      font-weight: bold;
+      color: @dark-blue;
+      .mix-symbol(@fa-var-thumb-tack, @dark-blue)
+    }
+  }
+}
+
+.tip {
+  .mix-box(@light-green, @dark-green, @dark-green);
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    &:first-child {
+      font-size: 105%;
+      font-weight: bold;
+      color: @dark-green;
+      .mix-symbol(@fa-var-lightbulb-o, @dark-green)
     }
   }
 }
 
 .warning {
-  .mix-box(@light-gray, @gray-5, @gray-5);
-  padding:7px 7px 0 7px;
+  .mix-box(@light-red, @dark-red, @dark-red);
   p {
     margin-top: 0;
     margin-bottom: 0;
@@ -24,13 +39,14 @@
     &:first-child {
       font-size: 105%;
       font-weight: bold;
-      color: @text-color;
+      color: @dark-red;
+      .mix-symbol(@fa-var-exclamation-triangle, @dark-red)
     }
   }
 }
 
 .sidebar {
-  .mix-box(@light-gray, @gray-5, @light-gray);
+  .mix-box(@light-gray, @gray-5, @gray-5);
   p {
     margin-top: 0;
     margin-bottom: 0;
@@ -38,12 +54,13 @@
     &:first-child {
       font-size: 105%;
       font-weight: bold;
-      color: @text-color;
+      color: @gray-4;
+      .mix-symbol(@fa-var-info-circle, @gray-4)
     }
   }
 }
 
-.note, .warning {
+.note, .warning, .tip {
   width: 66.6667%;
 }
 

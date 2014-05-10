@@ -12,6 +12,16 @@ This is a section containing some text decorations, like **bold**, *italic*, ~~s
 
 (TM), (R), 1/4, 1/2, ---, --, A^(B+2), ... 
 
+### Links
+
+[H3RALD.com](https://h3rald.com)
+
+[h3rald@h3rad.com](mailto://h3rald@h3rald.com)
+
+[@h3rald](https://twitter.com/h3rald)
+
+[fabiocevasco](http://it.linkedin.com/in/fabiocevasco)
+
 ### Other HTML inline styles
 
 * kbd: <kbd>CTRL</kbd>+<kbd>C</kbd>
@@ -78,11 +88,18 @@ $(document).ready(function(){
 > 
 > This is a note.
 
+### Tip
+
+> %tip%
+> Tip
+> 
+> This is a tip.
+
 
 ### Warnings
 
 > %warning%
-> Important
+> Warning
 > 
 > This is an important note.
 
@@ -114,9 +131,15 @@ USA
 
 * [Do Something](class:todo)
 * [Do something](class:fixme) 
-* [This is a comment](class:comment)
+* [This is a comment](class:draftcomment)
 * [Red circle](class:red-circle) [Yellow circle](class:yellow-circle) [Green circle](class:green-circle) [Gray circle](class:gray-circle)
 * [](class:star) [](class:heart) 
-* [no](class:cross) [yes!](class:check)
+* [no](class:square) [yes!](class:check)
+* [locked](class:lock) [unlocked](class:unlock)
+* [bug](class:bug)
+* [tomorrow](class:date)
+* [tag](class:tag)
+* [test.txt](class:attachment)
+* [100](class:eur) [100](class:gbp) [100](class:usd) [100](class:rub) [100](class:jpy) [100](class:btc) [100](class:try) [100](class:krw) [100](class:inr)
 
 ---
