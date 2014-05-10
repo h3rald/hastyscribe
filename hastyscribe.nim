@@ -3,7 +3,7 @@ import os, parseopt, strutils, times, pegs, base64, markdown, tables
 let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013 Fabio Cevasco
+  (c) 2013-2014 Fabio Cevasco
   
   Usage:
     hastyscribe markdown_file [--notoc]
@@ -14,8 +14,15 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
     --notoc                Do not generate a Table of Contents."""
 
 var generate_toc = true
-const src_css = "assets/hastyscribe.css".slurp
-const src_highlight_js = "assets/highlight.pack.js".slurp
+const src_css = "assets/styles/hastyscribe.css".slurp
+const src_highlight_js = "assets/javascripts/highlight.pack.js".slurp
+const fontawesome_font = "assets/fonts/fontawesome-webfont.woff".slurp
+const sourcecodepro_font = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
+const sourcesanspro_font = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
+const sourcesanspro_bold_font = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
+const sourcesanspro_it_font = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
+const sourcesanspro_boldit_font = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+
 
 
 iterator findAllSubs(s: string, pattern: TPeg, start = 0): string =
@@ -60,6 +67,10 @@ proc encode_image(file, format): string =
     echo("Warning: image '"& file &"' not found.")
     return file
 
+proc encode_font(font, format): string =
+    let enc_contents = font.encode(font.len*3) 
+    return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
+
 proc embed_images(document, dir): string =
   var current_dir:string
   if dir.len == 0:
@@ -86,6 +97,29 @@ proc embed_images(document, dir): string =
   for i in imgdata:
     doc = doc.replace(i.img, i.rep)
   return doc
+
+proc create_font_face(font, family, style, weight): string=
+  return """
+    @font-face {
+      font-family:"$family";
+      src:url($font) format('woff');
+      font-style:$style;
+      font-weight:$weight;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  """ % ["family", family, "font", encode_font(font, "x-font-woff"), "style", style, "weight", $weight]
+
+var fonts = [ create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
+  create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
+  create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
+  create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 800),
+  create_font_face(sourcesanspro_it_font, "Source Sans Pro", "italic", 400),
+  create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 800)
+  ]
+
+proc embed_fonts(): string=
+  return style_tag(fonts.join);
 
 # Snippet Definition:
 # {{test -> My test snippet}}
@@ -178,6 +212,7 @@ proc convert_file(input_file: string) =
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="$author">
   <meta name="generator" content="HastyScribe">
+  $fonts_css
   $main_css
 </head> 
 <body$headings>
@@ -194,7 +229,7 @@ $body
     hljs.tabReplace = '  ';
     hljs.initHighlightingOnLoad();
   </script>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js]
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js, "fonts_css", embed_fonts()]
   document = embed_images(document, inputsplit.dir)
   output_file.writeFile(document)
 
