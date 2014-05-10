@@ -154,11 +154,12 @@ code, span.code {
 
 kbd, span.kbd {
   .mix-inline-box(@light-gray, @dark-gray, @gray);
+  font-family: @monospace-font;
   font-weight: bold;
   border-right: 1px solid @dark-gray;
   border-bottom: 1px solid @dark-gray;
-  line-height: 0.9em;
-  font-size: 85%;
+  line-height: 1em;
+  font-size: 80%;
   .mix-hyphens(none);
 }
 
@@ -216,13 +217,4 @@ a,a:visited {
   &:hover {
     text-decoration:underline;
   }
-}
-a[href^="http://"]:before, 
-a[href^="https://"]:before,
-a[href^="ftp://"]:before,
-a[href^="sftp://"]:before,
-a[href^="mailto://"]:before
-{
-  content: "\2197";
-  font-size: 0.8em;
 }
