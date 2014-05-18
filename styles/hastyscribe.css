@@ -522,6 +522,8 @@ table {
 .fa-video-camera:before {
   content: "\f03d";
 }
+.fa-photo:before,
+.fa-image:before,
 .fa-picture-o:before {
   content: "\f03e";
 }
@@ -885,6 +887,8 @@ table {
 .fa-square:before {
   content: "\f0c8";
 }
+.fa-navicon:before,
+.fa-reorder:before,
 .fa-bars:before {
   content: "\f0c9";
 }
@@ -944,11 +948,11 @@ table {
   content: "\f0dc";
 }
 .fa-sort-down:before,
-.fa-sort-asc:before {
+.fa-sort-desc:before {
   content: "\f0dd";
 }
 .fa-sort-up:before,
-.fa-sort-desc:before {
+.fa-sort-asc:before {
   content: "\f0de";
 }
 .fa-envelope:before {
@@ -1138,10 +1142,8 @@ table {
 .fa-code:before {
   content: "\f121";
 }
+.fa-mail-reply-all:before,
 .fa-reply-all:before {
-  content: "\f122";
-}
-.fa-mail-reply-all:before {
   content: "\f122";
 }
 .fa-star-half-empty:before,
@@ -1489,113 +1491,344 @@ table {
 .fa-plus-square-o:before {
   content: "\f196";
 }
+.fa-space-shuttle:before {
+  content: "\f197";
+}
+.fa-slack:before {
+  content: "\f198";
+}
+.fa-envelope-square:before {
+  content: "\f199";
+}
+.fa-wordpress:before {
+  content: "\f19a";
+}
+.fa-openid:before {
+  content: "\f19b";
+}
+.fa-institution:before,
+.fa-bank:before,
+.fa-university:before {
+  content: "\f19c";
+}
+.fa-mortar-board:before,
+.fa-graduation-cap:before {
+  content: "\f19d";
+}
+.fa-yahoo:before {
+  content: "\f19e";
+}
+.fa-google:before {
+  content: "\f1a0";
+}
+.fa-reddit:before {
+  content: "\f1a1";
+}
+.fa-reddit-square:before {
+  content: "\f1a2";
+}
+.fa-stumbleupon-circle:before {
+  content: "\f1a3";
+}
+.fa-stumbleupon:before {
+  content: "\f1a4";
+}
+.fa-delicious:before {
+  content: "\f1a5";
+}
+.fa-digg:before {
+  content: "\f1a6";
+}
+.fa-pied-piper-square:before,
+.fa-pied-piper:before {
+  content: "\f1a7";
+}
+.fa-pied-piper-alt:before {
+  content: "\f1a8";
+}
+.fa-drupal:before {
+  content: "\f1a9";
+}
+.fa-joomla:before {
+  content: "\f1aa";
+}
+.fa-language:before {
+  content: "\f1ab";
+}
+.fa-fax:before {
+  content: "\f1ac";
+}
+.fa-building:before {
+  content: "\f1ad";
+}
+.fa-child:before {
+  content: "\f1ae";
+}
+.fa-paw:before {
+  content: "\f1b0";
+}
+.fa-spoon:before {
+  content: "\f1b1";
+}
+.fa-cube:before {
+  content: "\f1b2";
+}
+.fa-cubes:before {
+  content: "\f1b3";
+}
+.fa-behance:before {
+  content: "\f1b4";
+}
+.fa-behance-square:before {
+  content: "\f1b5";
+}
+.fa-steam:before {
+  content: "\f1b6";
+}
+.fa-steam-square:before {
+  content: "\f1b7";
+}
+.fa-recycle:before {
+  content: "\f1b8";
+}
+.fa-automobile:before,
+.fa-car:before {
+  content: "\f1b9";
+}
+.fa-cab:before,
+.fa-taxi:before {
+  content: "\f1ba";
+}
+.fa-tree:before {
+  content: "\f1bb";
+}
+.fa-spotify:before {
+  content: "\f1bc";
+}
+.fa-deviantart:before {
+  content: "\f1bd";
+}
+.fa-soundcloud:before {
+  content: "\f1be";
+}
+.fa-database:before {
+  content: "\f1c0";
+}
+.fa-file-pdf-o:before {
+  content: "\f1c1";
+}
+.fa-file-word-o:before {
+  content: "\f1c2";
+}
+.fa-file-excel-o:before {
+  content: "\f1c3";
+}
+.fa-file-powerpoint-o:before {
+  content: "\f1c4";
+}
+.fa-file-photo-o:before,
+.fa-file-picture-o:before,
+.fa-file-image-o:before {
+  content: "\f1c5";
+}
+.fa-file-zip-o:before,
+.fa-file-archive-o:before {
+  content: "\f1c6";
+}
+.fa-file-sound-o:before,
+.fa-file-audio-o:before {
+  content: "\f1c7";
+}
+.fa-file-movie-o:before,
+.fa-file-video-o:before {
+  content: "\f1c8";
+}
+.fa-file-code-o:before {
+  content: "\f1c9";
+}
+.fa-vine:before {
+  content: "\f1ca";
+}
+.fa-codepen:before {
+  content: "\f1cb";
+}
+.fa-jsfiddle:before {
+  content: "\f1cc";
+}
+.fa-life-bouy:before,
+.fa-life-saver:before,
+.fa-support:before,
+.fa-life-ring:before {
+  content: "\f1cd";
+}
+.fa-circle-o-notch:before {
+  content: "\f1ce";
+}
+.fa-ra:before,
+.fa-rebel:before {
+  content: "\f1d0";
+}
+.fa-ge:before,
+.fa-empire:before {
+  content: "\f1d1";
+}
+.fa-git-square:before {
+  content: "\f1d2";
+}
+.fa-git:before {
+  content: "\f1d3";
+}
+.fa-hacker-news:before {
+  content: "\f1d4";
+}
+.fa-tencent-weibo:before {
+  content: "\f1d5";
+}
+.fa-qq:before {
+  content: "\f1d6";
+}
+.fa-wechat:before,
+.fa-weixin:before {
+  content: "\f1d7";
+}
+.fa-send:before,
+.fa-paper-plane:before {
+  content: "\f1d8";
+}
+.fa-send-o:before,
+.fa-paper-plane-o:before {
+  content: "\f1d9";
+}
+.fa-history:before {
+  content: "\f1da";
+}
+.fa-circle-thin:before {
+  content: "\f1db";
+}
+.fa-header:before {
+  content: "\f1dc";
+}
+.fa-paragraph:before {
+  content: "\f1dd";
+}
+.fa-sliders:before {
+  content: "\f1de";
+}
+.fa-share-alt:before {
+  content: "\f1e0";
+}
+.fa-share-alt-square:before {
+  content: "\f1e1";
+}
+.fa-bomb:before {
+  content: "\f1e2";
+}
 /*
 
 github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
-pre code {
+.hljs {
   display: block;
   padding: 0.5em;
   color: #333;
-  background: #f8f8ff;
+  background: #f8f8f8;
 }
-pre .comment,
-pre .template_comment,
-pre .diff .header,
-pre .javadoc {
+.hljs-comment,
+.hljs-template_comment,
+.diff .hljs-header,
+.hljs-javadoc {
   color: #998;
   font-style: italic;
 }
-pre .keyword,
-pre .css .rule .keyword,
-pre .winutils,
-pre .javascript .title,
-pre .nginx .title,
-pre .subst,
-pre .request,
-pre .status {
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.javascript .hljs-title,
+.nginx .hljs-title,
+.hljs-subst,
+.hljs-request,
+.hljs-status {
   color: #333;
   font-weight: bold;
 }
-pre .number,
-pre .hexcolor,
-pre .ruby .constant {
+.hljs-number,
+.hljs-hexcolor,
+.ruby .hljs-constant {
   color: #099;
 }
-pre .string,
-pre .tag .value,
-pre .phpdoc,
-pre .tex .formula {
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.tex .hljs-formula {
   color: #dd1144;
 }
-pre .title,
-pre .id {
+.hljs-title,
+.hljs-id,
+.coffeescript .hljs-params,
+.scss .hljs-preprocessor {
   color: #900;
   font-weight: bold;
 }
-pre .javascript .title,
-pre .lisp .title,
-pre .clojure .title,
-pre .subst {
+.javascript .hljs-title,
+.lisp .hljs-title,
+.clojure .hljs-title,
+.hljs-subst {
   font-weight: normal;
 }
-pre .class .title,
-pre .haskell .type,
-pre .vhdl .literal,
-pre .tex .command {
+.hljs-class .hljs-title,
+.haskell .hljs-type,
+.vhdl .hljs-literal,
+.tex .hljs-command {
   color: #458;
   font-weight: bold;
 }
-pre .tag,
-pre .tag .title,
-pre .rules .property,
-pre .django .tag .keyword {
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rules .hljs-property,
+.django .hljs-tag .hljs-keyword {
   color: #000080;
   font-weight: normal;
 }
-pre .attribute,
-pre .variable,
-pre .lisp .body {
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body {
   color: #008080;
 }
-pre .regexp {
+.hljs-regexp {
   color: #009926;
 }
-pre .class {
-  color: #458;
-  font-weight: bold;
-}
-pre .symbol,
-pre .ruby .symbol .string,
-pre .lisp .keyword,
-pre .tex .special,
-pre .prompt {
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.lisp .hljs-keyword,
+.tex .hljs-special,
+.hljs-prompt {
   color: #990073;
 }
-pre .built_in,
-pre .lisp .title,
-pre .clojure .built_in {
+.hljs-built_in,
+.lisp .hljs-title,
+.clojure .hljs-built_in {
   color: #0086b3;
 }
-pre .preprocessor,
-pre .pi,
-pre .doctype,
-pre .shebang,
-pre .cdata {
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
   color: #999;
   font-weight: bold;
 }
-pre .deletion {
+.hljs-deletion {
   background: #ffdddd;
 }
-pre .addition {
+.hljs-addition {
   background: #ddffdd;
 }
-pre .diff .change {
+.diff .hljs-change {
   background: #0086b3;
 }
-pre .chunk {
+.hljs-chunk {
   color: #aaaaaa;
 }
 body {
@@ -1652,6 +1885,9 @@ ul,
 ol {
   padding-left: 30px;
 }
+li p {
+  margin: 0 auto;
+}
 dl {
   padding: 0.5em;
   clear: both;
@@ -1697,20 +1933,30 @@ pre {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 7px 7px 0 7px;
+  padding: 2px 2px 0 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #333333;
-  background-color: #efefef;
-  border: 1px solid #999999;
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
   margin: auto;
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
+  padding: 0;
+}
+pre a {
+  color: #264c72;
+}
+pre p {
+  margin: 0 auto;
 }
 pre code {
   box-shadow: none;
-  background: #efefef;
+  background: #f8f8f8;
   padding: 0;
   border: none;
+}
+pre .hljs {
+  padding: 0 3px;
 }
 table {
   -moz-background-clip: padding;
@@ -1720,7 +1966,7 @@ table {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 7px 7px 0 7px;
+  padding: 2px 2px 0 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #333333;
@@ -1731,8 +1977,14 @@ table {
   border-spacing: 0;
   empty-cells: show;
 }
+table a {
+  color: #264c72;
+}
+table p {
+  margin: 0 auto;
+}
 table thead {
-  background: #efefef;
+  background: #f8f8f8;
   color: #222;
   text-align: left;
   vertical-align: bottom;
@@ -1758,11 +2010,18 @@ hr {
   background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
   background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
+.center {
+  margin: auto;
+  text-align: center;
+}
 /* Inline */
+[class^="fa-"] {
+  font-family: "FontAwesome";
+}
 code,
 span.code {
   color: #333333;
-  background-color: #efefef;
+  background-color: #f8f8f8;
   padding: 0 3px 0;
   display: inline-block;
   width: auto;
@@ -1777,7 +2036,7 @@ span.code {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
-  font-size: 80%;
+  font-size: 90%;
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
@@ -1787,7 +2046,7 @@ span.code {
 kbd,
 span.kbd {
   color: #333333;
-  background-color: #efefef;
+  background-color: #f8f8f8;
   padding: 0 3px 0;
   display: inline-block;
   width: auto;
@@ -1834,14 +2093,14 @@ span.abbr:hover {
 }
 samp,
 span.samp {
-  font-size: 80%;
+  font-size: 90%;
   color: #333333;
-  background-color: #efefef;
+  background-color: #f8f8f8;
   padding: 0 3px 0;
   display: inline-block;
   width: auto;
   margin: 1px;
-  border: 1px solid #efefef;
+  border: 1px solid #f8f8f8;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -1858,7 +2117,7 @@ span.samp {
 }
 var,
 span.var {
-  font-size: 80%;
+  font-size: 90%;
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
   font-weight: bold;
   font-style: normal;
@@ -1890,8 +2149,8 @@ span.q {
 }
 tt,
 span.tt {
+  font-size: 90%;
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
-  font-size: 80%;
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
@@ -1964,8 +2223,16 @@ a[href*="instagram.com"]:before {
   content: "\f16d" " ";
   font-family: "FontAwesome";
 }
+a[href*="google.com"]:before {
+  content: "\f1a0" " ";
+  font-family: "FontAwesome";
+}
 a[href*="plus.google.com"]:before {
   content: "\f0d4" " ";
+  font-family: "FontAwesome";
+}
+a[href*="yahoo.com"]:before {
+  content: "\f19e" " ";
   font-family: "FontAwesome";
 }
 a[href*="tumblr.com"]:before {
@@ -1984,6 +2251,31 @@ a[href*="pinterest.com"]:before {
   content: "\f0d2" " ";
   font-family: "FontAwesome";
 }
+a[href*="reddit.com"]:before {
+  content: "\f1a1" " ";
+  font-family: "FontAwesome";
+}
+a[href*="digg.com"]:before {
+  content: "\f1a6" " ";
+  font-family: "FontAwesome";
+}
+a[href*="news.ycombinator.com"]:before {
+  content: "\f1d4" " ";
+  font-family: "FontAwesome";
+}
+a[href*="jsfiddle.com"]:before {
+  content: "\f1cc" " ";
+  font-family: "FontAwesome";
+}
+a[href*="deviantart.com"]:before {
+  content: "\f1bd" " ";
+  font-family: "FontAwesome";
+}
+a[href="#document-top"] {
+  vertical-align: super;
+  text-size: 90%;
+  float: right;
+}
 .note {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
@@ -1992,16 +2284,21 @@ a[href*="pinterest.com"]:before {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 7px 7px 0 7px;
+  padding: 2px 2px 0 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #264c72;
   background-color: #d8ebf8;
   border: 1px solid #264c72;
 }
+.note a {
+  color: #264c72;
+}
 .note p {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0 auto;
+}
+.note p {
+  margin: 0 auto;
 }
 .note p:first-child {
   font-size: 105%;
@@ -2024,16 +2321,21 @@ a[href*="pinterest.com"]:before {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 7px 7px 0 7px;
+  padding: 2px 2px 0 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #009926;
   background-color: #d8f5cd;
   border: 1px solid #009926;
 }
+.tip a {
+  color: #264c72;
+}
 .tip p {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0 auto;
+}
+.tip p {
+  margin: 0 auto;
 }
 .tip p:first-child {
   font-size: 105%;
@@ -2056,16 +2358,21 @@ a[href*="pinterest.com"]:before {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 7px 7px 0 7px;
+  padding: 2px 2px 0 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #9c2400;
   background-color: #f8d8d8;
   border: 1px solid #9c2400;
 }
+.warning a {
+  color: #264c72;
+}
 .warning p {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0 auto;
+}
+.warning p {
+  margin: 0 auto;
 }
 .warning p:first-child {
   font-size: 105%;
@@ -2088,29 +2395,283 @@ a[href*="pinterest.com"]:before {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 7px 7px 0 7px;
+  padding: 2px 2px 0 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
-  background-color: #efefef;
-  border: 1px solid #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.sidebar a {
+  color: #264c72;
 }
 .sidebar p {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0 auto;
+}
+.sidebar p {
+  margin: 0 auto;
 }
 .sidebar p:first-child {
   font-size: 105%;
   font-weight: bold;
-  color: #444444;
+  color: #555555;
 }
 .sidebar p:first-child:before {
   font-family: "FontAwesome";
   font-style: normal;
   font-weight: normal;
   font-size: 100%;
-  color: #444444;
+  color: #555555;
   content: "\f05a" " ";
+}
+.output {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.output a {
+  color: #264c72;
+}
+.output p {
+  margin: 0 auto;
+}
+.apple-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.apple-sidebar a {
+  color: #264c72;
+}
+.apple-sidebar p {
+  margin: 0 auto;
+}
+.apple-sidebar p {
+  margin: 0 auto;
+}
+.apple-sidebar p:first-child {
+  font-size: 105%;
+  font-weight: bold;
+  color: #555555;
+}
+.apple-sidebar p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #555555;
+  content: "\f179" " ";
+}
+.android-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.android-sidebar a {
+  color: #264c72;
+}
+.android-sidebar p {
+  margin: 0 auto;
+}
+.android-sidebar p {
+  margin: 0 auto;
+}
+.android-sidebar p:first-child {
+  font-size: 105%;
+  font-weight: bold;
+  color: #555555;
+}
+.android-sidebar p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #555555;
+  content: "\f17b" " ";
+}
+.windows-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.windows-sidebar a {
+  color: #264c72;
+}
+.windows-sidebar p {
+  margin: 0 auto;
+}
+.windows-sidebar p {
+  margin: 0 auto;
+}
+.windows-sidebar p:first-child {
+  font-size: 105%;
+  font-weight: bold;
+  color: #555555;
+}
+.windows-sidebar p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #555555;
+  content: "\f17a" " ";
+}
+.linux-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.linux-sidebar a {
+  color: #264c72;
+}
+.linux-sidebar p {
+  margin: 0 auto;
+}
+.linux-sidebar p {
+  margin: 0 auto;
+}
+.linux-sidebar p:first-child {
+  font-size: 105%;
+  font-weight: bold;
+  color: #555555;
+}
+.linux-sidebar p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #555555;
+  content: "\f17c" " ";
+}
+.apple-linux-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555555;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+}
+.apple-linux-sidebar a {
+  color: #264c72;
+}
+.apple-linux-sidebar p {
+  margin: 0 auto;
+}
+.apple-linux-sidebar p {
+  margin: 0 auto;
+}
+.apple-linux-sidebar p:first-child {
+  font-size: 105%;
+  font-weight: bold;
+  color: #555555;
+}
+.apple-linux-sidebar p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #555555;
+  content: "\f179" "\f17c" " ";
+}
+.terminal {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 2px 0 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #222222;
+  background-color: #cccccc;
+  border: 1px solid #cccccc;
+  padding: 0 3px;
+}
+.terminal a {
+  color: #264c72;
+}
+.terminal p {
+  margin: 0 auto;
+}
+.terminal p,
+.terminal p:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+  text-shadow: none;
+  font-weight: normal;
+  font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
+  font-size: 90%;
+  color: #222222;
+}
+.terminal p:before,
+.terminal p:first-child:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: bold;
+  color: #00cc33;
+  content: "\f120" " ";
+}
+div .terminal {
+  margin: 2px auto;
 }
 .note,
 .warning,
@@ -2119,71 +2680,248 @@ a[href*="pinterest.com"]:before {
 }
 @media screen and (max-width: 599px) {
   .note,
-  .warning {
+  .warning,
+  .tip {
     width: 96%;
   }
 }
 @media screen and (min-width: 600px) {
   .note,
-  .warning {
+  .warning,
+  .tip {
     width: 66.6667%;
   }
 }
-.todo:before {
-  font-weight: bold;
+.todo {
   color: #cc3300;
-  font-variant: small-caps;
-  font-size: 120%;
+}
+.todo:before {
+  color: #cc3300;
+  background-color: #f8d8d8;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #cc3300;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[todo]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "todo";
+}
+.fixme {
+  color: #cc3300;
 }
 .fixme:before {
-  font-weight: bold;
   color: #cc3300;
-  font-variant: small-caps;
-  font-size: 120%;
+  background-color: #f8d8d8;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #cc3300;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[fixme]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "fixme";
+}
+.deadline {
+  color: #cc3300;
 }
 .deadline:before {
-  font-weight: bold;
   color: #cc3300;
-  font-variant: small-caps;
-  font-size: 120%;
+  background-color: #f8d8d8;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #cc3300;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[deadline]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "deadline";
+}
+.important {
+  color: #cc3300;
 }
 .important:before {
-  font-weight: bold;
   color: #cc3300;
-  font-variant: small-caps;
-  font-size: 120%;
+  background-color: #f8d8d8;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #cc3300;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[important]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "important";
+}
+.urgent {
+  color: #cc3300;
 }
 .urgent:before {
-  font-weight: bold;
   color: #cc3300;
-  font-variant: small-caps;
-  font-size: 120%;
+  background-color: #f8d8d8;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #cc3300;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[urgent]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "urgent";
+}
+.verify {
+  color: #cc3300;
 }
 .verify:before {
-  font-weight: bold;
   color: #cc3300;
-  font-variant: small-caps;
-  font-size: 120%;
+  background-color: #f8d8d8;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #cc3300;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[verify]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "verify";
+}
+.draftcomment {
+  color: #00cc33;
 }
 .draftcomment:before {
-  font-weight: bold;
   color: #00cc33;
-  font-variant: small-caps;
-  font-size: 120%;
+  background-color: #d8f5cd;
+  padding: 0 3px 0;
+  display: inline-block;
+  width: auto;
+  margin: 1px;
+  border: 1px solid #00cc33;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-size: 2px;
+  padding: 1px 1px 3px 1px;
+  text-size: 70%;
+  line-height: 90%;
+  width: 50px;
+  text-align: center;
   margin-right: 3px;
-  content: "[comment]";
+  font-variant: small-caps;
+  font-weight: bold;
+  content: "comment";
 }
 .red-circle:before {
   font-family: "FontAwesome";
