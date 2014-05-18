@@ -54,6 +54,10 @@ ul, ol {
   padding-left: 30px;
 }
 
+li p {
+  margin: 0 auto;
+}
+
 dl {
   padding: 0.5em;
   clear: both;
@@ -89,20 +93,24 @@ h1, h2, h3, h4, h5, h6 {
 
 blockquote {
   border-left: 3px solid #dedede;
-  padding:0px 10px;
-  margin:10px 0;
+  padding: 0px 10px;
+  margin: 10px 0;
   font-style: italic;
 }
 
 pre {
-  .mix-box(@light-gray, @dark-gray, @gray);
+  .mix-box(@light-gray, @dark-gray, @gray-c);
   margin: auto;
   font-family: @monospace-font;
+  padding: 0;
   code {
     box-shadow: none;
     background: @light-gray;
     padding: 0;
     border: none;
+  }
+  .hljs {
+    padding: 0 3px;
   }
 }
 
@@ -142,13 +150,22 @@ hr {
   background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
 }
 
+.center {
+  margin: auto;
+  text-align: center;
+}
+
 
 /* Inline */
+
+[class^="fa-"] {
+  font-family: "FontAwesome";
+}
 
 code, span.code {
   .mix-inline-box(@light-gray, @dark-gray, @gray);
   font-family: @monospace-font;
-  font-size: 80%;
+  font-size: 90%;
   .mix-hyphens(none);
 }
 
@@ -178,13 +195,13 @@ abbr, span.abbr {
 }
 
 samp, span.samp {
-  font-size: 80%;
+  font-size: 90%;
   .mix-inline-box(@light-gray, @dark-gray, @light-gray);
   .mix-hyphens(none);
 }
 
 var, span.var {
-  font-size: 80%;
+  font-size: 90%;
   font-family: @monospace-font; 
   font-weight: bold;
   font-style: normal;
@@ -204,8 +221,8 @@ q, span.q {
 }
 
 tt, span.tt {
+  font-size: 90%;
   font-family: @monospace-font;
-  font-size: 80%;
   .mix-hyphens(none);
 }
 

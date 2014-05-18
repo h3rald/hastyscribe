@@ -1,0 +1,52 @@
+.note { .mix-titled-block(@light-blue, @dark-blue, @dark-blue, @fa-var-thumb-tack);}
+.tip {.mix-titled-block(@light-green, @dark-green, @dark-green, @fa-var-lightbulb-o);}
+.warning {.mix-titled-block(@light-red, @dark-red, @dark-red, @fa-var-exclamation-triangle);}
+
+.sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-info-circle);}
+.output {.mix-box(@light-gray, @gray-5, @light-gray);}
+
+.apple-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-apple);}
+.android-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-android);}
+.windows-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-windows);}
+.linux-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-linux);}
+.apple-linux-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-apple @fa-var-linux);}
+
+.terminal {
+  .mix-box(@gray-c, @gray-2, @gray-c);
+  padding: 0 3px;
+  p, p:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-shadow: none;
+    font-weight: normal;
+    font-family: @monospace-font;
+    font-size: 90%;
+    color: @gray-2;
+    &:before {
+      font-family: "FontAwesome";
+      font-style: normal;
+      font-weight: bold;
+      color: @bright-green;
+      content: @fa-var-terminal " ";
+    }
+  }
+}
+
+div .terminal {
+  margin: 2px auto;
+}
+
+.note, .warning, .tip {
+  width: 66.6667%;
+}
+
+@media screen and (max-width: 599px) {
+  .note, .warning, .tip {
+    width: 96%;
+  }
+}
+@media screen and (min-width: 600px) {
+  .note, .warning, .tip {
+    width: 66.6667%;
+  }
+}

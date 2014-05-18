@@ -40,7 +40,7 @@ HastyScribe is implemented in [Nimrod][nimrod], a very expressive language that 
 ### How do I build _HastyScribe_ from source?
 
 
-First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) or build your own. 
+First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the HastyScribe repository or build your own. 
 
 If you choose to build your own:
 
@@ -58,7 +58,7 @@ If you choose to build your own:
 Once you have a **libmarkdown.a** static library for your platform:
 
 1. Download and install [Nimrod][nimrod]. On OSX you can also <tt>brew install nimrod</tt> if you have [HomeBrew](http://brew.sh/) installed.
-2. Download/clone HastyScribe.
+2. Download/clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
 4. Run **osxbuild** (if you are on OSX) or **winbuild.bat** (if you are on windows) or the following:
 
