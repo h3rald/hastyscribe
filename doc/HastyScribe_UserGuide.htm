@@ -1980,6 +1980,9 @@ h6 {
   color: #111111;
   border-bottom: 1px solid #dddddd;
 }
+h1 {
+  text-align: center;
+}
 /* Blocks */
 blockquote {
   border-left: 3px solid #dedede;
@@ -3171,6 +3174,22 @@ div .terminal {
   color: #cc3300;
   content: "\f041" " ";
 }
+.danger:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #cc3300;
+  content: "\f071" " ";
+}
+.question:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #0f4bff;
+  content: "\f059" " ";
+}
 .btc:before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -4111,131 +4130,117 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 <thead>
 <tr>
 <th>Class                </th>
+<th> Badge                        </th>
+<th> Class               </th>
 <th> Badge</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>todo</code>               </td>
-<td> <span class="todo"></span></td>
-</tr>
-<tr>
-<td><code>fixme</code>              </td>
-<td> <span class="fixme"></span></td>
-</tr>
-<tr>
-<td><code>draftcomment</code>       </td>
-<td> <span class="draftcomment"></span></td>
-</tr>
-<tr>
-<td><code>urgent</code>             </td>
-<td> <span class="urgent"></span></td>
-</tr>
-<tr>
-<td><code>verify</code>             </td>
-<td> <span class="verify"></span></td>
-</tr>
-<tr>
-<td><code>deadline</code>           </td>
-<td> <span class="deadline"></span></td>
-</tr>
-<tr>
-<td><code>red-circle</code>         </td>
-<td> <span class="red-circle"></span></td>
-</tr>
-<tr>
-<td><code>yellow-circle</code>      </td>
-<td> <span class="yellow-circle"></span></td>
-</tr>
-<tr>
-<td><code>green-circle</code>       </td>
-<td> <span class="green-circle"></span></td>
-</tr>
-<tr>
-<td><code>gray-circle</code>        </td>
-<td> <span class="gray-circle"></span></td>
-</tr>
-<tr>
-<td><code>star</code>               </td>
-<td> <span class="star"></span></td>
-</tr>
-<tr>
-<td><code>heart</code>              </td>
-<td> <span class="heart"></span></td>
-</tr>
-<tr>
-<td><code>square</code>             </td>
-<td> <span class="square"></span></td>
-</tr>
-<tr>
-<td><code>check</code>              </td>
-<td> <span class="check"></span></td>
-</tr>
-<tr>
-<td><code>lock</code>               </td>
-<td> <span class="lock"></span></td>
-</tr>
-<tr>
-<td><code>unlock</code>             </td>
-<td> <span class="unlock"></span></td>
-</tr>
-<tr>
+<td> <span class="todo"></span>               </td>
 <td><code>date</code>               </td>
 <td> <span class="date"></span></td>
 </tr>
 <tr>
+<td><code>fixme</code>              </td>
+<td> <span class="fixme"></span>              </td>
 <td><code>tag</code>                </td>
 <td> <span class="tag"></span></td>
 </tr>
 <tr>
+<td><code>draftcomment</code>       </td>
+<td> <span class="draftcomment"></span>       </td>
 <td><code>attachment</code>         </td>
 <td> <span class="attachment"></span></td>
 </tr>
 <tr>
+<td><code>urgent</code>             </td>
+<td> <span class="urgent"></span>             </td>
 <td><code>bug</code>                </td>
 <td> <span class="bug"></span></td>
 </tr>
 <tr>
+<td><code>verify</code>             </td>
+<td> <span class="verify"></span>             </td>
+<td><code>geo</code>                </td>
+<td> <span class="geo"></span></td>
+</tr>
+<tr>
+<td><code>deadline</code>           </td>
+<td> <span class="deadline"></span>           </td>
 <td><code>eur</code>                </td>
 <td> <span class="eur"></span></td>
 </tr>
 <tr>
+<td><code>red-circle</code>         </td>
+<td> <span class="red-circle"></span>         </td>
 <td><code>gbp</code>                </td>
 <td> <span class="gbp"></span></td>
 </tr>
 <tr>
+<td><code>yellow-circle</code>      </td>
+<td> <span class="yellow-circle"></span>      </td>
 <td><code>usd</code>                </td>
 <td> <span class="usd"></span></td>
 </tr>
 <tr>
+<td><code>green-circle</code>       </td>
+<td> <span class="green-circle"></span>       </td>
 <td><code>rub</code>                </td>
 <td> <span class="rub"></span></td>
 </tr>
 <tr>
+<td><code>gray-circle</code>        </td>
+<td> <span class="gray-circle"></span>        </td>
 <td><code>jpy</code>                </td>
 <td> <span class="jpy"></span></td>
 </tr>
 <tr>
+<td><code>star</code>               </td>
+<td> <span class="star"></span>               </td>
 <td><code>btc</code>                </td>
 <td> <span class="btc"></span></td>
 </tr>
 <tr>
+<td><code>heart</code>              </td>
+<td> <span class="heart"></span>              </td>
 <td><code>try</code>                </td>
 <td> <span class="try"></span></td>
 </tr>
 <tr>
+<td><code>square</code>             </td>
+<td> <span class="square"></span>             </td>
 <td><code>krw</code>                </td>
 <td> <span class="krw"></span></td>
 </tr>
 <tr>
+<td><code>check</code>              </td>
+<td> <span class="check"></span>              </td>
 <td><code>inr</code>                </td>
 <td> <span class="inr"></span></td>
+</tr>
+<tr>
+<td><code>lock</code>               </td>
+<td> <span class="lock"></span>               </td>
+<td><code>danger</code>             </td>
+<td> <span class="danger"></span></td>
+</tr>
+<tr>
+<td><code>unlock</code>             </td>
+<td> <span class="unlock"></span>             </td>
+<td><code>question</code>           </td>
+<td> <span class="question"></span></td>
 </tr>
 </tbody>
 </table>
 
 
 <h3 id="Snippets">Snippets</h3>
+
+<p><span class="tt">{{test -> This is a test snippet}}</span></p>
+
+<p><span class="tt">{{test}}</span></p>
 
 <h2 id="Credits">Credits</h2>
 

@@ -582,41 +582,30 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 #### Badges
 
 
-Class                | Badge
----------------------|------------------------------
-`todo`               | [](class:todo)
-`fixme`              | [](class:fixme)
-`draftcomment`       | [](class:draftcomment)
-`urgent`             | [](class:urgent)
-`verify`             | [](class:verify)
-`deadline`           | [](class:deadline)
-`red-circle`         | [](class:red-circle)
-`yellow-circle`      | [](class:yellow-circle)
-`green-circle`       | [](class:green-circle)
-`gray-circle`        | [](class:gray-circle)
-`star`               | [](class:star)
-`heart`              | [](class:heart)
-`square`             | [](class:square)
-`check`              | [](class:check)
-`lock`               | [](class:lock)
-`unlock`             | [](class:unlock)
-`date`               | [](class:date)
-`tag`                | [](class:tag)
-`attachment`         | [](class:attachment)
-`bug`                | [](class:bug)
-`eur`                | [](class:eur)
-`gbp`                | [](class:gbp)
-`usd`                | [](class:usd)
-`rub`                | [](class:rub)
-`jpy`                | [](class:jpy)
-`btc`                | [](class:btc)
-`try`                | [](class:try)
-`krw`                | [](class:krw)
-`inr`                | [](class:inr)
-
-
+Class                | Badge                        | Class               | Badge 
+---------------------|------------------------------|--------------------------------------------
+`todo`               | [](class:todo)               |`date`               | [](class:date)
+`fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
+`draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
+`urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
+`verify`             | [](class:verify)             |`geo`                | [](class:geo)
+`deadline`           | [](class:deadline)           |`eur`                | [](class:eur)
+`red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
+`yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
+`green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
+`gray-circle`        | [](class:gray-circle)        |`jpy`                | [](class:jpy)
+`star`               | [](class:star)               |`btc`                | [](class:btc)
+`heart`              | [](class:heart)              |`try`                | [](class:try)
+`square`             | [](class:square)             |`krw`                | [](class:krw)
+`check`              | [](class:check)              |`inr`                | [](class:inr)
+`lock`               | [](class:lock)               |`danger`             | [](class:danger)
+`unlock`             | [](class:unlock)             |`question`           | [](class:question)
 
 ### Snippets
+
+[\{\{test -> This is a test snippet\}\}](class:tt)
+
+[\{\{test\}\}](class:tt)
 
 ## Credits
 
