@@ -1923,6 +1923,9 @@ h6 {
   color: #111111;
   border-bottom: 1px solid #dddddd;
 }
+h1 {
+  text-align: center;
+}
 /* Blocks */
 blockquote {
   border-left: 3px solid #dedede;
@@ -3113,6 +3116,22 @@ div .terminal {
   font-size: 100%;
   color: #cc3300;
   content: "\f041" " ";
+}
+.danger:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #cc3300;
+  content: "\f071" " ";
+}
+.question:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #0f4bff;
+  content: "\f059" " ";
 }
 .btc:before {
   font-family: "FontAwesome";
