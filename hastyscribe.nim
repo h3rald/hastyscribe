@@ -16,13 +16,15 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 var generate_toc = true
 const src_css = "assets/styles/hastyscribe.css".slurp
 const src_highlight_js = "assets/javascripts/highlight.pack.js".slurp
-const src_nanodom_js= "assets/javascripts/nanodom.min.js".slurp
+const src_jquery_js= "assets/javascripts/jquery.min.js".slurp
+const src_hastyscribe_js= "assets/javascripts/hastyscribe.js".slurp
 const fontawesome_font = "assets/fonts/fontawesome-webfont.woff".slurp
 const sourcecodepro_font = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
 const sourcesanspro_font = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
 const sourcesanspro_bold_font = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
 const sourcesanspro_it_font = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
 const sourcesanspro_boldit_font = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+const logo = "assets/images/hastyscribe_small.png".slurp
 
 
 
@@ -59,11 +61,14 @@ proc parse_date(date: string, timeinfo: var TTimeInfo): bool =
 proc style_tag(css): string =
   result = "<style>$1</style>" % [css]
 
-proc encode_image(file, format): string =
-  if (file.existsFile):
-    let contents = file.readFile
+proc encode_image(contents, format): string =
     let enc_contents = contents.encode(contents.len*3) 
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
+
+proc encode_image_file(file, format): string =
+  if (file.existsFile):
+    let contents = file.readFile
+    return encode_image(contents, format)
   else: 
     echo("Warning: image '"& file &"' not found.")
     return file
@@ -91,8 +96,10 @@ proc embed_images(document, dir): string =
     var matches:TImgTagStart
     discard img.match(img_peg, matches)
     let imgfile = matches[0]
-    let imgformat = imgfile.substr(imgfile.find(peg"'.' @$")+1, imgfile.len-1)
-    let imgcontent = encode_image(current_dir & imgfile, imgformat)
+    if imgfile.startsWith(peg"'data:'"): continue
+    let pegimgformat = peg"'.' i'png' / i'jpg' / i'jpeg' / i'gif' / i'svg' / i'bmp' / i'webp' @$"
+    let imgformat = imgfile.substr(imgfile.find(pegimgformat)+1, imgfile.len-1)
+    let imgcontent = encode_image_file(current_dir & imgfile, imgformat)
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
     imgdata.add((img: img, rep: imgrep))
   for i in imgdata:
@@ -225,18 +232,15 @@ $body
   </div>
   <div id="footer">
     <p>$author_footer $date</p>
+    <p class="powered-by">Powered by <a href="https://h3rald.com/hastyscribe"><img src="$enc_logo" alt="HastyScribe" /></a></p>
   </div>
   <script type="text/javascript">
-    $nanodom
+    $jquery
     $highlight
-    hljs.tabReplace = '  ';
-    hljs.initHighlightingOnLoad();
-    var link_to_top = '<a href="#document-top" title="Back to top">&#8593</a>';
-    nanodom('h2, h3, h4, h5, h6').each(function(e){
-      nanodom(e).append(nanodom(link_to_top));
-    });
+    $hastyscribejs
   </script>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js, "nanodom", src_nanodom_js, "fonts_css", embed_fonts()]
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "jquery", src_jquery_js, "highlight", src_highlight_js, 
+"fonts_css", embed_fonts(), "enc_logo", encode_image(logo, "png"), "hastyscribejs", src_hastyscribe_js]
   document = embed_images(document, inputsplit.dir)
   output_file.writeFile(document)
 

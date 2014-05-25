@@ -11,7 +11,7 @@
   * Fonts
   * Images
 
-In other words, all documents created by HastyScribe are constituted by only one .HTML file only, for easy redistribution.
+In other words, all documents created by HastyScribe are constituted by only one [.HTML](class:ext) file, for easy redistribution.
 
 ### Rationale
 
@@ -50,15 +50,16 @@ Although not part of {{md}} or Discount, {{hs}} allows you to create text [snipp
 
 #### Syntax Highlighting
 
-No need to worry about formatting a block of code or even specifying the programming language you used. Thanks to {{highlightjs -> [highlight.js](http://highlightjs.org/)}}, every code block is properly highlighted automatically. Like this Javascript snippet:
+No need to worry about formatting a block of code or even specifying the programming language you used. Thanks to {{highlightjs -> [highlight.js](http://highlightjs.org/)}}, [code blocks](#Code.Blocks) can be properly highlighted automatically. Like this Javascript snippet:
 
-~~~
-$(document).ready(function() {
-  $("a").click(function( event ) {
-    alert("Thanks for visiting!");
-  });
-});
-~~~
+> %highlight%
+> ~~~
+> $(document).ready(function() {
+>   $("a").click(function( event ) {
+>     alert("Thanks for visiting!");
+>   });
+> });
+> ~~~
 
 #### Image (and font) Embedding
 
@@ -115,7 +116,7 @@ If you choose to build your own:
 
 Once you have a **libmarkdown.a** static library for your platform:
 
-1. Download and install [Nimrod][nimrod]. On OSX you can also <tt>brew install nimrod</tt> if you have [HomeBrew](http://brew.sh/) installed.
+1. Download and install [Nimrod][nimrod]. On OSX you can also [brew install nimrod](class:cmd) if you have [HomeBrew](http://brew.sh/) installed.
 2. Download/clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
 4. Run **osxbuild** (if you are on OSX) or **winbuild.bat** (if you are on windows) or the following:
@@ -127,46 +128,48 @@ Once you have a **libmarkdown.a** static library for your platform:
 
 ## Usage
 
-{{hs}} is a command-line application that can compile one or more <tt>.md</tt> or <tt>.markdown</tt> files into one or more HTML file with the same name(s).
+{{hs}} is a command-line application that can compile one or more [.md](class:ext) or [.markdown](class:ext) files into one or more HTML file with the same name(s).
 
 ### Command Line Syntax
 
-**hastyscribe** _filename-or-glob-expression_ **[** <tt>--notoc</tt> **]**
+[hastyscribe](class:cmd) _filename-or-glob-expression_ **[** [--notoc](class:opt) **]**
 
 Where:
 
-  * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression ending in <tt>.md</tt> or <tt>.markdown</tt> that will be compiled into HTML.
-  * <tt>--notoc</tt> causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
+  * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression ending in [.md](class:ext) or [.markdown](class:ext) that will be compiled into HTML.
+  * [--notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
 
 #### Examples
 
-> %windows-sidebar%
-> Windows
-> 
-> Executing {{hs}} to compile <tt>my_markdown_file.md</tt> within the current directory:
->> %terminal%
->> hastyscribe.exe my_markdown_file.md
-> 
-> Executing {{hs}} to compile all <tt>.md</tt> files within the current directory:
->> %terminal%
->> hastyscribe.exe *.md
 
-> %apple-linux-sidebar%
-> OS X/Linux/etc.
-> 
-> Executing {{hs}} to compile <tt>my_markdown_file.md</tt> within the current directory:
->> %terminal%
->> ./hastyscribe my_markdown_file.md
-> 
-> Executing {{hs}} to compile all <tt>.md</tt> files within the current directory:
->> %terminal%
->> ./hastyscribe *.md
+> %conditional-sidebar%
+>> %windows-sidebar%
+>> Windows
+>> 
+>> Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
+>>> %terminal%
+>>> hastyscribe.exe my_markdown_file.md
+>> 
+>> Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
+>>> %terminal%
+>>> hastyscribe.exe *.md
+>
+>> %nix-sidebar%
+>> OS X/Linux/etc.
+>> 
+>> Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
+>>> %terminal%
+>>> ./hastyscribe my_markdown_file.md
+>> 
+>> Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
+>>> %terminal%
+>>> ./hastyscribe *.md
 
 ## Syntax Reference
 
 ### Document Headers
 
-{{hs}} supports [Pandoc][pandoc]-style Document Headers, as implemented by the [Discount][discount] library. Basically, you can specify the title of the document, author and date as the first three lines of the document, prepending each with a <tt>% </tt>, like this 
+{{hs}} supports [Pandoc][pandoc]-style Document Headers, as implemented by the [Discount][discount] library. Basically, you can specify the title of the document, author and date as the first three lines of the document, prepending each with a [% ](class:kwd), like this 
 
 ~~~
 % HastyScribe User Guide
@@ -177,11 +180,11 @@ Where:
 Note that:
 
   * The order of the document headers is significant.
-  * If you want to use the current date, enter <tt>% -</tt> in the third line.
+  * If you want to use the current date, enter [% -](class:kwd) in the third line.
 
 
 
-### Text Decorations
+### Inline Formatting 
 
  Source                                             | Output             
 ----------------------------------------------------|--------------------
@@ -197,14 +200,51 @@ Note that:
 `Set the variable <var>test</var> to 1.`            | Set the variable <var>test</var> to 1.
 `<q>This is a short quotation</q>`                  | <q>This is a short quotation</q>
 `<cite>Hamlet</cite>, by William Shakespeare.`      | <cite>Hamlet</cite>, by William Shakespeare.
-`<tt>Teletype text</tt>`                            | <tt>Teletype text</tt>
+`A [.md](class:ext)` file                           | A [.md](class:ext) file
+`[my_markdown_file.md](class:file)` file            | [my_markdown_file.md](class:file) file
+`Execute [hastyscribe *.md](class:cmd)`             | Execute [hastyscribe *.md](class:cmd)           
+`The [--notoc](class:opt)` option                   | The [--notoc](class:opt) optiono
+
+
 
 
 ### SmartyPants Substitutions
 
-(TM), (R), 1/4, 1/2, ---, --, A^(B+2), ... 
+Special characters can be easily entered using some special character sequences.
+
+{{hs}} supports all the sequences supported by [Discount][discount]:
+
+* <code>`` text‘’</code> &rarr; “text”.
+* `"double-quoted text"` &rarr; “double-quoted text”
+* `'single-quoted text'` &rarr; ‘single-quoted text’
+* `don't` &rarr; don’t. as well as anything-else’t. (But foo'tbar is just foo'tbar.)
+* it's` &rarr; it’s, as well as anything-else’s (except not foo'sbar and the like.)
+* `(tm)` &rarr; ™
+* `(r)` &rarr; ®
+* `(c)` &rarr; ©
+* `1/4th` &rarr; ¼th. Same goes for for 1/4 (¼), 1/2 (½), 3/4ths (¾ths), and 3/4 (¾).
+* `...` or `. . .` &rarr; …
+* `---` &rarr; —
+* `--` &rarr; –
+* `A^B` becomes A^B. Complex superscripts can be enclosed in brackets, so `A^(B+2)` &rarr; A^(B+2).
+
 
 ### Icons
+
+{{hs}} bundles the [FontAwesome][fa] icon font. To prepend an icon to text you can use Discount's _class:_ pseudo-protocol, and specify a valid [fa-*](class:kwd) (non-alias) class.
+
+Examples:
+
+Source                                   | Output
+-----------------------------------------|------------
+`[ a paper plane](class:fa-paper-plane)` | [ a paper plane](class:fa-paper-plane)
+`[ Galactic Empire](class:fa-empire)`    | [ Galactic Empire](class:fa-empire)
+`[ Rebel Alliance](class:fa-rebel)`      | [ Rebel Alliance](class:fa-rebel)
+
+> %tip%
+> Tip
+> 
+> See the [FontAwesome Icon Reference][fa-icons] for a complete list of all CSS classes to use for icons (aliases are not supported).
 
 ### Links
 
@@ -233,66 +273,234 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 
 ### Images
 
+{{input-text -> The following Markdown code:}}
+
+~~~
+![HastyScribe Logo](../assets/images/hastyscribe.png =204x59)
+~~~
+
+{{output-text -> Produces the following output:}}
+
+![HastyScribe Logo](../assets/images/hastyscribe.png =204x59)
+
+> %tip%
+> Tip
+> 
+> You can use URL placeholders for images as well, exactly like for links.
+
 ### Lists
 
 #### Unordered Lists
 
+{{input-text}}
+
+~~~
 * An item
 * Another item
+  * A nested list
+  * another item
+* And another...
+~~~
+
+{{output-text}}
+
+* An item
+* Another item
+  * A nested list
+  * Another item
 * And another...
 
-
 #### Ordered Lists
+
+{{input-text}}
+
+~~~
+1. First item
+2. Second item
+3. Third item
+~~~
+
+{{output-text}}
 
 1. First item
 2. Second item
 3. Third item
 
+> %tip%
+> Tip
+> 
+> You don't have to write numbers in order -- any number followed by a dot will do. 
 
 #### Alphabetical Lists
 
+{{input-text}}
+
+~~~
 a. First item
 b. Second item
 c. Third item
+~~~
+
+{{output-text}}
+
+a. First item
+d. Second item
+c. Third item
+
+> %tip%
+> Tip
+> 
+> You don't have to write letters in order -- any letter followed by a dot will do. 
+
+
+#### Nested Lists
+
+To create a list within a list, simply indent the whole nested list with four space. 
+
+
+{{input-text}}
+
+~~~
+* This is a normal list
+* Another item
+    * A nested unordered list
+    * Another item
+* Back in the main list
+    a. A nested alphabetical list
+    b. Another item
+~~~
+
+{{output-text}}
+
+* This is a normal list
+* Another item
+    * A nested unordered list
+    * Another item
+* Back in the main list
+    a. A nested alphabetical list
+    b. Another item
 
 #### Definition Lists
 
-test
-: Test definition
-test 2 
-: Another test definition
-test 3
-: Another test definition
+In some cases you may want to write a list of terms and their corresponding definitions. You could use an ordinary unordered list, but semantically speaking the _proper_ type of list to use in this case is a definition list.
+
+{{input-text}}
+
+~~~
+unordered list
+: A list for unordered items. Also called _bulleted list_.
+ordered list 
+: A list for ordered items. Also called _numbered list_.
+alphabetical list
+: Technically speaking just an ordered list, but formatted with letters instead of numbers
+definition list
+: A list of terms and definitions.
+~~~
+
+{{output-text}}
+
+unordered list
+: A list for unordered items. Also called _bulleted list_.
+ordered list 
+: A list for ordered items. Also called _numbered list_.
+alphabetical list
+: Technically speaking just an ordered list, but formatted with letters instead of numbers
+definition list
+: A list of terms and definitions.
+
+Alternatively, you can write the above definition list as follows:
+
+~~~
+=unordered list=
+  A list for unordered items. Also called _bulleted list_.
+=ordered list=
+  A list for ordered items. Also called _numbered list_.
+=alphabetical list=
+  Technically speaking just an ordered list, but formatted with letters instead of numbers
+=definition list=
+  A list of terms and definitions.
+~~~
 
 
 ### Block Styles
 
 #### Headings
 
+Headings can be specified simply by prepending [#](class:kwd)s, as follows: 
+
+~~~
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+~~~
+
+> %note%
+> Note
+> 
+> If you use [Document Headers](#Document.Headers), A [H1](class:kwd) is used for the title of the {{hs}} document. Within the document, start using headings from [H2](class:kwd).
+
 #### Tables
 
-| Test | Test... |
-|------|---------|
-|sdgsag|fdgsdh d |
-| fds  | fdhdfsh |
+{{hs}} supports [PHP Markdown Extra][pme] table syntax using pipes and dashes.
 
+{{input-text}}
+
+~~~
+Column Header 1 | Column Header 2 | Column Header 3 
+----------------|-----------------|----------------
+Cell 1,1        | Cell 1,2        | Cell 1, 3
+Cell 2,1        | Cell 2,2        | Cell 2, 3
+Cell 3,1        | Cell 3,2        | Cell 3, 3
+~~~
+
+{{output-text}}
+
+Column Header 1 | Column Header 2 | Column Header 3 
+----------------|-----------------|----------------
+Cell 1,1        | Cell 1,2        | Cell 1, 3
+Cell 2,1        | Cell 2,2        | Cell 2, 3
+Cell 3,1        | Cell 3,2        | Cell 3, 3
+
+> %note%
+> Note
+> 
+> Multi-row cells are not supported. If you need more complex tables, use HTML code instead.
 
 #### Block Quotes
+
+Block quotes can be created simply by prepending a [>](class:kwd) to a line, and they can be nested by prepending additional [>](class:kwd)s.
+
+{{input-text}}
+
+~~~
+> This is a block quote.
+> > This is a nested quote. 
+~~~
+
+{{output-text}}
 
 > This is a block quote.
 > > This is a nested quote. 
 
-#### Code Blocks
-
-```
-$(document).ready(function(){
-  $("p").click(function(){
-    $(this).hide();
-  });
-});
-```
-
 ### Notes
+
+[Discount][discount] supports the definition of _class blocks_: [div](class:kwd)s with a class attribute. The syntax is very similar to the one used for [block quotes](#Block.Quotes), with the addition of the class name wrapped in [%](class:kwd)s on the first line. 
+
+In {{hs}}, this syntax is used to produce notes, [tips](#Tips), [warmings](#Warnings) and [sidebars](#Sidebars).
+
+{{input-text}}
+
+~~~
+> %note%
+> Note
+> 
+> This is a note.
+~~~
+
+{{output-text}}
 
 > %note%
 > Note
@@ -301,52 +509,111 @@ $(document).ready(function(){
 
 ### Tips
 
+Tips are used for optional information that can help the user in some way. The syntax used for tips is similar to the one of [notes](#Notes).
+
+{{input-text}}
+
+~~~
+> %tip%
+> Tip
+> 
+> This is a tip.
+~~~
+
+{{output-text}}
+
 > %tip%
 > Tip
 > 
 > This is a tip.
 
-
 ### Warnings
+
+Warnings are used for important information the user should not overlook. The syntax used for warnings is similar to the one of [notes](#Notes)
+
+{{input-text}}
+
+~~~
+> %warning%
+> Warning
+> 
+> This is a warning or an important note.
+~~~
+
+{{output-text}}
 
 > %warning%
 > Warning
 > 
-> This is an important note.
+> This is a warning or an important note.
 
 ### Sidebars
+
+Sidebars are used for digressions and asides. The syntax used for sidebars is similar to the one of [notes](#Notes).
+
+{{input-text}}
+
+~~~
+> %sidebar%
+> This is a _sidebar_
+> 
+> Although not always placed on the side of the page, _sidebars_ contain additional content and asides.
+~~~
+
+{{output-text}}
 
 > %sidebar%
 > This is a _sidebar_
 > 
 > Although not always placed on the side of the page, _sidebars_ contain additional content and asides.
 
+#### Code Blocks
 
-#### Addresses
-
-<address>
-Written by <a href="mailto:webmaster@example.com">Jon Doe</a>.<br> 
-Visit us at:<br>
-Example.com<br>
-Box 564, Disneyland<br>
-USA
-</address>
+> %highlight%
+> ```
+> $(document).ready(function(){
+>   $("p").click(function(){
+>     $(this).hide();
+>   });
+> });
+> ```
 
 
 #### Badges
 
-* [Do Something](class:todo)
-* [Do something](class:fixme) 
-* [This is a comment](class:draftcomment)
-* [Red circle](class:red-circle) [Yellow circle](class:yellow-circle) [Green circle](class:green-circle) [Gray circle](class:gray-circle)
-* [](class:star) [](class:heart) 
-* [no](class:square) [yes!](class:check)
-* [locked](class:lock) [unlocked](class:unlock)
-* [bug](class:bug)
-* [tomorrow](class:date)
-* [tag](class:tag)
-* [test.txt](class:attachment)
-* [100](class:eur) [100](class:gbp) [100](class:usd) [100](class:rub) [100](class:jpy) [100](class:btc) [100](class:try) [100](class:krw) [100](class:inr)
+
+Class                | Badge
+---------------------|------------------------------
+`todo`               | [](class:todo)
+`fixme`              | [](class:fixme)
+`draftcomment`       | [](class:draftcomment)
+`urgent`             | [](class:urgent)
+`verify`             | [](class:verify)
+`deadline`           | [](class:deadline)
+`red-circle`         | [](class:red-circle)
+`yellow-circle`      | [](class:yellow-circle)
+`green-circle`       | [](class:green-circle)
+`gray-circle`        | [](class:gray-circle)
+`star`               | [](class:star)
+`heart`              | [](class:heart)
+`square`             | [](class:square)
+`check`              | [](class:check)
+`lock`               | [](class:lock)
+`unlock`             | [](class:unlock)
+`date`               | [](class:date)
+`tag`                | [](class:tag)
+`attachment`         | [](class:attachment)
+`bug`                | [](class:bug)
+`eur`                | [](class:eur)
+`gbp`                | [](class:gbp)
+`usd`                | [](class:usd)
+`rub`                | [](class:rub)
+`jpy`                | [](class:jpy)
+`btc`                | [](class:btc)
+`try`                | [](class:try)
+`krw`                | [](class:krw)
+`inr`                | [](class:inr)
+
 
 
 ### Snippets
@@ -356,7 +623,7 @@ USA
 * FontAwesome v4.1.0
 * highlighting.hs v0.8
 * nanodom v0.0.3
-* Quill icon by Joan Ang from The Noun Project
+* Quill icon from Entypo icon set 
 
 
 ---
@@ -365,3 +632,6 @@ USA
 [discount]: http://www.pell.portland.or.us/~orc/Code/discount/
 [pandoc]: http://johnmacfarlane.net/pandoc/
 [md-syntax]: https://daringfireball.net/projects/markdown/syntax
+[fa]:http://fortawesome.github.io/Font-Awesome/
+[fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
+[pme]:http://michelf.com/projects/php-markdown/extra/

@@ -6,7 +6,7 @@
   -moz-border-radius:3px;
   border-radius:3px;
   margin: 10px auto;
-  padding:2px 2px 0 2px;
+  padding:2px 4px 0 4px;
   box-shadow:0 1px 3px rgba(0,0,0,0.1);
   text-shadow: 0 1px 0 rgba(255,255,255,0.8);
   color:@fg-color;
@@ -18,6 +18,12 @@
   p {
     margin: 0 auto;
   }
+}
+
+.mix-no-border-radius {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
 }
 
 .mix-inline-box (@bg-color, @fg-color, @border-color) {
@@ -61,10 +67,10 @@
 
 .mix-titled-block (@bg-color, @fg-color, @border-color, @icon){
   .mix-box(@bg-color, @fg-color, @border-color);
+  font-size: 90%;
   p {
     margin: 0 auto;
     &:first-child {
-      font-size: 105%;
       font-weight: bold;
       color: @fg-color;
       .mix-symbol(@icon, @fg-color)
@@ -73,12 +79,17 @@
 }
 
 .mix-red-badge (@text){
-  .mix-badge(@text, @bright-red, @light-red);
+  .mix-badge(@text, @bright-red, @lighter-red);
 }
 
 .mix-green-badge (@text){
-  .mix-badge(@text, @bright-green, @light-green);
+  .mix-badge(@text, @bright-green, @lighter-green);
 }
+
+.mix-yellow-badge (@text){
+  .mix-badge(@text, @dark-yellow, @lighter-yellow);
+}
+
 
 .mix-symbol (@symbol, @color, @size:100%, @space:" "){
   &:before {
