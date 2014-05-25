@@ -13,15 +13,15 @@ body {
   .mix-hyphens(auto);
 }
 
-@media screen and (max-width: 959px) {
+@media screen and (max-width: 659px) {
   body {
     width: 100%;
   }
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 660px) {
   body {
-    width: 960px;
+    width: 660px;
   }
 }
 
@@ -106,7 +106,7 @@ pre {
   code {
     box-shadow: none;
     background: @light-gray;
-    padding: 0;
+    padding: 0px 2px 0 2px;
     border: none;
   }
   .hljs {
@@ -155,7 +155,6 @@ hr {
   text-align: center;
 }
 
-
 /* Inline */
 
 [class^="fa-"] {
@@ -165,7 +164,7 @@ hr {
 code, span.code {
   .mix-inline-box(@light-gray, @dark-gray, @gray);
   font-family: @monospace-font;
-  font-size: 90%;
+  font-size: 85%;
   .mix-hyphens(none);
 }
 
@@ -220,10 +219,20 @@ q, span.q {
   .mix-hyphens(none);
 }
 
-tt, span.tt {
+span.tt, span.cmd, 
+span.opt, span.arg, span.kwd,
+span.ext, span.file, span.dir {
   font-size: 90%;
   font-family: @monospace-font;
   .mix-hyphens(none);
+}
+
+span.ext, span.kwd {
+  font-weight: bold;
+}
+
+.powered-by img {
+  margin-bottom: -5px;
 }
 
 /* Links */

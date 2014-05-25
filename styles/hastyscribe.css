@@ -1723,6 +1723,11 @@ table {
 .fa-bomb:before {
   content: "\f1e2";
 }
+.mix-no-border-radius {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
 /*
 
 github.com style (c) Vasily Polovnyov <vast@whiteants.net>
@@ -1849,14 +1854,14 @@ body {
   -o-hyphens: auto;
   hyphens: auto;
 }
-@media screen and (max-width: 959px) {
+@media screen and (max-width: 659px) {
   body {
     width: 100%;
   }
 }
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 660px) {
   body {
-    width: 960px;
+    width: 660px;
   }
 }
 /* Layout */
@@ -1933,7 +1938,7 @@ pre {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #333333;
@@ -1952,7 +1957,7 @@ pre p {
 pre code {
   box-shadow: none;
   background: #f8f8f8;
-  padding: 0;
+  padding: 0px 2px 0 2px;
   border: none;
 }
 pre .hljs {
@@ -1966,7 +1971,7 @@ table {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #333333;
@@ -2036,7 +2041,7 @@ span.code {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
-  font-size: 90%;
+  font-size: 85%;
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
@@ -2147,8 +2152,14 @@ span.q {
   -o-hyphens: none;
   hyphens: none;
 }
-tt,
-span.tt {
+span.tt,
+span.cmd,
+span.opt,
+span.arg,
+span.kwd,
+span.ext,
+span.file,
+span.dir {
   font-size: 90%;
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
   -webkit-hyphens: none;
@@ -2156,6 +2167,13 @@ span.tt {
   -ms-hyphens: none;
   -o-hyphens: none;
   hyphens: none;
+}
+span.ext,
+span.kwd {
+  font-weight: bold;
+}
+.powered-by img {
+  margin-bottom: -5px;
 }
 /* Links */
 a,
@@ -2271,10 +2289,17 @@ a[href*="deviantart.com"]:before {
   content: "\f1bd" " ";
   font-family: "FontAwesome";
 }
+a[href^="git@"]:before {
+  content: "\f1d3" " ";
+  font-family: "FontAwesome";
+}
 a[href="#document-top"] {
   vertical-align: super;
   text-size: 90%;
   float: right;
+}
+.powered-by a:before {
+  content: "";
 }
 .note {
   -moz-background-clip: padding;
@@ -2284,12 +2309,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #264c72;
   background-color: #d8ebf8;
-  border: 1px solid #264c72;
+  border: 1px solid #a4d1ef;
+  font-size: 90%;
 }
 .note a {
   color: #264c72;
@@ -2301,7 +2327,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .note p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #264c72;
 }
@@ -2311,7 +2336,7 @@ a[href="#document-top"] {
   font-weight: normal;
   font-size: 100%;
   color: #264c72;
-  content: "\f08d" " ";
+  content: "\f0a9" " ";
 }
 .tip {
   -moz-background-clip: padding;
@@ -2321,12 +2346,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #009926;
   background-color: #d8f5cd;
-  border: 1px solid #009926;
+  border: 1px solid #b0eb99;
+  font-size: 90%;
 }
 .tip a {
   color: #264c72;
@@ -2338,7 +2364,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .tip p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #009926;
 }
@@ -2348,7 +2373,7 @@ a[href="#document-top"] {
   font-weight: normal;
   font-size: 100%;
   color: #009926;
-  content: "\f0eb" " ";
+  content: "\f058" " ";
 }
 .warning {
   -moz-background-clip: padding;
@@ -2358,12 +2383,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  color: #9c2400;
-  background-color: #f8d8d8;
-  border: 1px solid #9c2400;
+  color: #705400;
+  background-color: #ffebad;
+  border: 1px solid #ffdb70;
+  font-size: 90%;
 }
 .warning a {
   color: #264c72;
@@ -2375,16 +2401,15 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .warning p:first-child {
-  font-size: 105%;
   font-weight: bold;
-  color: #9c2400;
+  color: #705400;
 }
 .warning p:first-child:before {
   font-family: "FontAwesome";
   font-style: normal;
   font-weight: normal;
   font-size: 100%;
-  color: #9c2400;
+  color: #705400;
   content: "\f071" " ";
 }
 .sidebar {
@@ -2395,12 +2420,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #f8f8f8;
   border: 1px solid #f8f8f8;
+  font-size: 90%;
 }
 .sidebar a {
   color: #264c72;
@@ -2412,7 +2438,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .sidebar p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #555555;
 }
@@ -2432,7 +2457,7 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
@@ -2453,12 +2478,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #f8f8f8;
   border: 1px solid #f8f8f8;
+  font-size: 90%;
 }
 .apple-sidebar a {
   color: #264c72;
@@ -2470,7 +2496,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .apple-sidebar p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #555555;
 }
@@ -2490,12 +2515,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #f8f8f8;
   border: 1px solid #f8f8f8;
+  font-size: 90%;
 }
 .android-sidebar a {
   color: #264c72;
@@ -2507,7 +2533,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .android-sidebar p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #555555;
 }
@@ -2527,12 +2552,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #f8f8f8;
   border: 1px solid #f8f8f8;
+  font-size: 90%;
 }
 .windows-sidebar a {
   color: #264c72;
@@ -2544,7 +2570,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .windows-sidebar p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #555555;
 }
@@ -2564,12 +2589,13 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #f8f8f8;
   border: 1px solid #f8f8f8;
+  font-size: 90%;
 }
 .linux-sidebar a {
   color: #264c72;
@@ -2581,7 +2607,6 @@ a[href="#document-top"] {
   margin: 0 auto;
 }
 .linux-sidebar p:first-child {
-  font-size: 105%;
   font-weight: bold;
   color: #555555;
 }
@@ -2593,7 +2618,7 @@ a[href="#document-top"] {
   color: #555555;
   content: "\f17c" " ";
 }
-.apple-linux-sidebar {
+.nix-sidebar {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -2601,34 +2626,99 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #555555;
   background-color: #f8f8f8;
   border: 1px solid #f8f8f8;
+  font-size: 90%;
 }
-.apple-linux-sidebar a {
+.nix-sidebar a {
   color: #264c72;
 }
-.apple-linux-sidebar p {
+.nix-sidebar p {
   margin: 0 auto;
 }
-.apple-linux-sidebar p {
+.nix-sidebar p {
   margin: 0 auto;
 }
-.apple-linux-sidebar p:first-child {
-  font-size: 105%;
+.nix-sidebar p:first-child {
   font-weight: bold;
   color: #555555;
 }
-.apple-linux-sidebar p:first-child:before {
+.nix-sidebar p:first-child:before {
   font-family: "FontAwesome";
   font-style: normal;
   font-weight: normal;
   font-size: 100%;
   color: #555555;
   content: "\f179" "\f17c" " ";
+}
+.conditional-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 4px 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #333333;
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  padding: 0;
+}
+.conditional-sidebar a {
+  color: #264c72;
+}
+.conditional-sidebar p {
+  margin: 0 auto;
+}
+.conditional-sidebar .conditions {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  border-bottom: 1px solid #cccccc;
+  margin: 0;
+}
+.conditional-sidebar .conditions p,
+.conditional-sidebar .conditions div {
+  display: inline-block;
+  cursor: pointer;
+  margin: 0;
+  padding: 1px;
+}
+.conditional-sidebar .conditions div {
+  text-align: center;
+  margin: auto;
+  padding: 2px;
+  width: 150px;
+  border: none;
+  border-right: 1px solid #cccccc;
+  background: #f8f8f8;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+.conditional-sidebar .conditions div p,
+.conditional-sidebar .conditions div p:before {
+  color: #aaaaaa !important;
+}
+.conditional-sidebar .conditions div.selected,
+.conditional-sidebar .conditions div:hover {
+  background: #cccccc;
+}
+.conditional-sidebar .conditions div.selected p,
+.conditional-sidebar .conditions div:hover p,
+.conditional-sidebar .conditions div.selected p:before,
+.conditional-sidebar .conditions div:hover p:before {
+  color: #333333 !important;
+}
+.conditional-sidebar div[class$='target'] {
+  padding: 2px 3px;
 }
 .terminal {
   -moz-background-clip: padding;
@@ -2638,7 +2728,7 @@ a[href="#document-top"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
-  padding: 2px 2px 0 2px;
+  padding: 2px 4px 0 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #222222;
@@ -2672,25 +2762,6 @@ a[href="#document-top"] {
 }
 div .terminal {
   margin: 2px auto;
-}
-.note,
-.warning,
-.tip {
-  width: 66.6667%;
-}
-@media screen and (max-width: 599px) {
-  .note,
-  .warning,
-  .tip {
-    width: 96%;
-  }
-}
-@media screen and (min-width: 600px) {
-  .note,
-  .warning,
-  .tip {
-    width: 66.6667%;
-  }
 }
 .todo {
   color: #cc3300;
@@ -2858,16 +2929,16 @@ div .terminal {
   content: "urgent";
 }
 .verify {
-  color: #cc3300;
+  color: #705400;
 }
 .verify:before {
-  color: #cc3300;
-  background-color: #f8d8d8;
+  color: #705400;
+  background-color: #ffebad;
   padding: 0 3px 0;
   display: inline-block;
   width: auto;
   margin: 1px;
-  border: 1px solid #cc3300;
+  border: 1px solid #705400;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -3034,6 +3105,14 @@ div .terminal {
   font-size: 100%;
   color: #333333;
   content: "\f0c6" " ";
+}
+.geo:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #cc3300;
+  content: "\f041" " ";
 }
 .btc:before {
   font-family: "FontAwesome";
