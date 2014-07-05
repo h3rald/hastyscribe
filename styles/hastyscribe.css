@@ -1901,16 +1901,12 @@ dl {
 dl dt {
   float: left;
   clear: left;
-  width: 200px;
+  width: 30%;
   text-align: right;
   font-weight: bold;
 }
-dl dt:after {
-  content: " \2192 ";
-  font-size: 80%;
-}
 dl dd {
-  margin: 0 0 0 205px;
+  margin: 0 0 0 32%;
   padding: 0 0 1em 0;
 }
 /* Headings */
@@ -1966,30 +1962,22 @@ pre code {
 pre .hljs {
   padding: 0 3px;
 }
+@media screen and (max-width: 639px) {
+  .responsive {
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .responsive td {
+    white-space: nowrap;
+  }
+}
 table {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  margin: 10px auto;
-  padding: 2px 4px 0 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  color: #333333;
-  background-color: transparent;
-  border: 1px solid #999999;
   border-collapse: collapse;
   margin: 15px auto;
   border-spacing: 0;
   empty-cells: show;
-}
-table a {
-  color: #264c72;
-}
-table p {
-  margin: 0 auto;
 }
 table thead {
   background: #f8f8f8;
@@ -2658,71 +2646,6 @@ a[href="#document-top"] {
   color: #555555;
   content: "\f179" "\f17c" " ";
 }
-.conditional-sidebar {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  margin: 10px auto;
-  padding: 2px 4px 0 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  color: #333333;
-  background-color: #f8f8f8;
-  border: 1px solid #cccccc;
-  padding: 0;
-}
-.conditional-sidebar a {
-  color: #264c72;
-}
-.conditional-sidebar p {
-  margin: 0 auto;
-}
-.conditional-sidebar .conditions {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  border-bottom: 1px solid #cccccc;
-  margin: 0;
-}
-.conditional-sidebar .conditions p,
-.conditional-sidebar .conditions div {
-  display: inline-block;
-  cursor: pointer;
-  margin: 0;
-  padding: 1px;
-}
-.conditional-sidebar .conditions div {
-  text-align: center;
-  margin: auto;
-  padding: 2px;
-  width: 150px;
-  border: none;
-  border-right: 1px solid #cccccc;
-  background: #f8f8f8;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
-.conditional-sidebar .conditions div p,
-.conditional-sidebar .conditions div p:before {
-  color: #aaaaaa !important;
-}
-.conditional-sidebar .conditions div.selected,
-.conditional-sidebar .conditions div:hover {
-  background: #cccccc;
-}
-.conditional-sidebar .conditions div.selected p,
-.conditional-sidebar .conditions div:hover p,
-.conditional-sidebar .conditions div.selected p:before,
-.conditional-sidebar .conditions div:hover p:before {
-  color: #333333 !important;
-}
-.conditional-sidebar div[class$='target'] {
-  padding: 2px 3px;
-}
 .terminal {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
@@ -2735,7 +2658,7 @@ a[href="#document-top"] {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   color: #222222;
-  background-color: #cccccc;
+  background-color: #eeeeee;
   border: 1px solid #cccccc;
   padding: 0 3px;
 }
@@ -2760,7 +2683,7 @@ a[href="#document-top"] {
   font-family: "FontAwesome";
   font-style: normal;
   font-weight: bold;
-  color: #00cc33;
+  color: #009926;
   content: "\f120" " ";
 }
 div .terminal {
@@ -3090,7 +3013,7 @@ div .terminal {
   font-style: normal;
   font-weight: normal;
   font-size: 100%;
-  color: #0f4bff;
+  color: #705400;
   content: "\f02b" " ";
 }
 .date:before {
@@ -3132,6 +3055,20 @@ div .terminal {
   font-size: 100%;
   color: #0f4bff;
   content: "\f059" " ";
+}
+.hastyscribe:before {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 180%;
+  color: #333333;
+  content: "H" " ";
+}
+.hastyscribe:before {
+  font-family: "HastyScribe";
+  font-size: 1.8em;
+  margin-right: -2%;
+  vertical-align: middle;
 }
 .btc:before {
   font-family: "FontAwesome";

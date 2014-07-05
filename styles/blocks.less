@@ -11,46 +11,8 @@
 .linux-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-linux);}
 .nix-sidebar {.mix-titled-block(@light-gray, @gray-5, @light-gray, @fa-var-apple @fa-var-linux);}
 
-.conditional-sidebar {
-  .mix-box(@light-gray, @text-color, @gray-c);
-  padding: 0;
-  .conditions {
-    .mix-no-border-radius;
-    border-bottom: 1px solid @gray-c;
-    margin: 0;
-    p, div {
-      display: inline-block;
-      cursor: pointer;
-      margin: 0;
-      padding: 1px;
-    }
-    div {
-      text-align: center;
-      margin: auto;
-      padding: 2px;
-      width: 150px;
-      border: none;
-      border-right: 1px solid @gray-c; 
-      background: @light-gray;
-      .mix-no-border-radius;
-      p, p:before {
-        color: @gray-a !important;
-      }
-    }
-    div.selected, div:hover {
-      background: @gray-c;
-      p, p:before {
-        color: @dark-gray !important;
-      }
-    }
-  }
-  div[class$='target'] {
-    padding: 2px 3px;
-  }
-}
-
 .terminal {
-  .mix-box(@gray-c, @gray-2, @gray-c);
+  .mix-box(@gray-e, @gray-2, @gray-c);
   padding: 0 3px;
   p, p:first-child {
     margin-top: 0;
@@ -64,7 +26,7 @@
       font-family: "FontAwesome";
       font-style: normal;
       font-weight: bold;
-      color: @bright-green;
+      color: @dark-green;
       content: @fa-var-terminal " ";
     }
   }
