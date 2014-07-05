@@ -4,7 +4,7 @@
 
 ## Overview
 
-{{hs -> HastyScribe}} is a single-file command-line application that can create self-contained HTML documents from well-formatted {{mdlink -> [markdown][df]}} files. All documents created by markdown use well-formed HTML and embed all assets that are necessary to display them in any (modern) browser, i.e.:
+[](class:hastyscribe) is a single-file command-line application that can create self-contained HTML documents from well-formatted {{mdlink -> [markdown][df]}} files. All documents created by markdown use well-formed HTML and embed all assets that are necessary to display them in any (modern) browser, i.e.:
 
   * CSS stylesheets
   * Javascript code
@@ -19,7 +19,7 @@ There are plenty of programs and services that can convert {{mdlink}} into HTML 
 
 Sometimes you just want to write your document in markdown, and get a full HTML file out, ready to be distributed, ideally with no dependencies (external stylesheets or images) --that's where {{hs}} comes in.
 
-{{hs}}:
+{{hs -> HastyScribe}}:
 
 * lets you focus on content and keeps things simple, while giving you all the power of {{disclink -> [Discount][discount]}}-enriched {{md}} (plus some more goodies).
 * takes care of styling your documents properly, making sure they look good on your desktop and even on small screens, so that they are ready to be distributed. 
@@ -139,31 +139,29 @@ Where:
   * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression ending in [.md](class:ext) or [.markdown](class:ext) that will be compiled into HTML.
   * [--notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
 
-#### Examples
+#### Examples (Windows)
 
+Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
 
-> %conditional-sidebar%
->> %windows-sidebar%
->> Windows
->> 
->> Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
->>> %terminal%
->>> hastyscribe.exe my_markdown_file.md
->> 
->> Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
->>> %terminal%
->>> hastyscribe.exe *.md
->
->> %nix-sidebar%
->> OS X/Linux/etc.
->> 
->> Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
->>> %terminal%
->>> ./hastyscribe my_markdown_file.md
->> 
->> Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
->>> %terminal%
->>> ./hastyscribe *.md
+> %terminal%
+> hastyscribe.exe my\_markdown\_file.md
+
+Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
+
+> %terminal%
+> hastyscribe.exe \*.md
+
+#### Examples (Linux, OSX, etc.)
+
+Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
+
+> %terminal%
+> ./hastyscribe my\_markdown\_file.md
+ 
+Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
+
+> %terminal%
+> ./hastyscribe *.md
 
 ## Syntax Reference
 
@@ -186,24 +184,26 @@ Note that:
 
 ### Inline Formatting 
 
- Source                                             | Output             
-----------------------------------------------------|--------------------
-`**strong emphasis**` or `__strong emphasis__`      | __strong emphasis__
-`*emphasis*` or `_emphasis_`                        | *emphasis*
-`~~deleted text~~`                                  | ~~deleted text~~
-`<ins>inserted text<ins>`                           | <ins>inserted text</ins>
-```code` ``                                         | `code`
-`[HTML](abbr:Hypertext Markup Language)`            | [HTML](abbr:Hypertext Markup Language)
-`<kbd>CTRL</kbd>+<kbd>C</kbd>`                      | <kbd>CTRL</kbd>+<kbd>C</kbd>
-`<mark>marked</mark>`                               | <mark>marked</mark>.
-`Sample output: <samp>This is a test.</samp>`       | Sample output: <samp>This is a test.</samp>
-`Set the variable <var>test</var> to 1.`            | Set the variable <var>test</var> to 1.
-`<q>This is a short quotation</q>`                  | <q>This is a short quotation</q>
-`<cite>Hamlet</cite>, by William Shakespeare.`      | <cite>Hamlet</cite>, by William Shakespeare.
-`A [.md](class:ext)` file                           | A [.md](class:ext) file
-`[my_markdown_file.md](class:file)` file            | [my_markdown_file.md](class:file) file
-`Execute [hastyscribe *.md](class:cmd)`             | Execute [hastyscribe *.md](class:cmd)           
-`The [--notoc](class:opt)` option                   | The [--notoc](class:opt) optiono
+
+> %responsive-table%
+>  Source                                             | Output             
+> ----------------------------------------------------|--------------------
+> `**strong emphasis**` or `__strong emphasis__`      | __strong emphasis__
+> `*emphasis*` or `_emphasis_`                        | *emphasis*
+> `~~deleted text~~`                                  | ~~deleted text~~
+> `<ins>inserted text<ins>`                           | <ins>inserted text</ins>
+> ```code` ``                                         | `code`
+> `[HTML](abbr:Hypertext Markup Language)`            | [HTML](abbr:Hypertext Markup Language)
+> `<kbd>CTRL</kbd>+<kbd>C</kbd>`                      | <kbd>CTRL</kbd>+<kbd>C</kbd>
+> `<mark>marked</mark>`                               | <mark>marked</mark>.
+> `Sample output: <samp>This is a test.</samp>`       | Sample output: <samp>This is a test.</samp>
+> `Set the variable <var>test</var> to 1.`            | Set the variable <var>test</var> to 1.
+> `<q>This is a short quotation</q>`                  | <q>This is a short quotation</q>
+> `<cite>Hamlet</cite>, by William Shakespeare.`      | <cite>Hamlet</cite>, by William Shakespeare.
+> `A [.md](class:ext)` file                           | A [.md](class:ext) file
+> `[my_markdown_file.md](class:file)` file            | [my_markdown_file.md](class:file) file
+> `Execute [hastyscribe *.md](class:cmd)`             | Execute [hastyscribe *.md](class:cmd)           
+> `The [--notoc](class:opt)` option                   | The [--notoc](class:opt) optiono
 
 
 
@@ -235,11 +235,12 @@ Special characters can be easily entered using some special character sequences.
 
 Examples:
 
-Source                                   | Output
------------------------------------------|------------
-`[ a paper plane](class:fa-paper-plane)` | [ a paper plane](class:fa-paper-plane)
-`[ Galactic Empire](class:fa-empire)`    | [ Galactic Empire](class:fa-empire)
-`[ Rebel Alliance](class:fa-rebel)`      | [ Rebel Alliance](class:fa-rebel)
+> %responsive%
+> Source                                   | Output
+> -----------------------------------------|------------
+> `[a paper plane](class:fa-paper-plane)` | [ a paper plane](class:fa-paper-plane)
+> `[Galactic Empire](class:fa-empire)`    | [ Galactic Empire](class:fa-empire)
+> `[Rebel Alliance](class:fa-rebel)`      | [ Rebel Alliance](class:fa-rebel)
 
 > %tip%
 > Tip
@@ -248,11 +249,12 @@ Source                                   | Output
 
 ### Links
 
-Source                                  | Output
-----------------------------------------|------------
-`[H3RALD](https://h3rald.com/)`         | [H3RALD](https://h3rald.com/)
-`[H3RALD](https://h3rald.com/ "H3RALD")`| [H3RALD](https://h3rald.com/ "H3RALD")
-`<https://h3rald.com>`                  | <https://h3rald.com> 
+> %responsive%
+> Source                                  | Output
+> ----------------------------------------|------------
+> `[H3RALD](https://h3rald.com/)`         | [H3RALD](https://h3rald.com/)
+> `[H3RALD](https://h3rald.com/ "H3RALD")`| [H3RALD](https://h3rald.com/ "H3RALD")
+> `<https://h3rald.com>`                  | <https://h3rald.com> 
 
 Additionally, you can define placeholders for URLs and link titles, like this:
 
@@ -448,21 +450,23 @@ Headings can be specified simply by prepending [#](class:kwd)s, as follows:
 
 {{input-text}}
 
-~~~
-Column Header 1 | Column Header 2 | Column Header 3 
-----------------|-----------------|----------------
-Cell 1,1        | Cell 1,2        | Cell 1, 3
-Cell 2,1        | Cell 2,2        | Cell 2, 3
-Cell 3,1        | Cell 3,2        | Cell 3, 3
-~~~
+> %responsive%
+> ~~~
+> Column Header 1 | Column Header 2 | Column Header 3 
+> ----------------|-----------------|----------------
+> Cell 1,1        | Cell 1,2        | Cell 1, 3
+> Cell 2,1        | Cell 2,2        | Cell 2, 3
+> Cell 3,1        | Cell 3,2        | Cell 3, 3
+> ~~~
 
 {{output-text}}
 
-Column Header 1 | Column Header 2 | Column Header 3 
-----------------|-----------------|----------------
-Cell 1,1        | Cell 1,2        | Cell 1, 3
-Cell 2,1        | Cell 2,2        | Cell 2, 3
-Cell 3,1        | Cell 3,2        | Cell 3, 3
+> %responsive%
+> Column Header 1 | Column Header 2 | Column Header 3 
+> ----------------|-----------------|----------------
+> Cell 1,1        | Cell 1,2        | Cell 1, 3
+> Cell 2,1        | Cell 2,2        | Cell 2, 3
+> Cell 3,1        | Cell 3,2        | Cell 3, 3
 
 > %note%
 > Note
@@ -582,24 +586,29 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 #### Badges
 
 
-Class                | Badge                        | Class               | Badge 
----------------------|------------------------------|--------------------------------------------
-`todo`               | [](class:todo)               |`date`               | [](class:date)
-`fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
-`draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
-`urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
-`verify`             | [](class:verify)             |`geo`                | [](class:geo)
-`deadline`           | [](class:deadline)           |`eur`                | [](class:eur)
-`red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
-`yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
-`green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
-`gray-circle`        | [](class:gray-circle)        |`jpy`                | [](class:jpy)
-`star`               | [](class:star)               |`btc`                | [](class:btc)
-`heart`              | [](class:heart)              |`try`                | [](class:try)
-`square`             | [](class:square)             |`krw`                | [](class:krw)
-`check`              | [](class:check)              |`inr`                | [](class:inr)
-`lock`               | [](class:lock)               |`danger`             | [](class:danger)
-`unlock`             | [](class:unlock)             |`question`           | [](class:question)
+> %responsive%
+> Class                | Badge                        | Class               | Badge 
+> ---------------------|------------------------------|--------------------------------------------
+> `todo`               | [](class:todo)               |`date`               | [](class:date)
+> `fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
+> `draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
+> `urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
+> `verify`             | [](class:verify)             |`geo`                | [](class:geo)
+> `deadline`           | [](class:deadline)           |`eur`                | [](class:eur)
+> `red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
+> `yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
+> `green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
+> `gray-circle`        | [](class:gray-circle)        |`jpy`                | [](class:jpy)
+> `star`               | [](class:star)               |`btc`                | [](class:btc)
+> `heart`              | [](class:heart)              |`try`                | [](class:try)
+> `square`             | [](class:square)             |`krw`                | [](class:krw)
+> `check`              | [](class:check)              |`inr`                | [](class:inr)
+> `lock`               | [](class:lock)               |`danger`             | [](class:danger)
+> `unlock`             | [](class:unlock)             |`question`           | [](class:question)
+
+#### HastyScribe Logo
+
+`[](class:hastyscribe)` &rarr; [](class:hastyscribe)
 
 ### Snippets
 

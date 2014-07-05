@@ -18,14 +18,13 @@ const src_css = "assets/styles/hastyscribe.css".slurp
 const src_highlight_js = "assets/javascripts/highlight.pack.js".slurp
 const src_jquery_js= "assets/javascripts/jquery.min.js".slurp
 const src_hastyscribe_js= "assets/javascripts/hastyscribe.js".slurp
+const hastyscribe_font = "assets/fonts/hastyscribe.woff".slurp
 const fontawesome_font = "assets/fonts/fontawesome-webfont.woff".slurp
 const sourcecodepro_font = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
 const sourcesanspro_font = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
 const sourcesanspro_bold_font = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
 const sourcesanspro_it_font = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
 const sourcesanspro_boldit_font = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
-const logo = "assets/images/hastyscribe_small.png".slurp
-
 
 
 iterator findAllSubs(s: string, pattern: TPeg, start = 0): string =
@@ -118,7 +117,9 @@ proc create_font_face(font, family, style, weight): string=
     }
   """ % ["family", family, "font", encode_font(font, "x-font-woff"), "style", style, "weight", $weight]
 
-var fonts = [ create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
+var fonts = [ 
+  create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
+  create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
   create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
   create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
   create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 800),
@@ -232,7 +233,7 @@ $body
   </div>
   <div id="footer">
     <p>$author_footer $date</p>
-    <p class="powered-by">Powered by <a href="https://h3rald.com/hastyscribe"><img src="$enc_logo" alt="HastyScribe" /></a></p>
+    <p class="powered-by">Powered by <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
   </div>
   <script type="text/javascript">
     $jquery
@@ -240,7 +241,7 @@ $body
     $hastyscribejs
   </script>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "jquery", src_jquery_js, "highlight", src_highlight_js, 
-"fonts_css", embed_fonts(), "enc_logo", encode_image(logo, "png"), "hastyscribejs", src_hastyscribe_js]
+"fonts_css", embed_fonts(), "hastyscribejs", src_hastyscribe_js]
   document = embed_images(document, inputsplit.dir)
   output_file.writeFile(document)
 
