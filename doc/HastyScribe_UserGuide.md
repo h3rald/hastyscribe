@@ -599,10 +599,10 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 * Discount library
 * FontAwesome v4.1.0
 * Logo: Mr Bedfort font + Quill icon from Entypo icon set 
+* Fonts: Source Sans Pro, Source Code Pro
 
 
 
----
 
 [df]: https://daringfireball.net/projects/markdown/
 [discount]: http://www.pell.portland.or.us/~orc/Code/discount/

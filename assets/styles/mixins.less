@@ -76,6 +76,9 @@
       .mix-symbol(@icon, @fg-color)
     }
   }
+  a {
+    color: darken(@fg-color, 15%);
+  }
 }
 
 .mix-red-badge (@text){
@@ -113,9 +116,9 @@
 	hyphens: @val;
 }
 
-.mix-link-icon (@icon) {
-  &:before {
-    content: @icon " ";
+.mix-link-icon (@icon, @space:" ") {
+  &:after {
+    content: @space @icon;
     font-family: "FontAwesome";
   }
 }
