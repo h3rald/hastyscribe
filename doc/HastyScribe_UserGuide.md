@@ -4,14 +4,9 @@
 
 ## Overview
 
-[](class:hastyscribe) is a single-file command-line application that can create self-contained HTML documents from well-formatted {{mdlink -> [markdown][df]}} files. All documents created by markdown use well-formed HTML and embed all assets that are necessary to display them in any (modern) browser, i.e.:
+[](class:hastyscribe) is a self-contained command-line {{mdlink -> [Markdown][df]}} compiler that can create single-file HTML documents. All documents created by {{hs -> HastyScribe}} use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser.
 
-  * CSS stylesheets
-  * Javascript code
-  * Fonts
-  * Images
-
-In other words, all documents created by HastyScribe are constituted by only one [.HTML](class:ext) file, for easy redistribution.
+In other words, all documents created by HastyScribe are constituted by only one [.HTML](class:ext) file, for easy distribution.
 
 ### Rationale
 
@@ -19,7 +14,7 @@ There are plenty of programs and services that can convert {{mdlink}} into HTML 
 
 Sometimes you just want to write your document in markdown, and get a full HTML file out, ready to be distributed, ideally with no dependencies (external stylesheets or images) --that's where {{hs}} comes in.
 
-{{hs -> HastyScribe}}:
+{{hs}}:
 
 * lets you focus on content and keeps things simple, while giving you all the power of {{disclink -> [Discount][discount]}}-enriched {{md}} (plus some more goodies).
 * takes care of styling your documents properly, making sure they look good on your desktop and even on small screens, so that they are ready to be distributed. 
@@ -34,11 +29,11 @@ Sometimes you just want to write your document in markdown, and get a full HTML 
 > %tip%
 > Tip
 > 
-> You can learn about Markdown [syntax][md-syntax] on John Gruber's blog, Daring Fireball, but it is also covered in the [Syntax Reference](#Syntax.Reference) section.
+> You can learn about Markdown syntax in the [Syntax Reference](#Syntax.Reference) section of this document. Alternatively, you can also read the original [Markdown syntax page][md-syntax] on John Gruber's blog, Daring Fireball.
 
 #### Discount Extensions
 
-Standard markdown is great, but sometimes you wish it had a few more features, like tables or fenced codeblocks perhaps. The good news is that under the hood {{hs}} uses {{disclink}}, a markdown compiler library written in C that extends markdown with a few useful extensions, which allows you to:
+Standard markdown is great, but sometimes you wish it had a few more features, like tables or fenced codeblocks perhaps. The good news is that under the hood {{hs}} uses {{disclink}}, a markdown compiler library written in C that extends markdown with a few useful extensions, which allow you to:
 
 * format blocks of texts to create [notes](#Notes) and [sidebar](#Sidebars)
 * style text using CSS classes
@@ -46,7 +41,7 @@ Standard markdown is great, but sometimes you wish it had a few more features, l
 
 #### Text Snippets
 
-Although not part of {{md}} or Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word {{hs}} in this document [](class:fa-smile-o)).
+Although not part of neither {{md}} nor Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word {{hs}} in this document [](class:fa-smile-o)).
 
 #### Image (and font) Embedding
 
@@ -110,8 +105,6 @@ Once you have a **libmarkdown.a** static library for your platform:
 
    > %terminal%
    > nimrod --clibdir:vendor --clib:markdown c hastyscribe.nim
-
-[nimrod]: http://nimrod-code.org/
 
 ## Usage
 
@@ -265,12 +258,12 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 {{input-text -> The following Markdown code:}}
 
 ~~~
-![HastyScribe Logo](../assets/images/hastyscribe.png =204x59)
+![HastyScribe Logo](../assets/images/hastyscribe.png =287x74)
 ~~~
 
 {{output-text -> Produces the following output:}}
 
-![HastyScribe Logo](../assets/images/hastyscribe.png =204x59)
+![HastyScribe Logo](../assets/images/hastyscribe.png =287x74)
 
 > %tip%
 > Tip
@@ -604,6 +597,7 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 
 
 
+[nimrod]: http://nimrod-code.org/
 [df]: https://daringfireball.net/projects/markdown/
 [discount]: http://www.pell.portland.or.us/~orc/Code/discount/
 [pandoc]: http://johnmacfarlane.net/pandoc/

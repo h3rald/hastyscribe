@@ -30,3 +30,12 @@ a[href^="git@"] { .mix-link-icon(@fa-var-git); }
 a[href="#document-top"] { vertical-align: super; text-size: 90%; float: right; }
 .powered-by a:before { content: ""; }
 
+#footer a {
+  &:hover {
+    text-decoration: none;
+  }
+  &:after {
+    content: none;
+  }
+}
+
