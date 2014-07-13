@@ -48,19 +48,6 @@ Standard markdown is great, but sometimes you wish it had a few more features, l
 
 Although not part of {{md}} or Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word {{hs}} in this document [](class:fa-smile-o)).
 
-#### Syntax Highlighting
-
-No need to worry about formatting a block of code or even specifying the programming language you used. Thanks to {{highlightjs -> [highlight.js](http://highlightjs.org/)}}, [code blocks](#Code.Blocks) can be properly highlighted automatically. Like this Javascript snippet:
-
-> %highlight%
-> ~~~
-> $(document).ready(function() {
->   $("a").click(function( event ) {
->     alert("Thanks for visiting!");
->   });
-> });
-> ~~~
-
 #### Image (and font) Embedding
 
 {{hs}} only produces single HTML files. With _no dependencies_:
@@ -573,15 +560,6 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 
 #### Code Blocks
 
-> %highlight%
-> ```
-> $(document).ready(function(){
->   $("p").click(function(){
->     $(this).hide();
->   });
-> });
-> ```
-
 
 #### Badges
 
@@ -618,10 +596,10 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 
 ## Credits
 
+* Discount library
 * FontAwesome v4.1.0
-* highlighting.hs v0.8
-* nanodom v0.0.3
-* Quill icon from Entypo icon set 
+* Logo: Mr Bedfort font + Quill icon from Entypo icon set 
+
 
 
 ---

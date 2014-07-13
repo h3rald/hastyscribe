@@ -15,8 +15,6 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
 var generate_toc = true
 const src_css = "assets/styles/hastyscribe.css".slurp
-const src_highlight_js = "assets/javascripts/highlight.pack.js".slurp
-const src_hastyscribe_js= "assets/javascripts/hastyscribe.js".slurp
 const hastyscribe_font = "assets/fonts/hastyscribe.woff".slurp
 const fontawesome_font = "assets/fonts/fontawesome-webfont.woff".slurp
 const sourcecodepro_font = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
@@ -234,12 +232,8 @@ $body
     <p>$author_footer $date</p>
     <p class="powered-by">Powered by <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
   </div>
-  <script type="text/javascript">
-    $highlight
-    $hastyscribejs
-  </script>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, "highlight", src_highlight_js, 
-"fonts_css", embed_fonts(), "hastyscribejs", src_hastyscribe_js]
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, 
+"fonts_css", embed_fonts()]
   document = embed_images(document, inputsplit.dir)
   output_file.writeFile(document)
 
