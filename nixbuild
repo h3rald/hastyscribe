@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+nimrod c -l:-lmarkdown -l:-L$PWD/vendor hastyscribe.nim
+cp hastyscribe build/osx/hastyscribe

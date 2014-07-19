@@ -1,4 +1,4 @@
-import os, parseopt, strutils, times, pegs, base64, markdown, tables
+import os, parseopt2, strutils, times, pegs, base64, markdown, tables
 
 let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
@@ -13,32 +13,21 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
   Options:
     --notoc                Do not generate a Table of Contents."""
 
-var generate_toc = true
-const src_css = "assets/styles/hastyscribe.css".slurp
-const hastyscribe_font = "assets/fonts/hastyscribe.woff".slurp
-const fontawesome_font = "assets/fonts/fontawesome-webfont.woff".slurp
-const sourcecodepro_font = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
-const sourcesanspro_font = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
-const sourcesanspro_bold_font = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
-const sourcesanspro_it_font = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
-const sourcesanspro_boldit_font = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
 
+var generate_toc* = true
+const stylesheet* = "assets/styles/hastyscribe.css".slurp
+const hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp
+const fontawesome_font* = "assets/fonts/fontawesome-webfont.woff".slurp
+const sourcecodepro_font* = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
+const sourcesanspro_font* = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
+const sourcesanspro_bold_font* = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
+const sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
+const sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
 
-iterator findAllSubs(s: string, pattern: TPeg, start = 0): string =
-  ## yields all matching *substrings* of `s` that match `pattern`.
-  ## (rewrite of the default findAll iterator).
-  var i = start
-  while i < s.len:
-    var L = matchLen(s, pattern, i)
-    if L < 0:
-      inc(i, 1)
-      continue
-    yield substr(s, i, i+L-1)
-    inc(i, L)
 
 # Procedures
 
-proc parse_date(date: string, timeinfo: var TTimeInfo): bool = 
+proc parse_date*(date: string, timeinfo: var TTimeInfo): bool = 
   var parts = date.split('-').map(proc(i:string): int = 
     try:
       i.parseInt
@@ -53,15 +42,14 @@ proc parse_date(date: string, timeinfo: var TTimeInfo): bool =
   except:
     return false
 
-
-proc style_tag(css): string =
+proc style_tag*(css): string =
   result = "<style>$1</style>" % [css]
 
-proc encode_image(contents, format): string =
+proc encode_image*(contents, format): string =
     let enc_contents = contents.encode(contents.len*3) 
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
-proc encode_image_file(file, format): string =
+proc encode_image_file*(file, format): string =
   if (file.existsFile):
     let contents = file.readFile
     return encode_image(contents, format)
@@ -69,11 +57,11 @@ proc encode_image_file(file, format): string =
     echo("Warning: image '"& file &"' not found.")
     return file
 
-proc encode_font(font, format): string =
+proc encode_font*(font, format): string =
     let enc_contents = font.encode(font.len*3) 
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
-proc embed_images(document, dir): string =
+proc embed_images*(document, dir): string =
   var current_dir:string
   if dir.len == 0:
     current_dir = ""
@@ -88,7 +76,7 @@ proc embed_images(document, dir): string =
     file <- [^"]+
   """
   var doc = document
-  for img in findAllSubs(document, img_peg):
+  for img in findAll(document, img_peg):
     var matches:TImgTagStart
     discard img.match(img_peg, matches)
     let imgfile = matches[0]
@@ -102,7 +90,7 @@ proc embed_images(document, dir): string =
     doc = doc.replace(i.img, i.rep)
   return doc
 
-proc create_font_face(font, family, style, weight): string=
+proc create_font_face*(font, family, style, weight): string=
   return """
     @font-face {
       font-family:"$family";
@@ -114,7 +102,7 @@ proc create_font_face(font, family, style, weight): string=
     }
   """ % ["family", family, "font", encode_font(font, "x-font-woff"), "style", style, "weight", $weight]
 
-var fonts = [ 
+var fonts* = [ 
   create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
   create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
   create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
@@ -124,7 +112,7 @@ var fonts = [
   create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 800)
   ]
 
-proc embed_fonts(): string=
+proc embed_fonts*(): string=
   return style_tag(fonts.join);
 
 # Snippet Definition:
@@ -133,7 +121,7 @@ proc embed_fonts(): string=
 # Snippet Usage:
 # {{test}}
 
-proc parse_snippets(document): string =
+proc parse_snippets*(document): string =
   var snippets:TTable[string, string] = initTable[string, string]()
   let peg_def = peg"""
     definition <- '{{' \s* {id} \s* '->' {@} '}}'
@@ -147,14 +135,14 @@ proc parse_snippets(document): string =
     TSnippetDef = array[0..1, string]
     TSnippet = array[0..0, string]
   var doc = document
-  for def in findAllSubs(document, peg_def):
+  for def in findAll(document, peg_def):
     var matches:TSnippetDef
     discard def.match(peg_def, matches)
     var id = matches[0].strip
     var value = matches[1].strip(true, false)
     snippets[id] = value
     doc = doc.replace(def, value)
-  for snippet in findAllSubs(document, peg_snippet):
+  for snippet in findAll(document, peg_snippet):
     var matches:TSnippet
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
@@ -165,7 +153,7 @@ proc parse_snippets(document): string =
       doc = doc.replace(snippet, snippets[id])
   return doc
 
-proc convert_file(input_file: string) =
+proc compile*(input_file: string) =
   let inputsplit = input_file.splitFile
 
   # Output file name
@@ -178,7 +166,7 @@ proc convert_file(input_file: string) =
   # Document Variables
   var metadata = TMDMetaData(title:"", author:"", date:"")
   var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
-  var main_css = src_css.style_tag
+  var main_css = stylesheet.style_tag
   var headings = " class=\"headings\""
   var author_footer = ""
 
@@ -240,32 +228,33 @@ $body
  
 ### MAIN
 
-var input = ""
-var files = @[""]
-
-discard files.pop
-
-# Parse Parameters
-
-for kind, key, val in getopt():
-  case kind
-  of cmdArgument:
-    input = key
-  of cmdLongOption:
-    if key == "notoc":
-      generate_toc = false
-  else: nil
-
-if input == "":
-  quit(usage, 1)
-
-for file in walkFiles(input):
-  let filesplit = file.splitFile
-  if (filesplit.ext == ".md" or filesplit.ext == ".markdown"):
-    files.add(file)
-
-if files.len == 0:
-  quit("Error: \"$1\" does not match any markdown file" % [input], 2)
-else:
-  for file in files:
-    convert_file(file)
+when isMainModule:
+  var input = ""
+  var files = @[""]
+  
+  discard files.pop
+  
+  # Parse Parameters
+  
+  for kind, key, val in getopt():
+    case kind
+    of cmdArgument:
+      input = key
+    of cmdLongOption:
+      if key == "notoc":
+        generate_toc = false
+    else: discard
+  
+  if input == "":
+    quit(usage, 1)
+  
+  for file in walkFiles(input):
+    let filesplit = file.splitFile
+    if (filesplit.ext == ".md" or filesplit.ext == ".markdown"):
+      files.add(file)
+ 
+  if files.len == 0:
+    quit("Error: \"$1\" does not match any markdown file" % [input], 2)
+  else:
+    for file in files:
+      compile(file)

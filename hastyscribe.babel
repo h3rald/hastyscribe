@@ -1,0 +1,45 @@
+[Package]
+name          = "hastyscribe"
+version       = "1.0.0"
+author        = "Fabio Cevasco"
+description   = "Self-contained markdown compiler generating self-container HTML files"
+license       = "MIT"
+
+bin = "hastyscribe"
+
+InstallFiles = """
+assets/fonts/fontawesome-webfont.woff
+assets/fonts/hastyscribe.woff
+assets/fonts/SourceCodePro-Regular.ttf.woff
+assets/fonts/SourceSansPro-Bold.ttf.woff
+assets/fonts/SourceSansPro-BoldIt.ttf.woff
+assets/fonts/SourceSansPro-It.ttf.woff
+assets/fonts/SourceSansPro-Regular.ttf.woff
+assets/images/hastyscribe.png
+assets/images/hastyscribe.svg
+assets/styles/badges.less
+assets/styles/blocks.less
+assets/styles/elements.less
+assets/styles/fa-icons.less
+assets/styles/fa-variables.less
+assets/styles/hastyscribe.css
+assets/styles/hastyscribe.less
+assets/styles/headings.less
+assets/styles/links.less
+assets/styles/mixins.less
+assets/styles/normalize.less
+assets/styles/variables.less
+doc/HastyScribe_UserGuide.htm
+doc/HastyScribe_UserGuide.md
+hastyscribe.nim
+LICENSE.md
+markdown.nim
+nixbuild
+README.md
+vendor/libmarkdown_osx.a
+vendor/libmarkdown_win.a
+winbuild.bat
+"""
+
+[Deps]
+Requires: "nimrod >= 0.9.4"

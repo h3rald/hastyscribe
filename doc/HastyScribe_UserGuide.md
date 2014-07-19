@@ -98,13 +98,10 @@ If you choose to build your own:
 
 Once you have a **libmarkdown.a** static library for your platform:
 
-1. Download and install [Nimrod][nimrod]. On OSX you can also [brew install nimrod](class:cmd) if you have [HomeBrew](http://brew.sh/) installed.
+1. Download and install [Nimrod][nimrod].
 2. Download/clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
-4. Run **osxbuild** (if you are on OSX) or **winbuild.bat** (if you are on windows) or the following:
-
-   > %terminal%
-   > nimrod --clibdir:vendor --clib:markdown c hastyscribe.nim
+4. Run **nixbuild** (if you are on OSX, Linux or other UNIX-like operating systems) or **winbuild.bat** (if you are on Windows) 
 
 ## Usage
 
@@ -258,12 +255,12 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 {{input-text -> The following Markdown code:}}
 
 ~~~
-![HastyScribe Logo](../assets/images/hastyscribe.png =287x74)
+![HastyScribe Logo](../assets/images/hastyscribe.png =316x93)
 ~~~
 
 {{output-text -> Produces the following output:}}
 
-![HastyScribe Logo](../assets/images/hastyscribe.png =287x74)
+![HastyScribe Logo](../assets/images/hastyscribe.png =316x93)
 
 > %tip%
 > Tip
