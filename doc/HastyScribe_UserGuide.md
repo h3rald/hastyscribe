@@ -4,21 +4,21 @@
 
 ## Overview
 
-[](class:hastyscribe) is a self-contained command-line {{mdlink -> [Markdown][df]}} compiler that can create single-file HTML documents. All documents created by {{hs -> HastyScribe}} use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser.
+[](class:hastyscribe) is a self-contained {{mdlink -> [Markdown][df]}} compiler that can create single-file HTML documents. All documents created by {{hs -> HastyScribe}} use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser (don't even try to display them in IE8 or lower).
 
 In other words, all documents created by HastyScribe are constituted by only one [.HTML](class:ext) file, for easy distribution.
 
 ### Rationale
 
-There are plenty of programs and services that can convert {{mdlink}} into HTML but they are typically either too simple --they convert {{md -> markdown}} code into an HTML fragment-- or too complex --they produce a well-formed document, but they require too much configuration, install additional software dependencies.
+There are plenty of programs and services that can convert {{mdlink}} into HTML but they are typically either too simple --they convert {{md -> markdown}} code into an HTML fragment-- or too complex --they produce a well-formed document, but they require too much configuration, or the installation of additional software dependencies.
 
 Sometimes you just want to write your document in markdown, and get a full HTML file out, ready to be distributed, ideally with no dependencies (external stylesheets or images) --that's where {{hs}} comes in.
 
 {{hs}}:
 
 * lets you focus on content and keeps things simple, while giving you all the power of {{disclink -> [Discount][discount]}}-enriched {{md}} (plus some more goodies).
-* takes care of styling your documents properly, making sure they look good on your desktop and even on small screens, so that they are ready to be distributed. 
-* is a single, small executable file, with no dependencies.
+* takes care of styling your documents properly, making sure they look good on your desktop and even on small screens, ready to be distributed. 
+* is a single, small executable file, with no dependencies. To be fair, it's about 1MB in size when compiled for OSX -- but that's only because the {{hs}} executable embeds all the fonts and stylesheets it needs to produce documents.
 
 ### Key Features
 
@@ -33,26 +33,26 @@ Sometimes you just want to write your document in markdown, and get a full HTML 
 
 #### Discount Extensions
 
-Standard markdown is great, but sometimes you wish it had a few more features, like tables or fenced codeblocks perhaps. The good news is that under the hood {{hs}} uses {{disclink}}, a markdown compiler library written in C that extends markdown with a few useful extensions, which allow you to:
+Standard markdown is great, but sometimes you wish it had a few more features, like tables or fenced code blocks perhaps. The good news is that under the hood {{hs}} uses {{disclink}}, a markdown compiler library written in C that extends markdown with a few useful extensions, which allow you to, for example:
 
-* format blocks of texts to create [notes](#Notes) and [sidebar](#Sidebars)
+* format blocks of texts to create [notes](#Notes) and [sidebars](#Sidebars)
 * style text using CSS classes
 * create definition lists and alphabetical lists
 
 #### Text Snippets
 
-Although not part of neither {{md}} nor Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word {{hs}} in this document [](class:fa-smile-o)).
+Although not part of neither {{md}} nor Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word _{{hs}}_ in this document [](class:fa-smile-o)).
 
 #### Image (and font) Embedding
 
 {{hs}} only produces single HTML files. With _no dependencies_:
 
-* By default, the HastyScribe, FontAwesome, Source Sans Pro, and Source Code Pro font are automatically embedded.
+* By default, the HastyScribe, FontAwesome, Source Sans Pro, and Source Code Pro fonts are automatically embedded.
 * All referenced local images are automatically embedded using the {{datauri -> [data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)}}.
 
 #### FontAwesome Icons
 
-[FontAwesome][fs] icons can be used in [badges](#Badges) or simply to customize text. [](class:fa-thumbs-up) 
+[FontAwesome][fa] icons can be used in [badges](#Badges) or simply to customize text. [](class:fa-thumbs-up) 
 
 #### Notes, tips, warnings, sidebars and badges
 
@@ -73,40 +73,40 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OSX (x64)]({{release}}/hastyscribe.osx-x64) -- Compiled on OSX Mavericks
-  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe.win-x64) -- Compiled on Windows 7
+  * [HastyScribe for Mac OSX (x64)]({{release}}/hastyscribe_v1.0_osx_x64.zip) -- Compiled on OSX Mavericks
+  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.0_win_x64.zip) -- Compiled on Windows 7
 
 ### Building from Source
 
 You can also build HastyScribe from source, if there is no pre-built binary for your platform.
 
-First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor]({{repo -> https://github.com/h3rald/hastyscribe}}/blob/master/vendor) folder of the {{hs}} repository or build your own. 
+First of all you need a [libmarkdown.a](class:file) static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor]({{repo -> https://github.com/h3rald/hastyscribe}}/blob/master/vendor) folder of the {{hs}} repository or build your own. 
 
 If you choose to build your own:
 
-1. Download/clone [Discount](https://github.com/Orc/discount) source code
-2. In the directory containing Discount source code, run the following commands:
+1. Clone the discount [repository](https://github.com/Orc/discount).
+2. In the directory containing the Discount source code, run the following commands:
 
    > %terminal%
    > ./configure.sh --with-tabstops=2 --with-dl=both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features
    > 
    > make
 
-   > %note%
-   > Note
+   > %tip%
+   > Tip
    > 
-   > If you are on Windows, you can compile it using [MinGW](http://www.mingw.org/).
+   > If you are on Windows, you can compile Discount using [MinGW](http://www.mingw.org/).
 
-Once you have a **libmarkdown.a** static library for your platform:
+Once you have a [libmarkdown.a](class:file) static library for your platform:
 
 1. Download and install [Nimrod][nimrod].
-2. Download/clone the HastyScribe [repository]({{repo}}).
-3. Put your **libmarkdown.a** file in the **vendor** directory.
-4. Run **nixbuild** (if you are on OSX, Linux or other UNIX-like operating systems) or **winbuild.bat** (if you are on Windows) 
+2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
+3. Put your [libbmarkdown.a](class:file) file in the [vendor](class:dir) directory.
+4. Run [nixbuild](clasS:cmd) (if you are on OSX, Linux or other UNIX-like operating systems) or [winbuild.bat](class:cmd) (if you are on Windows) 
 
 ## Usage
 
-{{hs}} is a command-line application that can compile one or more [.md](class:ext) or [.markdown](class:ext) files into one or more HTML file with the same name(s).
+{{hs}} is a command-line application that can compile one or more [.md](class:ext) or [.markdown](class:ext) files into one or more HTML files with the same name(s).
 
 ### Command Line Syntax
 
@@ -150,7 +150,7 @@ Executing {{hs}} to compile all [.md](class:ext) files within the current direct
 
 ### Document Headers
 
-{{hs}} supports [Pandoc][pandoc]-style Document Headers, as implemented by the [Discount][discount] library. Basically, you can specify the title of the document, author and date as the first three lines of the document, prepending each with a [% ](class:kwd), like this 
+{{hs}} supports [Pandoc][pandoc]-style Document Headers, as implemented by the [Discount][discount] library. Basically, you can specify the title of the document, author and date as the first three lines of the document, prepending each with a [%](class:kwd), like this 
 
 ~~~
 % HastyScribe User Guide
@@ -175,7 +175,7 @@ The following definition creates a snippet called [test](class:kwd) which is tra
 
 [\{\{test -> This is a test snippet.\}\}](class:tt)
 
-Once a snippet is defined _anywhere_ in the document, you can use its identifier wrapped in double curly brackets (\{\{test}\}\) anywhere in the document to reuse the specified text.
+Once a snippet is defined _anywhere_ in the document, you can use its identifier wrapped in double curly brackets (\{\{test}\}\} in the previous example) anywhere in the document to reuse the specified text.
 
 > %note%
 > Remarks
@@ -202,8 +202,8 @@ The following table lists all the most common ways to format inline text:
 > `Set the variable <var>test</var> to 1.`            | Set the variable <var>test</var> to 1.
 > `<q>This is a short quotation</q>`                  | <q>This is a short quotation</q>
 > `<cite>Hamlet</cite>, by William Shakespeare.`      | <cite>Hamlet</cite>, by William Shakespeare.
-> `A [.md](class:ext)` file                           | A [.md](class:ext) file
-> `[my_markdown_file.md](class:file)` file            | [my_markdown_file.md](class:file) file
+> `A [.md](class:ext) file`                           | A [.md](class:ext) file
+> `[my_markdown_file.md](class:file) file`            | [my_markdown_file.md](class:file) file
 
 > %tip%
 > Tip
@@ -225,7 +225,7 @@ Special characters can be easily entered using some special character sequences.
 * `(tm)` &rarr; ™
 * `(r)` &rarr; ®
 * `(c)` &rarr; ©
-* `1/4th` &rarr; ¼th. Same goes for for 1/4 (¼), 1/2 (½), 3/4ths (¾ths), and 3/4 (¾).
+* `1/4th` &rarr; 1/4th. Same goes for 1/2 and 3/4.
 * `...` or `. . .` &rarr; …
 * `---` &rarr; —
 * `--` &rarr; –
@@ -252,7 +252,7 @@ Examples:
 
 #### Badges
 
-Badges are normally just shorthands for [Icons](#Icons) (also in different colors). To add a _badge_ to some inline text, use the corresponding class among those listed in the following table. For example, the following code:
+Badges are normally just shorthands for [Icons](#Icons) formatted with different colors. To add a _badge_ to some inline text, use the corresponding class among those listed in the following table. For example, the following code:
 
     [Genoa, Italy](class:geo)
 
@@ -319,7 +319,7 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 
 #### Headings
 
-Headings can be specified simply by prepending [#](class:kwd)s, as follows: 
+Headings can be specified simply by prepending [#](class:kwd)s to text, as follows: 
 
 ~~~
 # Heading 1

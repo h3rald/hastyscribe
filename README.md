@@ -45,8 +45,8 @@ First of all you need a **libmarkdown.a** static library. You can either grab on
 
 If you choose to build your own:
 
-1. Download/clone [Discount](https://github.com/Orc/discount) source code
-2. In the directory containing Discount source code, run the following commands:
+1. Clone the discount [repository](https://github.com/Orc/discount).
+2. In the directory containing the Discount source code, run the following commands:
 
    ```
    ./configure.sh --with-tabstops=2 --with-dl=both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features
@@ -54,12 +54,12 @@ If you choose to build your own:
    make
    ```
 
-  Note: If you are on Windows, you can compile it using [MinGW](http://www.mingw.org/).
+  Tip: If you are on Windows, you can compile Discount using [MinGW](http://www.mingw.org/).
 
 Once you have a **libmarkdown.a** static library for your platform:
 
 1. Download and install [Nimrod][nimrod].
-2. Download/clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
+2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
 4. Run **nixbuild** (if you are on OSX, Linux or other UNIX-like operating systems) or **winbuild.bat** (if you are on Windows) 
 
