@@ -218,7 +218,7 @@ $body
   </div>
   <div id="footer">
     <p>$author_footer $date</p>
-    <p class="powered-by">Powered by <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
+    <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
   </div>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, 
 "fonts_css", embed_fonts()]

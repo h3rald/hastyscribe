@@ -47,14 +47,12 @@ Although not part of neither {{md}} nor Discount, {{hs}} allows you to create te
 
 {{hs}} only produces single HTML files. With _no dependencies_:
 
-* By default, the FontAwesome, Source Sans Pro, and Source Code Pro font are automatically embedded.
+* By default, the HastyScribe, FontAwesome, Source Sans Pro, and Source Code Pro font are automatically embedded.
 * All referenced local images are automatically embedded using the {{datauri -> [data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)}}.
 
 #### FontAwesome Icons
 
-[](class:fa-question-circle)[](class:fa-question-circle)
-
-[](class:fa-star)[](class:fa-lightbulb-o)[](class:fa-exclamation-circle) [](class:fa-thumbs-up) [](class:fa-smile-o)[](class:fa-smile-o)
+[FontAwesome][fs] icons can be used in [badges](#Badges) or simply to customize text. [](class:fa-thumbs-up) 
 
 #### Notes, tips, warnings, sidebars and badges
 
@@ -73,13 +71,16 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 ### Downloading Pre-built Binaries
 
-[Provide actual links to the release downloads](class:todo)
+The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
+
+  * [HastyScribe for Mac OSX (x64)]({{release}}/hastyscribe.osx-x64) -- Compiled on OSX Mavericks
+  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe.win-x64) -- Compiled on Windows 7
 
 ### Building from Source
 
 You can also build HastyScribe from source, if there is no pre-built binary for your platform.
 
-First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the {{hs}} repository or build your own. 
+First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor]({{repo -> https://github.com/h3rald/hastyscribe}}/blob/master/vendor) folder of the {{hs}} repository or build your own. 
 
 If you choose to build your own:
 
@@ -99,7 +100,7 @@ If you choose to build your own:
 Once you have a **libmarkdown.a** static library for your platform:
 
 1. Download and install [Nimrod][nimrod].
-2. Download/clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
+2. Download/clone the HastyScribe [repository]({{repo}}).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
 4. Run **nixbuild** (if you are on OSX, Linux or other UNIX-like operating systems) or **winbuild.bat** (if you are on Windows) 
 
@@ -116,7 +117,19 @@ Where:
   * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression ending in [.md](class:ext) or [.markdown](class:ext) that will be compiled into HTML.
   * [--notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
 
-#### Examples (Windows)
+### Linux/OSX Examples 
+
+Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
+
+> %terminal%
+> ./hastyscribe my\_markdown\_file.md
+ 
+Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
+
+> %terminal%
+> ./hastyscribe \*.md
+
+### Windows Examples
 
 Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
 
@@ -128,17 +141,10 @@ Executing {{hs}} to compile all [.md](class:ext) files within the current direct
 > %terminal%
 > hastyscribe.exe \*.md
 
-#### Examples (Linux, OSX, etc.)
-
-Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
-
-> %terminal%
-> ./hastyscribe my\_markdown\_file.md
- 
-Executing {{hs}} to compile all [.md](class:ext) files within the current directory:
-
-> %terminal%
-> ./hastyscribe *.md
+> %tip%
+> Tip
+> 
+> You can also drag a [.md](class:kwd) file directly on [hastyscribe.exe](class:kwd) to compile it to HTML.
 
 ## Syntax Reference
 
@@ -152,17 +158,36 @@ Executing {{hs}} to compile all [.md](class:ext) files within the current direct
 % -
 ~~~
 
-Note that:
+> %warning%
+> Important
+> 
+>  * The order of the document headers is significant.
+>  * If you want to use the current date, enter [% -](class:kwd) in the third line.
 
-  * The order of the document headers is significant.
-  * If you want to use the current date, enter [% -](class:kwd) in the third line.
 
+### Snippets
 
+If you want to reuse a few words or even entire blocks of texts, you can use {{hs}}'s snippets. 
+
+A snippet definition is constituted by an identifier, followed by an arrow (->), followed by some text -- all wrapped in double curly brackets. 
+
+The following definition creates a snippet called [test](class:kwd) which is transformed into the text "This is a test snippet.". 
+
+[\{\{test -> This is a test snippet.\}\}](class:tt)
+
+Once a snippet is defined _anywhere_ in the document, you can use its identifier wrapped in double curly brackets (\{\{test}\}\) anywhere in the document to reuse the specified text.
+
+> %note%
+> Remarks
+> 
+> * It doesn't matter where a snippet is defined. Snippets can be used anywhere in the document, before or after their definition.
+> * When a document is compiled, both snippets _and snippets definitions_ are evaluated their body text.
 
 ### Inline Formatting 
 
+The following table lists all the most common ways to format inline text: 
 
-> %responsive-table%
+> %responsive%
 >  Source                                             | Output             
 > ----------------------------------------------------|--------------------
 > `**strong emphasis**` or `__strong emphasis__`      | __strong emphasis__
@@ -179,13 +204,14 @@ Note that:
 > `<cite>Hamlet</cite>, by William Shakespeare.`      | <cite>Hamlet</cite>, by William Shakespeare.
 > `A [.md](class:ext)` file                           | A [.md](class:ext) file
 > `[my_markdown_file.md](class:file)` file            | [my_markdown_file.md](class:file) file
-> `Execute [hastyscribe *.md](class:cmd)`             | Execute [hastyscribe *.md](class:cmd)           
-> `The [--notoc](class:opt)` option                   | The [--notoc](class:opt) optiono
+
+> %tip%
+> Tip
+> 
+> The [kwd](class:kwd), [opt](class:kwd), [file](class:kwd), [dir](class:kwd), [arg](class:kwd), [tt](class:kwd) and [cmd](class:kwd) are all rendered as inline monospace text. [kwd](class:kwd) and [ext](class:ext) are also rendered in bold.
 
 
-
-
-### SmartyPants Substitutions
+#### SmartyPants Substitutions
 
 Special characters can be easily entered using some special character sequences.
 
@@ -206,7 +232,7 @@ Special characters can be easily entered using some special character sequences.
 * `A^B` becomes A^B. Complex superscripts can be enclosed in brackets, so `A^(B+2)` &rarr; A^(B+2).
 
 
-### Icons
+#### Icons
 
 {{hs}} bundles the [FontAwesome][fa] icon font. To prepend an icon to text you can use Discount's _class:_ pseudo-protocol, and specify a valid [fa-*](class:kwd) (non-alias) class.
 
@@ -224,7 +250,46 @@ Examples:
 > 
 > See the [FontAwesome Icon Reference][fa-icons] for a complete list of all CSS classes to use for icons (aliases are not supported).
 
-### Links
+#### Badges
+
+Badges are normally just shorthands for [Icons](#Icons) (also in different colors). To add a _badge_ to some inline text, use the corresponding class among those listed in the following table. For example, the following code:
+
+    [Genoa, Italy](class:geo)
+
+produces the following result:
+
+[Genoa, Italy](class:geo)
+
+{{hs}} currently supports the following badges:
+
+> %responsive%
+> Class                | Badge                        | Class               | Badge 
+> ---------------------|------------------------------|--------------------------------------------
+> `todo`               | [](class:todo)               |`date`               | [](class:date)
+> `fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
+> `draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
+> `urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
+> `verify`             | [](class:verify)             |`geo`                | [](class:geo)
+> `deadline`           | [](class:deadline)           |`eur`                | [](class:eur)
+> `red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
+> `yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
+> `green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
+> `gray-circle`        | [](class:gray-circle)        |`jpy`                | [](class:jpy)
+> `star`               | [](class:star)               |`btc`                | [](class:btc)
+> `heart`              | [](class:heart)              |`try`                | [](class:try)
+> `square`             | [](class:square)             |`krw`                | [](class:krw)
+> `check`              | [](class:check)              |`inr`                | [](class:inr)
+> `lock`               | [](class:lock)               |`danger`             | [](class:danger)
+> `unlock`             | [](class:unlock)             |`question`           | [](class:question)
+
+#### HastyScribe Logo
+
+To display the {{hs}} logo, use the [hastyscribe](class:kwd) class, like this:
+
+`[](class:hastyscribe)` &rarr; [](class:hastyscribe)
+
+
+#### Links
 
 > %responsive%
 > Source                                  | Output
@@ -250,9 +315,98 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 > * [@h3rald](https://twitter.com/h3rald)
 > * [fabiocevasco](http://it.linkedin.com/in/fabiocevasco)
 
-### Images
+### Block-level Formatting
 
-{{input-text -> The following Markdown code:}}
+#### Headings
+
+Headings can be specified simply by prepending [#](class:kwd)s, as follows: 
+
+~~~
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+~~~
+
+> %note%
+> Note
+> 
+> If you use [Document Headers](#Document.Headers), A [H1](class:kwd) is used for the title of the {{hs}} document. Within the document, start using headings from [H2](class:kwd).
+
+#### Tables
+
+{{hs}} supports [PHP Markdown Extra][pme] table syntax using pipes and dashes.
+
+{{input-text}}
+
+~~~
+Column Header 1 | Column Header 2 | Column Header 3 
+----------------|-----------------|----------------
+Cell 1,1        | Cell 1,2        | Cell 1, 3
+Cell 2,1        | Cell 2,2        | Cell 2, 3
+Cell 3,1        | Cell 3,2        | Cell 3, 3
+~~~
+
+{{output-text}}
+
+Column Header 1 | Column Header 2 | Column Header 3 
+----------------|-----------------|----------------
+Cell 1,1        | Cell 1,2        | Cell 1, 3
+Cell 2,1        | Cell 2,2        | Cell 2, 3
+Cell 3,1        | Cell 3,2        | Cell 3, 3
+
+> %note%
+> Note
+> 
+> Multi-row cells are not supported. If you need more complex tables, use HTML code instead.
+
+
+> %sidebar%
+> Responsive Tables
+> 
+> To make tables responsive, put them in a _responsive_ block, like in the previous example. The [responsive](class:kwd) class causes a table not to shrink and makes it scrollable horizontally on small devices.  
+
+#### Block Quotes
+
+Block quotes can be created simply by prepending a [>](class:kwd) to a line, and they can be nested by prepending additional [>](class:kwd)s.
+
+{{input-text}}
+
+~~~
+> This is a block quote.
+> > This is a nested quote. 
+~~~
+
+{{output-text}}
+
+> This is a block quote.
+> > This is a nested quote. 
+
+#### Code Blocks
+
+To format a block of source code, indent it by at least four spaces. Here's the result:
+
+    proc encode_image_file*(file, format): string =
+      if (file.existsFile):
+        let contents = file.readFile
+        return encode_image(contents, format)
+      else: 
+        echo("Warning: image '"& file &"' not found.")
+        return file
+
+Alternatively, you can also use Github-style fenced blocks, by adding three tildes (~~~) before and after the source code. 
+
+> %warning%
+> Warning
+> 
+> {{hs}} does not support syntax highlighting for code blocks. To do so, it would require Javascript and {{hs}} is currently kept purposedly "Javascript-free".
+
+
+#### Images
+
+{{input-text -> The following HastyScribe Markdown code:}}
 
 ~~~
 ![HastyScribe Logo](../assets/images/hastyscribe.png =316x93)
@@ -267,9 +421,9 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 > 
 > You can use URL placeholders for images as well, exactly like for links.
 
-### Lists
+#### Lists
 
-#### Unordered Lists
+##### Unordered Lists
 
 {{input-text}}
 
@@ -289,7 +443,7 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
   * Another item
 * And another...
 
-#### Ordered Lists
+##### Ordered Lists
 
 {{input-text}}
 
@@ -310,7 +464,7 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 > 
 > You don't have to write numbers in order -- any number followed by a dot will do. 
 
-#### Alphabetical Lists
+##### Alphabetical Lists
 
 {{input-text}}
 
@@ -332,7 +486,7 @@ c. Third item
 > You don't have to write letters in order -- any letter followed by a dot will do. 
 
 
-#### Nested Lists
+##### Nested Lists
 
 To create a list within a list, simply indent the whole nested list with four space. 
 
@@ -359,7 +513,7 @@ To create a list within a list, simply indent the whole nested list with four sp
     a. A nested alphabetical list
     b. Another item
 
-#### Definition Lists
+##### Definition Lists
 
 In some cases you may want to write a list of terms and their corresponding definitions. You could use an ordinary unordered list, but semantically speaking the _proper_ type of list to use in this case is a definition list.
 
@@ -401,76 +555,13 @@ Alternatively, you can write the above definition list as follows:
 ~~~
 
 
-### Block Styles
+#### Class Blocks 
 
-#### Headings
-
-Headings can be specified simply by prepending [#](class:kwd)s, as follows: 
-
-~~~
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-~~~
-
-> %note%
-> Note
-> 
-> If you use [Document Headers](#Document.Headers), A [H1](class:kwd) is used for the title of the {{hs}} document. Within the document, start using headings from [H2](class:kwd).
-
-#### Tables
-
-{{hs}} supports [PHP Markdown Extra][pme] table syntax using pipes and dashes.
-
-{{input-text}}
-
-> %responsive%
-> ~~~
-> Column Header 1 | Column Header 2 | Column Header 3 
-> ----------------|-----------------|----------------
-> Cell 1,1        | Cell 1,2        | Cell 1, 3
-> Cell 2,1        | Cell 2,2        | Cell 2, 3
-> Cell 3,1        | Cell 3,2        | Cell 3, 3
-> ~~~
-
-{{output-text}}
-
-> %responsive%
-> Column Header 1 | Column Header 2 | Column Header 3 
-> ----------------|-----------------|----------------
-> Cell 1,1        | Cell 1,2        | Cell 1, 3
-> Cell 2,1        | Cell 2,2        | Cell 2, 3
-> Cell 3,1        | Cell 3,2        | Cell 3, 3
-
-> %note%
-> Note
-> 
-> Multi-row cells are not supported. If you need more complex tables, use HTML code instead.
-
-#### Block Quotes
-
-Block quotes can be created simply by prepending a [>](class:kwd) to a line, and they can be nested by prepending additional [>](class:kwd)s.
-
-{{input-text}}
-
-~~~
-> This is a block quote.
-> > This is a nested quote. 
-~~~
-
-{{output-text}}
-
-> This is a block quote.
-> > This is a nested quote. 
-
-### Notes
+##### Notes
 
 [Discount][discount] supports the definition of _class blocks_: [div](class:kwd)s with a class attribute. The syntax is very similar to the one used for [block quotes](#Block.Quotes), with the addition of the class name wrapped in [%](class:kwd)s on the first line. 
 
-In {{hs}}, this syntax is used to produce notes, [tips](#Tips), [warmings](#Warnings) and [sidebars](#Sidebars).
+In {{hs}}, this syntax is used to produce notes, [tips](#Tips), [warmings](#Warnings), [sidebars](#Sidebars) and [terminal sessions](#Terminal.Sessions).
 
 {{input-text}}
 
@@ -488,9 +579,9 @@ In {{hs}}, this syntax is used to produce notes, [tips](#Tips), [warmings](#Warn
 > 
 > This is a note.
 
-### Tips
+##### Tips
 
-Tips are used for optional information that can help the user in some way. The syntax used for tips is similar to the one of [notes](#Notes).
+Tips are used for optional information that can help the user in some way. 
 
 {{input-text}}
 
@@ -508,9 +599,9 @@ Tips are used for optional information that can help the user in some way. The s
 > 
 > This is a tip.
 
-### Warnings
+##### Warnings
 
-Warnings are used for important information the user should not overlook. The syntax used for warnings is similar to the one of [notes](#Notes)
+Warnings are used for important information the user should not overlook. 
 
 {{input-text}}
 
@@ -528,9 +619,9 @@ Warnings are used for important information the user should not overlook. The sy
 > 
 > This is a warning or an important note.
 
-### Sidebars
+##### Sidebars
 
-Sidebars are used for digressions and asides. The syntax used for sidebars is similar to the one of [notes](#Notes).
+Sidebars are used for digressions and asides. 
 
 {{input-text}}
 
@@ -548,50 +639,46 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 > 
 > Although not always placed on the side of the page, _sidebars_ contain additional content and asides.
 
-#### Code Blocks
 
+##### Terminal Sessions
 
-#### Badges
+Terminal sessions are used to display commands entered in a terminal, in sequence, without displaying their output. 
 
+{{input-text}}
 
-> %responsive%
-> Class                | Badge                        | Class               | Badge 
-> ---------------------|------------------------------|--------------------------------------------
-> `todo`               | [](class:todo)               |`date`               | [](class:date)
-> `fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
-> `draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
-> `urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
-> `verify`             | [](class:verify)             |`geo`                | [](class:geo)
-> `deadline`           | [](class:deadline)           |`eur`                | [](class:eur)
-> `red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
-> `yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
-> `green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
-> `gray-circle`        | [](class:gray-circle)        |`jpy`                | [](class:jpy)
-> `star`               | [](class:star)               |`btc`                | [](class:btc)
-> `heart`              | [](class:heart)              |`try`                | [](class:try)
-> `square`             | [](class:square)             |`krw`                | [](class:krw)
-> `check`              | [](class:check)              |`inr`                | [](class:inr)
-> `lock`               | [](class:lock)               |`danger`             | [](class:danger)
-> `unlock`             | [](class:unlock)             |`question`           | [](class:question)
+~~~
+> %terminal%
+> 
+> cd src
+> 
+> ./configure
+> 
+> make && sudo make install
+~~~
 
-#### HastyScribe Logo
+{{output-text}}
 
-`[](class:hastyscribe)` &rarr; [](class:hastyscribe)
-
-### Snippets
-
-[\{\{test -> This is a test snippet\}\}](class:tt)
-
-[\{\{test\}\}](class:tt)
+> %terminal%
+> 
+> cd src
+> 
+> ./configure
+> 
+> make && sudo make install
 
 ## Credits
 
-* Discount library
-* FontAwesome v4.1.0
-* Logo: Mr Bedfort font + Quill icon from Entypo icon set 
-* Fonts: Source Sans Pro, Source Code Pro
+HastyScribe is powered by the following open source software (see [LICENSE.md]({{repo}}/blob/master/LICENSE.md) for licensing details): 
 
+* The wonderful [Discount][discount] C library, used to parse markdown code.
+* The ...awesome [FontAwesome][fa] font, used for all the icons.
+* The beautiful [Mr Bedfort][sudtipos] font, used as the base for the {{hs}} logo.
+* The neat [Source Sans Pro](https://store1.adobe.com/cfusion/store/html/index.cfm?event=displayFontPackage&code=1959) and [Source Code Pro](http://store1.adobe.com/cfusion/store/html/index.cfm?event=displayFontPackage&code=1960) font, used for all standard text.
 
+Special thanks to:
+
+* Andreas Rumpf, creator of the amazing [Nimrod][nimrod] programming language, used to implement {{hs}}.
+* Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
 
 [nimrod]: http://nimrod-code.org/
@@ -602,3 +689,5 @@ Sidebars are used for digressions and asides. The syntax used for sidebars is si
 [fa]:http://fortawesome.github.io/Font-Awesome/
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
+[sudtipos]:http://www.sudtipos.com/
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0}}
