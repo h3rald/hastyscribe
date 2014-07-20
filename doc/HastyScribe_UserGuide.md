@@ -73,14 +73,14 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OSX (x64)]({{release}}/hastyscribe_v1.0_osx_x64.zip) -- Compiled on OSX Mavericks
-  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.0_win_x64.zip) -- Compiled on Windows 7
+  * [HastyScribe for Mac OSX]({{release}}/hastyscribe_v1.0_osx.zip) -- Compiled on OSX Mavericks
+  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0_win.zip) -- Compiled on Windows 7
 
 ### Building from Source
 
 You can also build HastyScribe from source, if there is no pre-built binary for your platform.
 
-First of all you need a [libmarkdown.a](class:file) static library. You can either grab one precompiled (for Windows x64 or OSX x64) from the [vendor]({{repo -> https://github.com/h3rald/hastyscribe}}/blob/master/vendor) folder of the {{hs}} repository or build your own. 
+First of all you need a [libmarkdown.a](class:file) static library. You can either grab one precompiled (Windows or Mac OS X) from the [vendor]({{repo -> https://github.com/h3rald/hastyscribe}}/blob/master/vendor) folder of the {{hs}} repository or build your own. 
 
 If you choose to build your own:
 
