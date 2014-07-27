@@ -68,9 +68,7 @@ proc embed_images*(document, dir): string =
   else:
     current_dir = dir & "/"
   type 
-    TImgData = tuple[img: string, rep: string] 
     TImgTagStart = array[0..0, string]
-  var imgdata: seq[TImgData] = @[]
   let img_peg = peg"""
     image <- '<img' \s+ 'src=' ["] {file} ["]
     file <- [^"]+
@@ -85,10 +83,13 @@ proc embed_images*(document, dir): string =
     let imgformat = imgfile.substr(imgfile.find(pegimgformat)+1, imgfile.len-1)
     let imgcontent = encode_image_file(current_dir & imgfile, imgformat)
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
-    imgdata.add((img: img, rep: imgrep))
-  for i in imgdata:
-    doc = doc.replace(i.img, i.rep)
+    doc = doc.replace(img, imgrep)
   return doc
+
+
+proc add_jump_to_top_links*(document): string =
+  return document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
+
 
 proc create_font_face*(font, family, style, weight): string=
   return """
@@ -223,6 +224,7 @@ $body
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, 
 "fonts_css", embed_fonts()]
   document = embed_images(document, inputsplit.dir)
+  document = add_jump_to_top_links(document)
   output_file.writeFile(document)
 
  
