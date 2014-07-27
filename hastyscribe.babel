@@ -1,8 +1,8 @@
 [Package]
 name          = "hastyscribe"
-version       = "1.0.0"
+version       = "1.1.0-dev"
 author        = "Fabio Cevasco"
-description   = "Self-contained markdown compiler generating self-container HTML files"
+description   = "Self-contained markdown compiler generating self-contained HTML documents"
 license       = "MIT"
 
 bin = "hastyscribe"
@@ -34,11 +34,9 @@ doc/HastyScribe_UserGuide.md
 hastyscribe.nim
 LICENSE.md
 markdown.nim
-nixbuild
 README.md
 vendor/libmarkdown_osx.a
 vendor/libmarkdown_win.a
-winbuild.bat
 """
 
 [Deps]

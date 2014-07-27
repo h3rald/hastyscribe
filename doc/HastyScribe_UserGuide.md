@@ -73,8 +73,19 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OSX]({{release}}/hastyscribe_v1.0_osx.zip) -- Compiled on OSX Mavericks
-  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0_win.zip) -- Compiled on Windows 7
+  * [HastyScribe for Mac OSX]({{release}}/hastyscribe_v1.1_osx.zip) -- Compiled on OSX Mavericks
+  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.1_win.zip) -- Compiled on Windows 7
+
+### Installing using Babel
+
+If you already have [Nimrod][nimrod] installed on your computer and you're running on Windows or Mac OS X, you can simply run
+
+[babel install hastyscribe](class:cmd)
+
+> %warning%
+> Warning
+> 
+> If you are using Windows or Mac OS X, babel installation won't work. This is due to the fact that {{hs}} requires [libmarkdown.a](class:file) to be placed in the [vendor](class:dir) directory of the {{hs}} source directory -- at present, only prebuilt static libraries for Windows and Mac OS X are distributed with {{hs}}.
 
 ### Building from Source
 
@@ -102,7 +113,7 @@ Once you have a [libmarkdown.a](class:file) static library for your platform:
 1. Download and install [Nimrod][nimrod].
 2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your [libbmarkdown.a](class:file) file in the [vendor](class:dir) directory.
-4. Run [nixbuild](clasS:cmd) (if you are on OSX, Linux or other UNIX-like operating systems) or [winbuild.bat](class:cmd) (if you are on Windows) 
+4. Run [nimrod c -l:-lmarkdown -l:-L./vendor](class:cmd)
 
 ## Usage
 
@@ -690,4 +701,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1}}
