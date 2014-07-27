@@ -1,6 +1,6 @@
 import os, parseopt2, strutils, times, pegs, base64, markdown, tables
 
-let v = "1.1"
+let v = "1.0"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2014 Fabio Cevasco
