@@ -73,19 +73,20 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OSX]({{release}}/hastyscribe_v1.1_osx.zip) -- Compiled on OSX Mavericks
-  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.1_win.zip) -- Compiled on Windows 7
+  * [HastyScribe for Mac OSX]({{release}}/hastyscribe_v1.0.1_macosx_x86.zip) -- Compiled on OSX Mavericks
+  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0.1_windows_x86.zip) -- Compiled on Windows 8.1
+  * [HastyScribe for Linux (Ubuntu)]({{release}}/hastyscribe_v1.0.1_linux_x86.zip) -- Compiled on Ubuntu 12.10
 
 ### Installing using Babel
 
-If you already have [Nimrod][nimrod] installed on your computer and you're running on Windows or Mac OS X, you can simply run
+If you already have [Nimrod][nimrod] installed on your computer and you're running on Windows, Mac OS X or Ubuntu, you can simply run
 
 [babel install hastyscribe](class:cmd)
 
 > %warning%
 > Warning
 > 
-> If you are using Windows or Mac OS X, babel installation won't work. This is due to the fact that {{hs}} requires [libmarkdown.a](class:file) to be placed in the [vendor](class:dir) directory of the {{hs}} source directory -- at present, only prebuilt static libraries for Windows and Mac OS X are distributed with {{hs}}.
+> If you are not using Windows, Mac OS X or Ubuntu, babel installation won't work. This is due to the fact that {{hs}} requires [libmarkdown.a](class:file) to be placed in the [vendor](class:dir) directory of the {{hs}} source directory -- at present, only prebuilt static libraries for Windows, Mac OS X and Ubuntu are distributed with {{hs}}.
 
 ### Building from Source
 
@@ -113,7 +114,7 @@ Once you have a [libmarkdown.a](class:file) static library for your platform:
 1. Download and install [Nimrod][nimrod].
 2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your [libbmarkdown.a](class:file) file in the [vendor](class:dir) directory.
-4. Run [nimrod c -l:-lm -l:-lmarkdown -l:-L./vendor hastyscribe.nim](class:cmd)
+4. Run [nimrod c hastyscribe.nim](class:cmd)
 
 ## Usage
 
@@ -701,4 +702,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.1}}

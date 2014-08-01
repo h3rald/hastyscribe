@@ -61,6 +61,6 @@ Once you have a **libmarkdown.a** static library for your platform:
 1. Download and install [Nimrod][nimrod].
 2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
-4. Run **nimrod c -l:-lm -l:-lmarkdown -l:-L./vendor hastyscribe.nim**
+4. Run **nimrod c hastyscribe.nim**
 
 [nimrod]: http://nimrod-code.org/
