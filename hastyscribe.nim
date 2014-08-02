@@ -1,6 +1,6 @@
 import os, parseopt2, strutils, times, pegs, base64, markdown, tables
 
-let v = "1.0.1"
+let v = "1.0.2"
 let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2014 Fabio Cevasco
@@ -191,7 +191,7 @@ proc compile*(input_file: string) =
     toc = ""
 
   # Date parsing and validation
-  var timeinfo: TTimeInfo
+  var timeinfo: TTimeInfo = getLocalTime(getTime())
 
   if metadata.date == "":
     discard parse_date(getDateStr(), timeinfo)
