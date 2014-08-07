@@ -228,24 +228,20 @@
 
 <h3 id="Downloading.Pre-built.Binaries">Downloading Pre-built Binaries<a href="#document-top" title="Go to top"></a></h3>
 
-<p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.1">Github Release Page</a>:</p>
+<p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.2">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.1/hastyscribe_v1.0.1_macosx_x86.zip">HastyScribe for Mac OSX</a> &ndash; Compiled on OSX Mavericks</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.1/hastyscribe_v1.0.1_windows_x86.zip">HastyScribe for Windows</a> &ndash; Compiled on Windows 8.1</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.1/hastyscribe_v1.0.1_linux_x86.zip">HastyScribe for Linux (Ubuntu)</a> &ndash; Compiled on Ubuntu 12.10</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.2/hastyscribe_v1.0.2_macosx_x86.zip">HastyScribe for Mac OSX</a> &ndash; Compiled on OS X Mavericks (LLVM CLANG 6.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.2/hastyscribe_v1.0.2_windows_x86.zip">HastyScribe for Windows</a> &ndash; Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.0.2/hastyscribe_v1.0.2_linux_x86.zip">HastyScribe for Linux (Ubuntu)</a> &ndash; Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)</li>
 </ul>
 
 
 <h3 id="Installing.using.Babel">Installing using Babel<a href="#document-top" title="Go to top"></a></h3>
 
-<p>If you already have <a href="http://nimrod-code.org/">Nimrod</a> installed on your computer and you&rsquo;re running on Windows, Mac OS X or Ubuntu, you can simply run</p>
+<p>If you already have <a href="http://nimrod-code.org/">Nimrod</a> installed on your computer, you can simply run</p>
 
 <p><span class="cmd">babel install hastyscribe</span></p>
-
-<div class="warning"><p>Warning</p>
-
-<p>If you are not using Windows, Mac OS X or Ubuntu, babel installation won&rsquo;t work. This is due to the fact that HastyScribe requires <span class="file">libmarkdown.a</span> to be placed in the <span class="dir">vendor</span> directory of the HastyScribe source directory &ndash; at present, only prebuilt static libraries for Windows, Mac OS X and Ubuntu are distributed with HastyScribe.</p></div>
 
 <h3 id="Building.from.Source">Building from Source<a href="#document-top" title="Go to top"></a></h3>
 
@@ -274,7 +270,7 @@
 <ol>
 <li>Download and install <a href="http://nimrod-code.org/">Nimrod</a>.</li>
 <li>Clone the HastyScribe <a href="https://github.com/h3rald/hastyscribe">repository</a>.</li>
-<li>Put your <span class="file">libbmarkdown.a</span> file in the <span class="dir">vendor</span> directory.</li>
+<li>Put your <span class="file">libmarkdown.a</span> file in the <span class="dir">vendor</span> directory.</li>
 <li>Run <span class="cmd">nimrod c hastyscribe.nim</span></li>
 </ol>
 
