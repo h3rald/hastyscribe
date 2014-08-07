@@ -1,7 +1,8 @@
 import os, parseopt2, strutils, times, pegs, base64, markdown, tables
 
-let v = "1.0.2"
-let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
+from version import v
+
+let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2014 Fabio Cevasco
   
@@ -9,7 +10,7 @@ let usage = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
     hastyscribe markdown_file_or_glob.md [--notoc]
 
   Arguments:
-    markdown_file          The markdown file to compile into HTML.
+    markdown_file_or_glob  The markdown (or glob expression) file to compile into HTML.
   Options:
     --notoc                Do not generate a Table of Contents."""
 
@@ -34,6 +35,8 @@ proc parse_date*(date: string, timeinfo: var TTimeInfo): bool =
     except:
       0
   )
+  if parts.len < 3:
+    return false
   try:
     timeinfo = TTimeInfo(year: parts[0], month: TMonth(parts[1]-1), monthday: parts[2])
     # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
@@ -193,11 +196,8 @@ proc compile*(input_file: string) =
   # Date parsing and validation
   var timeinfo: TTimeInfo = getLocalTime(getTime())
 
-  if metadata.date == "":
+  if parse_date(metadata.date, timeinfo) == false:
     discard parse_date(getDateStr(), timeinfo)
-  else:
-    if parse_date(metadata.date, timeinfo) == false:
-      discard parse_date(getDateStr(), timeinfo)
 
   var document = """<!doctype html>
 <html lang="en">
