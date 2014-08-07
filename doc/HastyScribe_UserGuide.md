@@ -73,7 +73,7 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OSX]({{release}}/hastyscribe_v1.0.2_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
+  * [HastyScribe for Mac OS X]({{release}}/hastyscribe_v1.0.2_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
   * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0.2_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
   * [HastyScribe for Linux (Ubuntu)]({{release}}/hastyscribe_v1.0.2_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
 
@@ -288,6 +288,8 @@ produces the following result:
 > `check`              | [](class:check)              |`inr`                | [](class:inr)
 > `lock`               | [](class:lock)               |`danger`             | [](class:danger)
 > `unlock`             | [](class:unlock)             |`question`           | [](class:question)
+> `email`              | [](class:email)              |`website`            | [](class:website)
+> `phone`              | [](class:phone)              |`fax`                | [](class:fax)
 
 #### HastyScribe Logo
 
@@ -318,7 +320,7 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 > 
 > {{hs}} automatically adds an envelope icon to email links, an arrow icon to links to external web sites, and logo icons to links to well-known web sites:
 > 
-> * [h3rald@h3rad.com](mailto://h3rald@h3rald.com)
+> * [h3rald@h3rad.com](mailto:h3rald@h3rald.com)
 > * [@h3rald](https://twitter.com/h3rald)
 > * [fabiocevasco](http://it.linkedin.com/in/fabiocevasco)
 
