@@ -439,8 +439,6 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 ~~~
 * An item
 * Another item
-  * A nested list
-  * another item
 * And another...
 ~~~
 
@@ -448,8 +446,6 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 
 * An item
 * Another item
-  * A nested list
-  * Another item
 * And another...
 
 ##### Ordered Lists
@@ -493,6 +489,25 @@ c. Third item
 > Tip
 > 
 > You don't have to write letters in order -- any letter followed by a dot will do. 
+
+
+##### Unstyled Lists
+
+{{input-text}}
+
+~~~
+> %unstyled%
+> * An item
+> * Another item
+> * And another...
+~~~
+
+{{output-text}}
+
+> %unstyled%
+> * An item
+> * Another item
+> * And another...
 
 
 ##### Nested Lists
