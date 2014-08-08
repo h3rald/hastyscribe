@@ -4,7 +4,7 @@ _HastyScribe_ is a simple command-line program able to convert [markdown](http:/
 
 ## Usage
 
-**hastyscribe** _filename.md_ [ **\--notoc** ] 
+**hastyscribe** _filename.md_ [ **\--notoc** ]
 
 
 ## FAQs
@@ -41,7 +41,7 @@ HastyScribe is implemented in [Nimrod][nimrod], a very expressive language that 
 
 ### How do I build _HastyScribe_ from source?
 
-First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows or Mac OS X) from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the HastyScribe repository or build your own. 
+First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows or Mac OS X) from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the HastyScribe repository or build your own.
 
 If you choose to build your own:
 
@@ -62,5 +62,10 @@ Once you have a **libmarkdown.a** static library for your platform:
 2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
 4. Run **nimrod c hastyscribe.nim**
+
+On linux, you will have to install `libmarkdown2` library. For example on Debian based linux systems:
+
+    sudo apt-get install libmarkdown2
+
 
 [nimrod]: http://nimrod-code.org/
