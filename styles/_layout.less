@@ -1,0 +1,52 @@
+body {
+  background-color:#fff;
+  margin: 0 auto;
+  height:100%;
+  zoom: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color:@text-color;
+  font:15px @sans-font;
+  line-height:1.4;
+  -webkit-font-smoothing:antialiased;
+  width: 960px;
+  .mix-hyphens(auto);
+}
+
+@media screen and (max-width: 659px) {
+  body {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  body {
+    width: 660px;
+  }
+}
+
+#main, #footer, #header {
+  width: 94%;
+  margin:auto;
+}
+
+#footer {
+  border-top: 1px solid @gray-d;
+  text-align: center;
+  font-size: 75%;
+  p {
+    line-height: 0.6em;
+  }
+}
+
+#toc {
+  margin-top: -10px;
+  ul {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+  & > ul {
+    padding-left: 0;
+  }
+}
+
