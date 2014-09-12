@@ -73,9 +73,9 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X]({{release}}/hastyscribe_v1.0.2_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
-  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0.2_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
-  * [HastyScribe for Linux (Ubuntu)]({{release}}/hastyscribe_v1.0.2_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
+  * [HastyScribe for Mac OS X]({{release}}/hastyscribe_v1.0.3_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
+  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0.3_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
+  * [HastyScribe for Linux (Ubuntu)]({{release}}/hastyscribe_v1.0.3_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
 
 ### Installing using Babel
 
@@ -180,9 +180,9 @@ A snippet definition is constituted by an identifier, followed by an arrow (->),
 
 The following definition creates a snippet called [test](class:kwd) which is transformed into the text "This is a test snippet.". 
 
-[\{\{test -> This is a test snippet.\}\}](class:tt)
+<code>\{\{test -> This is a test snippet.\}\}</code>
 
-Once a snippet is defined _anywhere_ in the document, you can use its identifier wrapped in double curly brackets (\{\{test}\}\} in the previous example) anywhere in the document to reuse the specified text.
+Once a snippet is defined _anywhere_ in the document, you can use its identifier wrapped in double curly brackets (<code>\{\{test}\}\}</code> in the previous example) anywhere in the document to reuse the specified text.
 
 > %note%
 > Remarks
@@ -228,7 +228,7 @@ Special characters can be easily entered using some special character sequences.
 * `"double-quoted text"` &rarr; “double-quoted text”
 * `'single-quoted text'` &rarr; ‘single-quoted text’
 * `don't` &rarr; don’t. as well as anything-else’t. (But foo'tbar is just foo'tbar.)
-* it's` &rarr; it’s, as well as anything-else’s (except not foo'sbar and the like.)
+* `it's` &rarr; it’s, as well as anything-else’s (except not foo'sbar and the like.)
 * `(tm)` &rarr; ™
 * `(r)` &rarr; ®
 * `(c)` &rarr; ©
@@ -690,6 +690,22 @@ Terminal sessions are used to display commands entered in a terminal, in sequenc
 > 
 > make && sudo make install
 
+If commands must be executed as a super-user, use the [terminal-su](class:kwd) class instead:
+
+{{input-text}}
+
+~~~
+> %terminal-su%
+> 
+> shutdown -h now
+~~~
+
+{{output-text}}
+
+> %terminal-su%
+> 
+> shutdown -h now
+
 ## Credits
 
 HastyScribe is powered by the following open source software (see [LICENSE.md]({{repo}}/blob/master/LICENSE.md) for licensing details): 
@@ -714,4 +730,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.2}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.3}}
