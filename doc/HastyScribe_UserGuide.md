@@ -290,6 +290,9 @@ produces the following result:
 > `unlock`             | [](class:unlock)             |`question`           | [](class:question)
 > `email`              | [](class:email)              |`website`            | [](class:website)
 > `phone`              | [](class:phone)              |`fax`                | [](class:fax)
+> `copy`               | [](class:copy)               |`red-flag`           | [](class:red-flag)
+> `green-flag`         | [](class:green-flag)         |`yellow-flag`        | [](class:yellow-flag)
+> `story`              | [](class:story)              |`feature`            | [](class:feature)
 
 #### HastyScribe Logo
 

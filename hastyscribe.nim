@@ -176,7 +176,7 @@ proc compile*(input_file: string) =
 
   # Manage metadata
   if metadata.author != "":
-    author_footer = metadata.author & " &ndash;"
+    author_footer = "<span class=\"copy\"></span> " & metadata.author & " &ndash;"
 
   var title_tag, header_tag, toc: string
 
