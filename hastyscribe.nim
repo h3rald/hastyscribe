@@ -82,7 +82,7 @@ proc embed_images*(document, dir): string =
     discard img.match(img_peg, matches)
     let imgfile = matches[0]
     if imgfile.startsWith(peg"'data:'"): continue
-    let pegimgformat = peg"'.' i'' / i'png' / i'jpg' / i'jpeg' / i'gif' / i'svg' / i'bmp' / i'webp' @$"
+    let pegimgformat = peg"i'.png' / i'.jpg' / i'.jpeg' / i'.gif' / i'.svg' / i'.bmp' / i'.webp' @$"
     let imgformat = imgfile.substr(imgfile.find(pegimgformat)+1, imgfile.len-1)
     let imgcontent = encode_image_file(current_dir & imgfile, imgformat)
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
