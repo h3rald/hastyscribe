@@ -251,12 +251,10 @@ when isMainModule:
     quit(usage, 1)
   
   for file in walkFiles(input):
-    let filesplit = file.splitFile
-    if (filesplit.ext == ".md" or filesplit.ext == ".markdown"):
-      files.add(file)
+    files.add(file)
  
   if files.len == 0:
-    quit("Error: \"$1\" does not match any markdown file" % [input], 2)
+    quit("Error: \"$1\" does not match any file" % [input], 2)
   else:
     for file in files:
       compile(file)

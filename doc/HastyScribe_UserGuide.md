@@ -95,7 +95,7 @@ If you choose to build your own:
 2. In the directory containing the Discount source code, run the following commands:
 
    > %terminal%
-   > ./configure.sh --with-tabstops=2 --with-dl=both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features
+   > ./configure.sh \-\-with-tabstops=2 \-\-with-dl=both \-\-with-id-anchor \-\-with-github-tags \-\-with-fenced-code \-\-enable-all-features
    > 
    > make
 
@@ -113,7 +113,7 @@ Once you have a [libmarkdown.a](class:file) static library for your platform:
 
 ## Usage
 
-{{hs}} is a command-line application that can compile one or more [.md](class:ext) or [.markdown](class:ext) files into one or more HTML files with the same name(s).
+{{hs}} is a command-line application that can compile one or more Markdown files into one or more HTML files with the same name(s).
 
 ### Command Line Syntax
 
@@ -121,7 +121,7 @@ Once you have a [libmarkdown.a](class:file) static library for your platform:
 
 Where:
 
-  * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression ending in [.md](class:ext) or [.markdown](class:ext) that will be compiled into HTML.
+  * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
   * [--notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
 
 ### Linux/OSX Examples 
@@ -151,7 +151,7 @@ Executing {{hs}} to compile all [.md](class:ext) files within the current direct
 > %tip%
 > Tip
 > 
-> You can also drag a [.md](class:kwd) file directly on [hastyscribe.exe](class:kwd) to compile it to HTML.
+> You can also drag a Markdown file directly on [hastyscribe.exe](class:kwd) to compile it to HTML.
 
 ## Syntax Reference
 
