@@ -73,9 +73,10 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X]({{release}}/hastyscribe_v1.0.4_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
-  * [HastyScribe for Windows]({{release}}/hastyscribe_v1.0.4_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
-  * [HastyScribe for Linux (Ubuntu)]({{release}}/hastyscribe_v1.0.4_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
+  * [HastyScribe for Mac OS X (x86)]({{release}}/hastyscribe_v1.0.5_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
+  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.0.5_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
+  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.0.5_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.0.5_linux_arm.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.2)
 
 ### Installing using Babel
 
@@ -733,4 +734,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.4}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.5}}
