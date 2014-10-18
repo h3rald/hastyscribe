@@ -40,7 +40,7 @@ task "release", "Release HastyScribe":
   direshell zip, filename_for("linux", "arm"), hs 
   direshell "rm", hs 
   echo "\n\n\n MAC OS X - x86:\n\n"
-  runTask "macosx-build"
+  runTask "macosx-x86-build"
   direshell zip, filename_for("macosx", "x86"), hs 
   direshell "rm", hs 
   echo "\n\n\n ALL DONE!"
