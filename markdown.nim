@@ -173,3 +173,13 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
   result = cstringArrayToSeq(res)[0]
   mkd_cleanup(mmiot)
   return
+
+when defined(macosx):
+  {.link: "vendor/libmarkdown_macosx_x86.a".}
+when defined(windows):
+  {.link: "vendor/libmarkdown_windows_x86.a".}
+when defined(linux):
+  when defined(arm):
+    {.link: "vendor/libmarkdown_linux_arm.a".}
+  when defined(i386) or defined(amd64):
+    {.link: "vendor/libmarkdown_linux_x86.a".}
