@@ -7,7 +7,7 @@ type
 # line builder for markdown()
 # 
 {.push importc, cdecl.}
-proc mkd_in*(a2: TFile; a3: mkd_flag_t): ptr MMIOT
+proc mkd_in*(a2: File; a3: mkd_flag_t): ptr MMIOT
 # assemble input from a file 
 
 proc mkd_string*(a2: cstring; a3: cint; a4: mkd_flag_t): ptr MMIOT
@@ -15,7 +15,7 @@ proc mkd_string*(a2: cstring; a3: cint; a4: mkd_flag_t): ptr MMIOT
 # line builder for github flavoured markdown
 # 
 
-proc gfm_in*(a2: TFile; a3: mkd_flag_t): ptr MMIOT
+proc gfm_in*(a2: File; a3: mkd_flag_t): ptr MMIOT
 # assemble input from a file 
 
 proc gfm_string*(a2: cstring; a3: cint; a4: mkd_flag_t): ptr MMIOT
@@ -33,15 +33,15 @@ proc mkd_cleanup*(a2: ptr MMIOT)
 # markup functions
 # 
 
-proc mkd_dump*(a2: ptr MMIOT; a3: TFile; a4: cint; a5: cstring): cint
-proc markdown*(a2: ptr MMIOT; a3: TFile; a4: mkd_flag_t): cint
+proc mkd_dump*(a2: ptr MMIOT; a3: File; a4: cint; a5: cstring): cint
+proc markdown*(a2: ptr MMIOT; a3: File; a4: mkd_flag_t): cint
 proc mkd_line*(a2: cstring; a3: cint; a4: cstringArray; a5: mkd_flag_t): cint
 type 
   mkd_sta_function_t* = proc (a2: cint; a3: pointer): cint
 
 proc mkd_string_to_anchor*(a2: cstring; a3: cint; a4: mkd_sta_function_t; 
                            a5: pointer; a6: cint)
-proc mkd_xhtmlpage*(a2: ptr MMIOT; a3: cint; a4: TFile): cint
+proc mkd_xhtmlpage*(a2: ptr MMIOT; a3: cint; a4: File): cint
 # header block access
 # 
 
@@ -58,14 +58,14 @@ proc mkd_xml*(a2: cstring; a3: cint; a4: cstringArray): cint
 # write-to-file functions
 # 
 
-proc mkd_generatehtml*(a2: ptr MMIOT; a3: TFile): cint
-proc mkd_generatetoc*(a2: ptr MMIOT; a3: TFile): cint
-proc mkd_generatexml*(a2: cstring; a3: cint; a4: TFile): cint
-proc mkd_generatecss*(a2: ptr MMIOT; a3: TFile): cint
+proc mkd_generatehtml*(a2: ptr MMIOT; a3: File): cint
+proc mkd_generatetoc*(a2: ptr MMIOT; a3: File): cint
+proc mkd_generatexml*(a2: cstring; a3: cint; a4: File): cint
+proc mkd_generatecss*(a2: ptr MMIOT; a3: File): cint
 const 
   mkd_style* = mkd_generatecss
 
-proc mkd_generateline*(a2: cstring; a3: cint; a4: TFile; a5: mkd_flag_t): cint
+proc mkd_generateline*(a2: cstring; a3: cint; a4: File; a5: mkd_flag_t): cint
 const 
   mkd_text* = mkd_generateline
 
@@ -85,8 +85,8 @@ proc mkd_e_data*(a2: pointer; a3: pointer)
 
 var markdown_version*: ptr char
 
-proc mkd_mmiot_flags*(a2: TFile; a3: ptr MMIOT; a4: cint)
-proc mkd_flags_are*(a2: TFile; a3: mkd_flag_t; a4: cint)
+proc mkd_mmiot_flags*(a2: File; a3: ptr MMIOT; a4: cint)
+proc mkd_flags_are*(a2: File; a3: mkd_flag_t; a4: cint)
 proc mkd_ref_prefix*(a2: ptr MMIOT; a3: cstring)
 # special flags for markdown() and mkd_text()
 # 
@@ -123,7 +123,7 @@ const
 
 # special flags for mkd_in() and mkd_string()
 
-type TMDMetaData* = object of TObject
+type TMDMetaData* = object of RootObj
   title*: string
   author*: string
   date*: string

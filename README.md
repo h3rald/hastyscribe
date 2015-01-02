@@ -37,7 +37,7 @@ _HastyScribe_ is best suited to produce self-contained documents such as essays,
 
 ### What language is _HastyScribe_ implemented in?
 
-HastyScribe is implemented in [Nimrod][nimrod], a very expressive language that compiles to C and is able to generate small, standalone and self-contained executable files.
+HastyScribe is implemented in [Nim][nim], a very expressive language that compiles to C and is able to generate small, standalone and self-contained executable files.
 
 ### How do I build _HastyScribe_ from source?
 
@@ -58,9 +58,9 @@ If you choose to build your own:
 
 Once you have a **libmarkdown.a** static library for your platform:
 
-1. Download and install [Nimrod][nimrod].
+1. Download and install [Nim][nim].
 2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your **libmarkdown.a** file in the **vendor** directory.
-4. Run **nimrod c hastyscribe.nim**
+4. Run **nim c hastyscribe.nim**
 
-[nimrod]: http://nimrod-code.org/
+[nim]: http://nim-lang.org/

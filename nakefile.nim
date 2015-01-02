@@ -2,7 +2,7 @@ import nake
 from version import v
 
 const
-  compile = "nimrod c -d:release"
+  compile = "nim c -d:release"
   linux_x86 = "--cpu:i386 --os:linux"
   linux_arm = "--cpu:arm --os:linux"
   windows_x86 = "--cpu:i386 --os:windows"

@@ -77,14 +77,14 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x86)]({{release}}/hastyscribe_v1.0.8_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
-  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.0.8_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
-  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.0.8_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.0.8_linux_arm.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.2)
+  * [HastyScribe for Mac OS X (x86)]({{release}}/hastyscribe_v1.0.9_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
+  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.0.9_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
+  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.0.9_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.0.9_linux_arm.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.2)
 
 ### Installing using Nimble
 
-If you already have [Nimrod][nimrod] installed on your computer, you can simply run
+If you already have [Nim][nim] installed on your computer, you can simply run
 
 [nimble install hastyscribe](class:cmd)
 
@@ -111,10 +111,10 @@ If you choose to build your own:
 
 Once you have a [libmarkdown.a](class:file) static library for your platform:
 
-1. Download and install [Nimrod][nimrod].
+1. Download and install [Nim][nim].
 2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 3. Put your [libmarkdown.a](class:file) file in the [vendor](class:dir) directory.
-4. Run [nimrod c hastyscribe.nim](class:cmd)
+4. Run [nim c hastyscribe.nim](class:cmd)
 
 ## Usage
 
@@ -725,11 +725,11 @@ HastyScribe is powered by the following open source software (see [LICENSE.md]({
 
 Special thanks to:
 
-* Andreas Rumpf, creator of the amazing [Nimrod][nimrod] programming language, used to implement {{hs}}.
+* Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 * Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
 
-[nimrod]: http://nimrod-code.org/
+[nim]: http://nim-lang.org/
 [df]: https://daringfireball.net/projects/markdown/
 [discount]: http://www.pell.portland.or.us/~orc/Code/discount/
 [pandoc]: http://johnmacfarlane.net/pandoc/
@@ -738,4 +738,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.8}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.9}}

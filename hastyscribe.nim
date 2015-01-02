@@ -28,7 +28,7 @@ const sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".
 
 # Procedures
 
-proc parse_date*(date: string, timeinfo: var TTimeInfo): bool = 
+proc parse_date*(date: string, timeinfo: var TimeInfo): bool = 
   var parts = date.split('-').map(proc(i:string): int = 
     try:
       i.parseInt
@@ -38,9 +38,9 @@ proc parse_date*(date: string, timeinfo: var TTimeInfo): bool =
   if parts.len < 3:
     return false
   try:
-    timeinfo = TTimeInfo(year: parts[0], month: TMonth(parts[1]-1), monthday: parts[2])
+    timeinfo = TimeInfo(year: parts[0], month: Month(parts[1]-1), monthday: parts[2])
     # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
-    timeinfo = getLocalTime(timeinfo.TimeInfoToTime);
+    timeinfo = getLocalTime(timeinfo.timeInfoToTime);
     return true
   except:
     return false
@@ -126,7 +126,7 @@ proc embed_fonts*(): string=
 # {{test}}
 
 proc parse_snippets*(document): string =
-  var snippets:TTable[string, string] = initTable[string, string]()
+  var snippets:Table[string, string] = initTable[string, string]()
   let peg_def = peg"""
     definition <- '{{' \s* {id} \s* '->' {@} '}}'
     id <- [a-zA-Z0-9_-]+
@@ -194,7 +194,7 @@ proc compile*(input_file: string) =
     toc = ""
 
   # Date parsing and validation
-  var timeinfo: TTimeInfo = getLocalTime(getTime())
+  var timeinfo: TimeInfo = getLocalTime(getTime())
 
   if parse_date(metadata.date, timeinfo) == false:
     discard parse_date(getDateStr(), timeinfo)
