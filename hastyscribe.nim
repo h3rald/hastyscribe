@@ -5,17 +5,20 @@ from version import v
 let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2014 Fabio Cevasco
-  
+
   Usage:
-    hastyscribe markdown_file_or_glob.md [--notoc]
+    hastyscribe markdown_file_or_glob.md [options]
 
   Arguments:
     markdown_file_or_glob  The markdown (or glob expression) file to compile into HTML.
   Options:
-    --notoc                Do not generate a Table of Contents."""
+    --notoc                Do not generate a Table of Contents.
+    --output-file=<file>   Write output to <file>.
+                           (Use "--output-file=-" to output to stdout.)"""
 
 
 var generate_toc* = true
+var output_file*: string = nil
 const stylesheet* = "assets/styles/hastyscribe.css".slurp
 const hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp
 const fontawesome_font* = "assets/fonts/fontawesome-webfont.woff".slurp
@@ -28,8 +31,8 @@ const sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".
 
 # Procedures
 
-proc parse_date*(date: string, timeinfo: var TimeInfo): bool = 
-  var parts = date.split('-').map(proc(i:string): int = 
+proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
+  var parts = date.split('-').map(proc(i:string): int =
     try:
       i.parseInt
     except:
@@ -49,19 +52,19 @@ proc style_tag*(css): string =
   result = "<style>$1</style>" % [css]
 
 proc encode_image*(contents, format): string =
-    let enc_contents = contents.encode(contents.len*3) 
+    let enc_contents = contents.encode(contents.len*3)
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
 proc encode_image_file*(file, format): string =
   if (file.existsFile):
     let contents = file.readFile
     return encode_image(contents, format)
-  else: 
+  else:
     echo("Warning: image '"& file &"' not found.")
     return file
 
 proc encode_font*(font, format): string =
-    let enc_contents = font.encode(font.len*3) 
+    let enc_contents = font.encode(font.len*3)
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
 proc embed_images*(document, dir): string =
@@ -70,7 +73,7 @@ proc embed_images*(document, dir): string =
     current_dir = ""
   else:
     current_dir = dir & "/"
-  type 
+  type
     TImgTagStart = array[0..0, string]
   let img_peg = peg"""
     image <- '<img' \s+ 'src=' ["] {file} ["]
@@ -106,7 +109,7 @@ proc create_font_face*(font, family, style, weight): string=
     }
   """ % ["family", family, "font", encode_font(font, "x-font-woff"), "style", style, "weight", $weight]
 
-var fonts* = [ 
+var fonts* = [
   create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
   create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
   create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
@@ -121,7 +124,7 @@ proc embed_fonts*(): string=
 
 # Snippet Definition:
 # {{test -> My test snippet}}
-# 
+#
 # Snippet Usage:
 # {{test}}
 
@@ -151,7 +154,7 @@ proc parse_snippets*(document): string =
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
     if snippets[id] == nil:
-      echo "Warning: Snippet '" & id & "' not defined." 
+      echo "Warning: Snippet '" & id & "' not defined."
       doc = doc.replace(snippet, "")
     else:
       doc = doc.replace(snippet, snippets[id])
@@ -161,7 +164,9 @@ proc compile*(input_file: string) =
   let inputsplit = input_file.splitFile
 
   # Output file name
-  let output_file = inputsplit.dir/inputsplit.name & ".htm"
+  if output_file == nil:
+    output_file = inputsplit.dir/inputsplit.name & ".htm"
+
   var source = input_file.readFile
 
   # Parse snippets
@@ -209,7 +214,7 @@ proc compile*(input_file: string) =
   <meta name="generator" content="HastyScribe">
   $fonts_css
   $main_css
-</head> 
+</head>
 <body$headings>
   <a id="document-top"></a>
   $header_tag
@@ -221,23 +226,27 @@ $body
     <p>$author_footer $date</p>
     <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
   </div>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body, 
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css", main_css, "headings", headings, "body", body,
 "fonts_css", embed_fonts()]
   document = embed_images(document, inputsplit.dir)
   document = add_jump_to_top_links(document)
-  output_file.writeFile(document)
 
- 
+  if output_file != "-":
+    output_file.writeFile(document)
+  else:
+    stdout.write(document)
+
+
 ### MAIN
 
 when isMainModule:
   var input = ""
   var files = @[""]
-  
+
   discard files.pop
-  
+
   # Parse Parameters
-  
+
   for kind, key, val in getopt():
     case kind
     of cmdArgument:
@@ -245,16 +254,24 @@ when isMainModule:
     of cmdLongOption:
       if key == "notoc":
         generate_toc = false
+      elif key == "output-file":
+        output_file = val
     else: discard
-  
+
   if input == "":
     quit(usage, 1)
-  
+  elif output_file == "":
+    quit(usage, 4)
+
   for file in walkFiles(input):
     files.add(file)
- 
+
   if files.len == 0:
     quit("Error: \"$1\" does not match any file" % [input], 2)
   else:
-    for file in files:
-      compile(file)
+    try:
+      for file in files:
+        compile(file)
+    except IOError:
+      let msg = getCurrentExceptionMsg()
+      quit("Error: $1" % [msg], 3)
