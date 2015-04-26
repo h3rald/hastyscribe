@@ -60,7 +60,7 @@ proc encode_image_file*(file, format): string =
     let contents = file.readFile
     return encode_image(contents, format)
   else:
-    echo("Warning: image '"& file &"' not found.")
+    stderr.writeln("Warning: image '"& file &"' not found.")
     return file
 
 proc encode_font*(font, format): string =
@@ -154,7 +154,7 @@ proc parse_snippets*(document): string =
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
     if snippets[id] == nil:
-      echo "Warning: Snippet '" & id & "' not defined."
+      stderr.writeln "Warning: Snippet '" & id & "' not defined."
       doc = doc.replace(snippet, "")
     else:
       doc = doc.replace(snippet, snippets[id])
