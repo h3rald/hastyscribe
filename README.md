@@ -4,9 +4,7 @@ _HastyScribe_ is a simple command-line program able to convert [markdown](http:/
 
 ## Usage
 
-**hastyscribe** _filename.md_ [ **\--notoc** ] 
-
-**hastyscribe** _filename-or-glob-expression_ **[** _<options\>_ **]**
+**hastyscribe** _filename-or-glob-expression_ **[** _\<options\>_ **]**
 
 Where:
 
@@ -36,7 +34,7 @@ Because:
   * class blocks
   * tables
   * fenced code blocks
-  * [Pandoc](http://johnmacfarlane.net/pandoc/)-style docuemnt headers
+  * [Pandoc](http://johnmacfarlane.net/pandoc/)-style document headers
 * It automatically embeds any referenced image via data URI
 * It has supports for text snippets
 
