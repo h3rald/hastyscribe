@@ -21,15 +21,30 @@ let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 var generate_toc* = true
 var output_file*: string = nil
 var user_css*: string = nil
-const stylesheet* = "assets/styles/hastyscribe.css".slurp
-const hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp
-const fontawesome_font* = "assets/fonts/fontawesome-webfont.woff".slurp
-const sourcecodepro_font* = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
-const sourcesanspro_font* = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
-const sourcesanspro_bold_font* = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
-const sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
-const sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+const 
+  stylesheet* = "assets/styles/hastyscribe.css".slurp
+  hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp 
+  fontawesome_font* = "assets/fonts/fontawesome-webfont.woff".slurp
+  sourcecodepro_font* = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
+  sourcesanspro_font* = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
+  sourcesanspro_bold_font* = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
+  sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
+  sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
 
+let 
+  peg_imgformat = peg"i'.png' / i'.jpg' / i'.jpeg' / i'.gif' / i'.svg' / i'.bmp' / i'.webp' @$"
+  peg_img = peg"""
+    image <- '<img' \s+ 'src=' ["] {file} ["]
+    file <- [^"]+
+  """
+  peg_def = peg"""
+    definition <- '{{' \s* {id} \s* '->' {@} '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  peg_snippet = peg"""
+    snippet <- '{{' \s* {id} \s* '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
 
 # Procedures
 
@@ -53,7 +68,7 @@ proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
 proc style_tag*(css): string =
   result = "<style>$1</style>" % [css]
 
-proc encode_image*(contents, format): string =
+proc encode_image*(contents, format: string): string =
     let enc_contents = contents.encode(contents.len*3)
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
@@ -62,10 +77,10 @@ proc encode_image_file*(file, format): string =
     let contents = file.readFile
     return encode_image(contents, format)
   else:
-    stderr.writeln("Warning: image '"& file &"' not found.")
+    stderr.writeln("Warning: image '" & file & "' not found.")
     return file
 
-proc encode_font*(font, format): string =
+proc encode_font*(font, format: string): string =
     let enc_contents = font.encode(font.len*3)
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
@@ -237,7 +252,6 @@ $body
 "fonts_css_tag", embed_fonts()]
   document = embed_images(document, inputsplit.dir)
   document = add_jump_to_top_links(document)
-
   if output_file != "-":
     output_file.writeFile(document)
   else:
@@ -271,7 +285,7 @@ when isMainModule:
   elif user_css == "":
     quit(usage, 4)
   elif output_file == "":
-    quit(usage, 4)
+    quit(usage, 5)
 
   for file in walkFiles(input):
     files.add(file)

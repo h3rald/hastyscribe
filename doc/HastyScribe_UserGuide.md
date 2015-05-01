@@ -728,6 +728,8 @@ Special thanks to:
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 * Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
+-> ![Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License](https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png) <-
+
 
 [nim]: http://nim-lang.org/
 [df]: https://daringfireball.net/projects/markdown/
