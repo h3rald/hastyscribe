@@ -74,14 +74,14 @@ proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
   except:
     return false
 
-proc style_tag*(css): string =
+proc style_tag*(css: string): string =
   result = "<style>$1</style>" % [css]
 
 proc encode_image*(contents, format: string): string =
     let enc_contents = contents.encode(contents.len*3)
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
-proc encode_image_file*(file, format): string =
+proc encode_image_file*(file, format: string): string =
   if (file.existsFile):
     let contents = file.readFile
     return encode_image(contents, format)
@@ -93,7 +93,7 @@ proc encode_font*(font, format: string): string =
     let enc_contents = font.encode(font.len*3)
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
-proc embed_images*(document, dir): string =
+proc embed_images*(document, dir: string): string =
   var current_dir:string
   if dir.len == 0:
     current_dir = ""
@@ -125,11 +125,11 @@ proc embed_images*(document, dir): string =
   return doc
 
 
-proc add_jump_to_top_links*(document): string =
+proc add_jump_to_top_links*(document: string): string =
   return document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
 
 
-proc create_font_face*(font, family, style, weight): string=
+proc create_font_face*(font, family, style: string, weight: int): string=
   return """
     @font-face {
       font-family:"$family";
@@ -160,7 +160,7 @@ proc embed_fonts*(): string=
 # Snippet Usage:
 # {{test}}
 
-proc parse_snippets*(document): string =
+proc parse_snippets*(document: string): string =
   var snippets:Table[string, string] = initTable[string, string]()
   type
     TSnippetDef = array[0..1, string]
