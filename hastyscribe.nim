@@ -13,10 +13,13 @@ let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
     markdown_file_or_glob  The markdown (or glob expression) file to compile into HTML.
   Options:
     --notoc                Do not generate a Table of Contents.
-    --user-css=<file>      Insert contents of <file> as a CSS stylesheet."""
+    --user-css=<file>      Insert contents of <file> as a CSS stylesheet.
+    --output-file=<file>   Write output to <file>.
+                           (Use "--output-file=-" to output to stdout.)"""
 
 
 var generate_toc* = true
+var output_file*: string = nil
 var user_css*: string = nil
 const stylesheet* = "assets/styles/hastyscribe.css".slurp
 const hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp
@@ -59,7 +62,7 @@ proc encode_image_file*(file, format): string =
     let contents = file.readFile
     return encode_image(contents, format)
   else:
-    echo("Warning: image '"& file &"' not found.")
+    stderr.writeln("Warning: image '"& file &"' not found.")
     return file
 
 proc encode_font*(font, format): string =
@@ -153,7 +156,7 @@ proc parse_snippets*(document): string =
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
     if snippets[id] == nil:
-      echo "Warning: Snippet '" & id & "' not defined."
+      stderr.writeln "Warning: Snippet '" & id & "' not defined."
       doc = doc.replace(snippet, "")
     else:
       doc = doc.replace(snippet, snippets[id])
@@ -163,7 +166,9 @@ proc compile*(input_file: string) =
   let inputsplit = input_file.splitFile
 
   # Output file name
-  let output_file = inputsplit.dir/inputsplit.name & ".htm"
+  if output_file == nil:
+    output_file = inputsplit.dir/inputsplit.name & ".htm"
+
   var source = input_file.readFile
 
   # Parse snippets
@@ -232,8 +237,11 @@ $body
 "fonts_css_tag", embed_fonts()]
   document = embed_images(document, inputsplit.dir)
   document = add_jump_to_top_links(document)
-  output_file.writeFile(document)
 
+  if output_file != "-":
+    output_file.writeFile(document)
+  else:
+    stdout.write(document)
 
 ### MAIN
 
@@ -254,11 +262,15 @@ when isMainModule:
         generate_toc = false
       elif key == "user-css":
         user_css = val
+      elif key == "output-file":
+        output_file = val
     else: discard
 
   if input == "":
     quit(usage, 1)
   elif user_css == "":
+    quit(usage, 4)
+  elif output_file == "":
     quit(usage, 4)
 
   for file in walkFiles(input):
@@ -269,7 +281,7 @@ when isMainModule:
   else:
     try:
       for file in files:
-          compile(file)
+        compile(file)
     except IOError:
       let msg = getCurrentExceptionMsg()
       quit("Error: $1" % [msg], 3)
