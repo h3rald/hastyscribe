@@ -13,7 +13,7 @@ from version import v
 
 let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2014 Fabio Cevasco
+  (c) 2013-2015 Fabio Cevasco
 
   Usage:
     hastyscribe markdown_file_or_glob.md [options]

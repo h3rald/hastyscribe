@@ -79,6 +79,7 @@ The easiest way to get {{hs}} is by downloading one of the prebuilt binaries fro
 
   * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.0_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
   * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.0_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.1.0_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
   * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.0_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
   * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.0_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
 
@@ -740,7 +741,7 @@ HastyScribe is powered by the following open source software (see [LICENSE.md]({
 
 Special thanks to:
 
-* Philip Wernersbach, for contributing to HastyScribe.
+* Philip Wernersbach and Joshua Ellis, for contributing to {{hs}}.
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 * Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
