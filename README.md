@@ -6,6 +6,15 @@ _HastyScribe_ is a simple command-line program able to convert [markdown](http:/
 
 **hastyscribe** _filename.md_ [ **\--notoc** ] 
 
+**hastyscribe** _filename-or-glob-expression_ **[** _<options\>_ **]**
+
+Where:
+
+  * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
+  * The following options are supported:
+    * **\-\-notoc** causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
+    * **\-\-user-css=<file\>** causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
+    * **\-\-output-file=<file\>** causes {{hs}} to write output to a local file (Use **\-\-output-file=-** to output to standard output).
 
 ## FAQs
 
@@ -28,7 +37,7 @@ Because:
   * tables
   * fenced code blocks
   * [Pandoc](http://johnmacfarlane.net/pandoc/)-style docuemnt headers
-* It automatically embeds any referenced local image via data URI
+* It automatically embeds any referenced image via data URI
 * It has supports for text snippets
 
 ### What can I use it for?
@@ -54,7 +63,7 @@ If you choose to build your own:
    make
    ```
 
-  Tip: If you are on Windows, you can compile Discount using [MinGW](http://www.mingw.org/).
+  Tip: If you are on Windows, you can compile Discount using [MinGW-w64](http://mingw-w64.yaxm.org/doku.php).
 
 Once you have a **libmarkdown.a** static library for your platform:
 

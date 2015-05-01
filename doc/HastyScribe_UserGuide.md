@@ -48,7 +48,7 @@ Although not part of neither {{md}} nor Discount, {{hs}} allows you to create te
 {{hs}} only produces single HTML files. With _no dependencies_:
 
 * By default, the HastyScribe, FontAwesome, Source Sans Pro, and Source Code Pro fonts are automatically embedded.
-* All referenced local images are automatically embedded using the {{datauri -> [data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)}}.
+* All referenced images (both local and remote) are automatically embedded using the {{datauri -> [data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)}}.
 
 #### FontAwesome Icons
 
@@ -77,10 +77,10 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x86)]({{release}}/hastyscribe_v1.0.9_macosx_x86.zip) -- Compiled on OS X Mavericks (LLVM CLANG 6.0)
-  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.0.9_windows_x86.zip) -- Cross-compiled on OS X Mavericks (MinGW GCC 4.8.0)
-  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.0.9_linux_x86.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.0.9_linux_arm.zip) -- Cross-compiled on OS X Mavericks (GNU GCC 4.8.2)
+  * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.0_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
+  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.0_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.0_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.0_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
 
 ### Installing using Nimble
 
@@ -107,7 +107,7 @@ If you choose to build your own:
    > %tip%
    > Tip
    > 
-   > If you are on Windows, you can compile Discount using [MinGW](http://www.mingw.org/).
+   > If you are on Windows, you can compile Discount using [MinGW-w64](http://mingw-w64.yaxm.org/doku.php).
 
 Once you have a [libmarkdown.a](class:file) static library for your platform:
 
@@ -122,12 +122,15 @@ Once you have a [libmarkdown.a](class:file) static library for your platform:
 
 ### Command Line Syntax
 
-[hastyscribe](class:cmd) _filename-or-glob-expression_ **[** [\-\-notoc](class:opt) **]**
+[hastyscribe](class:cmd) _filename-or-glob-expression_ **[** [_<options\>_](class:opt) **]**
 
 Where:
 
   * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
-  * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
+  * The following options are supported:
+    * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
+    * [\-\-user-css=<file\>](class:opt) causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
+    * [\-\-output-file=<file\>](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
 
 ### Linux/OSX Examples 
 
@@ -438,6 +441,18 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 > 
 > You can use URL placeholders for images as well, exactly like for links.
 
+> %warning%
+> Limitations on automatic image download
+> 
+> {{hs}} will attempt to download all HTTP and HTTPS image links. Note that:
+> 
+> * If no response is received within 5 seconds, the download will be aborted.
+> * Connecting through a proxy is currently not supported.
+> * To download an image via HTTPS, OpenSSL must be installed on your system.
+> 
+> If {{hs}} is unable to download an image, it will leave it linked.
+
+
 #### Lists
 
 ##### Unordered Lists
@@ -725,6 +740,7 @@ HastyScribe is powered by the following open source software (see [LICENSE.md]({
 
 Special thanks to:
 
+* Philip Wernersbach, for contributing to HastyScribe.
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 * Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
@@ -740,4 +756,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.0.9}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1.0}}
