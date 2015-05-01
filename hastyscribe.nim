@@ -1,4 +1,13 @@
-import os, parseopt2, strutils, times, pegs, base64, markdown, tables
+import 
+  os, 
+  parseopt2, 
+  strutils, 
+  times, 
+  pegs, 
+  base64, 
+  markdown, 
+  tables,
+  httpclient
 
 from version import v
 
@@ -92,19 +101,25 @@ proc embed_images*(document, dir): string =
     current_dir = dir & "/"
   type
     TImgTagStart = array[0..0, string]
-  let img_peg = peg"""
-    image <- '<img' \s+ 'src=' ["] {file} ["]
-    file <- [^"]+
-  """
   var doc = document
-  for img in findAll(document, img_peg):
+  for img in findAll(document, peg_img):
     var matches:TImgTagStart
-    discard img.match(img_peg, matches)
+    discard img.match(peg_img, matches)
     let imgfile = matches[0]
-    if imgfile.startsWith(peg"'data:'"): continue
-    let pegimgformat = peg"i'.png' / i'.jpg' / i'.jpeg' / i'.gif' / i'.svg' / i'.bmp' / i'.webp' @$"
-    let imgformat = imgfile.substr(imgfile.find(pegimgformat)+1, imgfile.len-1)
-    let imgcontent = encode_image_file(current_dir & imgfile, imgformat)
+    let imgformat = imgfile.substr(imgfile.find(peg_imgformat)+1, imgfile.len-1)
+    var imgcontent = ""
+    if imgfile.startsWith(peg"'data:'"): 
+      continue
+    elif imgfile.startsWith(peg"http[s]?'://'"):
+      try:
+        imgcontent = encode_image(getContent(imgfile, timeout = 5000), imgformat)
+      except:
+        stderr.writeln "Warning: Unable to download '" & imgfile & "'"
+        stderr.writeln "  Reason: " & getCurrentExceptionMsg()
+        stderr.writeln "  -> Image will be linked instead"
+        continue
+    else:
+      imgcontent = encode_image_file(current_dir & imgfile, imgformat)
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
     doc = doc.replace(img, imgrep)
   return doc
@@ -147,14 +162,6 @@ proc embed_fonts*(): string=
 
 proc parse_snippets*(document): string =
   var snippets:Table[string, string] = initTable[string, string]()
-  let peg_def = peg"""
-    definition <- '{{' \s* {id} \s* '->' {@} '}}'
-    id <- [a-zA-Z0-9_-]+
-  """
-  let peg_snippet = peg"""
-    snippet <- '{{' \s* {id} \s* '}}'
-    id <- [a-zA-Z0-9_-]+
-  """
   type
     TSnippetDef = array[0..1, string]
     TSnippet = array[0..0, string]
