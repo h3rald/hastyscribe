@@ -36,7 +36,8 @@ hastyscribe.nim
 LICENSE.md
 markdown.nim
 README.md
-vendor/libmarkdown_macosx_x86.a
+vendor/libmarkdown_macosx_x64.a
+vendor/libmarkdown_windows_x64.a
 vendor/libmarkdown_windows_x86.a
 vendor/libmarkdown_linux_x86.a
 vendor/libmarkdown_linux_arm.a
