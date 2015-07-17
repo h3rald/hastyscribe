@@ -281,12 +281,13 @@ produces the following result:
 > %responsive%
 > Class                | Badge                        | Class               | Badge 
 > ---------------------|------------------------------|--------------------------------------------
-> `todo`               | [](class:todo)               |`date`               | [](class:date)
+> `todo`               | [](class:todo)               |`user`               | [](class:user)
 > `fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
+> `deadline`           | [](class:deadline)           |`tags`               | [](class:tags) 
 > `draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
 > `urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
 > `verify`             | [](class:verify)             |`geo`                | [](class:geo)
-> `deadline`           | [](class:deadline)           |`eur`                | [](class:eur)
+> `project`            | [](class:project)            |`eur`                | [](class:eur)
 > `red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
 > `yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
 > `green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
@@ -302,6 +303,12 @@ produces the following result:
 > `copy`               | [](class:copy)               |`red-flag`           | [](class:red-flag)
 > `green-flag`         | [](class:green-flag)         |`yellow-flag`        | [](class:yellow-flag)
 > `story`              | [](class:story)              |`feature`            | [](class:feature)
+> `add`                | [](class:add)                |`remove`             | [](class:remove)
+> `time`               | [](class:time)               |`date`               | [](class:date)
+> `html5`              | [](class:html5)              |`css3`               | [](class:css3)
+> `apple`              | [](class:apple)              |`windows`            | [](class:windows)
+> `linux`              | [](class:linux)              |`android`            | [](class:android)
+> `idea`               | [](class:idea)               |`link`               | [](class:link)
 
 #### HastyScribe Logo
 
