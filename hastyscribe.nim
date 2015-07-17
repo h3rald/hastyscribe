@@ -24,7 +24,7 @@ let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
     --notoc                Do not generate a Table of Contents.
     --user-css=<file>      Insert contents of <file> as a CSS stylesheet.
     --output-file=<file>   Write output to <file>.
-                           (Use "--output-file=-" to output to stdout.)"""
+                           (Use "--output-file=-" to output to stdout)"""
 
 
 var generate_toc* = true
@@ -197,7 +197,7 @@ proc compile*(input_file: string) =
   source = parse_snippets(source)
 
   # Document Variables
-  var metadata = TMDMetaData(title:"", author:"", date:"")
+  var metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
   var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
   var main_css_tag = stylesheet.style_tag
   var user_css_tag = ""
@@ -243,6 +243,7 @@ proc compile*(input_file: string) =
   $fonts_css_tag
   $main_css_tag
   $user_css_tag
+  $internal_css_tag
 </head>
 <body$headings>
   <a id="document-top"></a>
@@ -256,7 +257,7 @@ $body
     <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
   </div>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", body,
-"fonts_css_tag", embed_fonts()]
+"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css]
   document = embed_images(document, inputsplit.dir)
   document = add_jump_to_top_links(document)
   if output_file != "-":

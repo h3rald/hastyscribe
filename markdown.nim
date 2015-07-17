@@ -123,11 +123,12 @@ const
 
 # special flags for mkd_in() and mkd_string()
 
-type TMDMetaData* = object of RootObj
+type TMDMetaData* = object 
   title*: string
   author*: string
   date*: string
   toc*: string
+  css*: string
 
 proc md*(s: string, f = 0): string =
   var flags = uint32(f)
@@ -161,18 +162,26 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
     data.author = $mkd_doc_author(mmiot)
     data.date = $mkd_doc_date(mmiot)
   discard mkd_compile(mmiot, flags)
+  # Process TOC
   if (int(flags) and MKD_DOTOC) == MKD_DOTOC:
     var toc = allocCStringArray([""])
-    discard $mkd_toc(mmiot, toc)
     try:
+      discard mkd_toc(mmiot, toc)
       data.toc = cstringArrayToSeq(toc)[0]
     except:
       data.toc = ""
+  # Process CSS
+  try:
+    var css = allocCStringArray([""])
+    discard mkd_css(mmiot, css)
+    data.css = cstringArrayToSeq(css)[0]
+  except:
+    data.css = ""
+  # Generate HTML
   var res = allocCStringArray([""])
   discard mkd_document(mmiot, res)
   result = cstringArrayToSeq(res)[0]
   mkd_cleanup(mmiot)
-  return
 
 when defined(macosx):
   {.link: "vendor/libmarkdown_macosx_x64.a".}
