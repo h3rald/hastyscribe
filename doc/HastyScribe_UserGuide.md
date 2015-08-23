@@ -77,11 +77,11 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.1_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
-  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.1_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.1.1_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.1_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.1_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
+  * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.2_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
+  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.2_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.1.2_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.2_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.2_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
 
 ### Installing using Nimble
 
@@ -300,6 +300,7 @@ produces the following result:
 > `unlock`             | [](class:unlock)             |`question`           | [](class:question)
 > `email`              | [](class:email)              |`website`            | [](class:website)
 > `phone`              | [](class:phone)              |`fax`                | [](class:fax)
+> `tm`                 | [](class:tm)                 |`reg`                | [](class:reg)
 > `copy`               | [](class:copy)               |`red-flag`           | [](class:red-flag)
 > `green-flag`         | [](class:green-flag)         |`yellow-flag`        | [](class:yellow-flag)
 > `story`              | [](class:story)              |`feature`            | [](class:feature)
@@ -309,6 +310,9 @@ produces the following result:
 > `apple`              | [](class:apple)              |`windows`            | [](class:windows)
 > `linux`              | [](class:linux)              |`android`            | [](class:android)
 > `idea`               | [](class:idea)               |`link`               | [](class:link)
+> `chrome`             | [](class:chrome)             |`firefox`            | [](class:firefox)
+> `ie`                 | [](class:ie)                 |`opera`              | [](class:opera)
+> `safari`             | [](class:safari)             |`sticky`             | [](class:sticky)
 
 #### HastyScribe Logo
 
@@ -328,7 +332,7 @@ To display the {{hs}} logo, use the [hastyscribe](class:kwd) class, like this:
 
 Additionally, you can define placeholders for URLs and link titles, like this:
 
-`h3rald]: https://h3rald.com/ "Fabio Cevasco's Web Site"`
+`[h3rald]: https://h3rald.com/ "Fabio Cevasco's Web Site"`
 
 And use them in hyperlinks (note the usage of square brackets instead of round brackets):
 
@@ -452,11 +456,11 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 > %warning%
 > Limitations on automatic image download
 > 
-> {{hs}} will attempt to download all HTTP and HTTPS image links. Note that:
+> {{hs}} will attempt to download all HTTP image links. Note that:
 > 
 > * If no response is received within 5 seconds, the download will be aborted.
 > * Connecting through a proxy is currently not supported.
-> * To download an image via HTTPS, OpenSSL must be installed on your system.
+> * To download an image via HTTPS, you must explicitly recompile {{hs}} with [-d:ssl](class:kwd) and OpenSSL must be installed on your system.
 > 
 > If {{hs}} is unable to download an image, it will leave it linked.
 
@@ -752,7 +756,7 @@ Special thanks to:
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 * Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
--> ![Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License](https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png) <-
+-> ![Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License](../assets/images/by-nc-nd_3.0.png) <-
 
 
 [nim]: http://nim-lang.org/
@@ -764,4 +768,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1.1}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1.2}}

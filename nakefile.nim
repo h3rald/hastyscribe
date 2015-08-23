@@ -7,6 +7,7 @@ const
   linux_arm = "--cpu:arm --os:linux"
   windows_x86 = "--cpu:i386 --os:windows"
   windows_x64 = "--cpu:amd64 --os:windows"
+  macosx_x64 = ""
   parallel = "--parallelBuild:1 --verbosity:3"
   hs = "hastyscribe"
   hs_file = "hastyscribe.nim"
@@ -28,7 +29,7 @@ task "linux-arm-build", "Build HastyScribe for Linux (ARM)":
   direshell compile, linux_arm,  hs_file
   
 task "macosx-x64-build", "Build HastyScribe for Mac OS X (x64)":
-  direshell compile, hs_file
+  direshell compile, macosx_x64, hs_file
 
 task "release", "Release HastyScribe":
   echo "\n\n\n WINDOWS - x86:\n\n"
