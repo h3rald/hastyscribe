@@ -164,23 +164,23 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
   discard mkd_compile(mmiot, flags)
   # Process TOC
   if (int(flags) and MKD_DOTOC) == MKD_DOTOC:
-    var toc = allocCStringArray([""])
-    try:
-      discard mkd_toc(mmiot, toc)
+    var toc = allocCStringArray(@[""])
+    if mkd_toc(mmiot, toc) > 0:
       data.toc = cstringArrayToSeq(toc)[0]
-    except:
+    else:
       data.toc = ""
   # Process CSS
-  try:
-    var css = allocCStringArray([""])
-    discard mkd_css(mmiot, css)
+  var css = allocCStringArray(newSeq[string](10))
+  if mkd_css(mmiot, css) > 0:
     data.css = cstringArrayToSeq(css)[0]
-  except:
+  else:
     data.css = ""
   # Generate HTML
   var res = allocCStringArray([""])
-  discard mkd_document(mmiot, res)
-  result = cstringArrayToSeq(res)[0]
+  if mkd_document(mmiot, res) > 0:
+    result = cstringArrayToSeq(res)[0]
+  else:
+    result = ""
   mkd_cleanup(mmiot)
 
 when defined(macosx):
