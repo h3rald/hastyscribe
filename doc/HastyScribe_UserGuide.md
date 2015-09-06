@@ -77,11 +77,11 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.2_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
-  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.2_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.1.2_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.2_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.2_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
+  * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.3_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
+  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.3_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.1.3_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.3_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.3_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
 
 ### Installing using Nimble
 
@@ -768,4 +768,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1.2}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1.3}}

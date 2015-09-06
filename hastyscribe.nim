@@ -16,15 +16,15 @@ let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
   (c) 2013-2015 Fabio Cevasco
 
   Usage:
-    hastyscribe markdown_file_or_glob.md [options]
+    hastyscribe <markdown_file_or_glob> [options]
 
   Arguments:
-    markdown_file_or_glob  The markdown (or glob expression) file to compile into HTML.
+    markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
   Options:
-    --notoc                Do not generate a Table of Contents.
-    --user-css=<file>      Insert contents of <file> as a CSS stylesheet.
-    --output-file=<file>   Write output to <file>.
-                           (Use "--output-file=-" to output to stdout)"""
+    --notoc                 Do not generate a Table of Contents.
+    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
+    --output-file=<file>    Write output to <file>.
+                            (Use "--output-file=-" to output to stdout)"""
 
 
 var generate_toc* = true
@@ -280,11 +280,12 @@ when isMainModule:
     of cmdArgument:
       input = key
     of cmdLongOption:
-      if key == "notoc":
+      case key
+      of "notoc":
         generate_toc = false
-      elif key == "user-css":
+      of "user-css":
         user_css = val
-      elif key == "output-file":
+      of "output-file":
         output_file = val
     else: discard
 
