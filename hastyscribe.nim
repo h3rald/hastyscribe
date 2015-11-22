@@ -2,6 +2,7 @@ import
   os, 
   parseopt2, 
   strutils, 
+  sequtils,
   times, 
   pegs, 
   base64, 
@@ -86,7 +87,7 @@ proc encode_image_file*(file, format: string): string =
     let contents = file.readFile
     return encode_image(contents, format)
   else:
-    stderr.writeln("Warning: image '" & file & "' not found.")
+    stderr.writeLine("Warning: image '" & file & "' not found.")
     return file
 
 proc encode_font*(font, format: string): string =
@@ -114,9 +115,9 @@ proc embed_images*(document, dir: string): string =
       try:
         imgcontent = encode_image(getContent(imgfile, timeout = 5000), imgformat)
       except:
-        stderr.writeln "Warning: Unable to download '" & imgfile & "'"
-        stderr.writeln "  Reason: " & getCurrentExceptionMsg()
-        stderr.writeln "  -> Image will be linked instead"
+        stderr.writeLine "Warning: Unable to download '" & imgfile & "'"
+        stderr.writeLine "  Reason: " & getCurrentExceptionMsg()
+        stderr.writeLine "  -> Image will be linked instead"
         continue
     else:
       imgcontent = encode_image_file(current_dir & imgfile, imgformat)
@@ -178,7 +179,7 @@ proc parse_snippets*(document: string): string =
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
     if snippets[id] == nil:
-      stderr.writeln "Warning: Snippet '" & id & "' not defined."
+      stderr.writeLine "Warning: Snippet '" & id & "' not defined."
       doc = doc.replace(snippet, "")
     else:
       doc = doc.replace(snippet, snippets[id])
@@ -287,7 +288,10 @@ when isMainModule:
         user_css = val
       of "output-file":
         output_file = val
-    else: discard
+      else:
+        discard
+    else: 
+      discard
 
   if input == "":
     quit(usage, 1)
