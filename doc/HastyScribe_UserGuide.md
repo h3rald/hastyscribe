@@ -355,8 +355,11 @@ produces the following result:
 > `linux`              | [](class:linux)              |`android`            | [](class:android)
 > `idea`               | [](class:idea)               |`link`               | [](class:link)
 > `chrome`             | [](class:chrome)             |`firefox`            | [](class:firefox)
-> `ie`                 | [](class:ie)                 |`opera`              | [](class:opera)
-> `safari`             | [](class:safari)             |`sticky`             | [](class:sticky)
+> `ie`                 | [](class:ie)                 |`edge`               | [](class:edge)
+> `safari`             | [](class:safari)             |`opera`              | [](class:opera)
+> `sticky`             | [](class:sticky)             |`bluetooth`          | [](class:bluetooth)
+> `wifi`               | [](class:wifi)               |`signal`             | [](class:signal)
+> `usb`                | [](class:usb)                |`print`              | [](class:print)
 
 #### HastyScribe Logo
 
