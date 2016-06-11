@@ -1,0 +1,161 @@
+@media print {
+
+  body {
+    width: 700px;
+  }
+
+  @prince-pdf {
+    prince-pdf-page-mode: show-bookmarks;
+  }
+
+
+  /* Table of Contents */
+
+  #toc {
+  	width: 650px;
+    list-style-type: none;
+  }
+  #toc ul {
+    list-style-type: none;
+    padding-left: 20px;
+    margin-left: 0;
+  }
+  
+  #toc li {
+    padding-left: 0;
+    margin-left: 0;
+  	padding-bottom: 0.2em;
+  }
+  
+  #toc a {
+    text-decoration: none;
+  }
+  
+  #toc a::after {
+  	content: leader(".") target-counter(attr(href), page); }
+  
+  #toc a[href="#preface"]::after {
+  	content: leader(".") target-counter(attr(href), page, lower-roman); }
+  
+  #toc  a {
+  	color: #000; }
+  
+  #toc > li {
+  	margin: 0.2em 0; 
+  	line-height: 1.2em;
+  	font-weight: bold;
+  	padding-bottom: 0.4em;
+  	font-size: 110%;
+  }
+  
+  #toc > li > ul > li {
+  	font-weight: normal;
+  	font-size: 100%;
+  }
+  
+  #toc li li li li li li {
+  	display: none; /* None sane of mind would EVER want more than five TOC levels. */
+  }
+  
+  #toc > li  {
+  	counter-increment: toc1;
+  	counter-reset: toc2;
+  }
+  #toc > li > a::before {
+    content: counter(toc1) " ";
+  }
+  #toc > li > a[href="#preface"]::before {
+  	counter-reset: toc1;
+  	content: "";
+  }
+  #toc > li > ul > li {
+  	counter-increment: toc2;
+  	counter-reset: toc3;
+  }
+  #toc > li > ul > li > a::before {
+    content: counter(toc1) "." counter(toc2) " "; 
+  }
+  
+  #toc > li > ul > li > ul > li {
+  	counter-increment: toc3;
+  	counter-reset: toc4;
+  }
+  #toc > li > ul > li > ul > li > a::before {
+    content: counter(toc1) "." counter(toc2) "." counter(toc3) " "; 
+  }
+  #toc > li > ul > li > ul > li > ul > li {
+  	counter-increment: toc4;
+  	counter-reset: toc5;
+  }
+  #toc > li > ul > li > ul > li > ul > li > a::before {
+    content: counter(toc1) "." counter(toc2) "." counter(toc3) "." counter(toc4) " "; 
+  }
+  #toc > li > ul > li > ul > li > ul > li > ul > li {
+  	counter-increment: toc5;
+  	counter-reset: toc6;
+  }
+  #toc > li > ul > li > ul > li > ul > li > ul > li > a::before {
+    content: counter(toc1) "." counter(toc2) "." counter(toc3) "." counter(toc4) "." counter(toc5) " "; 
+  }
+
+  a[href="#document-top"] {
+    display: none;
+  }
+
+  h1 {
+    margin-bottom: 50px;
+    string-set: title content();
+    border-bottom: 0;
+  }
+
+  h2 {
+    margin-bottom: 30px;
+    page-break-before: always;
+    border-bottom: 0;
+    
+  }
+
+  h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    prince-bookmark-state: closed;
+  }
+
+  #footer {
+    // For some reason the HastyScribe font is not displayed correctly.
+    display: none; 
+  }
+
+  @page:first {
+    @top-center {
+      content: "";
+    }
+  }
+
+  @page {
+	  size: A4;
+	  margin: 50pt 30pt 50pt 30pt;
+    padding-top: 20pt;
+    @top-center {
+      font-family: 'Arial';
+      font-size: 0.8em;
+      content: string(title);
+    }
+  } 
+
+  @page:left {
+	  @bottom-left {
+		  content: counter(page); 
+		  font-family: "Arial", "Sans Serif";
+		  font-size: 0.8em;
+	  }
+  }
+  @page:right {
+	  @bottom-right {
+		  content: counter(page); 
+		  font-family: "Arial", "Sans Serif";
+		  font-size: 0.8em;
+	  }
+  }
+
+
+}

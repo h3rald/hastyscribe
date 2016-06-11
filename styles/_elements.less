@@ -1,57 +1,3 @@
-body {
-  background-color:#fff;
-  margin: 0 auto;
-  height:100%;
-  zoom: 1;
-  letter-spacing: normal;
-  word-spacing: normal;
-  color:@text-color;
-  font:15px @sans-font;
-  line-height:1.4;
-  -webkit-font-smoothing:antialiased;
-  width: 960px;
-  .mix-hyphens(auto);
-}
-
-@media screen and (max-width: 659px) {
-  body {
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 660px) {
-  body {
-    width: 660px;
-  }
-}
-
-/* Layout */
-
-#main, #footer, #header {
-  width: 94%;
-  margin:auto;
-}
-
-#footer {
-  border-top: 1px solid @gray-d;
-  text-align: center;
-  font-size: 75%;
-  p {
-    line-height: 0.6em;
-  }
-}
-
-#toc {
-  margin-top: -10px;
-  ul {
-    list-style-type: none;
-    padding-left: 20px;
-  }
-  & > ul {
-    padding-left: 0;
-  }
-}
-
 /* Lists */
 
 ul, ol {
@@ -67,18 +13,12 @@ li p {
 }
 
 dl {
-  clear: both;
 
   dt {
-    float: left;
-    clear: left;
-    width: 30%;
-    text-align: right;
     font-weight: bold;
   }
 
   dd {
-    margin: 0 0 0 32%;
     padding: 0 0 0.2em 0;
   }
 }
@@ -113,6 +53,7 @@ pre {
     background: @light-gray;
     padding: 0px 2px 0 2px;
     border: none;
+    line-height: 1.2em;
   }
   .hljs {
     padding: 0 3px;
@@ -130,6 +71,7 @@ pre {
     }
   }
 }
+
 table {
   border-collapse:collapse;
   margin: 15px auto;
@@ -177,7 +119,8 @@ hr {
 }
 
 code, span.code {
-  .mix-inline-box(@light-gray, @dark-gray, @gray);
+  .mix-inline-box(@light-gray, @dark-gray, @light-gray);
+  margin: 2px 0px;
   font-family: @monospace-font;
   font-size: 85%;
   .mix-hyphens(none);
@@ -187,8 +130,8 @@ kbd, span.kbd {
   .mix-inline-box(@light-gray, @dark-gray, @gray);
   font-family: @monospace-font;
   font-weight: bold;
-  border-right: 1px solid @dark-gray;
-  border-bottom: 1px solid @dark-gray;
+  border-right: 1px solid @gray-b;
+  border-bottom: 1px solid @gray-b;
   line-height: 1em;
   font-size: 80%;
   .mix-hyphens(none);
