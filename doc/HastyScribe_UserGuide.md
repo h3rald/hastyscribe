@@ -81,11 +81,12 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
-  * [HastyScribe for Windows (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Windows (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Linux (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
+  * [HastyScribe for Mac OS X (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_macosx_x64.zip) -- Compiled on OS X El Capitan (LLVM CLANG 7.0)
+  * [HastyScribe for Windows (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x64.zip) -- Cross-compiled on OS X El Capitan (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Windows (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x86.zip) -- Cross-compiled on OS X El Capitan (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Linux (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_x64.zip) -- Cross-compiled on OS X El Capitan (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_x86.zip) -- Cross-compiled on OS X El Capitan (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_arm.zip) -- Cross-compiled on OS X El Capitan (GNU GCC 4.8.2)
 
 ### Installing using Nimble
 
