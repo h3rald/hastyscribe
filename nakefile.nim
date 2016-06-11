@@ -1,9 +1,13 @@
-import nake
-from version import v
+import 
+  nake
+
+import
+  config
 
 const
   compile = "nim c -d:release"
   linux_x86 = "--cpu:i386 --os:linux"
+  linux_x64 = "--cpu:amd64 --os:linux"
   linux_arm = "--cpu:arm --os:linux"
   windows_x86 = "--cpu:i386 --os:windows"
   windows_x64 = "--cpu:amd64 --os:windows"
@@ -14,7 +18,7 @@ const
   zip = "zip -X"
 
 proc filename_for(os: string, arch: string): string =
-  return "hastyscribe" & "_v" & v & "_" & os & "_" & arch & ".zip"
+  return "hastyscribe" & "_v" & version & "_" & os & "_" & arch & ".zip"
 
 task "windows-x86-build", "Build HastyScribe for Windows (x86)":
   direshell compile, windows_x86, hs_file
@@ -24,6 +28,9 @@ task "windows-x64-build", "Build HastyScribe for Windows (x64)":
 
 task "linux-x86-build", "Build HastyScribe for Linux (x86)":
   direshell compile, linux_x86,  hs_file
+  
+task "linux-x64-build", "Build HastyScribe for Linux (x64)":
+  direshell compile, linux_x64,  hs_file
   
 task "linux-arm-build", "Build HastyScribe for Linux (ARM)":
   direshell compile, linux_arm,  hs_file
@@ -40,6 +47,10 @@ task "release", "Release HastyScribe":
   runTask "windows-x64-build"
   direshell zip, filename_for("windows", "x64"), hs & ".exe"
   direshell "rm", hs & ".exe"
+  echo "\n\n\n LINUX - x64:\n\n"
+  runTask "linux-x64-build"
+  direshell zip, filename_for("linux", "x64"), hs 
+  direshell "rm", hs 
   echo "\n\n\n LINUX - x86:\n\n"
   runTask "linux-x86-build"
   direshell zip, filename_for("linux", "x86"), hs 

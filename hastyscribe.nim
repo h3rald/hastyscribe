@@ -10,9 +10,10 @@ import
   tables,
   httpclient
 
-from version import v
+import
+  config
 
-let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
+let usage* = "  HastyScribe v" & version & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2016 Fabio Cevasco
 

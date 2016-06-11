@@ -193,5 +193,7 @@ when defined(windows):
 when defined(linux):
   when defined(arm):
     {.link: "vendor/libmarkdown_linux_arm.a".}
-  when defined(i386) or defined(amd64):
+  when defined(i386):
     {.link: "vendor/libmarkdown_linux_x86.a".}
+  when defined(amd64):
+    {.link: "vendor/libmarkdown_linux_x64.a".}
