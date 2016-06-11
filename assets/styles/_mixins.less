@@ -50,12 +50,13 @@
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
-    padding: 1px 1px 3px 1px;
-    line-height: 90%;
-    width: 50px;
+    padding: 1px 1px 1px 1px;
+    line-height: 95%;
+    width: 70px;
     text-align: center;
     margin-right: 3px;
     box-shadow: none;
+    font-size: 90%;
     font-variant: small-caps;
     font-weight: bold;
     content: @text;
@@ -118,5 +119,16 @@
   &:before {
     content: @icon @space;
     font-family: "FontAwesome";
+  }
+}
+
+.mix-responsive {
+  @media screen and (max-width: 639px) {
+    overflow-y: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    td {
+      white-space: nowrap;
+    }
   }
 }

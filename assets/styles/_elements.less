@@ -45,6 +45,8 @@ blockquote {
 
 pre {
   .mix-box(@light-gray, @dark-gray, @gray-c);
+  .mix-responsive;
+  white-space: pre;
   margin: auto;
   font-family: @monospace-font;
   padding: 0;
@@ -61,15 +63,8 @@ pre {
 }
 
 .responsive {
-  @media screen and (max-width: 639px) {
-    width: 100%;
-    overflow-y: hidden;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    td {
-      white-space: nowrap;
-    }
-  }
+  .mix-responsive;
+  width: 100%;
 }
 
 table {
@@ -77,6 +72,7 @@ table {
   margin: 15px auto;
   border-spacing:0;
   empty-cells:show;
+  min-width: 100%;
   thead {
     background: @light-gray;
     color:#222;
@@ -187,6 +183,10 @@ span.ext, span.file, span.dir {
 
 span.ext, span.kwd {
   font-weight: bold;
+}
+
+img {
+  max-width: 100%;  
 }
 
 /* Links */
