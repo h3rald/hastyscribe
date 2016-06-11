@@ -242,14 +242,14 @@
 
 <h3 id="Downloading.Pre-built.Binaries">Downloading Pre-built Binaries<a href="#document-top" title="Go to top"></a></h3>
 
-<p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v1.1.3">Github Release Page</a>:</p>
+<p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.1.3/hastyscribe_v1.1.3_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on OS X Yosemite (LLVM CLANG 6.0)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.1.3/hastyscribe_v1.1.3_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.1.3/hastyscribe_v1.1.3_windows_x86.zip">HastyScribe for Windows (x86)</a> &ndash; Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.1.3/hastyscribe_v1.1.3_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.1.3/hastyscribe_v1.1.3_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.2.0/hastyscribe_v1.2.0_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on OS X Yosemite (LLVM CLANG 6.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.2.0/hastyscribe_v1.2.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.2.0/hastyscribe_v1.2.0_windows_x86.zip">HastyScribe for Windows (x86)</a> &ndash; Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.2.0/hastyscribe_v1.2.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.2.0/hastyscribe_v1.2.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)</li>
 </ul>
 
 
@@ -391,7 +391,7 @@
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1465637520</td>
+<td> 1465638495</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
@@ -415,19 +415,19 @@
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 11:32 AM</td>
+<td> 11:48 AM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 11:32</td>
+<td> 11:48</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 11:32:00 AM</td>
+<td> 11:48:15 AM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 11:32:00</td>
+<td> 11:48:15</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
@@ -480,6 +480,12 @@
 </tbody>
 </table>
 </div>
+
+<p>Additionally, you can define your own custom fields via command-line parameters, using the <span class="arg">&ndash;field/</span> dynamic parameter, like this:</p>
+
+<div class="terminal"><p>hastyscribe my-document.md &ndash;field/product:HastyScribe &ndash;field/version:1.2.0</p></div>
+
+<p>In this case it will be possible to access the <kwd>product</kwd> and <kwd>product</kwd> fields within <span class="file">my-document.md</span> using <code>{{$product}}</code> and <code>{{$version}}</code>.</p>
 
 <h3 id="Inline.Formatting">Inline Formatting<a href="#document-top" title="Go to top"></a></h3>
 

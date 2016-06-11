@@ -14,7 +14,7 @@ from version import v
 
 let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2015 Fabio Cevasco
+  (c) 2013-2016 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]
@@ -22,6 +22,7 @@ let usage* = "  HastyScribe v" & v & " - Self-contained Markdown Compiler" & """
   Arguments:
     markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
   Options:
+    --field/<name>=<value>  Define a new field called <name> with value <value>.
     --notoc                 Do not generate a Table of Contents.
     --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
     --output-file=<file>    Write output to <file>.
@@ -400,6 +401,9 @@ when isMainModule:
       of "output-file":
         output_file = val
       else:
+        if key.startsWith("field/"):
+          FIELDS[key.replace("field/", "")] = proc(): string =
+            return val
         discard
     else: 
       discard

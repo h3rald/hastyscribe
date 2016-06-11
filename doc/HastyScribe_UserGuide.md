@@ -81,11 +81,11 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x64)]({{release}}/hastyscribe_v1.1.3_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
-  * [HastyScribe for Windows (x64)]({{release}}/hastyscribe_v1.1.3_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Windows (x86)]({{release}}/hastyscribe_v1.1.3_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Linux (x86)]({{release}}/hastyscribe_v1.1.3_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}/hastyscribe_v1.1.3_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
+  * [HastyScribe for Mac OS X (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_macosx_x64.zip) -- Compiled on OS X Yosemite (LLVM CLANG 6.0)
+  * [HastyScribe for Windows (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x64.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Windows (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x86.zip) -- Cross-compiled on OS X Yosemite (MinGW-w64 GCC 4.8.2)
+  * [HastyScribe for Linux (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_x86.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.1)
+  * [HastyScribe for Linux (ARM)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_arm.zip) -- Cross-compiled on OS X Yosemite (GNU GCC 4.8.2)
 
 ### Installing using Nimble
 
@@ -232,6 +232,13 @@ Besides user-defined snippets, {{hs}} also support fields, which can be used to 
 > <code>\{\{$month-name-abbr\}\}</code>       | {{$month-name-abbr}}
 > <code>\{\{$timezone\}\}</code>              | {{$timezone}}
 > <code>\{\{$timezone-offset\}\}</code>       | {{$timezone-offset}}
+
+Additionally, you can define your own custom fields via command-line parameters, using the [--field/](class:arg) dynamic parameter, like this:
+
+> %terminal%
+> hastyscribe my-document.md --field/product:HastyScribe --field/version:1.2.0
+
+In this case it will be possible to access the <kwd>product</kwd> and <kwd>product</kwd> fields within [my-document.md](class:file) using <code>\{\{$product\}\}</code> and <code>\{\{$version\}\}</code>.
 
 ### Inline Formatting 
 
@@ -802,4 +809,4 @@ Special thanks to:
 [fa-icons]:http://fortawesome.github.io/Font-Awesome/icons/
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
-[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v1.1.3}}
+[release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v}}
