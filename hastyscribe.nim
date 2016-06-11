@@ -55,6 +55,95 @@ let
     snippet <- '{{' \s* {id} \s* '}}'
     id <- [a-zA-Z0-9_-]+
   """
+  peg_field = peg"""
+    field <- '{{' \s* '$' {id} \s* '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
+
+var FIELDS = initTable[string, proc():string]()
+
+
+var NOW:TimeInfo
+
+FIELDS["timestamp"] = proc():string =
+  return $NOW.toTime.toSeconds().int
+
+
+
+FIELDS["date"] = proc():string =
+  return $NOW.format("yyyy-MM-dd")
+
+FIELDS["full-date"] = proc():string =
+  return $NOW.format("dddd, MMMM d, yyyy")
+
+FIELDS["long-date"] = proc():string =
+  return $NOW.format("MMMM d, yyyy")
+
+FIELDS["medium-date"] = proc():string =
+  return $NOW.format("MMM d, yyyy")
+
+FIELDS["short-date"] = proc():string =
+  return $NOW.format("M/d/yy")
+
+
+
+FIELDS["short-time-24"] = proc():string =
+  return $NOW.format("HH:mm")
+
+FIELDS["short-time"] = proc():string =
+  return $NOW.format("HH:mm tt")
+
+FIELDS["time-24"] = proc():string =
+  return $NOW.format("HH:mm:ss")
+
+FIELDS["time"] = proc():string =
+  return $NOW.format("HH:mm:ss tt")
+
+
+
+FIELDS["day"] = proc():string =
+  return $NOW.format("dd")
+
+FIELDS["month"] = proc():string =
+  return $NOW.format("MM")
+
+FIELDS["year"] = proc():string =
+  return $NOW.format("yyyy")
+
+FIELDS["short-day"] = proc():string =
+  return $NOW.format("d")
+
+FIELDS["short-month"] = proc():string =
+  return $NOW.format("M")
+
+FIELDS["short-year"] = proc():string =
+  return $NOW.format("yy")
+
+
+
+FIELDS["weekday"] = proc():string =
+  return $NOW.format("dddd")
+
+FIELDS["weekday-abbr"] = proc():string =
+  return $NOW.format("dd")
+
+
+
+FIELDS["month-name"] = proc():string =
+  return $NOW.format("MMMM")
+
+FIELDS["month-name-abbr"] = proc():string =
+  return $NOW.format("MMM")
+
+
+
+FIELDS["timezone-offset"] = proc():string =
+  return $NOW.format("zzz")
+
+FIELDS["timezone"] = proc():string =
+  return $NOW.format("ZZZ")
+
+
 
 # Procedures
 
@@ -70,7 +159,7 @@ proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
   try:
     timeinfo = TimeInfo(year: parts[0], month: Month(parts[1]-1), monthday: parts[2])
     # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
-    timeinfo = getLocalTime(timeinfo.timeInfoToTime);
+    timeinfo = getLocalTime(timeinfo.toTime);
     return true
   except:
     return false
@@ -155,6 +244,24 @@ var fonts* = [
 proc embed_fonts*(): string=
   return style_tag(fonts.join);
 
+
+# Field Usage:
+# {{$timestamp}}
+
+proc parse_fields*(document: string): string =
+  NOW = getTime().getLocalTime()
+  var doc = document
+  for field in document.findAll(peg_field):
+    var matches:array[0..0, string]
+    discard field.match(peg_field, matches)
+    var id = matches[0].strip
+    if FIELDS.hasKey(id):
+      doc = doc.replace(field, FIELDS[id]())
+    else:
+      stderr.writeLine "Warning: Field '" & id & "' not defined."
+      doc = doc.replace(field, "")
+  return doc
+
 # Snippet Definition:
 # {{test -> My test snippet}}
 #
@@ -194,7 +301,8 @@ proc compile*(input_file: string) =
 
   var source = input_file.readFile
 
-  # Parse snippets
+  # Parse fields and snippets
+  source = parse_fields(source)
   source = parse_snippets(source)
 
   # Document Variables
@@ -226,6 +334,9 @@ proc compile*(input_file: string) =
 
   if user_css != nil:
     user_css_tag = user_css.readFile.style_tag
+
+
+
 
   # Date parsing and validation
   var timeinfo: TimeInfo = getLocalTime(getTime())

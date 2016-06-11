@@ -1,6 +1,6 @@
 [Package]
 name          = "hastyscribe"
-version       = "1.1.4"
+version       = "1.2.0"
 author        = "Fabio Cevasco"
 description   = "Self-contained markdown compiler generating self-contained HTML documents"
 license       = "MIT"
@@ -44,4 +44,4 @@ vendor/libmarkdown_linux_arm.a
 """
 
 [Deps]
-Requires: "nimrod >= 0.12.0"
+Requires: "nimrod >= 0.14.0"

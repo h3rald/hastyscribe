@@ -43,6 +43,10 @@ Standard markdown is great, but sometimes you wish it had a few more features, l
 
 Although not part of neither {{md}} nor Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word _{{hs}}_ in this document [](class:fa-smile-o)).
 
+#### Custom Fields
+
+{{hs}} also supports [fields](#Fields) to easily include things like the current date or time, but also custom values specified as command-line parameters. 
+
 #### Image (and font) Embedding
 
 {{hs}} only produces single HTML files. With _no dependencies_:
@@ -129,7 +133,7 @@ Where:
 
   * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
   * The following options are supported:
-    * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
+    * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generating a Table of Contents at the start.
     * [\-\-user-css=<file\>](class:opt) causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
     * [\-\-output-file=<file\>](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
 
@@ -198,6 +202,36 @@ Once a snippet is defined _anywhere_ in the document, you can use its identifier
 > 
 > * It doesn't matter where a snippet is defined. Snippets can be used anywhere in the document, before or after their definition.
 > * When a document is compiled, both snippets _and snippets definitions_ are evaluated their body text.
+
+### Fields
+
+Besides user-defined snippets, {{hs}} also support fields, which can be used to insert current time and date information in a variety of formats:
+
+> %responsive%
+> Source                                      | Output
+> --------------------------------------------|----------------------
+> <code>\{\{$timestamp\}\}</code>             | {{$timestamp}}
+> <code>\{\{$date\}\}</code>                  | {{$date}}
+> <code>\{\{$full-date\}\}</code>             | {{$full-date}}
+> <code>\{\{$long-date\}\}</code>             | {{$long-date}}
+> <code>\{\{$medium-date\}\}</code>           | {{$medium-date}}
+> <code>\{\{$short-date\}\}</code>            | {{$short-date}}
+> <code>\{\{$short-time\}\}</code>            | {{$short-time}}
+> <code>\{\{$short-time-24\}\}</code>         | {{$short-time-24}}
+> <code>\{\{$time\}\}</code>                  | {{$time}}
+> <code>\{\{$time-24\}\}</code>               | {{$time-24}}
+> <code>\{\{$day\}\}</code>                   | {{$day}}
+> <code>\{\{$short-day\}\}</code>             | {{$short-day}}
+> <code>\{\{$month\}\}</code>                 | {{$month}}
+> <code>\{\{$short-month\}\}</code>           | {{$short-month}}
+> <code>\{\{$year\}\}</code>                  | {{$year}}
+> <code>\{\{$short-year\}\}</code>            | {{$short-year}}
+> <code>\{\{$weekday\}\}</code>               | {{$weekday}}
+> <code>\{\{$weekday-abbr\}\}</code>          | {{$weekday-abbr}}
+> <code>\{\{$month-name\}\}</code>            | {{$month-name}}
+> <code>\{\{$month-name-abbr\}\}</code>       | {{$month-name-abbr}}
+> <code>\{\{$timezone\}\}</code>              | {{$timezone}}
+> <code>\{\{$timezone-offset\}\}</code>       | {{$timezone-offset}}
 
 ### Inline Formatting 
 

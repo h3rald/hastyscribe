@@ -81,6 +81,7 @@
     <li><a href="#Standard.Markdown">Standard Markdown</a></li>
     <li><a href="#Discount.Extensions">Discount Extensions</a></li>
     <li><a href="#Text.Snippets">Text Snippets</a></li>
+    <li><a href="#Custom.Fields">Custom Fields</a></li>
     <li><a href="#Image..and.font..Embedding">Image (and font) Embedding</a></li>
     <li><a href="#FontAwesome.Icons">FontAwesome Icons</a></li>
     <li><a href="#Notes..tips..warnings..sidebars.and.badges">Notes, tips, warnings, sidebars and badges</a></li>
@@ -109,6 +110,7 @@
   <ul>
    <li><a href="#Document.Headers">Document Headers</a></li>
    <li><a href="#Snippets">Snippets</a></li>
+   <li><a href="#Fields">Fields</a></li>
    <li><a href="#Inline.Formatting">Inline Formatting</a>
    <ul>
     <li><a href="#SmartyPants.Substitutions">SmartyPants Substitutions</a></li>
@@ -201,6 +203,10 @@
 <h4 id="Text.Snippets">Text Snippets<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Although not part of neither markdown nor Discount, HastyScribe allows you to create text <a href="#Snippets">snippets</a> to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word <em>HastyScribe</em> in this document <span class="fa-smile-o"></span>).</p>
+
+<h4 id="Custom.Fields">Custom Fields<a href="#document-top" title="Go to top"></a></h4>
+
+<p>HastyScribe also supports <a href="#Fields">fields</a> to easily include things like the current date or time, but also custom values specified as command-line parameters.</p>
 
 <h4 id="Image..and.font..Embedding">Image (and font) Embedding<a href="#document-top" title="Go to top"></a></h4>
 
@@ -300,7 +306,7 @@
 <li>The following options are supported:
 
 <ul>
-<li><span class="opt">--notoc</span> causes HastyScribe to output HTML documents <em>without</em> automatically generated a Table of Contents at the start.</li>
+<li><span class="opt">--notoc</span> causes HastyScribe to output HTML documents <em>without</em> automatically generating a Table of Contents at the start.</li>
 <li><span class="opt">--user-css=&lt;file></span> causes HastyScribe inserts the contents of the specified local file as a CSS stylesheet.</li>
 <li><span class="opt">--output-file=&lt;file></span> causes HastyScribe to write output to a local file (Use <span class="opt">--output-file=-</span> to output to standard output).</li>
 </ul>
@@ -369,6 +375,110 @@
 <li>It doesn&rsquo;t matter where a snippet is defined. Snippets can be used anywhere in the document, before or after their definition.</li>
 <li>When a document is compiled, both snippets <em>and snippets definitions</em> are evaluated their body text.</li>
 </ul>
+</div>
+
+<h3 id="Fields">Fields<a href="#document-top" title="Go to top"></a></h3>
+
+<p>Besides user-defined snippets, HastyScribe also support fields, which can be used to insert current time and date information in a variety of formats:</p>
+
+<div class="responsive"><table>
+<thead>
+<tr>
+<th>Source                                      </th>
+<th> Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{$timestamp}}</code>             </td>
+<td> 1465637520</td>
+</tr>
+<tr>
+<td><code>{{$date}}</code>                  </td>
+<td> 2016-06-11</td>
+</tr>
+<tr>
+<td><code>{{$full-date}}</code>             </td>
+<td> Saturday, June 11, 2016</td>
+</tr>
+<tr>
+<td><code>{{$long-date}}</code>             </td>
+<td> June 11, 2016</td>
+</tr>
+<tr>
+<td><code>{{$medium-date}}</code>           </td>
+<td> Jun 11, 2016</td>
+</tr>
+<tr>
+<td><code>{{$short-date}}</code>            </td>
+<td> 6/11/16</td>
+</tr>
+<tr>
+<td><code>{{$short-time}}</code>            </td>
+<td> 11:32 AM</td>
+</tr>
+<tr>
+<td><code>{{$short-time-24}}</code>         </td>
+<td> 11:32</td>
+</tr>
+<tr>
+<td><code>{{$time}}</code>                  </td>
+<td> 11:32:00 AM</td>
+</tr>
+<tr>
+<td><code>{{$time-24}}</code>               </td>
+<td> 11:32:00</td>
+</tr>
+<tr>
+<td><code>{{$day}}</code>                   </td>
+<td> 11</td>
+</tr>
+<tr>
+<td><code>{{$short-day}}</code>             </td>
+<td> 11</td>
+</tr>
+<tr>
+<td><code>{{$month}}</code>                 </td>
+<td> 06</td>
+</tr>
+<tr>
+<td><code>{{$short-month}}</code>           </td>
+<td> 6</td>
+</tr>
+<tr>
+<td><code>{{$year}}</code>                  </td>
+<td> 2016</td>
+</tr>
+<tr>
+<td><code>{{$short-year}}</code>            </td>
+<td> 16</td>
+</tr>
+<tr>
+<td><code>{{$weekday}}</code>               </td>
+<td> Saturday</td>
+</tr>
+<tr>
+<td><code>{{$weekday-abbr}}</code>          </td>
+<td> 11</td>
+</tr>
+<tr>
+<td><code>{{$month-name}}</code>            </td>
+<td> June</td>
+</tr>
+<tr>
+<td><code>{{$month-name-abbr}}</code>       </td>
+<td> Jun</td>
+</tr>
+<tr>
+<td><code>{{$timezone}}</code>              </td>
+<td> CEST</td>
+</tr>
+<tr>
+<td><code>{{$timezone-offset}}</code>       </td>
+<td> -01:00</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 <h3 id="Inline.Formatting">Inline Formatting<a href="#document-top" title="Go to top"></a></h3>
@@ -1202,7 +1312,7 @@ definition list
 <p style="text-align:center;"> <img src="data:image/png;base64,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" alt="Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License" /></p>
   </div>
   <div id="footer">
-    <p><span class="copy"></span> Fabio Cevasco &ndash; September 6, 2015</p>
+    <p><span class="copy"></span> Fabio Cevasco &ndash; June 11, 2016</p>
     <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
   </div>
 </body>
