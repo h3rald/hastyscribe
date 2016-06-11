@@ -133,9 +133,11 @@ Where:
 
   * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
   * The following options are supported:
+    * [\-\-field/&lt;field&gt;=&lt;value&gt;](class:opt) causes {{hs}} to set a custom field to a specific value.
     * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generating a Table of Contents at the start.
-    * [\-\-user-css=<file\>](class:opt) causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
-    * [\-\-output-file=<file\>](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
+    * [\-\-user-css=&lt;file&gt;](class:opt) causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
+    * [\-\-output-file=&lt;file&gt;](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
+    * [\-\-watermark=&lt;file&gt;](class:opt) causes {{hs}} to embed and display an image as a watermark throughout the document. 
 
 ### Linux/OSX Examples 
 
@@ -238,7 +240,7 @@ Additionally, you can define your own custom fields via command-line parameters,
 > %terminal%
 > hastyscribe my-document.md --field/product:HastyScribe --field/version:1.2.0
 
-In this case it will be possible to access the <kwd>product</kwd> and <kwd>product</kwd> fields within [my-document.md](class:file) using <code>\{\{$product\}\}</code> and <code>\{\{$version\}\}</code>.
+In this case it will be possible to access the [product](class:kwd) and [product](class:kwd) fields within [my-document.md](class:file) using <code>\{\{$product\}\}</code> and <code>\{\{$version\}\}</code>.
 
 ### Inline Formatting 
 
@@ -265,7 +267,7 @@ The following table lists all the most common ways to format inline text:
 > %tip%
 > Tip
 > 
-> The [kwd](class:kwd), [opt](class:kwd), [file](class:kwd), [dir](class:kwd), [arg](class:kwd), [tt](class:kwd) and [cmd](class:kwd) are all rendered as inline monospace text. [kwd](class:kwd) and [ext](class:ext) are also rendered in bold.
+> The [kwd](class:kwd), [opt](class:kwd), [file](class:kwd), [dir](class:kwd), [arg](class:kwd), [tt](class:kwd) and [cmd](class:kwd) classes are all rendered as inline monospace text. [kwd](class:kwd) and [ext](class:ext) are also rendered in bold.
 
 
 #### SmartyPants Substitutions

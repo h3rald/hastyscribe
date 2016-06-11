@@ -10,9 +10,11 @@ Where:
 
   * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
   * The following options are supported:
-    * **\-\-notoc** causes {{hs}} to output HTML documents _without_ automatically generated a Table of Contents at the start.
-    * **\-\-user-css=<file\>** causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
-    * **\-\-output-file=<file\>** causes {{hs}} to write output to a local file (Use **\-\-output-file=-** to output to standard output).
+    * **\-\-field/&lt;field&gt;=&lt;value&gt;** causes {{hs}} to set a custom field to a specific value.
+    * **\-\-notoc** causes {{hs}} to output HTML documents _without_ automatically generating a Table of Contents at the start.
+    * **\-\-user-css=&lt;file&gt;** causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
+    * **\-\-output-file=&lt;file&gt;** causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
+    * **\-\-watermark=&lt;file&gt;** causes {{hs}} to embed and display an image as a watermark throughout the document. 
 
 ## FAQs
 

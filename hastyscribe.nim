@@ -23,16 +23,20 @@ let usage* = "  HastyScribe v" & version & " - Self-contained Markdown Compiler"
   Arguments:
     markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
   Options:
-    --field/<name>=<value>  Define a new field called <name> with value <value>.
+    --field/<field>=<value> Define a new field called <field> with value <value>.
     --notoc                 Do not generate a Table of Contents.
     --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
     --output-file=<file>    Write output to <file>.
-                            (Use "--output-file=-" to output to stdout)"""
+                            (Use "--output-file=-" to output to stdout)
+    --watermark=<file>      Use the image in <file> as a watermark."""
+
 
 
 var generate_toc* = true
-var output_file*: string = nil
-var user_css*: string = nil
+var output_file*: string
+var user_css*: string
+var watermark*: string
+
 const 
   stylesheet* = "assets/styles/hastyscribe.css".slurp
   hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp 
@@ -42,6 +46,26 @@ const
   sourcesanspro_bold_font* = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
   sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
   sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+  watermark_style* = """
+body {
+  position: relative;  
+}
+body:after {
+  content: "";
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;   
+  background-image: url($1);
+  background-repeat: no-repeat;
+  background-position: center 70px;
+  background-attachment: fixed;
+}
+
+"""
 
 let 
   peg_imgformat = peg"i'.png' / i'.jpg' / i'.jpeg' / i'.gif' / i'.svg' / i'.bmp' / i'.webp' @$"
@@ -185,6 +209,10 @@ proc encode_font*(font, format: string): string =
     let enc_contents = font.encode(font.len*3)
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
+
+proc image_format*(imgfile: string): string =
+  return imgfile.substr(imgfile.find(peg_imgformat)+1, imgfile.len-1)
+
 proc embed_images*(document, dir: string): string =
   var current_dir:string
   if dir.len == 0:
@@ -198,7 +226,7 @@ proc embed_images*(document, dir: string): string =
     var matches:TImgTagStart
     discard img.match(peg_img, matches)
     let imgfile = matches[0]
-    let imgformat = imgfile.substr(imgfile.find(peg_imgformat)+1, imgfile.len-1)
+    let imgformat = imgfile.image_format
     var imgcontent = ""
     if imgfile.startsWith(peg"'data:'"): 
       continue
@@ -216,6 +244,12 @@ proc embed_images*(document, dir: string): string =
     doc = doc.replace(img, imgrep)
   return doc
 
+proc watermark_css*(imgfile: string): string =
+  if imgfile.isNil:
+    result = ""
+  else:
+    let img = imgfile.encode_image_file(imgfile.image_format)
+    result = (watermark_style % [img]).style_tag
 
 proc add_jump_to_top_links*(document: string): string =
   return document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
@@ -312,6 +346,7 @@ proc compile*(input_file: string) =
   var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
   var main_css_tag = stylesheet.style_tag
   var user_css_tag = ""
+  var watermark_css_tag  = ""
   var headings = " class=\"headings\""
   var author_footer = ""
 
@@ -337,8 +372,8 @@ proc compile*(input_file: string) =
   if user_css != nil:
     user_css_tag = user_css.readFile.style_tag
 
-
-
+  if not watermark.isNil:
+    watermark_css_tag = watermark_css(watermark)
 
   # Date parsing and validation
   var timeinfo: TimeInfo = getLocalTime(getTime())
@@ -358,20 +393,23 @@ proc compile*(input_file: string) =
   $main_css_tag
   $user_css_tag
   $internal_css_tag
+  $watermark_css_tag
 </head>
 <body$headings>
-  <a id="document-top"></a>
-  $header_tag
-  $toc
-  <div id="main">
+  <div id="container">
+    <a id="document-top"></a>
+    $header_tag
+    $toc
+    <div id="main">
 $body
-  </div>
-  <div id="footer">
-    <p>$author_footer $date</p>
-    <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
+    </div>
+    <div id="footer">
+      <p>$author_footer $date</p>
+      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
+    </div>
   </div>
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", body,
-"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css]
+"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag]
   document = embed_images(document, inputsplit.dir)
   document = add_jump_to_top_links(document)
   if output_file != "-":
@@ -399,6 +437,8 @@ when isMainModule:
         generate_toc = false
       of "user-css":
         user_css = val
+      of "watermark":
+        watermark = val
       of "output-file":
         output_file = val
       else:
