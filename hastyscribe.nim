@@ -47,24 +47,24 @@ const
   sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
   sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
   watermark_style* = """
-body {
-  position: relative;  
+#container {
+  position: relative;
+  z-index: 0;
 }
-body:after {
+#container:after {
   content: "";
   opacity: 0.1;
+  z-index: -1;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 100;   
   background-image: url($1);
   background-repeat: no-repeat;
   background-position: center 70px;
   background-attachment: fixed;
 }
-
 """
 
 let 

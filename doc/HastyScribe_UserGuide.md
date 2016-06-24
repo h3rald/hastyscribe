@@ -765,7 +765,6 @@ Terminal sessions are used to display commands entered in a terminal, in sequenc
 {{output-text}}
 
 > %terminal%
-> 
 > cd src
 > 
 > ./configure
