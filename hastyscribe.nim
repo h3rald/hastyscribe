@@ -73,7 +73,7 @@ let
     image <- '<img' \s+ 'src=' ["] {file} ["]
     file <- [^"]+
   """
-  peg_def = peg"""
+  peg_snippet_def = peg"""
     definition <- '{{' \s* {id} \s* '->' {@} '}}'
     id <- [a-zA-Z0-9_-]+
   """
@@ -85,11 +85,19 @@ let
     field <- '{{' \s* '$' {id} \s* '}}'
     id <- [a-zA-Z0-9_-]+
   """
+  peg_macro_def = peg"""
+    definition <- '{#' \s* {id} \s* '->' {@} '#}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  peg_macro_instance = peg"""
+    instance <- "{#" \s* {id} \s*  "||" \s* {@}  "#}"
+    id <- [a-zA-Z0-9_-]+
+  """
 
 var FIELDS = initTable[string, proc():string]()
 
 
-var NOW:TimeInfo
+var NOW:TimeInfo = getTime().getLocalTime()
 
 FIELDS["timestamp"] = proc():string =
   return $NOW.toTime.toSeconds().int
@@ -232,7 +240,8 @@ proc embed_images*(document, dir: string): string =
       continue
     elif imgfile.startsWith(peg"http[s]?'://'"):
       try:
-        imgcontent = encode_image(getContent(imgfile, timeout = 5000), imgformat)
+        let client = newHttpClient()
+        imgcontent = encode_image(client.getContent(imgfile), imgformat)
       except:
         stderr.writeLine "Warning: Unable to download '" & imgfile & "'"
         stderr.writeLine "  Reason: " & getCurrentExceptionMsg()
@@ -280,6 +289,36 @@ var fonts* = [
 proc embed_fonts*(): string=
   return style_tag(fonts.join);
 
+# Macro Definition:
+# {{#test -> This is a $1}}
+#
+# Macro Usage:
+# {{#test||simple test}}
+proc parse_macros*(document: string): string =
+  var macros:Table[string, string] = initTable[string, string]()
+  var doc = document
+  for def in findAll(document, peg_macro_def):
+    var matches: array[0..1, string]
+    discard def.match(peg_macro_def, matches)
+    let id = matches[0].strip
+    let value = matches[1].strip
+    macros[id] = value
+    doc = doc.replace(def, "")
+  for instance in findAll(doc, peg_macro_instance):
+    var matches: array[0..1, string]
+    discard instance.match(peg_macro_instance, matches)
+    let id = matches[0].strip
+    let value = matches[1].strip
+    let params = value.split("||")
+    if macros.hasKey(id):
+      try:
+        doc = doc.replace(instance, macros[id] % params)
+      except:
+        stderr.writeLine "Warning: Incorrect number of parameters specified for macro '$1'\n  -> Instance: $2" % [id, instance]
+    else:
+      stderr.writeLine "Warning: Macro '" & id & "' not defined."
+      doc = doc.replace(instance, "")
+  return doc
 
 # Field Usage:
 # {{$timestamp}}
@@ -310,9 +349,9 @@ proc parse_snippets*(document: string): string =
     TSnippetDef = array[0..1, string]
     TSnippet = array[0..0, string]
   var doc = document
-  for def in findAll(document, peg_def):
+  for def in findAll(document, peg_snippet_def):
     var matches:TSnippetDef
-    discard def.match(peg_def, matches)
+    discard def.match(peg_snippet_def, matches)
     var id = matches[0].strip
     var value = matches[1].strip(true, false)
     snippets[id] = value
@@ -337,9 +376,10 @@ proc compile*(input_file: string) =
 
   var source = input_file.readFile
 
-  # Parse fields and snippets
+  # Parse fields, snippets, and macros
   source = parse_fields(source)
   source = parse_snippets(source)
+  source = parse_macros(source)
 
   # Document Variables
   var metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
@@ -443,6 +483,7 @@ when isMainModule:
         output_file = val
       else:
         if key.startsWith("field/"):
+          let val = val
           FIELDS[key.replace("field/", "")] = proc(): string =
             return val
         discard

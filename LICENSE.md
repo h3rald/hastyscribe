@@ -1,12 +1,12 @@
 ## HastyScribe (program/library)
 
-Copyright (c) 2013-2014 Fabio Cevasco
+Copyright (c) 2013-2016 Fabio Cevasco
 
 Released under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
 ## HastyScribe (font)
 
-Copyright (c) 2013-2014, Fabio Cevasco, with Reserved Font Name 'HastyScribe'.
+Copyright (c) 2013-2016, Fabio Cevasco, with Reserved Font Name 'HastyScribe'.
 
 Released under the terms of the [Open Font License](http://scripts.sil.org/OFL).
 

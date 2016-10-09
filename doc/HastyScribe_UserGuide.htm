@@ -84,6 +84,7 @@
     <li><a href="#Discount.Extensions">Discount Extensions</a></li>
     <li><a href="#Text.Snippets">Text Snippets</a></li>
     <li><a href="#Custom.Fields">Custom Fields</a></li>
+    <li><a href="#Substitution.Macros">Substitution Macros</a></li>
     <li><a href="#Image..and.font..Embedding">Image (and font) Embedding</a></li>
     <li><a href="#FontAwesome.Icons">FontAwesome Icons</a></li>
     <li><a href="#Notes..tips..warnings..sidebars.and.badges">Notes, tips, warnings, sidebars and badges</a></li>
@@ -113,6 +114,7 @@
    <li><a href="#Document.Headers">Document Headers</a></li>
    <li><a href="#Snippets">Snippets</a></li>
    <li><a href="#Fields">Fields</a></li>
+   <li><a href="#Macros">Macros</a></li>
    <li><a href="#Inline.Formatting">Inline Formatting</a>
    <ul>
     <li><a href="#SmartyPants.Substitutions">SmartyPants Substitutions</a></li>
@@ -210,6 +212,10 @@
 
 <p>HastyScribe also supports <a href="#Fields">fields</a> to easily include things like the current date or time, but also custom values specified as command-line parameters.</p>
 
+<h4 id="Substitution.Macros">Substitution Macros<a href="#document-top" title="Go to top"></a></h4>
+
+<p>If you find yourself writing chunks of text that follows the same format except for some content, you can define simple text substitution <a href="#Macros">macros</a> for even higher content reuse.</p>
+
 <h4 id="Image..and.font..Embedding">Image (and font) Embedding<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe only produces single HTML files. With <em>no dependencies</em>:</p>
@@ -247,12 +253,12 @@
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on OS X El Capitan (LLVM CLANG 7.0)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on OS X El Capitan (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_windows_x86.zip">HastyScribe for Windows (x86)</a> &ndash; Cross-compiled on OS X El Capitan (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on OS X El Capitan (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on OS X El Capitan (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on OS X El Capitan (GNU GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_windows_x86.zip">HastyScribe for Windows (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
 </ul>
 
 
@@ -396,59 +402,59 @@
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1466790332</td>
+<td> 1476008117</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
-<td> 2016-06-24</td>
+<td> 2016-10-09</td>
 </tr>
 <tr>
 <td><code>{{$full-date}}</code>             </td>
-<td> Friday, June 24, 2016</td>
+<td> Sunday, October 9, 2016</td>
 </tr>
 <tr>
 <td><code>{{$long-date}}</code>             </td>
-<td> June 24, 2016</td>
+<td> October 9, 2016</td>
 </tr>
 <tr>
 <td><code>{{$medium-date}}</code>           </td>
-<td> Jun 24, 2016</td>
+<td> Oct 9, 2016</td>
 </tr>
 <tr>
 <td><code>{{$short-date}}</code>            </td>
-<td> 6/24/16</td>
+<td> 10/9/16</td>
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 19:45 PM</td>
+<td> 12:15 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 19:45</td>
+<td> 12:15</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 19:45:32 PM</td>
+<td> 12:15:17 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 19:45:32</td>
+<td> 12:15:17</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
-<td> 24</td>
+<td> 09</td>
 </tr>
 <tr>
 <td><code>{{$short-day}}</code>             </td>
-<td> 24</td>
+<td> 9</td>
 </tr>
 <tr>
 <td><code>{{$month}}</code>                 </td>
-<td> 06</td>
+<td> 10</td>
 </tr>
 <tr>
 <td><code>{{$short-month}}</code>           </td>
-<td> 6</td>
+<td> 10</td>
 </tr>
 <tr>
 <td><code>{{$year}}</code>                  </td>
@@ -460,19 +466,19 @@
 </tr>
 <tr>
 <td><code>{{$weekday}}</code>               </td>
-<td> Friday</td>
+<td> Sunday</td>
 </tr>
 <tr>
 <td><code>{{$weekday-abbr}}</code>          </td>
-<td> 24</td>
+<td> 09</td>
 </tr>
 <tr>
 <td><code>{{$month-name}}</code>            </td>
-<td> June</td>
+<td> October</td>
 </tr>
 <tr>
 <td><code>{{$month-name-abbr}}</code>       </td>
-<td> Jun</td>
+<td> Oct</td>
 </tr>
 <tr>
 <td><code>{{$timezone}}</code>              </td>
@@ -491,6 +497,25 @@
 <div class="terminal"><p>hastyscribe my-document.md &ndash;field/product:HastyScribe &ndash;field/version:1.2.0</p></div>
 
 <p>In this case it will be possible to access the <span class="kwd">product</span> and <span class="kwd">product</span> fields within <span class="file">my-document.md</span> using <code>{{$product}}</code> and <code>{{$version}}</code>.</p>
+
+<h3 id="Macros">Macros<a href="#document-top" title="Go to top"></a></h3>
+
+<p>If snippets are not enough, and you want to reuse chunks of <em>similar</em> content, you can define substitution macros using the following syntax:</p>
+
+<p><code>{#greet -> Hello, $1! Are you $2?#}</code></p>
+
+<p>This defines a macro called <span class="kwd">greet</span> that takes two parameters which will be substituted instead of <span class="kwd">$1</span> and <span class="kwd">$2</span>. To use the macro, use the following syntax:</p>
+
+<p><code>{#greet||Fabio||ready#}</code></p>
+
+<div class="note"><p>Note</p>
+
+<ul>
+<li>Like snippets, macros can be multiline.</li>
+<li>Spaces and newline character are preseved ad the start and end of parameters.</li>
+<li>You can use snippets and fields within macros (but you cannot nest macros inside other macros).</li>
+</ul>
+</div>
 
 <h3 id="Inline.Formatting">Inline Formatting<a href="#document-top" title="Go to top"></a></h3>
 
@@ -1341,7 +1366,7 @@ definition list
 <p style="text-align:center;"> <img src="data:image/png;base64,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" alt="Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License" /></p>
     </div>
     <div id="footer">
-      <p><span class="copy"></span> Fabio Cevasco &ndash; June 24, 2016</p>
+      <p><span class="copy"></span> Fabio Cevasco &ndash; October 9, 2016</p>
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>

@@ -47,6 +47,11 @@ Although not part of neither {{md}} nor Discount, {{hs}} allows you to create te
 
 {{hs}} also supports [fields](#Fields) to easily include things like the current date or time, but also custom values specified as command-line parameters. 
 
+
+#### Substitution Macros
+
+If you find yourself writing chunks of text that follows the same format except for some content, you can define simple text substitution [macros](#Macros) for even higher content reuse.
+
 #### Image (and font) Embedding
 
 {{hs}} only produces single HTML files. With _no dependencies_:
@@ -79,14 +84,16 @@ All HTML documents created by {{hs}} are responsive and can be viewed perfectly 
 
 ### Downloading Pre-built Binaries
 
+{# release -> [HastyScribe for $1]({{release}}{{$version}}/hastyscribe_v{{$version}}_$2.zip) -- $3 #}
+
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * [HastyScribe for Mac OS X (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_macosx_x64.zip) -- Compiled on OS X El Capitan (LLVM CLANG 7.0)
-  * [HastyScribe for Windows (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x64.zip) -- Cross-compiled on OS X El Capitan (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Windows (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_windows_x86.zip) -- Cross-compiled on OS X El Capitan (MinGW-w64 GCC 4.8.2)
-  * [HastyScribe for Linux (x64)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_x64.zip) -- Cross-compiled on OS X El Capitan (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (x86)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_x86.zip) -- Cross-compiled on OS X El Capitan (GNU GCC 4.8.1)
-  * [HastyScribe for Linux (ARM)]({{release}}{{$version}}/hastyscribe_v{{$version}}_linux_arm.zip) -- Cross-compiled on OS X El Capitan (GNU GCC 4.8.2)
+  * {#release||Mac OS X (x64)||macos_x64||Compiled on {{osx -> Mac OS X Sierra}} (LLVM CLANG 8.0.0)#}
+  * {#release||Windows (x64)||windows_x64||{{xcc -> Cross-compiled on}} {{osx}} (MinGW-w64 GCC 4.8.2)#}
+  * {#release||Windows (x86)||windows_x86||{{xcc}} {{osx}} (MinGW-w64 GCC 4.8.2)#}
+  * {#release||Linux (x64)||linux_x64||{{xcc}} {{osx}} (GNU GCC 4.8.1)#}
+  * {#release||Linux (x86)||linux_x86||{{xcc}} {{osx}} (GNU GCC 4.8.1)#}
+  * {#release||Linux (ARM)||linux_arm||{{xcc}} {{osx}} (GNU GCC 4.8.2)#}
 
 ### Installing using Nimble
 
@@ -242,6 +249,23 @@ Additionally, you can define your own custom fields via command-line parameters,
 > hastyscribe my-document.md --field/product:HastyScribe --field/version:1.2.0
 
 In this case it will be possible to access the [product](class:kwd) and [product](class:kwd) fields within [my-document.md](class:file) using <code>\{\{$product\}\}</code> and <code>\{\{$version\}\}</code>.
+
+### Macros
+
+If snippets are not enough, and you want to reuse chunks of _similar_ content, you can define substitution macros using the following syntax:
+
+<code>\{#greet -> Hello, $1! Are you $2?#\}</code>
+
+This defines a macro called [greet](class:kwd) that takes two parameters which will be substituted instead of [$1](class:kwd) and [$2](class:kwd). To use the macro, use the following syntax:
+
+<code>\{#greet||Fabio||ready#\}</code>
+
+> %note%
+> Note
+> 
+> * Like snippets, macros can be multiline.
+> * Spaces and newline character are preseved ad the start and end of parameters.
+> * You can use snippets and fields within macros (but you cannot nest macros inside other macros).
 
 ### Inline Formatting 
 
