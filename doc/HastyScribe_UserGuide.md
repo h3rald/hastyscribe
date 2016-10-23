@@ -143,9 +143,10 @@ Where:
   * The following options are supported:
     * [\-\-field/&lt;field&gt;=&lt;value&gt;](class:opt) causes {{hs}} to set a custom field to a specific value.
     * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generating a Table of Contents at the start.
-    * [\-\-user-css=&lt;file&gt;](class:opt) causes {{hs}} inserts the contents of the specified local file as a CSS stylesheet. 
+    * [\-\-user-css=&lt;file&gt;](class:opt) causes {{hs}} to insert the contents of the specified local file as a CSS stylesheet. 
     * [\-\-output-file=&lt;file&gt;](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
     * [\-\-watermark=&lt;file&gt;](class:opt) causes {{hs}} to embed and display an image as a watermark throughout the document. 
+    * [\-\-fragment](class:opt) causes {{hs}} to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
 
 ### Linux/OSX Examples 
 
@@ -655,7 +656,8 @@ unordered list
 ordered list 
 : A list for ordered items. Also called _numbered list_.
 alphabetical list
-: Technically speaking just an ordered list, but formatted with letters instead of numbers
+: Technically speaking just an ordered list, but formatted with letters instead 
+  of numbers
 definition list
 : A list of terms and definitions.
 ~~~
@@ -667,7 +669,8 @@ unordered list
 ordered list 
 : A list for ordered items. Also called _numbered list_.
 alphabetical list
-: Technically speaking just an ordered list, but formatted with letters instead of numbers
+: Technically speaking just an ordered list, but formatted with letters instead
+  of numbers
 definition list
 : A list of terms and definitions.
 
@@ -679,7 +682,8 @@ Alternatively, you can write the above definition list as follows:
 =ordered list=
   A list for ordered items. Also called _numbered list_.
 =alphabetical list=
-  Technically speaking just an ordered list, but formatted with letters instead of numbers
+  Technically speaking just an ordered list, but formatted with letters instead
+  of numbers
 =definition list=
   A list of terms and definitions.
 ~~~
@@ -759,7 +763,8 @@ Sidebars are used for digressions and asides.
 > %sidebar%
 > This is a _sidebar_
 > 
-> Although not always placed on the side of the page, _sidebars_ contain additional content and asides.
+> Although not always placed on the side of the page, _sidebars_ contain 
+> additional content and asides.
 ~~~
 
 {{output-text}}

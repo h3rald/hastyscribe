@@ -11,217 +11,90 @@ import
   httpclient
 
 import
-  config
-
-let usage* = "  HastyScribe v" & version & " - Self-contained Markdown Compiler" & """
-
-  (c) 2013-2016 Fabio Cevasco
-
-  Usage:
-    hastyscribe <markdown_file_or_glob> [options]
-
-  Arguments:
-    markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
-  Options:
-    --field/<field>=<value> Define a new field called <field> with value <value>.
-    --notoc                 Do not generate a Table of Contents.
-    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
-    --output-file=<file>    Write output to <file>.
-                            (Use "--output-file=-" to output to stdout)
-    --watermark=<file>      Use the image in <file> as a watermark."""
+  config,
+  consts,
+  utils
 
 
+type
+  HastyOptions* = object
+    toc: bool
+    input: string
+    output: string
+    css: string
+    watermark: string
+    fragment: bool
+  HastyFields* = Table[string, proc():string]
+  HastySnippets* = Table[string, string]
+  HastyMacros* = Table[string, string]
+  HastyScribe* = object
+    options: HastyOptions
+    fields: HastyFields
+    snippets: HastySnippets
+    macros: HastyMacros
+    document: string
 
-var generate_toc* = true
-var output_file*: string
-var user_css*: string
-var watermark*: string
 
-const 
-  stylesheet* = "assets/styles/hastyscribe.css".slurp
-  hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp 
-  fontawesome_font* = "assets/fonts/fontawesome-webfont.woff".slurp
-  sourcecodepro_font* = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
-  sourcesanspro_font* = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
-  sourcesanspro_bold_font* = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
-  sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
-  sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
-  watermark_style* = """
-#container {
-  position: relative;
-  z-index: 0;
-}
-#container:after {
-  content: "";
-  opacity: 0.1;
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-image: url($1);
-  background-repeat: no-repeat;
-  background-position: center 70px;
-  background-attachment: fixed;
-}
-"""
+proc initFields(fields: HastyFields): HastyFields =
+  result = initTable[string, proc():string]()
+  for key, value in fields.pairs:
+    result[key] = value
+  var now = getTime().getLocalTime()
+  result["timestamp"] = proc():string =
+    return $now.toTime.toSeconds().int
+  result["date"] = proc():string =
+    return now.format("yyyy-MM-dd")
+  result["full-date"] = proc():string =
+    return now.format("dddd, MMMM d, yyyy")
+  result["long-date"] = proc():string =
+    return now.format("MMMM d, yyyy")
+  result["medium-date"] = proc():string =
+    return now.format("MMM d, yyyy")
+  result["short-date"] = proc():string =
+    return now.format("M/d/yy")
+  result["short-time-24"] = proc():string =
+    return now.format("HH:mm")
+  result["short-time"] = proc():string =
+    return now.format("HH:mm tt")
+  result["time-24"] = proc():string =
+    return now.format("HH:mm:ss")
+  result["time"] = proc():string =
+    return now.format("HH:mm:ss tt")
+  result["day"] = proc():string =
+    return now.format("dd")
+  result["month"] = proc():string =
+    return now.format("MM")
+  result["year"] = proc():string =
+    return now.format("yyyy")
+  result["short-day"] = proc():string =
+    return now.format("d")
+  result["short-month"] = proc():string =
+    return now.format("M")
+  result["short-year"] = proc():string =
+    return now.format("yy")
+  result["weekday"] = proc():string =
+    return now.format("dddd")
+  result["weekday-abbr"] = proc():string =
+    return now.format("dd")
+  result["month-name"] = proc():string =
+    return now.format("MMMM")
+  result["month-name-abbr"] = proc():string =
+    return now.format("MMM")
+  result["timezone-offset"] = proc():string =
+    return now.format("zzz")
+  result["timezone"] = proc():string =
+    return now.format("ZZZ")
 
-let 
-  peg_imgformat = peg"i'.png' / i'.jpg' / i'.jpeg' / i'.gif' / i'.svg' / i'.bmp' / i'.webp' @$"
-  peg_img = peg"""
+proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
+  return HastyScribe(options: options, fields: initFields(fields), snippets: initTable[string, string](), macros: initTable[string, string](), document: "")
+
+# Utility Procedures
+
+proc embed_images(hs: var HastyScribe, dir: string) =
+  let peg_img = peg"""
     image <- '<img' \s+ 'src=' ["] {file} ["]
     file <- [^"]+
   """
-  peg_snippet_def = peg"""
-    definition <- '{{' \s* {id} \s* '->' {@} '}}'
-    id <- [a-zA-Z0-9_-]+
-  """
-  peg_snippet = peg"""
-    snippet <- '{{' \s* {id} \s* '}}'
-    id <- [a-zA-Z0-9_-]+
-  """
-  peg_field = peg"""
-    field <- '{{' \s* '$' {id} \s* '}}'
-    id <- [a-zA-Z0-9_-]+
-  """
-  peg_macro_def = peg"""
-    definition <- '{#' \s* {id} \s* '->' {@} '#}'
-    id <- [a-zA-Z0-9_-]+
-  """
-  peg_macro_instance = peg"""
-    instance <- "{#" \s* {id} \s*  "||" \s* {@}  "#}"
-    id <- [a-zA-Z0-9_-]+
-  """
-
-var FIELDS = initTable[string, proc():string]()
-
-
-var NOW:TimeInfo = getTime().getLocalTime()
-
-FIELDS["timestamp"] = proc():string =
-  return $NOW.toTime.toSeconds().int
-
-
-
-FIELDS["date"] = proc():string =
-  return $NOW.format("yyyy-MM-dd")
-
-FIELDS["full-date"] = proc():string =
-  return $NOW.format("dddd, MMMM d, yyyy")
-
-FIELDS["long-date"] = proc():string =
-  return $NOW.format("MMMM d, yyyy")
-
-FIELDS["medium-date"] = proc():string =
-  return $NOW.format("MMM d, yyyy")
-
-FIELDS["short-date"] = proc():string =
-  return $NOW.format("M/d/yy")
-
-
-
-FIELDS["short-time-24"] = proc():string =
-  return $NOW.format("HH:mm")
-
-FIELDS["short-time"] = proc():string =
-  return $NOW.format("HH:mm tt")
-
-FIELDS["time-24"] = proc():string =
-  return $NOW.format("HH:mm:ss")
-
-FIELDS["time"] = proc():string =
-  return $NOW.format("HH:mm:ss tt")
-
-
-
-FIELDS["day"] = proc():string =
-  return $NOW.format("dd")
-
-FIELDS["month"] = proc():string =
-  return $NOW.format("MM")
-
-FIELDS["year"] = proc():string =
-  return $NOW.format("yyyy")
-
-FIELDS["short-day"] = proc():string =
-  return $NOW.format("d")
-
-FIELDS["short-month"] = proc():string =
-  return $NOW.format("M")
-
-FIELDS["short-year"] = proc():string =
-  return $NOW.format("yy")
-
-
-
-FIELDS["weekday"] = proc():string =
-  return $NOW.format("dddd")
-
-FIELDS["weekday-abbr"] = proc():string =
-  return $NOW.format("dd")
-
-
-
-FIELDS["month-name"] = proc():string =
-  return $NOW.format("MMMM")
-
-FIELDS["month-name-abbr"] = proc():string =
-  return $NOW.format("MMM")
-
-
-
-FIELDS["timezone-offset"] = proc():string =
-  return $NOW.format("zzz")
-
-FIELDS["timezone"] = proc():string =
-  return $NOW.format("ZZZ")
-
-
-
-# Procedures
-
-proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
-  var parts = date.split('-').map(proc(i:string): int =
-    try:
-      i.parseInt
-    except:
-      0
-  )
-  if parts.len < 3:
-    return false
-  try:
-    timeinfo = TimeInfo(year: parts[0], month: Month(parts[1]-1), monthday: parts[2])
-    # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
-    timeinfo = getLocalTime(timeinfo.toTime);
-    return true
-  except:
-    return false
-
-proc style_tag*(css: string): string =
-  result = "<style>$1</style>" % [css]
-
-proc encode_image*(contents, format: string): string =
-    let enc_contents = contents.encode(contents.len*3)
-    return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
-
-proc encode_image_file*(file, format: string): string =
-  if (file.existsFile):
-    let contents = file.readFile
-    return encode_image(contents, format)
-  else:
-    stderr.writeLine("Warning: image '" & file & "' not found.")
-    return file
-
-proc encode_font*(font, format: string): string =
-    let enc_contents = font.encode(font.len*3)
-    return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
-
-
-proc image_format*(imgfile: string): string =
-  return imgfile.substr(imgfile.find(peg_imgformat)+1, imgfile.len-1)
-
-proc embed_images*(document, dir: string): string =
   var current_dir:string
   if dir.len == 0:
     current_dir = ""
@@ -229,8 +102,8 @@ proc embed_images*(document, dir: string): string =
     current_dir = dir & "/"
   type
     TImgTagStart = array[0..0, string]
-  var doc = document
-  for img in findAll(document, peg_img):
+  var doc = hs.document
+  for img in findAll(hs.document, peg_img):
     var matches:TImgTagStart
     discard img.match(peg_img, matches)
     let imgfile = matches[0]
@@ -251,42 +124,22 @@ proc embed_images*(document, dir: string): string =
       imgcontent = encode_image_file(current_dir & imgfile, imgformat)
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
     doc = doc.replace(img, imgrep)
-  return doc
+  hs.document = doc
 
-proc watermark_css*(imgfile: string): string =
-  if imgfile.isNil:
-    result = ""
-  else:
-    let img = imgfile.encode_image_file(imgfile.image_format)
-    result = (watermark_style % [img]).style_tag
-
-proc add_jump_to_top_links*(document: string): string =
-  return document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
+proc add_jump_to_top_links(hs: var HastyScribe) =
+  hs.document = hs.document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
 
 
-proc create_font_face*(font, family, style: string, weight: int): string=
-  return """
-    @font-face {
-      font-family:"$family";
-      src:url($font) format('woff');
-      font-style:$style;
-      font-weight:$weight;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  """ % ["family", family, "font", encode_font(font, "x-font-woff"), "style", style, "weight", $weight]
-
-var fonts* = [
-  create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
-  create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
-  create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
-  create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
-  create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 800),
-  create_font_face(sourcesanspro_it_font, "Source Sans Pro", "italic", 400),
-  create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 800)
+proc embed_fonts(): string=
+  let fonts = @[
+    create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
+    create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
+    create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
+    create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
+    create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 800),
+    create_font_face(sourcesanspro_it_font, "Source Sans Pro", "italic", 400),
+    create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 800)
   ]
-
-proc embed_fonts*(): string=
   return style_tag(fonts.join);
 
 # Macro Definition:
@@ -294,15 +147,22 @@ proc embed_fonts*(): string=
 #
 # Macro Usage:
 # {{#test||simple test}}
-proc parse_macros*(document: string): string =
-  var macros:Table[string, string] = initTable[string, string]()
-  var doc = document
-  for def in findAll(document, peg_macro_def):
+proc parse_macros(hs: var HastyScribe) =
+  let peg_macro_def = peg"""
+    definition <- '{#' \s* {id} \s* '->' {@} '#}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  let peg_macro_instance = peg"""
+    instance <- "{#" \s* {id} \s*  "||" \s* {@}  "#}"
+    id <- [a-zA-Z0-9_-]+
+  """
+  var doc = hs.document
+  for def in findAll(hs.document, peg_macro_def):
     var matches: array[0..1, string]
     discard def.match(peg_macro_def, matches)
     let id = matches[0].strip
     let value = matches[1].strip
-    macros[id] = value
+    hs.macros[id] = value
     doc = doc.replace(def, "")
   for instance in findAll(doc, peg_macro_instance):
     var matches: array[0..1, string]
@@ -310,92 +170,105 @@ proc parse_macros*(document: string): string =
     let id = matches[0].strip
     let value = matches[1].strip
     let params = value.split("||")
-    if macros.hasKey(id):
+    if hs.macros.hasKey(id):
       try:
-        doc = doc.replace(instance, macros[id] % params)
+        doc = doc.replace(instance, hs.macros[id] % params)
       except:
         stderr.writeLine "Warning: Incorrect number of parameters specified for macro '$1'\n  -> Instance: $2" % [id, instance]
     else:
       stderr.writeLine "Warning: Macro '" & id & "' not defined."
       doc = doc.replace(instance, "")
-  return doc
+  hs.document = doc
 
 # Field Usage:
 # {{$timestamp}}
-
-proc parse_fields*(document: string): string =
-  NOW = getTime().getLocalTime()
-  var doc = document
-  for field in document.findAll(peg_field):
+proc parse_fields(hs: var HastyScribe) =
+  let peg_field = peg"""
+    field <- '{{' \s* '$' {id} \s* '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  var doc = hs.document
+  for field in hs.document.findAll(peg_field):
     var matches:array[0..0, string]
     discard field.match(peg_field, matches)
     var id = matches[0].strip
-    if FIELDS.hasKey(id):
-      doc = doc.replace(field, FIELDS[id]())
+    if hs.fields.hasKey(id):
+      doc = doc.replace(field, hs.fields[id]())
     else:
       stderr.writeLine "Warning: Field '" & id & "' not defined."
       doc = doc.replace(field, "")
-  return doc
+  hs.document = doc
 
 # Snippet Definition:
 # {{test -> My test snippet}}
 #
 # Snippet Usage:
 # {{test}}
-
-proc parse_snippets*(document: string): string =
-  var snippets:Table[string, string] = initTable[string, string]()
+proc parse_snippets(hs: var HastyScribe) =
+  let peg_snippet_def = peg"""
+    definition <- '{{' \s* {id} \s* '->' {@} '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
+  let peg_snippet = peg"""
+    snippet <- '{{' \s* {id} \s* '}}'
+    id <- [a-zA-Z0-9_-]+
+  """
   type
     TSnippetDef = array[0..1, string]
     TSnippet = array[0..0, string]
-  var doc = document
-  for def in findAll(document, peg_snippet_def):
+  var doc = hs.document
+  for def in findAll(hs.document, peg_snippet_def):
     var matches:TSnippetDef
     discard def.match(peg_snippet_def, matches)
     var id = matches[0].strip
     var value = matches[1].strip(true, false)
-    snippets[id] = value
+    hs.snippets[id] = value
     doc = doc.replace(def, value)
-  for snippet in findAll(document, peg_snippet):
+  for snippet in findAll(hs.document, peg_snippet):
     var matches:TSnippet
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
-    if snippets[id] == nil:
+    if hs.snippets[id] == nil:
       stderr.writeLine "Warning: Snippet '" & id & "' not defined."
       doc = doc.replace(snippet, "")
     else:
-      doc = doc.replace(snippet, snippets[id])
-  return doc
+      doc = doc.replace(snippet, hs.snippets[id])
+  hs.document = doc
 
-proc compile*(input_file: string) =
-  let inputsplit = input_file.splitFile
-
-  # Output file name
-  if output_file == nil:
-    output_file = inputsplit.dir/inputsplit.name & ".htm"
-
-  var source = input_file.readFile
-
+proc compileFragment*(hs: var HastyScribe, input: string): string {.discardable.} =
+  hs.options.input = input
+  hs.document = hs.options.input
   # Parse fields, snippets, and macros
-  source = parse_fields(source)
-  source = parse_snippets(source)
-  source = parse_macros(source)
+  hs.parse_fields()
+  hs.parse_snippets()
+  hs.parse_macros()
+  # Process markdown
+  hs.document = hs.document.md(MKD_EXTRA_FOOTNOTE)
+  return hs.document
 
+proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
+  hs.options.input = input
+  hs.document = hs.options.input
+  # Parse fields, snippets, and macros
+  hs.parse_fields()
+  hs.parse_snippets()
+  hs.parse_macros()
   # Document Variables
-  var metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
-  var body = source.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
-  var main_css_tag = stylesheet.style_tag
-  var user_css_tag = ""
-  var watermark_css_tag  = ""
-  var headings = " class=\"headings\""
-  var author_footer = ""
-
+  var 
+    main_css_tag = stylesheet.style_tag
+    user_css_tag = ""
+    watermark_css_tag  = ""
+    headings = " class=\"headings\""
+    author_footer = ""
+    title_tag = ""
+    header_tag = ""
+    toc = ""
+    metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
+  # Process markdown
+  hs.document = hs.document.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
   # Manage metadata
   if metadata.author != "":
     author_footer = "<span class=\"copy\"></span> " & metadata.author & " &ndash;"
-
-  var title_tag, header_tag, toc: string
-
   if metadata.title != "":
     title_tag = "<title>" & metadata.title & "</title>"
     header_tag = "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
@@ -403,17 +276,17 @@ proc compile*(input_file: string) =
     title_tag = ""
     header_tag = ""
 
-  if generate_toc == true and metadata.toc != "":
+  if hs.options.toc and metadata.toc != "":
     toc = "<div id=\"toc\">" & metadata.toc & "</div>"
   else:
     headings = ""
     toc = ""
 
-  if user_css != nil:
-    user_css_tag = user_css.readFile.style_tag
+  if not hs.options.css.isNil:
+    user_css_tag = hs.options.css.readFile.style_tag
 
-  if not watermark.isNil:
-    watermark_css_tag = watermark_css(watermark)
+  if not hs.options.watermark.isNil:
+    watermark_css_tag = watermark_css(hs.options.watermark)
 
   # Date parsing and validation
   var timeinfo: TimeInfo = getLocalTime(getTime())
@@ -421,7 +294,7 @@ proc compile*(input_file: string) =
   if parse_date(metadata.date, timeinfo) == false:
     discard parse_date(getDateStr(), timeinfo)
 
-  var document = """<!doctype html>
+  hs.document = """<!doctype html>
 <html lang="en">
 <head>
   $title_tag
@@ -448,22 +321,58 @@ $body
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", body,
+</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
 "fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag]
-  document = embed_images(document, inputsplit.dir)
-  document = add_jump_to_top_links(document)
-  if output_file != "-":
-    output_file.writeFile(document)
+  hs.embed_images(dir)
+  hs.add_jump_to_top_links()
+  return hs.document
+
+proc compile*(hs: var HastyScribe, input_file: string) =
+  let inputsplit = input_file.splitFile
+  var input = input_file.readFile
+  var output: string
+
+  if hs.options.output.isNil:
+    output = inputsplit.dir/inputsplit.name & ".htm"
   else:
-    stdout.write(document)
+    output = hs.options.output
+
+  if hs.options.fragment:
+    hs.compileFragment(input)
+  else:
+    hs.compileDocument(input, inputsplit.dir)
+  if output != "-":
+    output.writeFile(hs.document)
+  else:
+    stdout.write(hs.document)
 
 ### MAIN
 
 when isMainModule:
-  var input = ""
-  var files = @[""]
+  let usage = "  HastyScribe v" & version & " - Self-contained Markdown Compiler" & """
 
-  discard files.pop
+  (c) 2013-2016 Fabio Cevasco
+
+  Usage:
+    hastyscribe <markdown_file_or_glob> [options]
+
+  Arguments:
+    markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
+  Options:
+    --field/<field>=<value> Define a new field called <field> with value <value>.
+    --notoc                 Do not generate a Table of Contents.
+    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
+    --output-file=<file>    Write output to <file>.
+                            (Use "--output-file=-" to output to stdout)
+    --watermark=<file>      Use the image in <file> as a watermark.
+    --fragment              If specified, an HTML fragment will be generated, without 
+                            embedding images, fonts, or stylesheets. """
+    
+
+  var input = ""
+  var files = newSeq[string](0)
+  var options = HastyOptions(toc: true, output: nil, css: nil, watermark: nil, fragment: false)
+  var fields = initTable[string, proc():string]()
 
   # Parse Parameters
 
@@ -474,17 +383,19 @@ when isMainModule:
     of cmdLongOption:
       case key
       of "notoc":
-        generate_toc = false
+        options.toc = false
       of "user-css":
-        user_css = val
+        options.css = val
       of "watermark":
-        watermark = val
+        options.watermark = val
       of "output-file":
-        output_file = val
+        options.output = val
+      of "fragment":
+        options.fragment = true
       else:
         if key.startsWith("field/"):
           let val = val
-          FIELDS[key.replace("field/", "")] = proc(): string =
+          fields[key.replace("field/", "")] = proc(): string =
             return val
         discard
     else: 
@@ -492,10 +403,13 @@ when isMainModule:
 
   if input == "":
     quit(usage, 1)
-  elif user_css == "":
+  elif options.css == "":
     quit(usage, 4)
-  elif output_file == "":
+  elif options.output == "":
     quit(usage, 5)
+  elif options.watermark == "":
+    quit(usage, 6)
+
 
   for file in walkFiles(input):
     files.add(file)
@@ -503,9 +417,10 @@ when isMainModule:
   if files.len == 0:
     quit("Error: \"$1\" does not match any file" % [input], 2)
   else:
+    var hs = newHastyScribe(options, fields)
     try:
       for file in files:
-        compile(file)
+        hs.compile(file)
     except IOError:
       let msg = getCurrentExceptionMsg()
       quit("Error: $1" % [msg], 3)

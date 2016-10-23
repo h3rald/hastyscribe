@@ -253,12 +253,12 @@
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_windows_x86.zip">HastyScribe for Windows (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.3.0/hastyscribe_v1.3.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_windows_x86.zip">HastyScribe for Windows (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
 </ul>
 
 
@@ -317,9 +317,10 @@
 <ul>
 <li><span class="opt">--field/&lt;field&gt;=&lt;value&gt;</span> causes HastyScribe to set a custom field to a specific value.</li>
 <li><span class="opt">--notoc</span> causes HastyScribe to output HTML documents <em>without</em> automatically generating a Table of Contents at the start.</li>
-<li><span class="opt">--user-css=&lt;file&gt;</span> causes HastyScribe inserts the contents of the specified local file as a CSS stylesheet.</li>
+<li><span class="opt">--user-css=&lt;file&gt;</span> causes HastyScribe to insert the contents of the specified local file as a CSS stylesheet.</li>
 <li><span class="opt">--output-file=&lt;file&gt;</span> causes HastyScribe to write output to a local file (Use <span class="opt">--output-file=-</span> to output to standard output).</li>
 <li><span class="opt">--watermark=&lt;file&gt;</span> causes HastyScribe to embed and display an image as a watermark throughout the document.</li>
+<li><span class="opt">--fragment</span> causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.</li>
 </ul>
 </li>
 </ul>
@@ -402,51 +403,51 @@
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1476008117</td>
+<td> 1477225576</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
-<td> 2016-10-09</td>
+<td> 2016-10-23</td>
 </tr>
 <tr>
 <td><code>{{$full-date}}</code>             </td>
-<td> Sunday, October 9, 2016</td>
+<td> Sunday, October 23, 2016</td>
 </tr>
 <tr>
 <td><code>{{$long-date}}</code>             </td>
-<td> October 9, 2016</td>
+<td> October 23, 2016</td>
 </tr>
 <tr>
 <td><code>{{$medium-date}}</code>           </td>
-<td> Oct 9, 2016</td>
+<td> Oct 23, 2016</td>
 </tr>
 <tr>
 <td><code>{{$short-date}}</code>            </td>
-<td> 10/9/16</td>
+<td> 10/23/16</td>
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 12:15 PM</td>
+<td> 14:26 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 12:15</td>
+<td> 14:26</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 12:15:17 PM</td>
+<td> 14:26:16 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 12:15:17</td>
+<td> 14:26:16</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
-<td> 09</td>
+<td> 23</td>
 </tr>
 <tr>
 <td><code>{{$short-day}}</code>             </td>
-<td> 9</td>
+<td> 23</td>
 </tr>
 <tr>
 <td><code>{{$month}}</code>                 </td>
@@ -470,7 +471,7 @@
 </tr>
 <tr>
 <td><code>{{$weekday-abbr}}</code>          </td>
-<td> 09</td>
+<td> 23</td>
 </tr>
 <tr>
 <td><code>{{$month-name}}</code>            </td>
@@ -1200,7 +1201,8 @@ c. Third item
 ordered list 
 : A list for ordered items. Also called _numbered list_.
 alphabetical list
-: Technically speaking just an ordered list, but formatted with letters instead of numbers
+: Technically speaking just an ordered list, but formatted with letters instead 
+  of numbers
 definition list
 : A list of terms and definitions.
 </code></pre>
@@ -1213,7 +1215,8 @@ definition list
 <dt>ordered list </dt>
 <dd>A list for ordered items. Also called <em>numbered list</em>.</dd>
 <dt>alphabetical list</dt>
-<dd>Technically speaking just an ordered list, but formatted with letters instead of numbers</dd>
+<dd>Technically speaking just an ordered list, but formatted with letters instead
+of numbers</dd>
 <dt>definition list</dt>
 <dd>A list of terms and definitions.</dd>
 </dl>
@@ -1225,7 +1228,8 @@ definition list
 =ordered list=
   A list for ordered items. Also called _numbered list_.
 =alphabetical list=
-  Technically speaking just an ordered list, but formatted with letters instead of numbers
+  Technically speaking just an ordered list, but formatted with letters instead
+  of numbers
 =definition list=
   A list of terms and definitions.
 </code></pre>
@@ -1297,7 +1301,8 @@ definition list
 <pre><code>&gt; %sidebar%
 &gt; This is a _sidebar_
 &gt; 
-&gt; Although not always placed on the side of the page, _sidebars_ contain additional content and asides.
+&gt; Although not always placed on the side of the page, _sidebars_ contain 
+&gt; additional content and asides.
 </code></pre>
 
 <p>Produces the following output:</p>
@@ -1366,7 +1371,7 @@ definition list
 <p style="text-align:center;"> <img src="data:image/png;base64,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" alt="Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License" /></p>
     </div>
     <div id="footer">
-      <p><span class="copy"></span> Fabio Cevasco &ndash; October 9, 2016</p>
+      <p><span class="copy"></span> Fabio Cevasco &ndash; October 23, 2016</p>
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>
