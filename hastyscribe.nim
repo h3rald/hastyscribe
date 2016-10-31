@@ -18,12 +18,12 @@ import
 
 type
   HastyOptions* = object
-    toc: bool
-    input: string
-    output: string
-    css: string
-    watermark: string
-    fragment: bool
+    toc*: bool
+    input*: string
+    output*: string
+    css*: string
+    watermark*: string
+    fragment*: bool
   HastyFields* = Table[string, proc():string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
