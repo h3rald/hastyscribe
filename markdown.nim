@@ -132,7 +132,7 @@ type TMDMetaData* = object
 
 proc md*(s: string, f = 0): string =
   var flags = uint32(f)
-  var str = cstring(s)
+  var str = cstring(s&" ")
   var mmiot = mkd_string(str, cint(str.len-1), flags)
   discard mkd_compile(mmiot, flags)
   var res = allocCStringArray([""])

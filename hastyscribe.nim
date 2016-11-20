@@ -243,7 +243,7 @@ proc compileFragment*(hs: var HastyScribe, input: string): string {.discardable.
   hs.parse_snippets()
   hs.parse_macros()
   # Process markdown
-  hs.document = hs.document.md(MKD_EXTRA_FOOTNOTE)
+  hs.document = hs.document.md(MKD_EXTRA_FOOTNOTE or MKD_NOHEADER)
   return hs.document
 
 proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
