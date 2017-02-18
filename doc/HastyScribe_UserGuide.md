@@ -90,7 +90,6 @@ The easiest way to get {{hs}} is by downloading one of the prebuilt binaries fro
 
   * {#release||Mac OS X (x64)||macos_x64||Compiled on {{osx -> Mac OS X Sierra}} (LLVM CLANG 8.0.0)#}
   * {#release||Windows (x64)||windows_x64||{{xcc -> Cross-compiled on}} {{osx}} (MinGW-w64 GCC 4.8.2)#}
-  * {#release||Windows (x86)||windows_x86||{{xcc}} {{osx}} (MinGW-w64 GCC 4.8.2)#}
   * {#release||Linux (x64)||linux_x64||{{xcc}} {{osx}} (GNU GCC 4.8.1)#}
   * {#release||Linux (x86)||linux_x86||{{xcc}} {{osx}} (GNU GCC 4.8.1)#}
   * {#release||Linux (ARM)||linux_arm||{{xcc}} {{osx}} (GNU GCC 4.8.2)#}
@@ -241,7 +240,6 @@ Besides user-defined snippets, {{hs}} also support fields, which can be used to 
 > <code>\{\{$weekday-abbr\}\}</code>          | {{$weekday-abbr}}
 > <code>\{\{$month-name\}\}</code>            | {{$month-name}}
 > <code>\{\{$month-name-abbr\}\}</code>       | {{$month-name-abbr}}
-> <code>\{\{$timezone\}\}</code>              | {{$timezone}}
 > <code>\{\{$timezone-offset\}\}</code>       | {{$timezone-offset}}
 
 Additionally, you can define your own custom fields via command-line parameters, using the [--field/](class:arg) dynamic parameter, like this:

@@ -82,8 +82,6 @@ proc initFields(fields: HastyFields): HastyFields =
     return now.format("MMM")
   result["timezone-offset"] = proc():string =
     return now.format("zzz")
-  result["timezone"] = proc():string =
-    return now.format("ZZZ")
 
 proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
   return HastyScribe(options: options, fields: initFields(fields), snippets: initTable[string, string](), macros: initTable[string, string](), document: "")
@@ -265,7 +263,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
     toc = ""
     metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
   # Process markdown
-  hs.document = hs.document.md(MKD_DOTOC or MKD_EXTRA_FOOTNOTE, metadata)
+  hs.document = hs.document.md(0, metadata)
   # Manage metadata
   if metadata.author != "":
     author_footer = "<span class=\"copy\"></span> " & metadata.author & " &ndash;"

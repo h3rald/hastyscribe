@@ -29,8 +29,9 @@ Where:
 
 Because:
 
-* It is a cross-platform, self-contained executable file
-* It comes with its own stylesheet, which is automatically embedded into every HTML document, along with all the needed web fonts
+* It is a cross-platform, self-contained executable file.
+* It can generate standalon HTML files.
+* It comes with its own stylesheet, which is automatically embedded into every HTML document, along with all the needed web fonts.
 * It is built on top of [Discount](http://www.pell.portland.or.us/~orc/Code/discount/), which means that besides standard markdown you also get:
   * strikethrough
   * automatic Table of Contents generation
@@ -44,7 +45,7 @@ Because:
   * tables
   * fenced code blocks
   * [Pandoc](http://johnmacfarlane.net/pandoc/)-style document headers
-* It automatically embeds any referenced image via data URI
+* It automatically embeds any referenced image as data URI.
 * It has supports for text snippets, custom fields, and substitution macros.
 
 ### What can I use it for?
@@ -57,7 +58,7 @@ HastyScribe is implemented in [Nim][nim], a very expressive language that compil
 
 ### How do I build _HastyScribe_ from source?
 
-First of all you need a **libmarkdown.a** static library. You can either grab one precompiled (for Windows or Mac OS X) from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the HastyScribe repository or build your own. 
+First of all you need a **libmarkdown.a** static library. You can either grab a precompiled one from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the HastyScribe repository or build your own. 
 
 If you choose to build your own:
 
@@ -65,7 +66,7 @@ If you choose to build your own:
 2. In the directory containing the Discount source code, run the following commands:
 
    ```
-   ./configure.sh --with-tabstops=2 --with-dl=both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features
+   ./configure.sh 
 
    make
    ```
