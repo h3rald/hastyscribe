@@ -1,0 +1,42 @@
+{
+  "storage": "packages", 
+  "commands": 
+  {
+    "install": 
+    {
+      "git+src": 
+      {
+        "cmd": "git clone {{src}} --depth 1"
+      }, 
+      "git+src+tag": 
+      {
+        "cmd": "git clone --branch {{tag}} {{src}} --depth 1"
+      }, 
+      "curl+src+name": 
+      {
+        "cmd": "curl {{src}} -o {{name}}"
+      }
+    }, 
+    "update": 
+    {
+      "git+name": 
+      {
+        "cmd": "git pull", 
+        "pwd": "{{name}}"
+      }, 
+      "curl+src+name": 
+      {
+        "cmd": "curl {{src}} -o {{name}}"
+      }
+    }
+  }, 
+  "packages": 
+  {
+    "hastystyles": 
+    {
+      "name": "hastystyles", 
+      "src": "https://github.com/h3rald/hastystyles.git", 
+      "git": true
+    }
+  }
+}

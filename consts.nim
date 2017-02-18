@@ -1,13 +1,13 @@
 
 const 
-  stylesheet* = "assets/styles/hastyscribe.css".slurp
-  hastyscribe_font* = "assets/fonts/hastyscribe.woff".slurp 
-  fontawesome_font* = "assets/fonts/fontawesome-webfont.woff".slurp
-  sourcecodepro_font* = "assets/fonts/SourceCodePro-Regular.ttf.woff".slurp
-  sourcesanspro_font* = "assets/fonts/SourceSansPro-Regular.ttf.woff".slurp
-  sourcesanspro_bold_font* = "assets/fonts/SourceSansPro-Bold.ttf.woff".slurp
-  sourcesanspro_it_font* = "assets/fonts/SourceSansPro-It.ttf.woff".slurp
-  sourcesanspro_boldit_font* = "assets/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+  stylesheet* = "packages/hastystyles/styles/hastyscribe.css".slurp
+  hastyscribe_font* = "packages/hastystyles/fonts/hastyscribe.woff".slurp 
+  fontawesome_font* = "packages/hastystyles/fonts/fontawesome-webfont.woff".slurp
+  sourcecodepro_font* = "packages/hastystyles/fonts/SourceCodePro-Regular.ttf.woff".slurp
+  sourcesanspro_font* = "packages/hastystyles/fonts/SourceSansPro-Regular.ttf.woff".slurp
+  sourcesanspro_bold_font* = "packages/hastystyles/fonts/SourceSansPro-Bold.ttf.woff".slurp
+  sourcesanspro_it_font* = "packages/hastystyles/fonts/SourceSansPro-It.ttf.woff".slurp
+  sourcesanspro_boldit_font* = "packages/hastystyles/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
   watermark_style* = """
 #container {
   position: relative;

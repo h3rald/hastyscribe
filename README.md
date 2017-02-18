@@ -77,8 +77,12 @@ If you choose to build your own:
 Once you have a **libmarkdown.a** static library for your platform:
 
 1. Download and install [Nim][nim].
-2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
-3. Put your **libmarkdown.a** file in the **vendor** directory.
-4. Run **nim c hastyscribe.nim**
+2. Download and install [Nifty][nifty].
+3. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
+4. Inside the HastyScribe repository local folder, run **nifty install** to download [HastyStyles][hastystyles].
+5. Put your **libmarkdown.a** file in the **vendor** directory.
+6. Run **nim c hastyscribe.nim**
 
 [nim]: http://nim-lang.org/
+[nifty]: https://github.com/h3rald/nifty
+[hastystyles]: https://github.com/h3rald/nifty 

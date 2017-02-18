@@ -89,9 +89,6 @@ proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
 
 # Utility Procedures
 
-proc style_tag*(css: string): string =
-  result = "<style>$1</style>" % [css]
-
 proc embed_images(hs: var HastyScribe, dir: string) =
   let peg_img = peg"""
     image <- '<img' \s+ 'src=' ["] {file} ["]
