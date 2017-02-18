@@ -268,11 +268,11 @@
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.4.0/hastyscribe_v1.4.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
 </ul>
 
 
@@ -336,6 +336,7 @@
 <li><span class="opt">--field/&lt;field&gt;=&lt;value&gt;</span> causes HastyScribe to set a custom field to a specific value.</li>
 <li><span class="opt">--notoc</span> causes HastyScribe to output HTML documents <em>without</em> automatically generating a Table of Contents at the start.</li>
 <li><span class="opt">--user-css=&lt;file&gt;</span> causes HastyScribe to insert the contents of the specified local file as a CSS stylesheet.</li>
+<li><span class="opt">--user-js=&lt;file&gt;</span> causes HastyScribe to insert the contents of the specified local file as a Javascript script.</li>
 <li><span class="opt">--output-file=&lt;file&gt;</span> causes HastyScribe to write output to a local file (Use <span class="opt">--output-file=-</span> to output to standard output).</li>
 <li><span class="opt">--watermark=&lt;file&gt;</span> causes HastyScribe to embed and display an image as a watermark throughout the document.</li>
 <li><span class="opt">--fragment</span> causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.</li>
@@ -427,7 +428,7 @@
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1487428968</td>
+<td> 1487430039</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
@@ -451,19 +452,19 @@
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 15:42 PM</td>
+<td> 16:00 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 15:42</td>
+<td> 16:00</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 15:42:48 PM</td>
+<td> 16:00:39 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 15:42:48</td>
+<td> 16:00:39</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
@@ -1422,4 +1423,5 @@ of numbers</dd>
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>
+  
 </body>

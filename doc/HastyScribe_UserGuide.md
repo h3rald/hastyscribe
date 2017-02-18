@@ -143,6 +143,7 @@ Where:
     * [\-\-field/&lt;field&gt;=&lt;value&gt;](class:opt) causes {{hs}} to set a custom field to a specific value.
     * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generating a Table of Contents at the start.
     * [\-\-user-css=&lt;file&gt;](class:opt) causes {{hs}} to insert the contents of the specified local file as a CSS stylesheet. 
+    * [\-\-user-js=&lt;file&gt;](class:opt) causes {{hs}} to insert the contents of the specified local file as a Javascript script. 
     * [\-\-output-file=&lt;file&gt;](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
     * [\-\-watermark=&lt;file&gt;](class:opt) causes {{hs}} to embed and display an image as a watermark throughout the document. 
     * [\-\-fragment](class:opt) causes {{hs}} to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.

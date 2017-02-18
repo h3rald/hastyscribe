@@ -22,6 +22,7 @@ type
     input*: string
     output*: string
     css*: string
+    js*: string
     watermark*: string
     fragment*: bool
   HastyFields* = Table[string, proc():string]
@@ -87,6 +88,9 @@ proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
   return HastyScribe(options: options, fields: initFields(fields), snippets: initTable[string, string](), macros: initTable[string, string](), document: "")
 
 # Utility Procedures
+
+proc style_tag*(css: string): string =
+  result = "<style>$1</style>" % [css]
 
 proc embed_images(hs: var HastyScribe, dir: string) =
   let peg_img = peg"""
@@ -255,6 +259,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   var 
     main_css_tag = stylesheet.style_tag
     user_css_tag = ""
+    user_js_tag = ""
     watermark_css_tag  = ""
     headings = " class=\"headings\""
     author_footer = ""
@@ -282,6 +287,9 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
 
   if not hs.options.css.isNil:
     user_css_tag = hs.options.css.readFile.style_tag
+
+  if not hs.options.js.isNil:
+    user_js_tag = "<script type=\"text/javascript\">\n" & hs.options.js.readFile & "\n</script>"
 
   if not hs.options.watermark.isNil:
     watermark_css_tag = watermark_css(hs.options.watermark)
@@ -319,8 +327,9 @@ $body
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>
+  $js
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
-"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag]
+"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
   hs.embed_images(dir)
   hs.add_jump_to_top_links()
   return hs.document
@@ -360,6 +369,7 @@ when isMainModule:
     --field/<field>=<value> Define a new field called <field> with value <value>.
     --notoc                 Do not generate a Table of Contents.
     --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
+    --user-js=<file>        Insert contents of <file> as a Javascript script.
     --output-file=<file>    Write output to <file>.
                             (Use "--output-file=-" to output to stdout)
     --watermark=<file>      Use the image in <file> as a watermark.
@@ -384,6 +394,8 @@ when isMainModule:
         options.toc = false
       of "user-css":
         options.css = val
+      of "user-js":
+        options.js = val
       of "watermark":
         options.watermark = val
       of "output-file":

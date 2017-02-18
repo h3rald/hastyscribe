@@ -1,6 +1,6 @@
 [Package]
 name          = "hastyscribe"
-version       = "1.4.1"
+version       = "1.5.0"
 author        = "Fabio Cevasco"
 description   = "Self-contained markdown compiler generating self-contained HTML documents"
 license       = "MIT"
@@ -8,4 +8,4 @@ license       = "MIT"
 bin = "hastyscribe"
 
 [Deps]
-Requires: "nim >= 0.15.0"
+Requires: "nim >= 0.16.0"
