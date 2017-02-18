@@ -9,7 +9,6 @@ const
   linux_x86 = "--cpu:i386 --os:linux"
   linux_x64 = "--cpu:amd64 --os:linux"
   linux_arm = "--cpu:arm --os:linux"
-  windows_x86 = "--cpu:i386 --os:windows"
   windows_x64 = "--cpu:amd64 --os:windows"
   macosx_x64 = ""
   parallel = "--parallelBuild:1 --verbosity:3"
@@ -19,9 +18,6 @@ const
 
 proc filename_for(os: string, arch: string): string =
   return "hastyscribe" & "_v" & version & "_" & os & "_" & arch & ".zip"
-
-task "windows-x86-build", "Build HastyScribe for Windows (x86)":
-  direshell compile, windows_x86, hs_file
 
 task "windows-x64-build", "Build HastyScribe for Windows (x64)":
   direshell compile, windows_x64, hs_file
@@ -39,10 +35,6 @@ task "macosx-x64-build", "Build HastyScribe for Mac OS X (x64)":
   direshell compile, macosx_x64, hs_file
 
 task "release", "Release HastyScribe":
-  echo "\n\n\n WINDOWS - x86:\n\n"
-  runTask "windows-x86-build"
-  direshell zip, filename_for("windows", "x86"), hs & ".exe"
-  direshell "rm", hs & ".exe"
   echo "\n\n\n WINDOWS - x64:\n\n"
   runTask "windows-x64-build"
   direshell zip, filename_for("windows", "x64"), hs & ".exe"
