@@ -33,13 +33,20 @@ install:
       fi
     fi
     cd ..
+    if [ ! -x nifty/nifty ]; then
+      git clone --depth 1 git://github.com/h3rald.com/nifty nifty/
+      nim c --cc:$CC --verbosity:0 -d:release nifty.nim
+    fi
 before_script:
-    - export PATH="nim-$BRANCH/bin${PATH:+:$PATH}"
+    - export PATH="nifty:nim-$BRANCH/bin${PATH:+:$PATH}"
 script:
-    - nim c --cc:$CC --verbosity:0 hastyscribe.nim
+    - nifty install
+    - nifty build discount
+    - nim c --cc:$CC --verbosity:0 -d:discount hastyscribe.nim
     # Optional: build docs.
     #- nim doc --docSeeSrcUrl:https://github.com/h3rald/litestore/blob/master --project litestore.nim
 cache:
   directories:
     - nim-master
     - nim-devel
+    - nifty
