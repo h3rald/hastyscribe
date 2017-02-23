@@ -185,14 +185,17 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
     result = ""
   mkd_cleanup(mmiot)
 
-when defined(macosx):
-  {.link: "vendor/libmarkdown_macosx_x64.a".}
-when defined(windows):
-  {.link: "vendor/libmarkdown_windows_x64.a".}
-when defined(linux):
-  when defined(arm):
-    {.link: "vendor/libmarkdown_linux_arm.a".}
-  when defined(i386):
-    {.link: "vendor/libmarkdown_linux_x86.a".}
-  when defined(amd64):
-    {.link: "vendor/libmarkdown_linux_x64.a".}
+when defined(discount):
+  {.link: "packages/discount/libmarkdown.a".}
+else:
+  when defined(macosx):
+    {.link: "vendor/libmarkdown_macosx_x64.a".}
+  when defined(windows):
+    {.link: "vendor/libmarkdown_windows_x64.a".}
+  when defined(linux):
+    when defined(arm):
+      {.link: "vendor/libmarkdown_linux_arm.a".}
+    when defined(i386):
+      {.link: "vendor/libmarkdown_linux_x86.a".}
+    when defined(amd64):
+      {.link: "vendor/libmarkdown_linux_x64.a".}

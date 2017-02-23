@@ -104,29 +104,15 @@ If you already have [Nim][nim] installed on your computer, you can simply run
 
 You can also build HastyScribe from source, if there is no pre-built binary for your platform.
 
-First of all you need a [libmarkdown.a](class:file) static library. You can either grab one precompiled (Windows or Mac OS X) from the [vendor]({{repo -> https://github.com/h3rald/hastyscribe}}/blob/master/vendor) folder of the {{hs}} repository or build your own. 
-
-If you choose to build your own:
-
-1. Clone the discount [repository](https://github.com/Orc/discount).
-2. In the directory containing the Discount source code, run the following commands:
-
-   > %terminal%
-   > ./configure.sh \-\-with-tabstops=2 \-\-with-dl=both \-\-with-id-anchor \-\-with-github-tags \-\-with-fenced-code \-\-enable-all-features
-   > 
-   > make
-
-   > %tip%
-   > Tip
-   > 
-   > If you are on Windows, you can compile Discount using [MinGW-w64](http://mingw-w64.yaxm.org/doku.php).
-
-Once you have a [libmarkdown.a](class:file) static library for your platform:
+To do so, you can:
 
 1. Download and install [Nim][nim].
-2. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
-3. Put your [libmarkdown.a](class:file) file in the [vendor](class:dir) directory.
-4. Run [nim c hastyscribe.nim](class:cmd)
+2. Download and build [Nifty][nifty], and put the nifty executable somewhere in your $PATH.
+3. Clone the HastyScribe [repository]({{repo -> https://github.com/h3rald/hastyscribe}}).
+4. Navigate to the HastyScribe repository local folder.
+5. Run **nifty install** to download HastyScribe's dependencies.
+6. Run **nifty build discount** to build the Discount markdown library.
+7. Run **nim c -d:release -d:discount hastyscribe.nim**
 
 ## Usage
 
@@ -512,12 +498,12 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 {{input-text -> The following HastyScribe Markdown code:}}
 
 ~~~
-![HastyScribe Logo](../assets/images/hastyscribe.png =221x65)
+![HastyScribe Logo](../packages/hastystyles/images/hastyscribe.png =221x65)
 ~~~
 
 {{output-text -> Produces the following output:}}
 
-![HastyScribe Logo](../assets/images/hastyscribe.png =221x65)
+![HastyScribe Logo](../packages/hastystyles/images/hastyscribe.png =221x65)
 
 > %tip%
 > Tip
@@ -830,7 +816,7 @@ Special thanks to:
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 * Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
--> ![Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License](../assets/images/by-nc-nd_3.0.png) <-
+-> ![Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License](../packages/hastystyles/images/by-nc-nd_3.0.png) <-
 
 
 [nim]: http://nim-lang.org/
@@ -843,3 +829,4 @@ Special thanks to:
 [pme]:http://michelf.com/projects/php-markdown/extra/
 [sudtipos]:http://www.sudtipos.com/
 [release]:{{release -> https://github.com/h3rald/hastyscribe/releases/download/v}}
+[nifty]: https://github.com/h3rald/nifty

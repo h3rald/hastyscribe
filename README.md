@@ -33,7 +33,7 @@ Because:
 * It is a cross-platform, self-contained executable file.
 * It can generate standalon HTML files.
 * It comes with its own stylesheet, which is automatically embedded into every HTML document, along with all the needed web fonts.
-* It is built on top of [Discount](http://www.pell.portland.or.us/~orc/Code/discount/), which means that besides standard markdown you also get:
+* It is built on top of [Discount][discount], which means that besides standard markdown you also get:
   * strikethrough
   * automatic Table of Contents generation
   * [SmartyPants](http://daringfireball.net/projects/smartypants/) substitutions
@@ -59,30 +59,14 @@ HastyScribe is implemented in [Nim][nim], a very expressive language that compil
 
 ### How do I build _HastyScribe_ from source?
 
-First of all you need a **libmarkdown.a** static library. You can either grab a precompiled one from the [vendor](https://github.com/h3rald/hastyscribe/blob/master/vendor) folder of the HastyScribe repository or build your own. 
-
-If you choose to build your own:
-
-1. Clone the discount [repository](https://github.com/Orc/discount).
-2. In the directory containing the Discount source code, run the following commands:
-
-   ```
-   ./configure.sh 
-
-   make
-   ```
-
-  Tip: If you are on Windows, you can compile Discount using [MinGW-w64](http://mingw-w64.yaxm.org/doku.php).
-
-Once you have a **libmarkdown.a** static library for your platform:
-
 1. Download and install [Nim][nim].
-2. Download and install [Nifty][nifty].
+2. Download and build [Nifty][nifty], and put it somewhere in your $PATH.
 3. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
-4. Inside the HastyScribe repository local folder, run **nifty install** to download [HastyStyles][hastystyles].
-5. Put your **libmarkdown.a** file in the **vendor** directory.
-6. Run **nim c hastyscribe.nim**
+4. Navigate to the HastyScribe repository local folder.
+5. Run **nifty install** to download HastyScribe's dependencies.
+6. Run **nifty build discount** to build the Discount markdown library.
+7. Run **nim c -d:release -d:discount hastyscribe.nim**
 
 [nim]: http://nim-lang.org/
 [nifty]: https://github.com/h3rald/nifty
-[hastystyles]: https://github.com/h3rald/nifty 
+[discount]: http://www.pell.portland.or.us/~orc/Code/discount/

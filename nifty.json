@@ -2,6 +2,12 @@
   "storage": "packages", 
   "commands": 
   {
+    "build": {
+      "name+configure.sh": {
+        "pwd": "{{name}}",
+        "cmd": "./configure.sh && make"
+      } 
+    },
     "install": 
     {
       "git+src": 
@@ -36,6 +42,14 @@
     {
       "name": "hastystyles", 
       "src": "https://github.com/h3rald/hastystyles.git", 
+      "git": true
+    }, 
+    "discount": 
+    {
+      "configure.sh": true, 
+      "name": "discount", 
+      "src": "https://github.com/Orc/discount.git", 
+      "tag": "v2.2.2", 
       "git": true
     }
   }
