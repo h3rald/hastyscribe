@@ -35,6 +35,7 @@ install:
     cd ..
     if [ ! -x nifty/nifty ]; then
       git clone --depth 1 git://github.com/h3rald/nifty nifty/
+      cd nifty
       ../nim-$BRANCH/bin/nim c --cc:$CC --verbosity:0 -d:release nifty.nim
     fi
 before_script:
