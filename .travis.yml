@@ -37,9 +37,16 @@ install:
       git clone --depth 1 git://github.com/h3rald/nifty nifty/
       cd nifty
       ../nim-$BRANCH/bin/nim c --cc:$CC --verbosity:0 -d:release nifty.nim
+    else
+      cd nifty
+      git fetch origin
+      if ! git merge FETCH_HEAD | grep "Already up-to-date"; then
+        ../nim-$BRANCH/bin/nim c --cc:$CC --verbosity:0 -d:release nifty.nim
+      fi
     fi
+    cd ..
 before_script:
-    - export PATH="nifty:nim-$BRANCH/bin${PATH:+:$PATH}"
+    - export PATH="$PATH:$PWD/nifty:$PWD/nim-$BRANCH/bin"
 script:
     - nifty install
     - nifty build discount
