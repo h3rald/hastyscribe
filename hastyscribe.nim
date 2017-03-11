@@ -141,12 +141,49 @@ proc embed_fonts(): string=
   ]
   return style_tag(fonts.join);
 
+proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string
+
+proc applyHeadingOffset(contents: string, offset: int): string =
+  if offset == 0:
+    return contents
+  let peg_heading = peg"""heading <- (^ / \n){'#'+}"""
+  var handleHeading =  proc (index: int, count: int, matches: openArray[string]): string =
+    let heading = matches[0]
+    result = "\n" & "#".repeat(heading.len + offset)
+  return contents.replace(peg_heading, handleHeading)
+
+# Transclusion with heading offset:
+# {@ some/file.md || 1 @}
+proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset = 0): string =
+  result = document.applyHeadingOffset(offset)
+  let peg_transclusion = peg"""
+    transclusion <- '{\@' \s* {path} \s*  '||' \s* {offset} \s* '\@}'
+    path <- [^|]+
+    offset <- [0-5]
+  """
+  var cwd = dir
+  if cwd != "":
+    cwd = cwd & "/"
+  for transclusion in document.findAll(peg_transclusion):
+    var matches: array[0..1, string]
+    discard transclusion.match(peg_transclusion, matches)
+    let path = cwd & matches[0].strip
+    let value = matches[1].strip
+    let offset = value.split("||")[0].parseInt()
+    if path.fileExists():
+      let fileInfo = path.splitFile()
+      let contents = path.readFile()
+      result = result.replace(transclusion, hs.parse_transclusions(contents, fileInfo.dir, offset))
+    else:
+      stderr.writeLine "Warning: File '$1' not found" % [path]
+      result = result.replace(transclusion, "")
+
 # Macro Definition:
-# {{#test -> This is a $1}}
+# {#test -> This is a $1}
 #
 # Macro Usage:
-# {{#test||simple test}}
-proc parse_macros(hs: var HastyScribe) =
+# {#test||simple test}
+proc parse_macros(hs: var HastyScribe, document: string): string =
   let peg_macro_def = peg"""
     definition <- '{#' \s* {id} \s* '->' {@} '#}'
     id <- [a-zA-Z0-9_-]+
@@ -155,15 +192,15 @@ proc parse_macros(hs: var HastyScribe) =
     instance <- "{#" \s* {id} \s*  "||" \s* {@}  "#}"
     id <- [a-zA-Z0-9_-]+
   """
-  var doc = hs.document
-  for def in findAll(hs.document, peg_macro_def):
+  result = document
+  for def in document.findAll(peg_macro_def):
     var matches: array[0..1, string]
     discard def.match(peg_macro_def, matches)
     let id = matches[0].strip
     let value = matches[1].strip
     hs.macros[id] = value
-    doc = doc.replace(def, "")
-  for instance in findAll(doc, peg_macro_instance):
+    result = result.replace(def, "")
+  for instance in findAll(result, peg_macro_instance):
     var matches: array[0..1, string]
     discard instance.match(peg_macro_instance, matches)
     let id = matches[0].strip
@@ -171,39 +208,37 @@ proc parse_macros(hs: var HastyScribe) =
     let params = value.split("||")
     if hs.macros.hasKey(id):
       try:
-        doc = doc.replace(instance, hs.macros[id] % params)
+        result = result.replace(instance, hs.macros[id] % params)
       except:
         stderr.writeLine "Warning: Incorrect number of parameters specified for macro '$1'\n  -> Instance: $2" % [id, instance]
     else:
       stderr.writeLine "Warning: Macro '" & id & "' not defined."
-      doc = doc.replace(instance, "")
-  hs.document = doc
+      result = result.replace(instance, "")
 
 # Field Usage:
 # {{$timestamp}}
-proc parse_fields(hs: var HastyScribe) =
+proc parse_fields(hs: var HastyScribe, document: string): string =
   let peg_field = peg"""
     field <- '{{' \s* '$' {id} \s* '}}'
     id <- [a-zA-Z0-9_-]+
   """
-  var doc = hs.document
-  for field in hs.document.findAll(peg_field):
+  result = document
+  for field in document.findAll(peg_field):
     var matches:array[0..0, string]
     discard field.match(peg_field, matches)
     var id = matches[0].strip
     if hs.fields.hasKey(id):
-      doc = doc.replace(field, hs.fields[id]())
+      result = result.replace(field, hs.fields[id]())
     else:
       stderr.writeLine "Warning: Field '" & id & "' not defined."
-      doc = doc.replace(field, "")
-  hs.document = doc
+      result = result.replace(field, "")
 
 # Snippet Definition:
 # {{test -> My test snippet}}
 #
 # Snippet Usage:
 # {{test}}
-proc parse_snippets(hs: var HastyScribe) =
+proc parse_snippets(hs: var HastyScribe, document: string): string =
   let peg_snippet_def = peg"""
     definition <- '{{' \s* {id} \s* '->' {@} '}}'
     id <- [a-zA-Z0-9_-]+
@@ -215,32 +250,36 @@ proc parse_snippets(hs: var HastyScribe) =
   type
     TSnippetDef = array[0..1, string]
     TSnippet = array[0..0, string]
-  var doc = hs.document
-  for def in findAll(hs.document, peg_snippet_def):
+  result = document
+  for def in document.findAll(peg_snippet_def):
     var matches:TSnippetDef
     discard def.match(peg_snippet_def, matches)
     var id = matches[0].strip
     var value = matches[1].strip(true, false)
     hs.snippets[id] = value
-    doc = doc.replace(def, value)
-  for snippet in findAll(hs.document, peg_snippet):
+    result = result.replace(def, value)
+  for snippet in document.findAll(peg_snippet):
     var matches:TSnippet
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
     if hs.snippets[id] == nil:
       stderr.writeLine "Warning: Snippet '" & id & "' not defined."
-      doc = doc.replace(snippet, "")
+      result = result.replace(snippet, "")
     else:
-      doc = doc.replace(snippet, hs.snippets[id])
-  hs.document = doc
+      result = result.replace(snippet, hs.snippets[id])
 
-proc compileFragment*(hs: var HastyScribe, input: string): string {.discardable.} =
+proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
+  result = hs.parse_transclusions(document, dir, offset)
+  result = hs.parse_fields(result)
+  result = hs.parse_snippets(result)
+  result = hs.parse_macros(result)
+  
+
+proc compileFragment*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
   hs.options.input = input
   hs.document = hs.options.input
-  # Parse fields, snippets, and macros
-  hs.parse_fields()
-  hs.parse_snippets()
-  hs.parse_macros()
+  # Parse transclusions, fields, snippets, and macros
+  hs.document = hs.preprocess(hs.document, dir)
   # Process markdown
   hs.document = hs.document.md(MKD_EXTRA_FOOTNOTE or MKD_NOHEADER)
   return hs.document
@@ -248,10 +287,8 @@ proc compileFragment*(hs: var HastyScribe, input: string): string {.discardable.
 proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
   hs.options.input = input
   hs.document = hs.options.input
-  # Parse fields, snippets, and macros
-  hs.parse_fields()
-  hs.parse_snippets()
-  hs.parse_macros()
+  # Parse transclusions, fields, snippets, and macros
+  hs.document = hs.preprocess(hs.document, dir)
   # Document Variables
   var 
     main_css_tag = stylesheet.style_tag
@@ -342,7 +379,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
     output = hs.options.output
 
   if hs.options.fragment:
-    hs.compileFragment(input)
+    hs.compileFragment(input, inputsplit.dir)
   else:
     hs.compileDocument(input, inputsplit.dir)
   if output != "-":
