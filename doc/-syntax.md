@@ -88,6 +88,6 @@ This defines a macro called [greet](class:kwd) that takes two parameters which w
 > * Spaces and newline character are preseved ad the start and end of parameters.
 > * You can use snippets and fields within macros (but you cannot nest macros inside other macros).
 
-{@ -syntax-inline.md || 2 @}
+{@ -syntax-inline.md || 1 @}
 
-{@ -syntax-block.md || 2 @}
+{@ -syntax-block.md || 1 @}

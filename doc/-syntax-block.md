@@ -113,6 +113,6 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 > 
 > If {{hs}} is unable to download an image, it will leave it linked.
 
-{@ -syntax-block-lists.md || 3 @}
+{@ -syntax-block-lists.md || 1 @}
 
-{@ -syntax-block-classes.md || 3 @}
+{@ -syntax-block-classes.md || 1 @}

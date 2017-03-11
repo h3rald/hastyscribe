@@ -169,7 +169,7 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
     discard transclusion.match(peg_transclusion, matches)
     let path = cwd & matches[0].strip
     let value = matches[1].strip
-    let offset = value.split("||")[0].parseInt()
+    let offset = value.split("||")[0].parseInt() + offset
     if path.fileExists():
       let fileInfo = path.splitFile()
       let contents = path.readFile()
