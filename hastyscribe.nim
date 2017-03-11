@@ -392,7 +392,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
 when isMainModule:
   let usage = "  HastyScribe v" & version & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2016 Fabio Cevasco
+  (c) 2013-2017 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]

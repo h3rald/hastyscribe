@@ -16,6 +16,19 @@
 >  * The order of the document headers is significant.
 >  * If you want to use the current date, enter [% -](class:kwd) in the third line.
 
+## Transclusion
+
+When writing a long document, it is often useful to split it into many different files, to manage its contents better. {{hs}} provides basic content transclusion support through the following syntax:
+
+<code>\{@ my-file.md || 1 @\}</code>
+
+When a file is processed, the line above will cause the contents of file [my-file.md](class:file) to be included in the current file, as if they were part of it. Additionally, when using content transclusion syntax, it is mandatory to specify a number between 0 and 5 to indicate the _offset_ of the headings present in the transcluded file. In this example, the heading numbers of all headings present in [my-file.md](class:file) will be increased by 1, so any [h2](class:kwd) will become [h3](class:kwd), any [h3](class:kwd) will become [h4](class:kwd), and so on.
+
+> %warning%
+> Limitations
+> 
+> * It is recommended to place all transcluded files in the same folder as the transcluding file. If a transcluded file includes any image, its relative path will be interpreted as if it was relative to the transcluding file.
+> * Heading offset will only work if headings are created using [#](class:kwd)s. Underline syntax for [h1](class:kwd) and [h2](class:kwd) is not supported.
 
 ## Snippets
 

@@ -25,7 +25,7 @@ Sometimes you just want to write your document in markdown, and get a full HTML 
 > %tip%
 > Tip
 > 
-> You can learn about Markdown syntax in the [Syntax Reference](#Syntax.Reference) section of this document. Alternatively, you can also read the original [Markdown syntax page][md-syntax] on John Gruber's blog, Daring Fireball.
+> You can learn about Markdown syntax in the [Syntax Reference](#Syntax-Reference) section of this document. Alternatively, you can also read the original [Markdown syntax page][md-syntax] on John Gruber's blog, Daring Fireball.
 
 ### Discount Extensions
 
@@ -43,6 +43,9 @@ Although not part of neither {{md}} nor Discount, {{hs}} allows you to create te
 
 {{hs}} also supports [fields](#Fields) to easily include things like the current date or time, but also custom values specified as command-line parameters. 
 
+### Content Transclusion
+
+When managing long documents, you can take advantage of {{hs}}'s [transclusion](#Transclusion) support to split your content into several files, and transclude them as you see fit.
 
 ### Substitution Macros
 

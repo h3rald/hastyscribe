@@ -1,5 +1,3 @@
-[![Nimble](https://raw.githubusercontent.com/yglukhov/nimble-tag/master/nimble.png)](https://github.com/h3rald/hastyscribe)
-
 [![Release](https://img.shields.io/github/release/h3rald/hastyscribe.svg)](https://github.com/h3rald/hastyscribe)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/h3rald/hastyscribe/master/LICENSE)
 [![Build Status](https://img.shields.io/travis/h3rald/hastyscribe.svg)](https://travis-ci.org/h3rald/hastyscribe)

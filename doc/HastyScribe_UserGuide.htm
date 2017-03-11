@@ -4355,6 +4355,7 @@ div .terminal {
     <li><a href="#Discount-Extensions">Discount Extensions</a></li>
     <li><a href="#Text-Snippets">Text Snippets</a></li>
     <li><a href="#Custom-Fields">Custom Fields</a></li>
+    <li><a href="#Content-Transclusion">Content Transclusion</a></li>
     <li><a href="#Substitution-Macros">Substitution Macros</a></li>
     <li><a href="#Image-(and-font)-Embedding">Image (and font) Embedding</a></li>
     <li><a href="#FontAwesome-Icons">FontAwesome Icons</a></li>
@@ -4383,6 +4384,7 @@ div .terminal {
   <li><a href="#Syntax-Reference">Syntax Reference</a>
   <ul>
    <li><a href="#Document-Headers">Document Headers</a></li>
+   <li><a href="#Transclusion">Transclusion</a></li>
    <li><a href="#Snippets">Snippets</a></li>
    <li><a href="#Fields">Fields</a></li>
    <li><a href="#Macros">Macros</a></li>
@@ -4466,7 +4468,7 @@ div .terminal {
 
 <div class="tip"><p>Tip</p>
 
-<p>You can learn about Markdown syntax in the <a href="#Syntax.Reference">Syntax Reference</a> section of this document. Alternatively, you can also read the original <a href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax page</a> on John Gruber&rsquo;s blog, Daring Fireball.</p></div>
+<p>You can learn about Markdown syntax in the <a href="#Syntax-Reference">Syntax Reference</a> section of this document. Alternatively, you can also read the original <a href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax page</a> on John Gruber&rsquo;s blog, Daring Fireball.</p></div>
 
 <a name="Discount-Extensions"></a>
 <h4>Discount Extensions<a href="#document-top" title="Go to top"></a></h4>
@@ -4489,6 +4491,11 @@ div .terminal {
 <h4>Custom Fields<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe also supports <a href="#Fields">fields</a> to easily include things like the current date or time, but also custom values specified as command-line parameters.</p>
+
+<a name="Content-Transclusion"></a>
+<h4>Content Transclusion<a href="#document-top" title="Go to top"></a></h4>
+
+<p>When managing long documents, you can take advantage of HastyScribe&rsquo;s <a href="#Transclusion">transclusion</a> support to split your content into several files, and transclude them as you see fit.</p>
 
 <a name="Substitution-Macros"></a>
 <h4>Substitution Macros<a href="#document-top" title="Go to top"></a></h4>
@@ -4539,11 +4546,11 @@ div .terminal {
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.5.0/hastyscribe_v1.5.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_macos_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
 </ul>
 
 
@@ -4648,6 +4655,23 @@ div .terminal {
 </ul>
 </div>
 
+<a name="Transclusion"></a>
+<h3>Transclusion<a href="#document-top" title="Go to top"></a></h3>
+
+<p>When writing a long document, it is often useful to split it into many different files, to manage its contents better. HastyScribe provides basic content transclusion support through the following syntax:</p>
+
+<p><code>{@ my-file.md || 1 @}</code></p>
+
+<p>When a file is processed, the line above will cause the contents of file <span class="file">my-file.md</span> to be included in the current file, as if they were part of it. Additionally, when using content transclusion syntax, it is mandatory to specify a number between 0 and 5 to indicate the <em>offset</em> of the headings present in the transcluded file. In this example, the heading numbers of all headings present in <span class="file">my-file.md</span> will be increased by 1, so any <span class="kwd">h2</span> will become <span class="kwd">h3</span>, any <span class="kwd">h3</span> will become <span class="kwd">h4</span>, and so on.</p>
+
+<div class="warning"><p>Limitations</p>
+
+<ul>
+<li>It is recommended to place all transcluded files in the same folder as the transcluding file. If a transcluded file includes any image, its relative path will be interpreted as if it was relative to the transcluding file.</li>
+<li>Heading offset will only work if headings are created using <span class="kwd">#</span>s. Underline syntax for <span class="kwd">h1</span> and <span class="kwd">h2</span> is not supported.</li>
+</ul>
+</div>
+
 <a name="Snippets"></a>
 <h3>Snippets<a href="#document-top" title="Go to top"></a></h3>
 
@@ -4684,7 +4708,7 @@ div .terminal {
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1489242640</td>
+<td> 1489248321</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
@@ -4708,19 +4732,19 @@ div .terminal {
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 15:30 PM</td>
+<td> 17:05 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 15:30</td>
+<td> 17:05</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 15:30:40 PM</td>
+<td> 17:05:21 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 15:30:40</td>
+<td> 17:05:21</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
