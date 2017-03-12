@@ -185,7 +185,8 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
 # {#test||simple test}
 proc parse_macros(hs: var HastyScribe, document: string): string =
   let peg_macro_def = peg"""
-    definition <- '{#' \s* {id} \s* '->' {@} '#}'
+    definition <- '{#' \s* {id} \s* deftype {@} '#}'
+    deftype <- '->' / '=>'
     id <- [a-zA-Z0-9_-]+
   """
   let peg_macro_instance = peg"""
