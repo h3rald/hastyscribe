@@ -275,13 +275,16 @@ proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string 
   result = hs.parse_macros(result)
   
 
-proc compileFragment*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
+proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
   hs.options.input = input
   hs.document = hs.options.input
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
   # Process markdown
-  hs.document = hs.document.md(MKD_EXTRA_FOOTNOTE or MKD_NOHEADER)
+  var flags = MKD_EXTRA_FOOTNOTE or MKD_NOHEADER or MKD_DLEXTRA or MKD_FENCEDCODE or MKD_GITHUBTAGS or MKD_HTML5ANCHOR
+  if toc:
+    flags = flags or MKD_TOC
+  hs.document = hs.document.md(flags)
   return hs.document
 
 proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
