@@ -89,7 +89,7 @@ In this case it will be possible to access the [product](class:kwd) and [product
 
 If snippets are not enough, and you want to reuse chunks of _similar_ content, you can define substitution macros using the following syntax:
 
-<code>\{#greet -> Hello, $1! Are you $2?#\}</code>
+<code>\{#greet => Hello, $1! Are you $2?#\}</code>
 
 This defines a macro called [greet](class:kwd) that takes two parameters which will be substituted instead of [$1](class:kwd) and [$2](class:kwd). To use the macro, use the following syntax:
 
@@ -101,6 +101,7 @@ This defines a macro called [greet](class:kwd) that takes two parameters which w
 > * Like snippets, macros can be multiline.
 > * Spaces and newline character are preseved ad the start and end of parameters.
 > * You can use snippets and fields within macros (but you cannot nest macros inside other macros).
+> * You can define macros using either [->](class:kwd) or [=>](class:kwd), although [=>](class:kwd) is preferred.
 
 {@ -syntax-inline.md || 1 @}
 

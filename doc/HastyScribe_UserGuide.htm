@@ -4706,7 +4706,7 @@ div .terminal {
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1489321116</td>
+<td> 1489321436</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
@@ -4730,19 +4730,19 @@ div .terminal {
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 13:18 PM</td>
+<td> 13:23 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 13:18</td>
+<td> 13:23</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 13:18:36 PM</td>
+<td> 13:23:56 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 13:18:36</td>
+<td> 13:23:56</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
@@ -4803,7 +4803,7 @@ div .terminal {
 
 <p>If snippets are not enough, and you want to reuse chunks of <em>similar</em> content, you can define substitution macros using the following syntax:</p>
 
-<p><code>{#greet -> Hello, $1! Are you $2?#}</code></p>
+<p><code>{#greet => Hello, $1! Are you $2?#}</code></p>
 
 <p>This defines a macro called <span class="kwd">greet</span> that takes two parameters which will be substituted instead of <span class="kwd">$1</span> and <span class="kwd">$2</span>. To use the macro, use the following syntax:</p>
 
@@ -4815,6 +4815,7 @@ div .terminal {
 <li>Like snippets, macros can be multiline.</li>
 <li>Spaces and newline character are preseved ad the start and end of parameters.</li>
 <li>You can use snippets and fields within macros (but you cannot nest macros inside other macros).</li>
+<li>You can define macros using either <span class="kwd">-></span> or <span class="kwd">=></span>, although <span class="kwd">=></span> is preferred.</li>
 </ul>
 </div>
 
