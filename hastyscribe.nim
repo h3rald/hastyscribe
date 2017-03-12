@@ -240,7 +240,8 @@ proc parse_fields(hs: var HastyScribe, document: string): string =
 # {{test}}
 proc parse_snippets(hs: var HastyScribe, document: string): string =
   let peg_snippet_def = peg"""
-    definition <- '{{' \s* {id} \s* '->' {@} '}}'
+    definition <- '{{' \s* {id} \s* {deftype} {@} '}}'
+    deftype <- '->' / '=>'
     id <- [a-zA-Z0-9_-]+
   """
   let peg_snippet = peg"""
@@ -248,25 +249,27 @@ proc parse_snippets(hs: var HastyScribe, document: string): string =
     id <- [a-zA-Z0-9_-]+
   """
   type
-    TSnippetDef = array[0..1, string]
+    TSnippetDef = array[0..2, string]
     TSnippet = array[0..0, string]
   result = document
   for def in document.findAll(peg_snippet_def):
     var matches:TSnippetDef
     discard def.match(peg_snippet_def, matches)
     var id = matches[0].strip
-    var value = matches[1].strip(true, false)
+    var value = matches[2].strip(true, false)
     hs.snippets[id] = value
+    if matches[1] == "=>":
+      value = ""
     result = result.replace(def, value)
   for snippet in document.findAll(peg_snippet):
     var matches:TSnippet
     discard snippet.match(peg_snippet, matches)
     var id = matches[0].strip
-    if hs.snippets[id] == nil:
+    if hs.snippets.hasKey(id):
+      result = result.replace(snippet, hs.snippets[id])
+    else:
       stderr.writeLine "Warning: Snippet '" & id & "' not defined."
       result = result.replace(snippet, "")
-    else:
-      result = result.replace(snippet, hs.snippets[id])
 
 proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
   result = hs.parse_transclusions(document, dir, offset)

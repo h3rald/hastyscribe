@@ -34,7 +34,7 @@ When a file is processed, the line above will cause the contents of file [my-fil
 
 If you want to reuse a few words or even entire blocks of texts, you can use {{hs}}'s snippets. 
 
-A snippet definition is constituted by an identifier, followed by an arrow (->), followed by some text -- all wrapped in double curly brackets. 
+A snippet definition is constituted by an identifier, followed by an arrow ([->](class:kwd)), followed by some text -- all wrapped in double curly brackets. 
 
 The following definition creates a snippet called [test](class:kwd) which is transformed into the text "This is a test snippet.". 
 
@@ -42,11 +42,12 @@ The following definition creates a snippet called [test](class:kwd) which is tra
 
 Once a snippet is defined _anywhere_ in the document, you can use its identifier wrapped in double curly brackets (<code>\{\{test}\}\}</code> in the previous example) anywhere in the document to reuse the specified text.
 
-> %note%
-> Remarks
+> %sidebar%
+> Alternative Snippet Definition Syntax
 > 
-> * It doesn't matter where a snippet is defined. Snippets can be used anywhere in the document, before or after their definition.
-> * When a document is compiled, both snippets _and snippets definitions_ are evaluated their body text.
+> When a document is compiled, both snippets _and snippet defininotions_ are evaluated to their body text. To avoid snippet definitions being evaluated, you can use a double arrow ([=>](class:kwd)) in the definition:
+> 
+> <code>\{\{test => This snippet definition will not be evaluated to its body text.\}\}</code>
 
 ## Fields
 
