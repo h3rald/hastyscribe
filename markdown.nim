@@ -7,11 +7,11 @@ else:
     {.link: "vendor/libmarkdown_windows_x64.a".}
   when defined(linux):
     when defined(arm):
-      {.passL: "vendor/libmarkdown_linux_arm.a".}
+      {.link: "vendor/libmarkdown_linux_arm.a".}
     when defined(i386):
-      {.passL: "vendor/libmarkdown_linux_x86.a".}
+      {.link: "vendor/libmarkdown_linux_x86.a".}
     when defined(amd64):
-      {.passL: "vendor/libmarkdown_linux_x64.a".}
+      {.link: "vendor/libmarkdown_linux_x64.a".}
 const 
   MKDIO_D* = true
 type 
