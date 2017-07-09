@@ -1,17 +1,17 @@
 when defined(discount):
-  {.link: "packages/discount/libmarkdown.a".}
+  {.passL: "packages/discount/libmarkdown.a".}
 else:
   when defined(macosx):
-    {.link: "vendor/libmarkdown_macosx_x64.a".}
+    {.passL: "vendor/libmarkdown_macosx_x64.a".}
   when defined(windows):
-    {.link: "vendor/libmarkdown_windows_x64.a".}
+    {.passL: "vendor/libmarkdown_windows_x64.a".}
   when defined(linux):
     when defined(arm):
-      {.link: "vendor/libmarkdown_linux_arm.a".}
+      {.passL: "vendor/libmarkdown_linux_arm.a".}
     when defined(i386):
-      {.link: "vendor/libmarkdown_linux_x86.a".}
+      {.passL: "vendor/libmarkdown_linux_x86.a".}
     when defined(amd64):
-      {.link: "vendor/libmarkdown_linux_x64.a".}
+      {.passL: "vendor/libmarkdown_linux_x64.a".}
 const 
   MKDIO_D* = true
 type 
