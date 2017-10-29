@@ -21,6 +21,7 @@ Where:
     * **\-\-output-file=&lt;file&gt;** causes HastyScribe to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
     * **\-\-watermark=&lt;file&gt;** causes HastyScribe to embed and display an image as a watermark throughout the document. 
     * **\-\-fragment** causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
+    * **\-\-dump=all|styles|fonts** causes HastyScribe to dump all resources/stylesheets/fonts to the current directory.
 
 ## FAQs
 
