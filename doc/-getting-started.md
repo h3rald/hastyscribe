@@ -6,7 +6,7 @@
 
 The easiest way to get {{hs}} is by downloading one of the prebuilt binaries from the [Github Release Page][release]:
 
-  * {#release||Mac OS X (x64)||macos_x64||Compiled on {{osx -> Mac OS X Sierra}} (LLVM CLANG 8.0.0)#}
+  * {#release||Mac OS X (x64)||macosx_x64||Compiled on {{osx -> Mac OS X Sierra}} (LLVM CLANG 8.0.0)#}
   * {#release||Windows (x64)||windows_x64||{{xcc -> Cross-compiled on}} {{osx}} (MinGW-w64 GCC 4.8.2)#}
   * {#release||Linux (x64)||linux_x64||{{xcc}} {{osx}} (GNU GCC 4.8.1)#}
   * {#release||Linux (x86)||linux_x86||{{xcc}} {{osx}} (GNU GCC 4.8.1)#}
