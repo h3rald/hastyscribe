@@ -277,7 +277,18 @@ proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string 
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
   result = hs.parse_macros(result)
-  
+
+proc dump*(hs: var HastyScribe, item="all", dest=".") =
+  if item == "all" or item == "styles":
+      (dest/"hastyscribe.css").writeFile(stylesheet)
+  if item == "all" or item == "fonts":
+      (dest/"SourceCodePro-Regular.ttf.woff").writeFile(sourcecodepro_font)
+      (dest/"SourceSansPro-Regular.ttf.woff").writeFile(sourcesanspro_font)
+      (dest/"SourceSansPro-Bold.ttf.woff").writeFile(sourcesanspro_bold_font)
+      (dest/"SourceSansPro-BoldIt.ttf.woff").writeFile(sourcesanspro_bold_it_font)
+      (dest/"SourceSansPro-It.ttf.woff").writeFile(sourcesanspro_it_font)
+      (dest/"fontawesome-webfont.woff").writeFile(fontawesome_font)
+      (dest/"hastyscribe.woff").writeFile(hastyscribe_font)
 
 proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
   hs.options.input = input
@@ -415,13 +426,15 @@ when isMainModule:
                             (Use "--output-file=-" to output to stdout)
     --watermark=<file>      Use the image in <file> as a watermark.
     --fragment              If specified, an HTML fragment will be generated, without 
-                            embedding images, fonts, or stylesheets. """
+                            embedding images, fonts, or stylesheets. 
+    --dump=all|styles|fonts Dumps all resources/stylesheets/fonts to the current directory."""
     
 
   var input = ""
   var files = newSeq[string](0)
   var options = HastyOptions(toc: true, output: nil, css: nil, watermark: nil, fragment: false)
   var fields = initTable[string, proc():string]()
+  var dumpdata = ""
 
   # Parse Parameters
 
@@ -431,6 +444,11 @@ when isMainModule:
       input = key
     of cmdLongOption:
       case key
+      of "dump":
+        if not ["all", "styles", "fonts"].contains(val):
+          stderr.writeLine("Invalid value: " & val)
+          quit(7)
+        dumpdata = val
       of "notoc":
         options.toc = false
       of "user-css":
@@ -452,23 +470,27 @@ when isMainModule:
     else: 
       discard
 
-  if input == "":
-    quit(usage, 1)
-  elif options.css == "":
-    quit(usage, 4)
-  elif options.output == "":
-    quit(usage, 5)
-  elif options.watermark == "":
-    quit(usage, 6)
+  if dumpdata == "":
+    if input == "":
+      quit(usage, 1)
+    elif options.css == "":
+      quit(usage, 4)
+    elif options.output == "":
+      quit(usage, 5)
+    elif options.watermark == "":
+      quit(usage, 6)
 
 
   for file in walkFiles(input):
     files.add(file)
 
-  if files.len == 0:
+  if files.len == 0 and dumpdata == "":
     quit("Error: \"$1\" does not match any file" % [input], 2)
   else:
     var hs = newHastyScribe(options, fields)
+    if dumpdata != "":
+      hs.dump(dumpdata)
+      quit(0)
     try:
       for file in files:
         hs.compile(file)
