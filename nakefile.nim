@@ -2,7 +2,7 @@ import
   nake
 
 import
-  config
+  lib/config
 
 const
   compile = "nim c -d:release"
@@ -11,7 +11,7 @@ const
   linux_arm = "--cpu:arm --os:linux"
   windows_x64 = "--cpu:amd64 --os:windows"
   macosx_x64 = ""
-  parallel = "--parallelBuild:1 --verbosity:3"
+  #parallel = "--parallelBuild:1 --verbosity:3"
   hs = "hastyscribe"
   hs_file = "hastyscribe.nim"
   zip = "zip -X"
