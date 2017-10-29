@@ -6,11 +6,13 @@ import
   times, 
   pegs, 
   base64, 
-  markdown, 
   tables,
-  httpclient
+  httpclient,
+  logging
 
 import
+  packages/niftylogger,
+  lib/markdown, 
   lib/config,
   lib/consts,
   lib/utils
@@ -35,6 +37,7 @@ type
     macros: HastyMacros
     document: string
 
+newNiftyLogger().addHandler()
 
 proc initFields(fields: HastyFields): HastyFields =
   result = initTable[string, proc():string]()
@@ -115,9 +118,9 @@ proc embed_images(hs: var HastyScribe, dir: string) =
         let client = newHttpClient()
         imgcontent = encode_image(client.getContent(imgfile), imgformat)
       except:
-        stderr.writeLine "Warning: Unable to download '" & imgfile & "'"
-        stderr.writeLine "  Reason: " & getCurrentExceptionMsg()
-        stderr.writeLine "  -> Image will be linked instead"
+        warn "Unable to download '" & imgfile & "'"
+        warn "  Reason: " & getCurrentExceptionMsg()
+        warn "  -> Image will be linked instead"
         continue
     else:
       imgcontent = encode_image_file(current_dir & imgfile, imgformat)
@@ -175,7 +178,7 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
       let contents = path.readFile()
       result = result.replace(transclusion, hs.parse_transclusions(contents, fileInfo.dir, offset))
     else:
-      stderr.writeLine "Warning: File '$1' not found" % [path]
+      warn "File '$1' not found" % [path]
       result = result.replace(transclusion, "")
 
 # Macro Definition:
@@ -211,9 +214,9 @@ proc parse_macros(hs: var HastyScribe, document: string): string =
       try:
         result = result.replace(instance, hs.macros[id] % params)
       except:
-        stderr.writeLine "Warning: Incorrect number of parameters specified for macro '$1'\n  -> Instance: $2" % [id, instance]
+        warn "Incorrect number of parameters specified for macro '$1'\n  -> Instance: $2" % [id, instance]
     else:
-      stderr.writeLine "Warning: Macro '" & id & "' not defined."
+      warn "Macro '" & id & "' not defined."
       result = result.replace(instance, "")
 
 # Field Usage:
@@ -231,7 +234,7 @@ proc parse_fields(hs: var HastyScribe, document: string): string =
     if hs.fields.hasKey(id):
       result = result.replace(field, hs.fields[id]())
     else:
-      stderr.writeLine "Warning: Field '" & id & "' not defined."
+      warn "Field '" & id & "' not defined."
       result = result.replace(field, "")
 
 # Snippet Definition:
@@ -269,7 +272,7 @@ proc parse_snippets(hs: var HastyScribe, document: string): string =
     if hs.snippets.hasKey(id):
       result = result.replace(snippet, hs.snippets[id])
     else:
-      stderr.writeLine "Warning: Snippet '" & id & "' not defined."
+      warn "Snippet '" & id & "' not defined."
       result = result.replace(snippet, "")
 
 proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
@@ -448,7 +451,7 @@ when isMainModule:
       case key
       of "dump":
         if not ["all", "styles", "fonts"].contains(val):
-          stderr.writeLine("Invalid value: " & val)
+          fatal "[dump] Invalid value: " & val
           quit(7)
         dumpdata = val
       of "notoc":
@@ -487,7 +490,8 @@ when isMainModule:
     files.add(file)
 
   if files.len == 0 and dumpdata == "":
-    quit("Error: \"$1\" does not match any file" % [input], 2)
+    fatal "\"$1\" does not match any file" % [input]
+    quit(2)
   else:
     var hs = newHastyScribe(options, fields)
     if dumpdata != "":
@@ -498,4 +502,5 @@ when isMainModule:
         hs.compile(file)
     except IOError:
       let msg = getCurrentExceptionMsg()
-      quit("Error: $1" % [msg], 3)
+      fatal msg
+      quit(3)
