@@ -3,11 +3,11 @@ const
   stylesheet* = "../packages/hastystyles/styles/hastyscribe.css".slurp
   hastyscribe_font* = "../packages/hastystyles/fonts/hastyscribe.woff".slurp 
   fontawesome_font* = "../packages/hastystyles/fonts/fontawesome-webfont.woff".slurp
-  sourcecodepro_font* = "../packages/hastystyles/fonts/SourceCodePro-Regular.ttf.woff".slurp
-  sourcesanspro_font* = "../packages/hastystyles/fonts/SourceSansPro-Regular.ttf.woff".slurp
-  sourcesanspro_bold_font* = "../packages/hastystyles/fonts/SourceSansPro-Bold.ttf.woff".slurp
-  sourcesanspro_it_font* = "../packages/hastystyles/fonts/SourceSansPro-It.ttf.woff".slurp
-  sourcesanspro_boldit_font* = "../packages/hastystyles/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+  sourcecodepro_font* = "../packages/hastystyles/fonts/SourceCodePro-Regular.woff".slurp
+  sourcesanspro_font* = "../packages/hastystyles/fonts/SourceSansPro-Regular.woff".slurp
+  sourcesanspro_bold_font* = "../packages/hastystyles/fonts/SourceSansPro-Bold.woff".slurp
+  sourcesanspro_it_font* = "../packages/hastystyles/fonts/SourceSansPro-It.woff".slurp
+  sourcesanspro_boldit_font* = "../packages/hastystyles/fonts/SourceSansPro-BoldIt.woff".slurp
   watermark_style* = """
 #container {
   position: relative;

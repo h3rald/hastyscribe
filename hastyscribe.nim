@@ -283,10 +283,10 @@ proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string 
 
 # Public API
 
-proc dump*(hs: var HastyScribe, item="all", dest=".") =
-  if item == "all" or item == "styles":
+proc dump*(hs: var HastyScribe, data="all", dest=".") =
+  if data == "all" or data == "styles":
       (dest/"hastyscribe.css").writeFile(stylesheet)
-  if item == "all" or item == "fonts":
+  if data == "all" or data == "fonts":
       (dest/"SourceCodePro-Regular.ttf.woff").writeFile(sourcecodepro_font)
       (dest/"SourceSansPro-Regular.ttf.woff").writeFile(sourcesanspro_font)
       (dest/"SourceSansPro-Bold.ttf.woff").writeFile(sourcesanspro_bold_font)

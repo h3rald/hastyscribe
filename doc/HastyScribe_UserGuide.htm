@@ -2662,7 +2662,7 @@ pre {
   color: #333;
   background-color: #f8f8f8;
   border: 1px solid #ccc;
-  white-space: pre;
+  white-space: pre-wrap;
   margin: auto;
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
   padding: 0;
@@ -3262,7 +3262,7 @@ a[href="#document-top"]:before {
   color: #eee;
   background-color: #222;
   border: 1px solid #ccc;
-  white-space: pre;
+  white-space: pre-wrap;
   padding: 0 3px;
   border: 2px solid #999;
   border-top: 10px solid #999;
@@ -3315,7 +3315,7 @@ a[href="#document-top"]:before {
   color: #eee;
   background-color: #222;
   border: 1px solid #ccc;
-  white-space: pre;
+  white-space: pre-wrap;
   padding: 0 3px;
   border: 2px solid #999;
   border-top: 10px solid #999;
@@ -4429,6 +4429,21 @@ div .terminal {
    </li>
   </ul>
   </li>
+  <li><a href="#Nim-API">Nim API</a>
+  <ul>
+   <li><a href="#Types">Types</a></li>
+   <li><a href="#Procs">Procs</a>
+   <ul>
+    <li><a href="#newHastyScribe">newHastyScribe</a></li>
+    <li><a href="#dump">dump</a></li>
+    <li><a href="#compileFragment">compileFragment</a></li>
+    <li><a href="#compileDocument">compileDocument</a></li>
+    <li><a href="#compile">compile</a>
+</li>
+   </ul>
+   </li>
+  </ul>
+  </li>
   <li><a href="#Credits">Credits</a></li>
  </ul>
  </li>
@@ -4546,11 +4561,11 @@ div .terminal {
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.6.0/hastyscribe_v1.6.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.7.0/hastyscribe_v1.7.0_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a> &ndash; Compiled on Mac OS X Sierra (LLVM CLANG 8.0.0)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.7.0/hastyscribe_v1.7.0_windows_x64.zip">HastyScribe for Windows (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (MinGW-w64 GCC 4.8.2)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.7.0/hastyscribe_v1.7.0_linux_x64.zip">HastyScribe for Linux (x64)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.7.0/hastyscribe_v1.7.0_linux_x86.zip">HastyScribe for Linux (x86)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.1)</li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.7.0/hastyscribe_v1.7.0_linux_arm.zip">HastyScribe for Linux (ARM)</a> &ndash; Cross-compiled on Mac OS X Sierra (GNU GCC 4.8.2)</li>
 </ul>
 
 
@@ -4603,6 +4618,7 @@ div .terminal {
 <li><span class="opt">--output-file=&lt;file&gt;</span> causes HastyScribe to write output to a local file (Use <span class="opt">--output-file=-</span> to output to standard output).</li>
 <li><span class="opt">--watermark=&lt;file&gt;</span> causes HastyScribe to embed and display an image as a watermark throughout the document.</li>
 <li><span class="opt">--fragment</span> causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.</li>
+<li><span class="opt">--dump=all|styles|fonts</span> causes HastyScribe to dump all resources/stylesheets/fonts to the current directory.</li>
 </ul>
 </li>
 </ul>
@@ -4706,59 +4722,59 @@ div .terminal {
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1506543210</td>
+<td> 1509301438</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
-<td> 2017-09-27</td>
+<td> 2017-10-29</td>
 </tr>
 <tr>
 <td><code>{{$full-date}}</code>             </td>
-<td> Wednesday, September 27, 2017</td>
+<td> Sunday, October 29, 2017</td>
 </tr>
 <tr>
 <td><code>{{$long-date}}</code>             </td>
-<td> September 27, 2017</td>
+<td> October 29, 2017</td>
 </tr>
 <tr>
 <td><code>{{$medium-date}}</code>           </td>
-<td> Sep 27, 2017</td>
+<td> Oct 29, 2017</td>
 </tr>
 <tr>
 <td><code>{{$short-date}}</code>            </td>
-<td> 9/27/17</td>
+<td> 10/29/17</td>
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 20:13 PM</td>
+<td> 19:23 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 20:13</td>
+<td> 19:23</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 20:13:30 PM</td>
+<td> 19:23:58 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 20:13:30</td>
+<td> 19:23:58</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
-<td> 27</td>
+<td> 29</td>
 </tr>
 <tr>
 <td><code>{{$short-day}}</code>             </td>
-<td> 27</td>
+<td> 29</td>
 </tr>
 <tr>
 <td><code>{{$month}}</code>                 </td>
-<td> 09</td>
+<td> 10</td>
 </tr>
 <tr>
 <td><code>{{$short-month}}</code>           </td>
-<td> 9</td>
+<td> 10</td>
 </tr>
 <tr>
 <td><code>{{$year}}</code>                  </td>
@@ -4770,23 +4786,23 @@ div .terminal {
 </tr>
 <tr>
 <td><code>{{$weekday}}</code>               </td>
-<td> Wednesday</td>
+<td> Sunday</td>
 </tr>
 <tr>
 <td><code>{{$weekday-abbr}}</code>          </td>
-<td> 27</td>
+<td> 29</td>
 </tr>
 <tr>
 <td><code>{{$month-name}}</code>            </td>
-<td> September</td>
+<td> October</td>
 </tr>
 <tr>
 <td><code>{{$month-name-abbr}}</code>       </td>
-<td> Sep</td>
+<td> Oct</td>
 </tr>
 <tr>
 <td><code>{{$timezone-offset}}</code>       </td>
-<td> +00:00</td>
+<td> +01:00</td>
 </tr>
 </tbody>
 </table>
@@ -5673,6 +5689,95 @@ of numbers</dd>
 
 <div class="terminal-su"><p>shutdown -h now</p></div>
 
+<a name="Nim-API"></a>
+<h2>Nim API<a href="#document-top" title="Go to top"></a></h2>
+
+<p>Besides its command libe, you can also import HastyScribe as a library within your <a href="https://nim-lang.org">Nim</a> program.</p>
+
+<a name="Types"></a>
+<h3>Types<a href="#document-top" title="Go to top"></a></h3>
+
+<p>HastyScribe exposes the following Nim types:</p>
+
+<pre><code>HastyOptions* = object
+  toc*: bool
+  input*: string
+  output*: string
+  css*: string
+  js*: string
+  watermark*: string
+  fragment*: bool
+
+HastyFields* = Table[string, proc():string]
+
+HastySnippets* = Table[string, string]
+
+HastyMacros* = Table[string, string]
+
+HastyScribe* = object
+  options: HastyOptions
+  fields: HastyFields
+  snippets: HastySnippets
+  macros: HastyMacros
+  document: string
+</code></pre>
+
+<a name="Procs"></a>
+<h3>Procs<a href="#document-top" title="Go to top"></a></h3>
+
+<p>HastyScribe exposes the following <span class="kwd">proc</span>s.</p>
+
+<a name="newHastyScribe"></a>
+<h4>newHastyScribe<a href="#document-top" title="Go to top"></a></h4>
+
+<pre><code> proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe
+</code></pre>
+
+<p>Instantiates a new HastyScribe object.</p>
+
+<a name="dump"></a>
+<h4>dump<a href="#document-top" title="Go to top"></a></h4>
+
+<pre><code> proc dump*(hs: var HastyScribe, data="all", dest=".")
+</code></pre>
+
+<p>Saves linked resources to the <span class="dir">dest</span> directory.</p>
+
+<p><span class="kwd">data</span> can be set to one of the following values:</p>
+
+<dl>
+<dt>all</dt>
+<dd>Dumps all resource files.</dd>
+<dt>styles</dt>
+<dd>Dumps all stylesheet files.</dd>
+<dt>fonts</dt>
+<dd>Dumps all font files.</dd>
+</dl>
+
+<a name="compileFragment"></a>
+<h4>compileFragment<a href="#document-top" title="Go to top"></a></h4>
+
+<pre><code> proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.}
+</code></pre>
+
+<p>Compiles the <span class="kwd">input</span> markdown text into an HTML fragment, without embedding stylesheets or fonts. <span class="kwd">dir</span> identifies the directory containing the input text (it is only used to resolve transclusions).</p>
+
+<a name="compileDocument"></a>
+<h4>compileDocument<a href="#document-top" title="Go to top"></a></h4>
+
+<pre><code> proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.}
+</code></pre>
+
+<p>Compiles the <span class="kwd">input</span> markdown text into a self-contained HTML document, embedding stylesheets and fonts. <span class="kwd">dir</span> identifies the directory containing the input text (it is only used to resolve transclusions).</p>
+
+<a name="compile"></a>
+<h4>compile<a href="#document-top" title="Go to top"></a></h4>
+
+<pre><code> proc compile*(hs: var HastyScribe, input_file: string)
+</code></pre>
+
+<p>Compiles the markdown file <span class="kwd">input_file</span> into a self-contained HTML document.</p>
+
 <a name="Credits"></a>
 <h2>Credits<a href="#document-top" title="Go to top"></a></h2>
 
@@ -5698,7 +5803,7 @@ of numbers</dd>
 <p style="text-align:center;"> <img src="data:image/png;base64,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" alt="Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License" /></p>
     </div>
     <div id="footer">
-      <p><span class="copy"></span> Fabio Cevasco &ndash; September 27, 2017</p>
+      <p><span class="copy"></span> Fabio Cevasco &ndash; October 29, 2017</p>
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>
