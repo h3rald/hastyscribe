@@ -11,9 +11,9 @@ import
   httpclient
 
 import
-  config,
-  consts,
-  utils
+  lib/config,
+  lib/consts,
+  lib/utils
 
 
 type
@@ -277,6 +277,8 @@ proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string 
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
   result = hs.parse_macros(result)
+
+# Public API
 
 proc dump*(hs: var HastyScribe, item="all", dest=".") =
   if item == "all" or item == "styles":

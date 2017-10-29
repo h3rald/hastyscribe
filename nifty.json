@@ -51,6 +51,12 @@
       "src": "https://github.com/Orc/discount.git", 
       "tag": "v2.2.2", 
       "git": true
+    },
+    "niftylogger.nim": 
+    {
+      "name": "niftylogger.nim", 
+      "src": "https://raw.githubusercontent.com/h3rald/nifty/master/lib/niftylogger.nim",
+      "curl": true
     }
   }
 }

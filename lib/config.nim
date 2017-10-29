@@ -4,7 +4,7 @@ import
   strutils
 
 const
-  cfgfile   = "hastyscribe.nimble".slurp
+  cfgfile   = "../hastyscribe.nimble".slurp
 
 var
   version*: string
