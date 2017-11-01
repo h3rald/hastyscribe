@@ -17,6 +17,9 @@ import
   lib/consts,
   lib/utils
 
+export
+  consts
+
 
 type
   HastyOptions* = object
