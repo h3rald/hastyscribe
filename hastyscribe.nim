@@ -40,7 +40,8 @@ type
     macros: HastyMacros
     document: string
 
-newNiftyLogger().addHandler()
+if logging.getHandlers().len == 0:
+  newNiftyLogger().addHandler()
 
 proc initFields(fields: HastyFields): HastyFields =
   result = initTable[string, proc():string]()
