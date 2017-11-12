@@ -178,7 +178,21 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
     let offset = value.split("||")[0].parseInt() + offset
     if path.fileExists():
       let fileInfo = path.splitFile()
-      let contents = path.readFile()
+      var contents, s = ""
+      var delimiter = 0
+      var f:File
+      discard f.open(path)
+      # Ignore headers
+      try:
+        while f.readLine(s):
+          if delimiter  >= 2:
+            contents &= s&"\n"
+          else:
+            if s.startsWith("----"):
+              delimiter.inc
+      except:
+        discard
+      f.close()
       result = result.replace(transclusion, hs.parse_transclusions(contents, fileInfo.dir, offset))
     else:
       warn "File '$1' not found" % [path]
