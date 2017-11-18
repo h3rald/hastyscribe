@@ -188,6 +188,9 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
         discard f.readLine(s)
         if not s.startsWith("----"):
           delimiter = 2
+          contents &= s&"\n"
+        else:
+          delimiter = 1
         while f.readLine(s):
           if delimiter  >= 2:
             contents &= s&"\n"
