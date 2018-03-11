@@ -1,6 +1,6 @@
 import 
   os, 
-  parseopt2, 
+  parseopt, 
   strutils, 
   sequtils,
   times, 
@@ -47,9 +47,9 @@ proc initFields(fields: HastyFields): HastyFields =
   result = initTable[string, proc():string]()
   for key, value in fields.pairs:
     result[key] = value
-  var now = getTime().getLocalTime()
+  var now = getTime().local()
   result["timestamp"] = proc():string =
-    return $now.toTime.toSeconds().int
+    return $now.toTime.toUnix().int
   result["date"] = proc():string =
     return now.format("yyyy-MM-dd")
   result["full-date"] = proc():string =
@@ -139,7 +139,8 @@ proc add_jump_to_top_links(hs: var HastyScribe) =
 proc embed_fonts(): string=
   let fonts = @[
     create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
-    create_font_face(fontawesome_font, "FontAwesome", "normal", 400),
+    create_font_face(fa_solid_font, "Font Awesome 5 Free", "normal", 900),
+    create_font_face(fa_brands_font, "Font Awesome 5 Brands", "normal", 400),
     create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
     create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
     create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 800),
@@ -316,7 +317,8 @@ proc dump*(hs: var HastyScribe, data="all", dest=".") =
       (dest/"SourceSansPro-Bold.ttf.woff").writeFile(sourcesanspro_bold_font)
       (dest/"SourceSansPro-BoldIt.ttf.woff").writeFile(sourcesanspro_bold_it_font)
       (dest/"SourceSansPro-It.ttf.woff").writeFile(sourcesanspro_it_font)
-      (dest/"fontawesome-webfont.woff").writeFile(fontawesome_font)
+      (dest/"fa-solid-900.woff").writeFile(fa_solid_font)
+      (dest/"fa-brands-400.woff").writeFile(fa_brands_font)
       (dest/"hastyscribe.woff").writeFile(hastyscribe_font)
 
 proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
@@ -376,7 +378,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
     watermark_css_tag = watermark_css(hs.options.watermark)
 
   # Date parsing and validation
-  var timeinfo: TimeInfo = getLocalTime(getTime())
+  var timeinfo: DateTime = local(getTime())
 
   if parse_date(metadata.date, timeinfo) == false:
     discard parse_date(getDateStr(), timeinfo)
@@ -439,7 +441,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
 when isMainModule:
   let usage = "  HastyScribe v" & version & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2017 Fabio Cevasco
+  (c) 2013-2018 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]

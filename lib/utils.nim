@@ -9,7 +9,7 @@ import
 import
   consts
 
-proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
+proc parse_date*(date: string, timeinfo: var DateTime): bool =
   var parts = date.split('-').map(proc(i:string): int =
     try:
       i.parseInt
@@ -19,9 +19,9 @@ proc parse_date*(date: string, timeinfo: var TimeInfo): bool =
   if parts.len < 3:
     return false
   try:
-    timeinfo = TimeInfo(year: parts[0], month: Month(parts[1]-1), monthday: parts[2])
+    timeinfo = DateTime(year: parts[0], month: Month(parts[1]-1), monthday: parts[2])
     # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
-    timeinfo = getLocalTime(timeinfo.toTime);
+    timeinfo = local(timeinfo.toTime);
     return true
   except:
     return false

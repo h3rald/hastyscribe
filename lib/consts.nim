@@ -2,7 +2,8 @@
 const 
   stylesheet* = "../packages/hastystyles/styles/hastyscribe.css".slurp
   hastyscribe_font* = "../packages/hastystyles/fonts/hastyscribe.woff".slurp 
-  fontawesome_font* = "../packages/hastystyles/fonts/fontawesome-webfont.woff".slurp
+  fa_solid_font* = "../packages/hastystyles/fonts/fa-solid-900.woff".slurp
+  fa_brands_font* = "../packages/hastystyles/fonts/fa-brands-400.woff".slurp
   sourcecodepro_font* = "../packages/hastystyles/fonts/SourceCodePro-Regular.woff".slurp
   sourcesanspro_font* = "../packages/hastystyles/fonts/SourceSansPro-Regular.woff".slurp
   sourcesanspro_bold_font* = "../packages/hastystyles/fonts/SourceSansPro-Bold.woff".slurp
