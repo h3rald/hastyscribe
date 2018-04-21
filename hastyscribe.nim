@@ -380,6 +380,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   # Date parsing and validation
   var timeinfo: DateTime = local(getTime())
 
+
   if parse_date(metadata.date, timeinfo) == false:
     discard parse_date(getDateStr(), timeinfo)
 

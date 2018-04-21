@@ -19,7 +19,7 @@ proc parse_date*(date: string, timeinfo: var DateTime): bool =
   if parts.len < 3:
     return false
   try:
-    timeinfo = DateTime(year: parts[0], month: Month(parts[1]-1), monthday: parts[2])
+    timeinfo = DateTime(year: parts[0], month: Month(parts[1]), monthday: parts[2])
     # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
     timeinfo = local(timeinfo.toTime);
     return true
