@@ -300,11 +300,21 @@ proc parse_snippets(hs: var HastyScribe, document: string): string =
       warn "Snippet '" & id & "' not defined."
       result = result.replace(snippet, "")
 
+# Substitute \{ with { *after* preprocessing
+proc remove_bracket_escapes(hs: var HastyScribe, document: string): string =
+  result = document
+  for lb in document.findAll(peg"'\\{'"):
+    result = result.replace(lb, "{")
+  for rb in document.findAll(peg"'\\}'"):
+    result = result.replace(rb, "}")
+
+
 proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
   result = hs.parse_transclusions(document, dir, offset)
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
   result = hs.parse_macros(result)
+  result = hs.remove_bracket_escapes(result)
 
 # Public API
 
