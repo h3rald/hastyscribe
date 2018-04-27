@@ -115,6 +115,18 @@ produces the following result:
 > `sticky`             | [](class:sticky)             |`bluetooth`          | [](class:bluetooth)
 > `wifi`               | [](class:wifi)               |`signal`             | [](class:signal)
 > `usb`                | [](class:usb)                |`print`              | [](class:print)
+> `php`                | [](class:php)                |`erlang`             | [](class:erlang)
+> `python`             | [](class:python)             |`java`               | [](class:java)
+> `nodejs`             | [](class:nodejs)             |`aws`                | [](class:aws)
+> `desktop`            | [](class:desktop)            |`laptop`             | [](class:laptop)
+> `mobile`             | [](class:mobile)             |`tablet`             | [](class:tablet)
+> `rss`                | [](class:rss)                |`paperclip`          | [](class:paperclip)
+> `toggle-on`          | [](class:toggle-on)          |`toggle-off`         | [](class:toggle-off)
+> `paypal`             | [](class:paypal)             |`stripe`             | [](class:stripe)
+> `amex`               | [](class:amex)               |`jcb`                | [](class:jcb)
+> `visa`               | [](class:visa)               |`mastercard`         | [](class:mastercard)
+> `diners`             | [](class:diners)             |`discover`           | [](class:discover)
+> `apple-pay`          | [](class:apple-pay)          |`amazon-pay`         | [](class:amazon-pay)
 
 ## HastyScribe Logo
 
@@ -122,6 +134,21 @@ To display the {{hs}} logo, use the [hastyscribe](class:kwd) class, like this:
 
 `[](class:hastyscribe)` &rarr; [](class:hastyscribe)
 
+## Anchors
+
+You can define HTML anchors inline by wrapping their ID in hashes. For example, the following code:
+
+     Some text goes here. \#some_text\#
+
+Is converted to:
+
+     Some text goes here. <a id="some_text"></a>
+
+> %note%
+> Note
+> 
+> * Anchor markup must be preceded by at least one space.
+> * IDs must start with a letter, and can contain letters, numbers, and any of the following characters: `_` `-` `.` `:` 
 
 ## Links
 

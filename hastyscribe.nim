@@ -300,21 +300,35 @@ proc parse_snippets(hs: var HastyScribe, document: string): string =
       warn "Snippet '" & id & "' not defined."
       result = result.replace(snippet, "")
 
-# Substitute \{ with { *after* preprocessing
-proc remove_bracket_escapes(hs: var HastyScribe, document: string): string =
+# Substitute escaped brackets or hashes *after* preprocessing
+proc remove_escapes(hs: var HastyScribe, document: string): string =
   result = document
   for lb in document.findAll(peg"'\\{'"):
     result = result.replace(lb, "{")
   for rb in document.findAll(peg"'\\}'"):
     result = result.replace(rb, "}")
+  for h in document.findAll(peg"'\\#'"):
+    result = result.replace(h, "#")
 
+proc parse_anchors(hs: var HastyScribe, document: string): string =
+  result = document
+  let peg_anchor = peg"""
+    anchor <- \s '#' {id} '#' 
+    id <- [a-zA-Z][a-zA-Z0-9_-:.]+
+  """
+  for anchor in document.findAll(peg_anchor):
+    var matches:array[0..0, string]
+    discard anchor.match(peg_anchor, matches)
+    var id = matches[0]
+    result = result.replace(anchor, " <a id=\""&id&"\"></a>")
 
 proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
   result = hs.parse_transclusions(document, dir, offset)
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
   result = hs.parse_macros(result)
-  result = hs.remove_bracket_escapes(result)
+  result = hs.parse_anchors(result)
+  result = hs.remove_escapes(result)
 
 # Public API
 
