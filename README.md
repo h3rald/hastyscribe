@@ -1,6 +1,7 @@
-[![Release](https://img.shields.io/github/release/h3rald/hastyscribe.svg)](https://github.com/h3rald/hastyscribe)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/h3rald/hastyscribe/master/LICENSE)
-[![Build Status](https://img.shields.io/travis/h3rald/hastyscribe.svg)](https://travis-ci.org/h3rald/hastyscribe)
+![nim](https://img.shields.io/badge/nim-powered-yellow.svg?link=https://nim-lang-org)
+![release](https://img.shields.io/github/release/h3rald/hastyscribe/all.svg)
+![build](https://img.shields.io/travis/h3rald/hastyscribe.svg)
+![license](https://img.shields.io/github/license/h3rald/hastyscribe.svg)
 
 # HastyScribe
 
