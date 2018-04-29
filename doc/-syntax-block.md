@@ -77,7 +77,7 @@ To format a block of source code, indent it by at least four spaces. Here's the 
         echo("Warning: image '"& file &"' not found.")
         return file
 
-Alternatively, you can also use Github-style fenced blocks, by adding three tildes (~~~) before and after the source code. 
+Alternatively, you can also use Github-style fenced blocks, by adding three tildes (~~~) or backticks (```) before and after the source code. 
 
 > %warning%
 > Warning

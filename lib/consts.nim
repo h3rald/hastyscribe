@@ -5,10 +5,13 @@ const
   fa_solid_font* = "../packages/hastystyles/fonts/fa-solid-900.woff".slurp
   fa_brands_font* = "../packages/hastystyles/fonts/fa-brands-400.woff".slurp
   sourcecodepro_font* = "../packages/hastystyles/fonts/SourceCodePro-Regular.woff".slurp
-  sourcesanspro_font* = "../packages/hastystyles/fonts/SourceSansPro-Regular.woff".slurp
-  sourcesanspro_bold_font* = "../packages/hastystyles/fonts/SourceSansPro-Bold.woff".slurp
-  sourcesanspro_it_font* = "../packages/hastystyles/fonts/SourceSansPro-It.woff".slurp
-  sourcesanspro_boldit_font* = "../packages/hastystyles/fonts/SourceSansPro-BoldIt.woff".slurp
+  sourcecodepro_it_font* = "../packages/hastystyles/fonts/SourceCodePro-It.woff".slurp
+  sourcecodepro_bold_font* = "../packages/hastystyles/fonts/SourceCodePro-Bold.woff".slurp
+  sourcecodepro_boldit_font* = "../packages/hastystyles/fonts/SourceCodePro-BoldIt.woff".slurp
+  sourcesanspro_font* = "../packages/hastystyles/fonts/SourceSansPro-Light.woff".slurp
+  sourcesanspro_bold_font* = "../packages/hastystyles/fonts/SourceSansPro-Semibold.woff".slurp
+  sourcesanspro_it_font* = "../packages/hastystyles/fonts/SourceSansPro-LightIt.woff".slurp
+  sourcesanspro_boldit_font* = "../packages/hastystyles/fonts/SourceSansPro-SemiboldIt.woff".slurp
   watermark_style* = """
 #container {
   position: relative;

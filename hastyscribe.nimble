@@ -1,6 +1,6 @@
 [Package]
 name          = "hastyscribe"
-version       = "1.9.0"
+version       = "1.9.1"
 author        = "Fabio Cevasco"
 description   = "Self-contained markdown compiler generating self-contained HTML documents"
 license       = "MIT"
