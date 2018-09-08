@@ -529,7 +529,7 @@ when isMainModule:
     else: 
       discard
 
-  if dumpdata == "":
+  if dumpdata != "":
     if input == "":
       quit(usage, 1)
     elif options.css == "":
