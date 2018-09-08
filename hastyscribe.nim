@@ -538,7 +538,9 @@ when isMainModule:
       quit(usage, 5)
     elif options.watermark == "":
       quit(usage, 6)
-
+  
+  if input == "":
+    quit(usage, 0)
 
   for file in walkFiles(input):
     files.add(file)
