@@ -196,7 +196,7 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
         else:
           delimiter = 1
         while f.readLine(s):
-          if delimiter  >= 2:
+          if delimiter >= 2:
             contents &= s&"\n"
           else:
             if s.startsWith("----"):
@@ -395,13 +395,13 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
     headings = ""
     toc = ""
 
-  if not hs.options.css.isNil:
+  if hs.options.css != "":
     user_css_tag = hs.options.css.readFile.style_tag
 
-  if not hs.options.js.isNil:
+  if hs.options.js != "":
     user_js_tag = "<script type=\"text/javascript\">\n" & hs.options.js.readFile & "\n</script>"
 
-  if not hs.options.watermark.isNil:
+  if hs.options.watermark != "":
     watermark_css_tag = watermark_css(hs.options.watermark)
 
   # Date parsing and validation
@@ -450,7 +450,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
   var input = input_file.readFile
   var output: string
 
-  if hs.options.output.isNil:
+  if hs.options.output == "":
     output = inputsplit.dir/inputsplit.name & ".htm"
   else:
     output = hs.options.output
@@ -491,7 +491,7 @@ when isMainModule:
 
   var input = ""
   var files = newSeq[string](0)
-  var options = HastyOptions(toc: true, output: nil, css: nil, watermark: nil, fragment: false)
+  var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false)
   var fields = initTable[string, proc():string]()
   var dumpdata = ""
 

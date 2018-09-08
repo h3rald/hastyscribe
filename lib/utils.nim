@@ -46,7 +46,7 @@ proc image_format*(imgfile: string): string =
   return imgfile.substr(imgfile.find(peg_imgformat)+1, imgfile.len-1)
 
 proc watermark_css*(imgfile: string): string =
-  if imgfile.isNil:
+  if imgfile == "":
     result = ""
   else:
     let img = imgfile.encode_image_file(imgfile.image_format)
