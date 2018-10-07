@@ -83,6 +83,25 @@ Sidebars are used for digressions and asides.
 > 
 > Although not always placed on the side of the page, _sidebars_ contain additional content and asides.
 
+## Blank Sidebars
+
+Blank sidebars can be customized to include custom icons. They are suitable for conditional (operating system or browser specific) instructions.
+
+{{input-text}}
+
+~~~
+> %blank-sidebar%
+> [](class:chrome)[](class:firefox)[](class:edge) Browser Support
+> 
+> This web app supports only modern browsers, i.e. the latest versions of Google Chrome, Mozilla Firefox and Microsoft Edge, but _not_ Microsoft Internet Explorer.
+~~~
+
+{{output-text}}
+
+> %blank-sidebar%
+> [](class:chrome)[](class:firefox)[](class:edge) Browser Support
+> 
+> This web app supports only modern browsers, i.e. the latest versions of Google Chrome, Mozilla Firefox and Microsoft Edge, but _not_ Microsoft Internet Explorer.
 
 ## Terminal Sessions
 

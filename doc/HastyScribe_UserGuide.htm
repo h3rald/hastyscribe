@@ -3709,7 +3709,7 @@ a[href*="gitlab.com"]:before {
 }
 a[href*="google.com"]:before {
   content: "\f1a0" "\202F";
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 5 Brands";
 }
 a[href*="plus.google.com"]:before {
   content: "\f0d4" "\202F";
@@ -3845,14 +3845,14 @@ a[href="#document-top"]:before {
 .note p {
   margin: 0 auto;
 }
-.note p {
+.note > p {
   margin: 0 auto;
 }
-.note p:first-child {
+.note > p:first-child {
   font-weight: 600;
   color: #264c72;
 }
-.note p:first-child:before {
+.note > p:first-child:before {
   font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
   font-style: normal;
   font-weight: normal;
@@ -3895,14 +3895,14 @@ a[href="#document-top"]:before {
 .tip p {
   margin: 0 auto;
 }
-.tip p {
+.tip > p {
   margin: 0 auto;
 }
-.tip p:first-child {
+.tip > p:first-child {
   font-weight: 600;
   color: #009926;
 }
-.tip p:first-child:before {
+.tip > p:first-child:before {
   font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
   font-style: normal;
   font-weight: normal;
@@ -3945,14 +3945,14 @@ a[href="#document-top"]:before {
 .warning p {
   margin: 0 auto;
 }
-.warning p {
+.warning > p {
   margin: 0 auto;
 }
-.warning p:first-child {
+.warning > p:first-child {
   font-weight: 600;
   color: #705400;
 }
-.warning p:first-child:before {
+.warning > p:first-child:before {
   font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
   font-style: normal;
   font-weight: normal;
@@ -3967,6 +3967,56 @@ a[href="#document-top"]:before {
 }
 .warning a {
   color: #241b00;
+}
+.blank-sidebar {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 4px 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555;
+  background-color: #fefefe;
+  border: 1px solid #fefefe;
+  font-size: 95%;
+}
+.blank-sidebar code,
+.blank-sidebar samp,
+.blank-sidebar pre {
+  color: #555;
+}
+.blank-sidebar a {
+  color: #264c72;
+}
+.blank-sidebar p {
+  margin: 0 auto;
+}
+.blank-sidebar > p {
+  margin: 0 auto;
+}
+.blank-sidebar > p:first-child {
+  font-weight: 600;
+  color: #555;
+}
+.blank-sidebar > p:first-child:before {
+  font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  color: #555;
+  content: "" " ";
+}
+.blank-sidebar pre,
+.blank-sidebar code {
+  font-size: 400;
+  color: #3b3b3b;
+}
+.blank-sidebar a {
+  color: #2f2f2f;
 }
 .sidebar {
   -moz-background-clip: padding;
@@ -3995,14 +4045,14 @@ a[href="#document-top"]:before {
 .sidebar p {
   margin: 0 auto;
 }
-.sidebar p {
+.sidebar > p {
   margin: 0 auto;
 }
-.sidebar p:first-child {
+.sidebar > p:first-child {
   font-weight: 600;
   color: #555;
 }
-.sidebar p:first-child:before {
+.sidebar > p:first-child:before {
   font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
   font-style: normal;
   font-weight: normal;
@@ -4089,8 +4139,8 @@ a[href="#document-top"]:before {
     white-space: nowrap;
   }
 }
-.terminal p,
-.terminal p:first-child {
+.terminal > p,
+.terminal > p:first-child {
   margin-top: -40px;
   margin-bottom: 0;
   text-shadow: none;
@@ -4099,12 +4149,20 @@ a[href="#document-top"]:before {
   font-size: 85%;
   color: #eee;
 }
-.terminal p:first-child,
-.terminal p:first-child:first-child {
+.terminal > p code,
+.terminal > p:first-child code,
+.terminal > p pre,
+.terminal > p:first-child pre,
+.terminal > p samp,
+.terminal > p:first-child samp {
+  font-size: 100%;
+}
+.terminal > p:first-child,
+.terminal > p:first-child:first-child {
   margin-top: 0px;
 }
-.terminal p:before,
-.terminal p:first-child:before {
+.terminal > p:before,
+.terminal > p:first-child:before {
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
   font-style: normal;
   font-weight: 800;
@@ -4156,8 +4214,8 @@ a[href="#document-top"]:before {
     white-space: nowrap;
   }
 }
-.terminal-su p,
-.terminal-su p:first-child {
+.terminal-su > p,
+.terminal-su > p:first-child {
   margin-top: -40px;
   margin-bottom: 0;
   text-shadow: none;
@@ -4166,20 +4224,28 @@ a[href="#document-top"]:before {
   font-size: 85%;
   color: #eee;
 }
-.terminal-su p:first-child,
-.terminal-su p:first-child:first-child {
+.terminal-su > p code,
+.terminal-su > p:first-child code,
+.terminal-su > p pre,
+.terminal-su > p:first-child pre,
+.terminal-su > p samp,
+.terminal-su > p:first-child samp {
+  font-size: 100%;
+}
+.terminal-su > p:first-child,
+.terminal-su > p:first-child:first-child {
   margin-top: 0px;
 }
-.terminal-su p:before,
-.terminal-su p:first-child:before {
+.terminal-su > p:before,
+.terminal-su > p:first-child:before {
   font-family: "Source Code Pro", "Monaco", "DejaVu Sans Mono", "Courier New", monospace;
   font-style: normal;
   font-weight: 800;
   color: #009926;
   content: "$ ";
 }
-.terminal-su p:before,
-.terminal-su p:first-child:before {
+.terminal-su > p:before,
+.terminal-su > p:first-child:before {
   color: #CC3300;
   content: "# ";
 }
@@ -5453,6 +5519,7 @@ div .terminal {
      <li><a href="#Tips">Tips</a></li>
      <li><a href="#Warnings">Warnings</a></li>
      <li><a href="#Sidebars">Sidebars</a></li>
+     <li><a href="#Blank-Sidebars">Blank Sidebars</a></li>
      <li><a href="#Terminal-Sessions">Terminal Sessions</a>
 </li>
     </ul>
@@ -5594,11 +5661,11 @@ div .terminal {
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.10.0/hastyscribe_v1.10.0_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a></li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.10.0/hastyscribe_v1.10.0_windows_x64.zip">HastyScribe for Windows (x64)</a></li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.10.0/hastyscribe_v1.10.0_linux_x64.zip">HastyScribe for Linux (x64)</a></li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.10.0/hastyscribe_v1.10.0_linux_x86.zip">HastyScribe for Linux (x86)</a></li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.10.0/hastyscribe_v1.10.0_linux_arm.zip">HastyScribe for Linux (ARM)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.11.0/hastyscribe_v1.11.0_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.11.0/hastyscribe_v1.11.0_windows_x64.zip">HastyScribe for Windows (x64)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.11.0/hastyscribe_v1.11.0_linux_x64.zip">HastyScribe for Linux (x64)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.11.0/hastyscribe_v1.11.0_linux_x86.zip">HastyScribe for Linux (x86)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v1.11.0/hastyscribe_v1.11.0_linux_arm.zip">HastyScribe for Linux (ARM)</a></li>
 </ul>
 
 
@@ -5755,59 +5822,59 @@ div .terminal {
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1525009676</td>
+<td> 1538930734</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
-<td> 2018-04-29</td>
+<td> 2018-10-07</td>
 </tr>
 <tr>
 <td><code>{{$full-date}}</code>             </td>
-<td> Sunday, April 29, 2018</td>
+<td> Sunday, October 7, 2018</td>
 </tr>
 <tr>
 <td><code>{{$long-date}}</code>             </td>
-<td> April 29, 2018</td>
+<td> October 7, 2018</td>
 </tr>
 <tr>
 <td><code>{{$medium-date}}</code>           </td>
-<td> Apr 29, 2018</td>
+<td> Oct 7, 2018</td>
 </tr>
 <tr>
 <td><code>{{$short-date}}</code>            </td>
-<td> 4/29/18</td>
+<td> 10/7/18</td>
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 15:47 PM</td>
+<td> 18:45 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 15:47</td>
+<td> 18:45</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 15:47:56 PM</td>
+<td> 18:45:34 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 15:47:56</td>
+<td> 18:45:34</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
-<td> 29</td>
+<td> 07</td>
 </tr>
 <tr>
 <td><code>{{$short-day}}</code>             </td>
-<td> 29</td>
+<td> 7</td>
 </tr>
 <tr>
 <td><code>{{$month}}</code>                 </td>
-<td> 04</td>
+<td> 10</td>
 </tr>
 <tr>
 <td><code>{{$short-month}}</code>           </td>
-<td> 4</td>
+<td> 10</td>
 </tr>
 <tr>
 <td><code>{{$year}}</code>                  </td>
@@ -5823,15 +5890,15 @@ div .terminal {
 </tr>
 <tr>
 <td><code>{{$weekday-abbr}}</code>          </td>
-<td> 29</td>
+<td> 07</td>
 </tr>
 <tr>
 <td><code>{{$month-name}}</code>            </td>
-<td> April</td>
+<td> October</td>
 </tr>
 <tr>
 <td><code>{{$month-name-abbr}}</code>       </td>
-<td> Apr</td>
+<td> Oct</td>
 </tr>
 <tr>
 <td><code>{{$timezone-offset}}</code>       </td>
@@ -6784,6 +6851,25 @@ of numbers</dd>
 
 <p>Although not always placed on the side of the page, <em>sidebars</em> contain additional content and asides.</p></div>
 
+<a name="Blank-Sidebars"></a>
+<h5>Blank Sidebars<a href="#document-top" title="Go to top"></a></h5>
+
+<p>Blank sidebars can be customized to include custom icons.</p>
+
+<p>The following HastyScribe Markdown code:</p>
+
+<pre><code>&gt; %blank-sidebar%
+&gt; [](class:chrome)[](class:firefox)[](class:edge) Browser Support
+&gt; 
+&gt; This web app supports only modern browsers, i.e. the latest versions of Google Chrome, Mozilla Firefox and Microsoft Edge, but _not_ Microsoft Internet Explorer.
+</code></pre>
+
+<p>Produces the following output:</p>
+
+<div class="blank-sidebar"><p><span class="chrome"></span><span class="firefox"></span><span class="edge"></span> Browser Support</p>
+
+<p>This web app supports only modern browsers, i.e. the latest versions of Google Chrome, Mozilla Firefox and Microsoft Edge, but <em>not</em> Microsoft Internet Explorer.</p></div>
+
 <a name="Terminal-Sessions"></a>
 <h5>Terminal Sessions<a href="#document-top" title="Go to top"></a></h5>
 
@@ -6935,7 +7021,7 @@ HastyScribe* = object
 <p style="text-align:center;"> <img src="data:image/png;base64,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" alt="Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License" /></p>
     </div>
     <div id="footer">
-      <p><span class="copy"></span> Fabio Cevasco &ndash; April 29, 2018</p>
+      <p><span class="copy"></span> Fabio Cevasco &ndash; October 7, 2018</p>
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
     </div>
   </div>
