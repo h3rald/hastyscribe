@@ -31,7 +31,7 @@ Where:
 Because:
 
 * It is a cross-platform, self-contained executable file.
-* It can generate standalon HTML files.
+* It can generate standalone HTML files.
 * It comes with its own stylesheet, which is automatically embedded into every HTML document, along with all the needed web fonts.
 * It is built on top of [Discount][discount], which means that besides standard markdown you also get:
   * strikethrough
