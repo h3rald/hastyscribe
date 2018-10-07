@@ -113,11 +113,13 @@ proc embed_images(hs: var HastyScribe, dir: string) =
     var matches:TImgTagStart
     discard img.match(peg_img, matches)
     let imgfile = matches[0]
-    let imgformat = imgfile.image_format
+    var imgformat = imgfile.image_format
+    if imgformat == "svg":
+      imgformat = "svg+xml"
     var imgcontent = ""
     if imgfile.startsWith(peg"'data:'"): 
       continue
-    elif imgfile.startsWith(peg"http[s]?'://'"):
+    elif imgfile.startsWith(peg"'http' 's'? '://'"):
       try:
         let client = newHttpClient()
         imgcontent = encode_image(client.getContent(imgfile), imgformat)
