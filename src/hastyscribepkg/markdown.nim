@@ -1,19 +1,3 @@
-when defined(discount):
-  {.passL: "-Lpackages/discount".}
-  {.passL: "-lmarkdown".}
-else:
-  {.passL: "-Lvendor".}
-  when defined(macosx):
-    {.passL: "-lmarkdown_macosx_x64".}
-  when defined(windows):
-    {.passL: "-lmarkdown_windows_x64".}
-  when defined(linux):
-    when defined(arm):
-      {.passL: "-lmarkdown_linux_arm".}
-    when defined(i386):
-      {.passL: "-lmarkdown_linux_x86".}
-    when defined(amd64):
-      {.passL: "-lmarkdown_linux_x64".}
 const 
   MKDIO_D* = true
 type 
