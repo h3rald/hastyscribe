@@ -18,7 +18,6 @@ description   = pkgDescription
 license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
-installFiles  = @["nifty.json"]
 
 requires "nim >= 0.19.0"
 
