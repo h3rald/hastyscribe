@@ -18,6 +18,7 @@ description   = pkgDescription
 license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
+installExt    = @["nim"]
 
 requires "nim >= 0.19.0"
 
@@ -25,9 +26,7 @@ before install:
   exec "nifty install"
 
 after install:
-  installDirs.add "packages"
-  installDirs.add "doc"
-  installDirs.add "src"
+  exec "ls ."
 
 # Tasks
 
