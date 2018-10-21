@@ -19,10 +19,15 @@ license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
 
-requires "nim >= 0.19.0"
+requires "nim >= 0.19.0", "nifty"
 
 before install:
   exec "nifty install"
+
+after install:
+  installDirs.add "packages"
+  installDirs.add "doc"
+  installDirs.add "src"
 
 # Tasks
 
