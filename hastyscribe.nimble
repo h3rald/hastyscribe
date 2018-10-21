@@ -24,6 +24,7 @@ requires "nim >= 0.19.0"
 
 before install:
   exec "nifty install"
+  installDirs.add "packages"
 
 after install:
   exec "ls ."
