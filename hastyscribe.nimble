@@ -19,17 +19,17 @@ license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
 installExt    = @["nim", "json", "a", "css", "png", "svg", "woff", "c", "h", "in"]
-installDirs   = @[]
 
 requires "nim >= 0.19.0"
 
 before install:
   exec "nifty install"
-  installDirs.add "packages"
-  echo installDirs
 
-#before uninstall:
-#  exec "nifty -f purge"
+after install:
+  exec "nifty install"
+
+before uninstall:
+  exec "nifty -f purge"
 
 # Tasks
 
