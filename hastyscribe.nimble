@@ -1,5 +1,5 @@
 import
-  ospaths
+  ospaths, os
 
 template thisModuleFile: string = instantiationInfo(fullPaths = true).filename
 
