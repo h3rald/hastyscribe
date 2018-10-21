@@ -28,6 +28,12 @@ before install:
 after install:
   exec "nifty install"
 
+before uninstall:
+  removeDir "packages"
+
+before remove:
+  removeDir "packages"
+
 # Tasks
 
 const
