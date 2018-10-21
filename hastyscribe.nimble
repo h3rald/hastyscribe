@@ -18,21 +18,16 @@ description   = pkgDescription
 license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
-installExt    = @["nim", "json", "a"]
+installExt    = @["nim", "json", "a", "css", "png", "svg", "woff", "c", "h", "in"]
 
 requires "nim >= 0.19.0"
 
 before install:
   exec "nifty install"
+  installDirs.add "packages"
 
-after install:
-  exec "nifty install"
-
-before remove:
-  exec "nifty -f purge"
-
-before uninstall:
-  exec "nifty -f purge"
+#before uninstall:
+#  exec "nifty -f purge"
 
 # Tasks
 
