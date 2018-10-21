@@ -1,5 +1,5 @@
 import
-  ospaths, os
+  ospaths
 
 template thisModuleFile: string = instantiationInfo(fullPaths = true).filename
 
@@ -24,15 +24,8 @@ requires "nim >= 0.19.0"
 
 before install:
   exec "nifty install"
-
-after install:
-  exec "nifty install"
-
-before uninstall:
-  removeDir "packages"
-
-before remove:
-  removeDir "packages"
+  exec "ls ."
+  installDirs.add "packages"
 
 # Tasks
 
