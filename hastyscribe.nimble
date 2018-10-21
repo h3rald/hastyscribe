@@ -18,7 +18,7 @@ description   = pkgDescription
 license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
-installExt    = @["nim", "json"]
+installExt    = @["nim", "json", "a"]
 
 requires "nim >= 0.19.0"
 
