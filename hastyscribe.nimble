@@ -24,8 +24,15 @@ requires "nim >= 0.19.0"
 
 before install:
   exec "nifty install"
-  exec "ls ."
-  installDirs.add "packages"
+
+after install:
+  exec "nifty install"
+
+before remove:
+  exec "nifty -f purge"
+
+before uninstall:
+  exec "nifty -f purge"
 
 # Tasks
 
