@@ -19,6 +19,7 @@ license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
 installExt    = @["nim", "json", "a", "css", "png", "svg", "woff", "c", "h", "in"]
+installDirs   = @[]
 
 requires "nim >= 0.19.0"
 
