@@ -25,12 +25,6 @@ requires "nim >= 0.19.0"
 before install:
   exec "nifty install"
 
-after install:
-  exec "nifty install"
-
-before uninstall:
-  exec "nifty -f purge"
-
 # Tasks
 
 const
