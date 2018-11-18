@@ -50,7 +50,7 @@ before_script:
 script:
     - nifty install
     - nifty build discount
-    - nim c --cc:$CC --verbosity:0 -d:discount hastyscribe.nim
+    - nimble build --cc:$CC --verbosity:0 -d:discount hastyscribe.nim
     # Optional: build docs.
     #- nim doc --docSeeSrcUrl:https://github.com/h3rald/litestore/blob/master --project litestore.nim
 cache:
