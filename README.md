@@ -65,7 +65,7 @@ HastyScribe is implemented in [Nim][nim], a very expressive language that compil
 4. Navigate to the HastyScribe repository local folder.
 5. Run **nifty install** to download HastyScribe's dependencies.
 6. Run **nifty build discount** to build the Discount markdown library.
-7. Run **nim c -d:release -d:discount hastyscribe.nim**
+7. Go to the **src** folder and run **nim c -d:release -d:discount hastyscribe.nim**
 
 [nim]: http://nim-lang.org/
 [nifty]: https://github.com/h3rald/nifty
