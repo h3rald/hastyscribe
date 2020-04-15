@@ -30,7 +30,7 @@ proc style_tag*(css: string): string =
   result = "<style>$1</style>" % [css]
 
 proc encode_image*(contents, format: string): string =
-    let enc_contents = contents.encode(contents.len*3)
+    let enc_contents = contents.encode
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
 proc encode_image_file*(file, format: string): string =
@@ -53,7 +53,7 @@ proc watermark_css*(imgfile: string): string =
     result = (watermark_style % [img]).style_tag
 
 proc encode_font*(font, format: string): string =
-    let enc_contents = font.encode(font.len*3)
+    let enc_contents = font.encode
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
 proc create_font_face*(font, family, style: string, weight: int): string=

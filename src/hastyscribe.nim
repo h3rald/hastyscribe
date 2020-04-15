@@ -2,10 +2,8 @@ import
   os, 
   parseopt, 
   strutils, 
-  sequtils,
   times, 
   pegs, 
-  base64, 
   tables,
   httpclient,
   logging
@@ -164,14 +162,14 @@ proc embed_fonts(): string=
     create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
     create_font_face(fa_solid_font, "Font Awesome 5 Free", "normal", 900),
     create_font_face(fa_brands_font, "Font Awesome 5 Brands", "normal", 400),
-    create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 300),
-    create_font_face(sourcecodepro_it_font, "Source Code Pro", "italic", 300),
-    create_font_face(sourcecodepro_bold_font, "Source Code Pro", "normal", 600),
-    create_font_face(sourcecodepro_boldit_font, "Source Code Pro", "italic", 600),
-    create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 300),
-    create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 600),
-    create_font_face(sourcesanspro_it_font, "Source Sans Pro", "italic", 300),
-    create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 600)
+    create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
+    create_font_face(sourcecodepro_it_font, "Source Code Pro", "italic", 400),
+    create_font_face(sourcecodepro_bold_font, "Source Code Pro", "normal", 800),
+    create_font_face(sourcecodepro_boldit_font, "Source Code Pro", "italic", 800),
+    create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
+    create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 400),
+    create_font_face(sourcesanspro_it_font, "Source Sans Pro", "italic", 400),
+    create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 800)
   ]
   return style_tag(fonts.join);
 
