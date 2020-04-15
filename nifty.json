@@ -42,7 +42,7 @@
       "configure.sh": true,
       "name": "discount",
       "src": "https://github.com/Orc/discount.git",
-      "tag": "v2.2.2",
+      "tag": "v2.2.6",
       "git": true
     },
     "niftylogger.nim": {
