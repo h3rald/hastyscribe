@@ -11,10 +11,8 @@ Special thanks to:
 
 * Philip Wernersbach and Joshua Ellis, for contributing to {{hs}}.
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
-* Ethan Lai, developer of the handy [Koala](http://koala-app.com/) app, used to compile all the LESS code into CSS.
 
--> ![Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License](../packages/hastystyles/images/by-nc-nd_3.0.png) <-
-
+-> [](class:fa-creative-commons) [](class:fa-creative-commons-by) [](class:fa-creative-commons-nc) [](class:fa-creative-commons-nd) <-
 
 [nim]: http://nim-lang.org/
 [df]: https://daringfireball.net/projects/markdown/

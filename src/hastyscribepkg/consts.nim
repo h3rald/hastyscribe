@@ -8,10 +8,10 @@ const
   sourcecodepro_it_font* = "../../packages/hastystyles/fonts/SourceCodePro-It.woff".slurp
   sourcecodepro_bold_font* = "../../packages/hastystyles/fonts/SourceCodePro-Bold.woff".slurp
   sourcecodepro_boldit_font* = "../../packages/hastystyles/fonts/SourceCodePro-BoldIt.woff".slurp
-  sourcesanspro_font* = "../../packages/hastystyles/fonts/SourceSansPro-Light.woff".slurp
-  sourcesanspro_bold_font* = "../../packages/hastystyles/fonts/SourceSansPro-Semibold.woff".slurp
-  sourcesanspro_it_font* = "../../packages/hastystyles/fonts/SourceSansPro-LightIt.woff".slurp
-  sourcesanspro_boldit_font* = "../../packages/hastystyles/fonts/SourceSansPro-SemiboldIt.woff".slurp
+  sourcesanspro_font* = "../../packages/hastystyles/fonts/SourceSansPro-Regular.ttf.woff".slurp
+  sourcesanspro_bold_font* = "../../packages/hastystyles/fonts/SourceSansPro-Bold.ttf.woff".slurp
+  sourcesanspro_it_font* = "../../packages/hastystyles/fonts/SourceSansPro-It.ttf.woff".slurp
+  sourcesanspro_boldit_font* = "../../packages/hastystyles/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
   watermark_style* = """
 #container {
   position: relative;
