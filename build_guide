@@ -1,1 +1,1 @@
-./hastyscribe doc/HastyScribe_UserGuide.md --field/version=1.10.0
+./src/hastyscribe doc/HastyScribe_UserGuide.md --field/version=1.12.0

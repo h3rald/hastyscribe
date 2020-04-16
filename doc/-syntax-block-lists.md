@@ -58,6 +58,20 @@ c. Third item
 > 
 > You don't have to write letters in order -- any letter followed by a dot will do. 
 
+## Checklists
+{{input-text}}
+
+~~~
+- [ ] Do something
+- [ ] Do something else
+- [x] Done!
+~~~
+
+{{output-text}}
+
+- [ ] Do something
+- [ ] Do something else
+- [x] Done!
 
 ## Unstyled Lists
 

@@ -9,8 +9,6 @@ The easiest way to get {{hs}} is by downloading one of the prebuilt binaries fro
   * {#release||Mac OS X (x64)||macosx_x64#}
   * {#release||Windows (x64)||windows_x64#}
   * {#release||Linux (x64)||linux_x64#}
-  * {#release||Linux (x86)||linux_x86#}
-  * {#release||Linux (ARM)||linux_arm#}
 
 ## Installing using Nimble
 
