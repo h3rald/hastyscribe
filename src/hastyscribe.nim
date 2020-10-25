@@ -429,8 +429,10 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   var timeinfo: DateTime = local(getTime())
 
 
-  if parse_date(metadata.date, timeinfo) == false:
-    discard parse_date(getDateStr(), timeinfo)
+  try:
+    timeinfo = parse(metadata.date, "yyyy-MM-dd")
+  except:
+    timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -490,7 +492,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
 when isMainModule:
   let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2018 Fabio Cevasco
+  (c) 2013-2020 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]

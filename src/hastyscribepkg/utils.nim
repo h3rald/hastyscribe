@@ -2,29 +2,10 @@ import
   base64,
   os,
   strutils,
-  sequtils,
-  pegs,
-  times
+  pegs
 
 import
   consts
-
-proc parse_date*(date: string, timeinfo: var DateTime): bool =
-  var parts = date.split('-').map(proc(i:string): int =
-    try:
-      i.parseInt
-    except:
-      0
-  )
-  if parts.len < 3:
-    return false
-  try:
-    timeinfo = DateTime(year: parts[0], month: Month(parts[1]), monthday: parts[2])
-    # Fix invalid dates (e.g. Feb 31st -> Mar 3rd)
-    timeinfo = local(timeinfo.toTime);
-    return true
-  except:
-    return false
 
 proc style_tag*(css: string): string =
   result = "<style>$1</style>" % [css]
@@ -34,7 +15,7 @@ proc encode_image*(contents, format: string): string =
     return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
 
 proc encode_image_file*(file, format: string): string =
-  if (file.existsFile):
+  if (file.fileExists):
     let contents = file.readFile
     return encode_image(contents, format)
   else:
