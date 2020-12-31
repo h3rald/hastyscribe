@@ -62,7 +62,7 @@ type
 if logging.getHandlers().len == 0:
   newNiftyLogger().addHandler()
 
-proc initFields(fields: HastyFields): HastyFields =
+proc initFields(fields: HastyFields): HastyFields {.gcsafe.} =
   result = initTable[string, proc():string]()
   for key, value in fields.pairs:
     result[key] = value
@@ -270,7 +270,7 @@ proc parse_macros(hs: var HastyScribe, document: string): string =
 
 # Field Usage:
 # {{$timestamp}}
-proc parse_fields(hs: var HastyScribe, document: string): string =
+proc parse_fields(hs: var HastyScribe, document: string): string {.gcsafe.} =
   let peg_field = peg"""
     field <- '{{' \s* '$' {id} \s* '}}'
     id <- [a-zA-Z0-9_-]+
