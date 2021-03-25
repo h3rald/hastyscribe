@@ -358,7 +358,7 @@ proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): str
   hs.document = hs.document.md(flags)
   return hs.document
 
-proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
+proc compileDocument*(hs: var HastyScribe, input, dir: string, sidebar_fragment = "", footer_fragment = ""): string {.discardable.} =
   hs.options.input = input
   hs.document = hs.options.input
   # Parse transclusions, fields, snippets, and macros
@@ -433,6 +433,12 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
     <div id="main">
 $body
     </div>
+    <div id="_sidebar">
+      $sidebar_fragment
+    </div>
+    <div id="_footer">
+      $footer_fragment
+    </div>
     <div id="footer">
       <p>$author_footer $date</p>
       <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
@@ -440,7 +446,8 @@ $body
   </div>
   $js
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
-"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
+"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag, 
+"sidebar_fragment", sidebar_fragment, "footer_fragment", footer_fragment]
   hs.embed_images(dir)
   hs.add_jump_to_top_links()
   return hs.document
