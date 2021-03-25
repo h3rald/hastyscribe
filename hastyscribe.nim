@@ -1,6 +1,5 @@
 import 
   os, 
-  parseopt, 
   strutils, 
   times, 
   pegs, 
@@ -11,7 +10,6 @@ import
 import
   ../niftylogger,
   hastyscribepkg/markdown, 
-  hastyscribepkg/config,
   hastyscribepkg/consts,
   hastyscribepkg/utils
 
@@ -24,10 +22,10 @@ when defined(discount):
   {.passL: "-lmarkdown".}
 else:
   import os
-  when dirExists("src/hastyscribepkg/vendor"):
-    {.passL: "-Lsrc/hastyscribepkg/vendor".}
+  when dirExists("src/litestorepkg/hastyscribe/hastyscribepkg/vendor"):
+    {.passL: "-Lsrc/litestorepkg/hastyscribe/hastyscribepkg/vendor".}
   else:
-    {.passL: "-Lhastyscribepkg/vendor".}
+    {.passL: "-Llitestorepkg/hastyscribe/hastyscribepkg/vendor".}
   when defined(macosx):
     {.passL: "-lmarkdown_macosx_x64".}
   when defined(windows):
@@ -49,7 +47,7 @@ type
     js*: string
     watermark*: string
     fragment*: bool
-  HastyFields* = Table[string, proc():string]
+  HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
   HastyScribe* = object
@@ -63,52 +61,31 @@ if logging.getHandlers().len == 0:
   newNiftyLogger().addHandler()
 
 proc initFields(fields: HastyFields): HastyFields {.gcsafe.} =
-  result = initTable[string, proc():string]()
+  result = initTable[string, string]()
   for key, value in fields.pairs:
     result[key] = value
   var now = getTime().local()
-  result["timestamp"] = proc():string =
-    return $now.toTime.toUnix().int
-  result["date"] = proc():string =
-    return now.format("yyyy-MM-dd")
-  result["full-date"] = proc():string =
-    return now.format("dddd, MMMM d, yyyy")
-  result["long-date"] = proc():string =
-    return now.format("MMMM d, yyyy")
-  result["medium-date"] = proc():string =
-    return now.format("MMM d, yyyy")
-  result["short-date"] = proc():string =
-    return now.format("M/d/yy")
-  result["short-time-24"] = proc():string =
-    return now.format("HH:mm")
-  result["short-time"] = proc():string =
-    return now.format("HH:mm tt")
-  result["time-24"] = proc():string =
-    return now.format("HH:mm:ss")
-  result["time"] = proc():string =
-    return now.format("HH:mm:ss tt")
-  result["day"] = proc():string =
-    return now.format("dd")
-  result["month"] = proc():string =
-    return now.format("MM")
-  result["year"] = proc():string =
-    return now.format("yyyy")
-  result["short-day"] = proc():string =
-    return now.format("d")
-  result["short-month"] = proc():string =
-    return now.format("M")
-  result["short-year"] = proc():string =
-    return now.format("yy")
-  result["weekday"] = proc():string =
-    return now.format("dddd")
-  result["weekday-abbr"] = proc():string =
-    return now.format("dd")
-  result["month-name"] = proc():string =
-    return now.format("MMMM")
-  result["month-name-abbr"] = proc():string =
-    return now.format("MMM")
-  result["timezone-offset"] = proc():string =
-    return now.format("zzz")
+  result["timestamp"] = $now.toTime.toUnix().int
+  result["date"] = now.format("yyyy-MM-dd")
+  result["full-date"] = now.format("dddd, MMMM d, yyyy")
+  result["long-date"] = now.format("MMMM d, yyyy")
+  result["medium-date"] = now.format("MMM d, yyyy")
+  result["short-date"] = now.format("M/d/yy")
+  result["short-time-24"] = now.format("HH:mm")
+  result["short-time"] = now.format("HH:mm tt")
+  result["time-24"] = now.format("HH:mm:ss")
+  result["time"] = now.format("HH:mm:ss tt")
+  result["day"] = now.format("dd")
+  result["month"] = now.format("MM")
+  result["year"] = now.format("yyyy")
+  result["short-day"] = now.format("d")
+  result["short-month"] = now.format("M")
+  result["short-year"] = now.format("yy")
+  result["weekday"] = now.format("dddd")
+  result["weekday-abbr"] = now.format("dd")
+  result["month-name"] = now.format("MMMM")
+  result["month-name-abbr"] = now.format("MMM")
+  result["timezone-offset"] = now.format("zzz")
 
 proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
   return HastyScribe(options: options, fields: initFields(fields), snippets: initTable[string, string](), macros: initTable[string, string](), document: "")
@@ -281,7 +258,7 @@ proc parse_fields(hs: var HastyScribe, document: string): string {.gcsafe.} =
     discard field.match(peg_field, matches)
     var id = matches[0].strip
     if hs.fields.hasKey(id):
-      result = result.replace(field, hs.fields[id]())
+      result = result.replace(field, hs.fields[id])
     else:
       warn "Field '" & id & "' not defined."
       result = result.replace(field, "")
@@ -486,87 +463,3 @@ proc compile*(hs: var HastyScribe, input_file: string) =
     output.writeFile(hs.document)
   else:
     stdout.write(hs.document)
-
-### MAIN
-
-when isMainModule:
-  let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
-
-  (c) 2013-2020 Fabio Cevasco
-
-  Usage:
-    hastyscribe <markdown_file_or_glob> [options]
-
-  Arguments:
-    markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
-  Options:
-    --field/<field>=<value> Define a new field called <field> with value <value>.
-    --notoc                 Do not generate a Table of Contents.
-    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
-    --user-js=<file>        Insert contents of <file> as a Javascript script.
-    --output-file=<file>    Write output to <file>.
-                            (Use "--output-file=-" to output to stdout)
-    --watermark=<file>      Use the image in <file> as a watermark.
-    --fragment              If specified, an HTML fragment will be generated, without 
-                            embedding images, fonts, or stylesheets. 
-    --dump=all|styles|fonts Dumps all resources/stylesheets/fonts to the current directory."""
-    
-
-  var input = ""
-  var files = newSeq[string](0)
-  var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false)
-  var fields = initTable[string, proc():string]()
-  var dumpdata = ""
-
-  # Parse Parameters
-
-  for kind, key, val in getopt():
-    case kind
-    of cmdArgument:
-      input = key
-    of cmdLongOption:
-      case key
-      of "dump":
-        if not ["all", "styles", "fonts"].contains(val):
-          fatal "[dump] Invalid value: " & val
-          quit(7)
-        dumpdata = val
-      of "notoc":
-        options.toc = false
-      of "user-css":
-        options.css = val
-      of "user-js":
-        options.js = val
-      of "watermark":
-        options.watermark = val
-      of "output-file":
-        options.output = val
-      of "fragment":
-        options.fragment = true
-      else:
-        if key.startsWith("field/"):
-          let val = val
-          fields[key.replace("field/", "")] = proc(): string =
-            return val
-        discard
-    else: 
-      discard
-
-  for file in walkFiles(input):
-    files.add(file)
-
-  if files.len == 0 and dumpdata == "":
-    fatal "\"$1\" does not match any file" % [input]
-    quit(2)
-  else:
-    var hs = newHastyScribe(options, fields)
-    if dumpdata != "":
-      hs.dump(dumpdata)
-      quit(0)
-    try:
-      for file in files:
-        hs.compile(file)
-    except IOError:
-      let msg = getCurrentExceptionMsg()
-      fatal msg
-      quit(3)
