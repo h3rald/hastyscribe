@@ -9,7 +9,7 @@ import
   logging
 
 import
-  ../packages/niftylogger,
+  ../niftylogger,
   hastyscribepkg/markdown, 
   hastyscribepkg/config,
   hastyscribepkg/consts,
