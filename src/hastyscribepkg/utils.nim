@@ -33,6 +33,9 @@ proc watermark_css*(imgfile: string): string =
     let img = imgfile.encode_image_file(imgfile.image_format)
     result = (watermark_style % [img]).style_tag
 
+proc add_jump_to_top_links*(document: string): string =
+  result = document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
+
 proc encode_font*(font, format: string): string =
     let enc_contents = font.encode
     return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]

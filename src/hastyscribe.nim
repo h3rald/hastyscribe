@@ -153,10 +153,6 @@ proc embed_images(hs: var HastyScribe, dir: string) =
     doc = doc.replace(img, imgrep)
   hs.document = doc
 
-proc add_jump_to_top_links(hs: var HastyScribe) =
-  hs.document = hs.document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
-
-
 proc embed_fonts(): string=
   let fonts = @[
     create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
@@ -173,7 +169,7 @@ proc embed_fonts(): string=
   ]
   return style_tag(fonts.join);
 
-proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string
+proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string
 
 proc applyHeadingOffset(contents: string, offset: int): string =
   if offset == 0:
@@ -346,7 +342,7 @@ proc parse_anchors(hs: var HastyScribe, document: string): string =
     var id = matches[0]
     result = result.replace(anchor, " <a id=\""&id&"\"></a>")
 
-proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
+proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string = 
   result = hs.parse_transclusions(document, dir, offset)
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
@@ -465,7 +461,7 @@ $body
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
 "fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
   hs.embed_images(dir)
-  hs.add_jump_to_top_links()
+  hs.document = add_jump_to_top_links(hs.document)
   return hs.document
 
 proc compile*(hs: var HastyScribe, input_file: string) =
