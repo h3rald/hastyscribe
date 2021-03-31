@@ -23,6 +23,7 @@ Where:
     * **\-\-watermark=&lt;file&gt;** causes HastyScribe to embed and display an image as a watermark throughout the document. 
     * **\-\-fragment** causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
     * **\-\-dump=all|styles|fonts** causes HastyScribe to dump all resources/stylesheets/fonts to the current directory.
+    * **\-\-help** causes HastyScribe to display the usage information and quit.
 
 ## FAQs
 
