@@ -149,13 +149,13 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
   var lns = s.splitLines
   var valid_metadata = false
   var offset = 0
-  if (lns[0][0] == '%') and (lns[1][0] == '%') and (lns[2][0] == '%'):
+  if lns[0].startsWith('%') and lns[1].startsWith('%') and lns[2].startsWith('%'):
     valid_metadata = true
   else:
     valid_metadata = false
-    if lns[0][0] == '%':
+    if lns[0].startsWith('%'):
       offset = 2
-      if lns[1][0] == '%':
+      if lns[1].startsWith('%'):
         offset = 3
   var str = cstring(lns[offset..lns.len-1].join("\n"))
   var mmiot = mkd_string(str, cint(str.len-1), flags)
