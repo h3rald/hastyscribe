@@ -154,7 +154,7 @@ proc handleYamlMetadata*(contents: var string, metadata: var Table[string,string
   ## and the YAML section is removed from the contents 
   result = false
   let peg_yaml = peg"""
-    definition <- ^'---' \n {line+} '---' \n \n
+    definition <- ^'---' \n {line+} '---' \n
     line <- \s* id \s* ':' \s* @ \n
     id <- [a-zA-Z0-9_-]+
   """
