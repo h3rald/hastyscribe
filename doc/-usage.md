@@ -18,6 +18,7 @@ Where:
     * [\-\-watermark=&lt;file&gt;](class:opt) causes {{hs}} to embed and display an image as a watermark throughout the document. 
     * [\-\-fragment](class:opt) causes {{hs}} to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
     * [\-\-dump=all|styles|fonts](class:opt) causes {{hs}} to dump all resources/stylesheets/fonts to the current directory.
+    * [\-\-help](class:opt) causes {{hs}} to display the usage information and quit.
 
 ## Linux/OSX Examples 
 

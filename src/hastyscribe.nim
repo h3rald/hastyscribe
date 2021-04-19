@@ -49,7 +49,7 @@ type
     js*: string
     watermark*: string
     fragment*: bool
-  HastyFields* = Table[string, proc():string]
+  HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
   HastyScribe* = object
@@ -62,53 +62,32 @@ type
 if logging.getHandlers().len == 0:
   newNiftyLogger().addHandler()
 
-proc initFields(fields: HastyFields): HastyFields =
-  result = initTable[string, proc():string]()
+proc initFields(fields: HastyFields): HastyFields {.gcsafe.} =
+  result = initTable[string, string]()
   for key, value in fields.pairs:
     result[key] = value
   var now = getTime().local()
-  result["timestamp"] = proc():string =
-    return $now.toTime.toUnix().int
-  result["date"] = proc():string =
-    return now.format("yyyy-MM-dd")
-  result["full-date"] = proc():string =
-    return now.format("dddd, MMMM d, yyyy")
-  result["long-date"] = proc():string =
-    return now.format("MMMM d, yyyy")
-  result["medium-date"] = proc():string =
-    return now.format("MMM d, yyyy")
-  result["short-date"] = proc():string =
-    return now.format("M/d/yy")
-  result["short-time-24"] = proc():string =
-    return now.format("HH:mm")
-  result["short-time"] = proc():string =
-    return now.format("HH:mm tt")
-  result["time-24"] = proc():string =
-    return now.format("HH:mm:ss")
-  result["time"] = proc():string =
-    return now.format("HH:mm:ss tt")
-  result["day"] = proc():string =
-    return now.format("dd")
-  result["month"] = proc():string =
-    return now.format("MM")
-  result["year"] = proc():string =
-    return now.format("yyyy")
-  result["short-day"] = proc():string =
-    return now.format("d")
-  result["short-month"] = proc():string =
-    return now.format("M")
-  result["short-year"] = proc():string =
-    return now.format("yy")
-  result["weekday"] = proc():string =
-    return now.format("dddd")
-  result["weekday-abbr"] = proc():string =
-    return now.format("dd")
-  result["month-name"] = proc():string =
-    return now.format("MMMM")
-  result["month-name-abbr"] = proc():string =
-    return now.format("MMM")
-  result["timezone-offset"] = proc():string =
-    return now.format("zzz")
+  result["timestamp"] = $now.toTime.toUnix().int
+  result["date"] = now.format("yyyy-MM-dd")
+  result["full-date"] = now.format("dddd, MMMM d, yyyy")
+  result["long-date"] = now.format("MMMM d, yyyy")
+  result["medium-date"] = now.format("MMM d, yyyy")
+  result["short-date"] = now.format("M/d/yy")
+  result["short-time-24"] = now.format("HH:mm")
+  result["short-time"] = now.format("HH:mm tt")
+  result["time-24"] = now.format("HH:mm:ss")
+  result["time"] = now.format("HH:mm:ss tt")
+  result["day"] = now.format("dd")
+  result["month"] = now.format("MM")
+  result["year"] = now.format("yyyy")
+  result["short-day"] = now.format("d")
+  result["short-month"] = now.format("M")
+  result["short-year"] = now.format("yy")
+  result["weekday"] = now.format("dddd")
+  result["weekday-abbr"] = now.format("dd")
+  result["month-name"] = now.format("MMMM")
+  result["month-name-abbr"] = now.format("MMM")
+  result["timezone-offset"] = now.format("zzz")
 
 proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
   return HastyScribe(options: options, fields: initFields(fields), snippets: initTable[string, string](), macros: initTable[string, string](), document: "")
@@ -153,10 +132,6 @@ proc embed_images(hs: var HastyScribe, dir: string) =
     doc = doc.replace(img, imgrep)
   hs.document = doc
 
-proc add_jump_to_top_links(hs: var HastyScribe) =
-  hs.document = hs.document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
-
-
 proc embed_fonts(): string=
   let fonts = @[
     create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
@@ -173,7 +148,7 @@ proc embed_fonts(): string=
   ]
   return style_tag(fonts.join);
 
-proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string
+proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string
 
 proc applyHeadingOffset(contents: string, offset: int): string =
   if offset == 0:
@@ -270,7 +245,7 @@ proc parse_macros(hs: var HastyScribe, document: string): string =
 
 # Field Usage:
 # {{$timestamp}}
-proc parse_fields(hs: var HastyScribe, document: string): string =
+proc parse_fields(hs: var HastyScribe, document: string): string {.gcsafe.} =
   let peg_field = peg"""
     field <- '{{' \s* '$' {id} \s* '}}'
     id <- [a-zA-Z0-9_-]+
@@ -281,7 +256,7 @@ proc parse_fields(hs: var HastyScribe, document: string): string =
     discard field.match(peg_field, matches)
     var id = matches[0].strip
     if hs.fields.hasKey(id):
-      result = result.replace(field, hs.fields[id]())
+      result = result.replace(field, hs.fields[id])
     else:
       warn "Field '" & id & "' not defined."
       result = result.replace(field, "")
@@ -346,7 +321,7 @@ proc parse_anchors(hs: var HastyScribe, document: string): string =
     var id = matches[0]
     result = result.replace(anchor, " <a id=\""&id&"\"></a>")
 
-proc preprocess(hs: var HastyScribe, document, dir: string, offset = 0): string = 
+proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string = 
   result = hs.parse_transclusions(document, dir, offset)
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
@@ -429,8 +404,10 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   var timeinfo: DateTime = local(getTime())
 
 
-  if parse_date(metadata.date, timeinfo) == false:
-    discard parse_date(getDateStr(), timeinfo)
+  try:
+    timeinfo = parse(metadata.date, "yyyy-MM-dd")
+  except:
+    timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -463,7 +440,7 @@ $body
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
 "fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
   hs.embed_images(dir)
-  hs.add_jump_to_top_links()
+  hs.document = add_jump_to_top_links(hs.document)
   return hs.document
 
 proc compile*(hs: var HastyScribe, input_file: string) =
@@ -490,7 +467,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
 when isMainModule:
   let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2018 Fabio Cevasco
+  (c) 2013-2020 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]
@@ -507,13 +484,14 @@ when isMainModule:
     --watermark=<file>      Use the image in <file> as a watermark.
     --fragment              If specified, an HTML fragment will be generated, without 
                             embedding images, fonts, or stylesheets. 
-    --dump=all|styles|fonts Dumps all resources/stylesheets/fonts to the current directory."""
+    --dump=all|styles|fonts Dumps all resources/stylesheets/fonts to the current directory.
+    --help                  Display the usage information."""
     
 
   var input = ""
   var files = newSeq[string](0)
   var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false)
-  var fields = initTable[string, proc():string]()
+  var fields = initTable[string, string]()
   var dumpdata = ""
 
   # Parse Parameters
@@ -541,27 +519,16 @@ when isMainModule:
         options.output = val
       of "fragment":
         options.fragment = true
+      of "help":
+        echo usage
+        quit(1)  
       else:
         if key.startsWith("field/"):
           let val = val
-          fields[key.replace("field/", "")] = proc(): string =
-            return val
+          fields[key.replace("field/", "")] = val          
         discard
     else: 
       discard
-
-  if dumpdata != "":
-    if input == "":
-      quit(usage, 1)
-    elif options.css == "":
-      quit(usage, 4)
-    elif options.output == "":
-      quit(usage, 5)
-    elif options.watermark == "":
-      quit(usage, 6)
-  
-  if input == "":
-    quit(usage, 0)
 
   for file in walkFiles(input):
     files.add(file)

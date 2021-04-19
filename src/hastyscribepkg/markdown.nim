@@ -112,7 +112,9 @@ const
 
 ## High Level API
 
-import strutils
+import 
+  strutils,
+  pegs
 
 const 
   DefaultFlags = MKD_TOC or MKD_1_COMPAT or MKD_EXTRA_FOOTNOTE or MKD_DLEXTRA or MKD_FENCEDCODE or MKD_GITHUBTAGS or MKD_HTML5ANCHOR or MKD_LATEX
@@ -145,19 +147,23 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
     flags = DefaultFlags
   else: 
     flags = uint32(f)
-  # Check if metadata is present
-  var lns = s.splitLines
+  # Check if Pandoc style metadata is present
   var valid_metadata = false
-  var offset = 0
-  if (lns[0][0] == '%') and (lns[1][0] == '%') and (lns[2][0] == '%'):
-    valid_metadata = true
-  else:
-    valid_metadata = false
-    if lns[0][0] == '%':
-      offset = 2
-      if lns[1][0] == '%':
-        offset = 3
-  var str = cstring(lns[offset..lns.len-1].join("\n"))
+  var contents = s
+  let peg_pandoc = peg"""
+    definition <- ^{line} {line}? {line}?
+    line <- '\%' @ \n
+  """
+  var matches: array[0..2, string] 
+  let (s, e) = contents.findBounds(peg_pandoc, matches)
+  # the pattern must start at the beginning of the file
+  if s == 0:
+    if matches[0] != "" and matches[1] != "" and matches[2] != "":
+      valid_metadata = true
+    else:
+      # incomplete metadata, remove the whole pandoc section to not confuse discount
+      contents = contents[e-1 .. ^1]  
+  var str = cstring(contents)
   var mmiot = mkd_string(str, cint(str.len-1), flags)
   if valid_metadata:
     data.title = $mkd_doc_title(mmiot)

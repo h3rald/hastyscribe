@@ -20,7 +20,7 @@ bin           = @["hastyscribe"]
 srcDir        = "src"
 installExt    = @["nim", "json", "a", "css", "png", "svg", "woff", "c", "h", "in"]
 
-requires "nim >= 0.19.0"
+requires "nim >= 1.4.0"
 
 before install:
   exec "nifty install"
