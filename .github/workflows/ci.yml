@@ -44,4 +44,4 @@ jobs:
                   nimble install -y nifty
                   nifty install
                   nimble build -y -d:release --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc
-                  ./build_guide
+                  ./hastyscribe doc/HastyScribe_UserGuide.md
