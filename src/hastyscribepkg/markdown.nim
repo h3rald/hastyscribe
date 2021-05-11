@@ -164,7 +164,7 @@ proc md*(s: string, f = 0, data: var TMDMetadata): string =
       # incomplete metadata, remove the whole pandoc section to not confuse discount
       contents = contents[e-1 .. ^1]  
   var str = cstring(contents)
-  var mmiot = mkd_string(str, cint(str.len-1), flags)
+  var mmiot = mkd_string(str, cint(str.len), flags)
   if valid_metadata:
     data.title = $mkd_doc_title(mmiot)
     data.author = $mkd_doc_author(mmiot)
