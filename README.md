@@ -13,17 +13,17 @@ _HastyScribe_ is a simple command-line program able to convert [markdown](http:/
 
 Where:
 
-  * _filename-or-glob-expression_ is a valid file or [glob](http://en.wikipedia.org/wiki/Glob_(programming)) expression that will be compiled into HTML.
-  * The following options are supported:
-    * **\-\-field/&lt;field&gt;=&lt;value&gt;** causes HastyScribe to set a custom field to a specific value.
-    * **\-\-notoc** causes HastyScribe to output HTML documents _without_ automatically generating a Table of Contents at the start.
-    * **\-\-user-css=&lt;file&gt;** causes HastyScribe to insert the contents of the specified local file as a CSS stylesheet. 
-    * **\-\-user-js=&lt;file&gt;** causes HastyScribe to insert the contents of the specified local file as a Javascript script. 
-    * **\-\-output-file=&lt;file&gt;** causes HastyScribe to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
-    * **\-\-watermark=&lt;file&gt;** causes HastyScribe to embed and display an image as a watermark throughout the document. 
-    * **\-\-fragment** causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
-    * **\-\-dump=all|styles|fonts** causes HastyScribe to dump all resources/stylesheets/fonts to the current directory.
-    * **\-\-help** causes HastyScribe to display the usage information and quit.
+- _filename-or-glob-expression_ is a valid file or [glob](<http://en.wikipedia.org/wiki/Glob_(programming)>) expression that will be compiled into HTML.
+- The following options are supported:
+  - **\-\-field/&lt;field&gt;=&lt;value&gt;** causes HastyScribe to set a custom field to a specific value.
+  - **\-\-notoc** causes HastyScribe to output HTML documents _without_ automatically generating a Table of Contents at the start.
+  - **\-\-user-css=&lt;file&gt;** causes HastyScribe to insert the contents of the specified local file as a CSS stylesheet.
+  - **\-\-user-js=&lt;file&gt;** causes HastyScribe to insert the contents of the specified local file as a Javascript script.
+  - **\-\-output-file=&lt;file&gt;** causes HastyScribe to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
+  - **\-\-watermark=&lt;file&gt;** causes HastyScribe to embed and display an image as a watermark throughout the document.
+  - **\-\-fragment** causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
+  - **\-\-dump=all|styles|fonts** causes HastyScribe to dump all resources/stylesheets/fonts to the current directory.
+  - **\-\-help** causes HastyScribe to display the usage information and quit.
 
 ## FAQs
 
@@ -31,24 +31,24 @@ Where:
 
 Because:
 
-* It is a cross-platform, self-contained executable file.
-* It can generate standalone HTML files.
-* It comes with its own stylesheet, which is automatically embedded into every HTML document, along with all the needed web fonts.
-* It is built on top of [Discount][discount], which means that besides standard markdown you also get:
-  * strikethrough
-  * automatic Table of Contents generation
-  * [SmartyPants](http://daringfireball.net/projects/smartypants/) substitutions
-  * paragraph centering
-  * image sizes
-  * definition lists
-  * alphabetic lists
-  * pseudo-protocols to generate `span` tags with arbitrary CSS classes, `abbr` tags, and anchors
-  * class blocks
-  * tables
-  * fenced code blocks
-  * [Pandoc](http://johnmacfarlane.net/pandoc/)-style document headers
-* It automatically embeds any referenced image as data URI.
-* It has supports for text snippets, custom fields, and substitution macros.
+- It is a cross-platform, self-contained executable file.
+- It can generate standalone HTML files.
+- It comes with its own stylesheet, which is automatically embedded into every HTML document, along with all the needed web fonts.
+- It is built on top of [Discount][discount], which means that besides standard markdown you also get:
+  - strikethrough
+  - automatic Table of Contents generation
+  - [SmartyPants](http://daringfireball.net/projects/smartypants/) substitutions
+  - paragraph centering
+  - image sizes
+  - definition lists
+  - alphabetic lists
+  - pseudo-protocols to generate `span` tags with arbitrary CSS classes, `abbr` tags, and anchors
+  - class blocks
+  - tables
+  - fenced code blocks
+  - [Pandoc](http://johnmacfarlane.net/pandoc/)-style document headers
+- It automatically embeds any referenced image as data URI.
+- It has supports for text snippets, custom fields, and substitution macros.
 
 ### What can I use it for?
 
@@ -66,7 +66,7 @@ HastyScribe is implemented in [Nim][nim], a very expressive language that compil
 4. Navigate to the HastyScribe repository local folder.
 5. Run **nifty install** to download HastyScribe's dependencies.
 6. Run **nifty build discount** to build the Discount markdown library.
-7. Go to the **src** folder and run **nim c -d:release -d:discount hastyscribe.nim**
+7. Run **nim c -d:release hastyscribe.nim**.
 
 [nim]: http://nim-lang.org/
 [nifty]: https://github.com/h3rald/nifty

@@ -18,27 +18,8 @@ import
 export
   consts
 
-
-when defined(discount):
-  {.passL: "-L../packages/discount".}
-  {.passL: "-lmarkdown".}
-else:
-  import os
-  when dirExists("src/hastyscribepkg/vendor"):
-    {.passL: "-Lsrc/hastyscribepkg/vendor".}
-  else:
-    {.passL: "-Lhastyscribepkg/vendor".}
-  when defined(macosx):
-    {.passL: "-lmarkdown_macosx_x64".}
-  when defined(windows):
-    {.passL: "-lmarkdown_windows_x64".}
-  when defined(linux):
-    when defined(arm):
-      {.passL: "-lmarkdown_linux_arm".}
-    when defined(i386):
-      {.passL: "-lmarkdown_linux_x86".}
-    when defined(amd64):
-      {.passL: "-lmarkdown_linux_x64".}
+{.passL: "-Lpackages/discount".}
+{.passL: "-lmarkdown".}
 
 type
   HastyOptions* = object
@@ -467,7 +448,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
 when isMainModule:
   let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2020 Fabio Cevasco
+  (c) 2013-2021 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]
@@ -500,7 +481,7 @@ when isMainModule:
     case kind
     of cmdArgument:
       input = key
-    of cmdLongOption:
+    of cmdShortOption, cmdLongOption:
       case key
       of "dump":
         if not ["all", "styles", "fonts"].contains(val):
@@ -519,9 +500,12 @@ when isMainModule:
         options.output = val
       of "fragment":
         options.fragment = true
-      of "help":
+      of "v", "version":
+        echo pkgVersion
+        quit(0)
+      of "h", "help":
         echo usage
-        quit(1)  
+        quit(0)  
       else:
         if key.startsWith("field/"):
           let val = val
@@ -529,11 +513,13 @@ when isMainModule:
         discard
     else: 
       discard
-
   for file in walkFiles(input):
     files.add(file)
 
   if files.len == 0 and dumpdata == "":
+    if input == "":
+      echo usage
+      quit(0)
     fatal "\"$1\" does not match any file" % [input]
     quit(2)
   else:
