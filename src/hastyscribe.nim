@@ -148,6 +148,35 @@ proc embed_fonts(): string=
   ]
   return style_tag(fonts.join);
 
+proc handleYamlMetadata*(contents: var string, metadata: var Table[string,string]): bool =
+  ## If the document starts with YAML Front Matters then defined metadata is 
+  ## returned in the metadata table as key value pairs
+  ## and the YAML section is removed from the contents 
+  result = false
+  let peg_yaml = peg"""
+    definition <- ^'---' \n {line+} '---' \n
+    line <- \s* id \s* ':' \s* @ \n
+    id <- [a-zA-Z0-9_-]+
+  """
+  var matches: array[0..0, string] 
+  let (s, e) = contents.findBounds(peg_yaml, matches)
+  # the pattern must start at the beginning of the file
+  if s == 0:
+    result = true
+    # eat whole YAML section from the content and parse key value pairs
+    contents.delete(0, e)
+    let yaml = matches[0]
+    let peg_key_value = peg"\s* {[a-zA-Z0-9_-]+} \s* ':' \s* {@} \n"
+    for key_value in yaml.findAll(peg_key_value):
+      var matches: array[0..1, string]
+      discard key_value.match(peg_key_value, matches)
+      let key = matches[0].strip
+      let value = matches[1].strip
+      if metadata.hasKey(key):
+        warn "Key $1 already defined with value $2"% [key, metadata[key]]
+      else:
+        metadata[key] = value
+
 proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string
 
 proc applyHeadingOffset(contents: string, offset: int): string =
