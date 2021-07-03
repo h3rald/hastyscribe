@@ -4,7 +4,7 @@
     "build": {
       "name+configure.sh": {
         "pwd": "{{name}}",
-        "cmd": "./configure.sh --github-checkbox=input && make"
+        "cmd": "sh configure.sh --github-checkbox=input && make"
       }
     },
     "install": {
