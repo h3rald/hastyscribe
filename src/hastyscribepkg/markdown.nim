@@ -113,7 +113,6 @@ const
 ## High Level API
 
 import 
-  strutils,
   pegs
 
 const 

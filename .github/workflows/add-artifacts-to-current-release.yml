@@ -71,7 +71,8 @@ jobs:
         run: |
           nimble install -y nifty
           nifty install
-          nimble build -v -y --passL:-static -d:release --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc --gc:orc --opt:size
+          nifty build discount
+          nimble build -v -y --passL:-static -d:discount -d:release --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc --gc:orc --opt:size
         if: matrix.os == 'ubuntu-latest'
 
       # Build for macOS/Windows
@@ -80,7 +81,8 @@ jobs:
         run: |
           nimble install -y nifty
           nifty install
-          nimble build -v -y -d:release --gc:orc --opt:size
+          nifty build discount
+          nimble build -v -y -d:discount -d:release --gc:orc --opt:size
         if: matrix.os == 'macos-latest' || matrix.os == 'windows-latest'
 
       # Retrieve ID and Name of the current (draft) release
