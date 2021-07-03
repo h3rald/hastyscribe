@@ -43,5 +43,6 @@ jobs:
         run: |
           nimble install -y nifty
           nifty install
-          nimble build -y -d:release --passL:-static --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc
+          nifty build discount
+          nimble build -y -d:discount -d:release --passL:-static --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc
           ./hastyscribe doc/HastyScribe_UserGuide.md
