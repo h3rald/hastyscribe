@@ -2,9 +2,9 @@
 
 ## Notes
 
-[Discount][discount] supports the definition of _class blocks_: [div](class:kwd)s with a class attribute. The syntax is very similar to the one used for [block quotes](#Block.Quotes), with the addition of the class name wrapped in [%](class:kwd)s on the first line. 
+[Discount][discount] supports the definition of _class blocks_: [div](class:kwd)s with a class attribute. The syntax is very similar to the one used for [block quotes](#Block-Quotes), with the addition of the class name wrapped in [%](class:kwd)s on the first line. 
 
-In {{hs}}, this syntax is used to produce notes, [tips](#Tips), [warmings](#Warnings), [sidebars](#Sidebars) and [terminal sessions](#Terminal.Sessions).
+In {{hs}}, this syntax is used to produce notes, [tips](#Tips), [warmings](#Warnings), [sidebars](#Sidebars) and [terminal sessions](#Terminal-Sessions).
 
 {{input-text}}
 
