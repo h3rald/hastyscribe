@@ -1,6 +1,6 @@
-![nim](https://img.shields.io/badge/nim-powered-yellow.svg?link=https://nim-lang-org)
-![release](https://img.shields.io/github/release/h3rald/hastyscribe/all.svg)
-![build](https://img.shields.io/travis/h3rald/hastyscribe.svg)
+[![Nimble](https://raw.githubusercontent.com/yglukhov/nimble-tag/master/nimble.png)](https://nimble.directory/pkg/hastyscribe)
+
+![release](https://img.shields.io/github/release/h3rald/hastyscribe.svg)
 ![license](https://img.shields.io/github/license/h3rald/hastyscribe.svg)
 
 # HastyScribe
