@@ -65,8 +65,19 @@ HastyScribe is implemented in [Nim][nim], a very expressive language that compil
 3. Clone the HastyScribe [repository](https://github.com/h3rald/hastyscribe).
 4. Navigate to the HastyScribe repository local folder.
 5. Run **nifty install** to download HastyScribe's dependencies.
+  - Note: Some users may need to install libmarkdown2-dev
 6. Run **nifty build discount** to build the Discount markdown library.
 7. Run **nim c -d:release hastyscribe.nim**.
+
+
+### Quick Installation
+
+```sh
+nimble install nifty
+&& sudo apt install libmarkdown2-dev
+&& nimble install hastyscribe
+```
+If you are using another operating system without apt you can install libmarkdown2 [here](https://launchpad.net/debian/+source/discount)
 
 [nim]: http://nim-lang.org/
 [nifty]: https://github.com/h3rald/nifty
