@@ -102,7 +102,7 @@ proc embed_images(hs: var HastyScribe, dir: string) =
       try:
         let client = newHttpClient()
         imgcontent = encode_image(client.getContent(imgfile), imgformat)
-      except:
+      except CatchableError:
         warn "Unable to download '" & imgfile & "'"
         warn "  Reason: " & getCurrentExceptionMsg()
         warn "  -> Image will be linked instead"
@@ -178,7 +178,7 @@ proc parse_transclusions(hs: var HastyScribe, document: string, dir = "", offset
           else:
             if s.startsWith("----"):
               delimiter.inc
-      except:
+      except CatchableError:
         discard
       f.close()
       result = result.replace(transclusion, hs.parse_transclusions(contents, fileInfo.dir, offset))
@@ -218,7 +218,7 @@ proc parse_macros(hs: var HastyScribe, document: string): string =
     if hs.macros.hasKey(id):
       try:
         result = result.replace(instance, hs.macros[id] % params)
-      except:
+      except CatchableError:
         warn "Incorrect number of parameters specified for macro '$1'\n  -> Instance: $2" % [id, instance]
     else:
       warn "Macro '" & id & "' not defined."
@@ -387,7 +387,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
 
   try:
     timeinfo = parse(metadata.date, "yyyy-MM-dd")
-  except:
+  except CatchableError:
     timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
 
   hs.document = """<!doctype html>
