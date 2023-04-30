@@ -14,7 +14,7 @@ Headings can be specified simply by prepending [#](class:kwd)s to text, as follo
 > %note%
 > Note
 > 
-> If you use [Document Headers](#Document.Headers), A [H1](class:kwd) is used for the title of the {{hs}} document. Within the document, start using headings from [H2](class:kwd).
+> If you use [Document Headers](#Document-Headers), A [H1](class:kwd) is used for the title of the {{hs}} document. Within the document, start using headings from [H2](class:kwd).
 
 ## Tables
 
