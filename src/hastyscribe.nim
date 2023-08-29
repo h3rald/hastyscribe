@@ -30,6 +30,7 @@ type
     js*: string
     watermark*: string
     fragment*: bool
+    embed*: bool
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
@@ -344,7 +345,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   hs.document = hs.preprocess(hs.document, dir)
   # Document Variables
   var 
-    main_css_tag = stylesheet.style_tag
+    main_css_tag = ""
     user_css_tag = ""
     user_js_tag = ""
     watermark_css_tag  = ""
@@ -389,6 +390,11 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
     timeinfo = parse(metadata.date, "yyyy-MM-dd")
   except CatchableError:
     timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
+  
+  var embedded_fonts = ""
+  if hs.options.embed:
+    main_css_tag = stylesheet.style_tag
+    embedded_fonts = embed_fonts()
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -419,8 +425,9 @@ $body
   </div>
   $js
 </body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
-"fonts_css_tag", embed_fonts(), "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
-  hs.embed_images(dir)
+"fonts_css_tag", embedded_fonts, "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
+  if hs.options.embed:
+    hs.embed_images(dir)
   hs.document = add_jump_to_top_links(hs.document)
   return hs.document
 
@@ -463,6 +470,7 @@ when isMainModule:
     --output-file=<file>    Write output to <file>.
                             (Use "--output-file=-" to output to stdout)
     --watermark=<file>      Use the image in <file> as a watermark.
+    --noembed               If specified, styles and images will not be embedded.
     --fragment              If specified, an HTML fragment will be generated, without 
                             embedding images, fonts, or stylesheets. 
     --dump=all|styles|fonts Dumps all resources/stylesheets/fonts to the current directory.
@@ -471,7 +479,7 @@ when isMainModule:
 
   var input = ""
   var files = newSeq[string](0)
-  var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false)
+  var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false, embed: true)
   var fields = initTable[string, string]()
   var dumpdata = ""
 
@@ -490,6 +498,8 @@ when isMainModule:
         dumpdata = val
       of "notoc":
         options.toc = false
+      of "noembed":
+        options.embed = false
       of "user-css":
         options.css = val
       of "user-js":
