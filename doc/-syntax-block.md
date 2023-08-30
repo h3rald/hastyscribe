@@ -90,12 +90,12 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 {{input-text -> The following HastyScribe Markdown code:}}
 
 ~~~
-![HastyScribe Logo](../packages/hastystyles/images/hastyscribe.png =221x65)
+![HastyScribe Logo](./images/hastyscribe.png =221x65)
 ~~~
 
 {{output-text -> Produces the following output:}}
 
-![HastyScribe Logo](../packages/hastystyles/images/hastyscribe.png =221x65)
+![HastyScribe Logo](./images/hastyscribe.png =221x65)
 
 > %tip%
 > Tip

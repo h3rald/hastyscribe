@@ -18,12 +18,9 @@ description   = pkgDescription
 license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
-installExt    = @["nim", "json", "a", "css", "png", "svg", "woff", "c", "h", "in"]
+installExt    = @["nim", "json", "a", "css", "png", "svg", "c", "h", "in"]
 
-requires "nim >= 1.6.12"
-
-before install:
-  exec "nifty install"
+requires "nim >= 2.0.0", "nimquery >= 2.0.1"
 
 # Tasks
 

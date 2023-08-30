@@ -37,7 +37,7 @@ Standard markdown is great, but sometimes you wish it had a few more features, l
 
 ### Text Snippets
 
-Although not part of neither {{md}} nor Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word _{{hs}}_ in this document [](class:fa-smile-o)).
+Although not part of neither {{md}} nor Discount, {{hs}} allows you to create text [snippets](#Snippets) to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word _{{hs}}_ in this document [](class:fa-face-smile)).
 
 ### Custom Fields
 

@@ -1,17 +1,10 @@
 
 const 
-  stylesheet* = "../../packages/hastystyles/styles/hastyscribe.css".slurp
-  hastyscribe_font* = "../../packages/hastystyles/fonts/hastyscribe.woff".slurp 
-  fa_solid_font* = "../../packages/hastystyles/fonts/fa-solid-900.woff".slurp
-  fa_brands_font* = "../../packages/hastystyles/fonts/fa-brands-400.woff".slurp
-  sourcecodepro_font* = "../../packages/hastystyles/fonts/SourceCodePro-Regular.woff".slurp
-  sourcecodepro_it_font* = "../../packages/hastystyles/fonts/SourceCodePro-It.woff".slurp
-  sourcecodepro_bold_font* = "../../packages/hastystyles/fonts/SourceCodePro-Bold.woff".slurp
-  sourcecodepro_boldit_font* = "../../packages/hastystyles/fonts/SourceCodePro-BoldIt.woff".slurp
-  sourcesanspro_font* = "../../packages/hastystyles/fonts/SourceSansPro-Regular.ttf.woff".slurp
-  sourcesanspro_bold_font* = "../../packages/hastystyles/fonts/SourceSansPro-Bold.ttf.woff".slurp
-  sourcesanspro_it_font* = "../../packages/hastystyles/fonts/SourceSansPro-It.ttf.woff".slurp
-  sourcesanspro_boldit_font* = "../../packages/hastystyles/fonts/SourceSansPro-BoldIt.ttf.woff".slurp
+  stylesheet* = "./data/hastystyles.css".slurp
+  stylesheet_badges* = "./data/hastystyles.badges.css".slurp
+  stylesheet_icons* = "./data/hastystyles.icons.css".slurp
+  stylesheet_links* = "./data/hastystyles.links.css".slurp
+  stylesheet_notes* = "./data/hastystyles.notes.css".slurp
   watermark_style* = """
 #container {
   position: relative;

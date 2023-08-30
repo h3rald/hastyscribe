@@ -1,15 +1,21 @@
 import 
-  os, 
-  parseopt, 
-  strutils, 
-  times, 
-  pegs, 
-  tables,
-  httpclient,
-  logging
+  std/macros,
+  std/os, 
+  std/parseopt, 
+  std/strutils,
+  std/sequtils,
+  std/times, 
+  std/pegs, 
+  std/xmltree,
+  std/tables,
+  std/httpclient,
+  std/logging
+
+from nimquery import querySelectorAll
+from std/htmlparser import parseHtml
 
 import
-  ../packages/niftylogger,
+  hastyscribepkg/niftylogger,
   hastyscribepkg/markdown, 
   hastyscribepkg/config,
   hastyscribepkg/consts,
@@ -18,8 +24,13 @@ import
 export
   consts
 
-{.passL: "-Lpackages/discount".}
-{.passL: "-lmarkdown".}
+when defined(windows) and defined(amd64): 
+  {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/windows -lmarkdown".}
+elif defined(linux) and defined(amd64):
+  {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/linux -lmarkdown".}
+elif defined(macosx) and defined(amd64):
+  {.passL: "-Bstatic -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/macosx -lmarkdown -Bdynamic".}
+
 
 type
   HastyOptions* = object
@@ -34,12 +45,20 @@ type
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
+  HastyLinkStyles* = Table[string, string]
+  HastyIconStyles* = Table[string, string]
+  HastyNoteStyles* = Table[string, string]
+  HastyBadgeStyles* = Table[string, string]
   HastyScribe* = object
     options: HastyOptions
     fields: HastyFields
     snippets: HastySnippets
     macros: HastyMacros
     document: string
+    linkStyles: HastyLinkStyles
+    iconStyles: HastyIconStyles
+    noteStyles: HastyNoteStyles
+    badgeStyles: HastyBadgeStyles
 
 if logging.getHandlers().len == 0:
   newNiftyLogger().addHandler()
@@ -113,22 +132,6 @@ proc embed_images(hs: var HastyScribe, dir: string) =
     let imgrep = img.replace("\"" & img_file & "\"", "\"" & imgcontent & "\"")
     doc = doc.replace(img, imgrep)
   hs.document = doc
-
-proc embed_fonts(): string=
-  let fonts = @[
-    create_font_face(hastyscribe_font, "HastyScribe", "normal", 400),
-    create_font_face(fa_solid_font, "Font Awesome 5 Free", "normal", 900),
-    create_font_face(fa_brands_font, "Font Awesome 5 Brands", "normal", 400),
-    create_font_face(sourcecodepro_font, "Source Code Pro", "normal", 400),
-    create_font_face(sourcecodepro_it_font, "Source Code Pro", "italic", 400),
-    create_font_face(sourcecodepro_bold_font, "Source Code Pro", "normal", 700),
-    create_font_face(sourcecodepro_boldit_font, "Source Code Pro", "italic", 700),
-    create_font_face(sourcesanspro_font,  "Source Sans Pro", "normal", 400),
-    create_font_face(sourcesanspro_bold_font, "Source Sans Pro", "normal", 700),
-    create_font_face(sourcesanspro_it_font, "Source Sans Pro", "italic", 400),
-    create_font_face(sourcesanspro_boldit_font,  "Source Sans Pro", "italic", 700)
-  ]
-  return style_tag(fonts.join);
 
 proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string
 
@@ -243,6 +246,46 @@ proc parse_fields(hs: var HastyScribe, document: string): string {.gcsafe.} =
       warn "Field '" & id & "' not defined."
       result = result.replace(field, "")
 
+proc load_styles(hs: var HastyScribe) =
+  type
+    StyleRuleMatches = array[0..1, string]
+  # Icons
+  let peg_iconstyle_def = peg"""
+    definition <- { '.' {icon} ':before' \s* '{'  @ (\n / $) }
+    icon <- 'fa-' [a-z0-9-]+
+  """
+  for def in stylesheet_icons.findAll(peg_iconstyle_def):
+    var matches: StyleRuleMatches
+    discard def.match(peg_iconstyle_def, matches)
+    hs.iconStyles[matches[1].strip] = matches[0].strip
+  # Badges
+  let peg_badgestyle_def = peg"""
+    definition <- { '.' {badge} ':before' \s* '{'  @ (\n / $) }
+    badge <- 'badge-' [a-z0-9-]+
+  """
+  for def in stylesheet_badges.findAll(peg_badgestyle_def):
+    var matches: StyleRuleMatches
+    discard def.match(peg_badgestyle_def, matches)
+    hs.badgeStyles[matches[1].strip] = matches[0].strip
+  # Notes
+  let peg_notestyle_def = peg"""
+    definition <- { '.' {note} \s* '> p:first-child:before {' \s* @ (\n / $) }
+    note <- [a-z]+
+  """
+  for def in stylesheet_notes.findAll(peg_notestyle_def):
+    var matches: StyleRuleMatches
+    discard def.match(peg_notestyle_def, matches)
+    hs.noteStyles[matches[1].strip] = matches[0].strip
+  # Links
+  let peg_linkstyle_def = peg"""
+    definition <- { 'a[href' ('^=' / '*=' / '$=') '\'' {link} '\']:before' \s* @ (\n / $) }
+    link <- [a-z0-9-.#]+
+  """
+  for def in stylesheet_links.findAll(peg_linkstyle_def):
+    var matches: StyleRuleMatches
+    discard def.match(peg_linkstyle_def, matches)
+    hs.linkStyles[matches[1].strip] = matches[0].strip
+
 # Snippet Definition:
 # {{test -> My test snippet}}
 #
@@ -311,20 +354,47 @@ proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string
   result = hs.parse_anchors(result)
   result = hs.remove_escapes(result)
 
+proc getTableValue(table: Table[string, string], key: string, obj: string): string =
+  try:
+    return table[key]
+  except CatchableError:
+    warn obj & " not found: " & key
+
+proc create_optional_css*(hs: HastyScribe, document: string): string =
+  result = ""
+  let html = document.parseHtml
+  # Check icons
+  let iconRules = html.querySelectorAll("span[class^=fa-]")
+    .mapIt(it.attr("class"))
+    .mapIt(getTableValue(hs.iconStyles, it, "Icon"))
+  result &= iconRules.join("\n")
+  # Check badges
+  let badgeRules = html.querySelectorAll("span[class^=badge-]")
+    .mapIt(it.attr("class"))
+    .mapIt(getTableValue(hs.badgeStyles, it, "Badge"))
+  result &= badgeRules.join("\n")
+  # Check notes
+  let noteRules = html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar")
+    .mapIt(it.attr("class"))
+    .mapIt(getTableValue(hs.noteStyles, it, "Note"))
+  result &= noteRules.join("\n")
+  # Check links
+  let linkHrefs = html.querySelectorAll("a[href]")
+    .mapIt(it.attr("href"))
+  var linkRules = newSeq[string]()
+  for href in linkHrefs:
+    for key in hs.linkStyles.keys.toSeq:
+      if href.contains(key) and not linkRules.contains(key):
+        linkRules.add hs.linkStyles[key]
+        break
+  result &= linkRules.join("\n")
+  result = result.style_tag
+
 # Public API
 
 proc dump*(hs: var HastyScribe, data="all", dest=".") =
   if data == "all" or data == "styles":
       (dest/"hastyscribe.css").writeFile(stylesheet)
-  if data == "all" or data == "fonts":
-      (dest/"SourceCodePro-Regular.ttf.woff").writeFile(sourcecodepro_font)
-      (dest/"SourceSansPro-Regular.ttf.woff").writeFile(sourcesanspro_font)
-      (dest/"SourceSansPro-Bold.ttf.woff").writeFile(sourcesanspro_bold_font)
-      (dest/"SourceSansPro-BoldIt.ttf.woff").writeFile(sourcesanspro_bold_it_font)
-      (dest/"SourceSansPro-It.ttf.woff").writeFile(sourcesanspro_it_font)
-      (dest/"fa-solid-900.woff").writeFile(fa_solid_font)
-      (dest/"fa-brands-400.woff").writeFile(fa_brands_font)
-      (dest/"hastyscribe.woff").writeFile(hastyscribe_font)
 
 proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
   hs.options.input = input
@@ -341,11 +411,14 @@ proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): str
 proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
   hs.options.input = input
   hs.document = hs.options.input
+  # Load style rules to be included on-demand
+  hs.load_styles()
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
   # Document Variables
   var 
     main_css_tag = ""
+    optional_css_tag = ""
     user_css_tag = ""
     user_js_tag = ""
     watermark_css_tag  = ""
@@ -391,10 +464,9 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   except CatchableError:
     timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
   
-  var embedded_fonts = ""
   if hs.options.embed:
     main_css_tag = stylesheet.style_tag
-    embedded_fonts = embed_fonts()
+    optional_css_tag = hs.create_optional_css(hs.document)
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -404,8 +476,8 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="$author">
   <meta name="generator" content="HastyScribe">
-  $fonts_css_tag
   $main_css_tag
+  $optional_css_tag
   $user_css_tag
   $internal_css_tag
   $watermark_css_tag
@@ -424,8 +496,21 @@ $body
     </div>
   </div>
   $js
-</body>""" % ["title_tag", title_tag, "header_tag", header_tag, "author", metadata.author, "author_footer", author_footer, "date", timeinfo.format("MMMM d, yyyy"), "toc", toc, "main_css_tag", main_css_tag, "user_css_tag", user_css_tag, "headings", headings, "body", hs.document,
-"fonts_css_tag", embedded_fonts, "internal_css_tag", metadata.css, "watermark_css_tag", watermark_css_tag, "js", user_js_tag]
+</body>""" % [
+  "title_tag", title_tag, 
+  "header_tag", header_tag, 
+  "author", metadata.author, 
+  "author_footer", author_footer, 
+  "date", timeinfo.format("MMMM d, yyyy"), 
+  "toc", toc, 
+  "main_css_tag", main_css_tag, 
+  "optional_css_tag", optional_css_tag, 
+  "user_css_tag", user_css_tag, 
+  "headings", headings, 
+  "body", hs.document, 
+  "internal_css_tag", metadata.css, 
+  "watermark_css_tag", watermark_css_tag, 
+  "js", user_js_tag]
   if hs.options.embed:
     hs.embed_images(dir)
   hs.document = add_jump_to_top_links(hs.document)
@@ -455,7 +540,7 @@ proc compile*(hs: var HastyScribe, input_file: string) =
 when isMainModule:
   let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2021 Fabio Cevasco
+  (c) 2013-2023 Fabio Cevasco
 
   Usage:
     hastyscribe <markdown_file_or_glob> [options]
@@ -472,8 +557,8 @@ when isMainModule:
     --watermark=<file>      Use the image in <file> as a watermark.
     --noembed               If specified, styles and images will not be embedded.
     --fragment              If specified, an HTML fragment will be generated, without 
-                            embedding images, fonts, or stylesheets. 
-    --dump=all|styles|fonts Dumps all resources/stylesheets/fonts to the current directory.
+                            embedding images ir stylesheets. 
+    --dump=all|styles       Dumps all resources to the current directory.
     --help                  Display the usage information."""
     
 
@@ -492,7 +577,7 @@ when isMainModule:
     of cmdShortOption, cmdLongOption:
       case key
       of "dump":
-        if not ["all", "styles", "fonts"].contains(val):
+        if not ["all", "styles"].contains(val):
           fatal "[dump] Invalid value: " & val
           quit(7)
         dumpdata = val

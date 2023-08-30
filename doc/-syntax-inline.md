@@ -67,73 +67,57 @@ Examples:
 
 ## Badges
 
-Badges are normally just shorthands for [Icons](#Icons) formatted with different colors. To add a _badge_ to some inline text, use the corresponding class among those listed in the following table. For example, the following code:
+Badges are shorthands for [Icons](#Icons) formatted with different colors. To add a _badge_ to some inline text, use the corresponding class among those listed in the following table. For example, the following code:
 
-    [Genoa, Italy](class:geo)
+    [Genoa, Italy](class:badge-geo)
 
 produces the following result:
 
-[Genoa, Italy](class:geo)
+[Genoa, Italy](class:badge-geo)
 
 {{hs}} currently supports the following badges:
 
 > %responsive%
-> Class                | Badge                        | Class               | Badge 
-> ---------------------|------------------------------|--------------------------------------------
-> `todo`               | [](class:todo)               |`user`               | [](class:user)
-> `fixme`              | [](class:fixme)              |`tag`                | [](class:tag) 
-> `deadline`           | [](class:deadline)           |`tags`               | [](class:tags) 
-> `draftcomment`       | [](class:draftcomment)       |`attachment`         | [](class:attachment)
-> `urgent`             | [](class:urgent)             |`bug`                | [](class:bug)
-> `verify`             | [](class:verify)             |`geo`                | [](class:geo)
-> `project`            | [](class:project)            |`eur`                | [](class:eur)
-> `red-circle`         | [](class:red-circle)         |`gbp`                | [](class:gbp)
-> `yellow-circle`      | [](class:yellow-circle)      |`usd`                | [](class:usd)
-> `green-circle`       | [](class:green-circle)       |`rub`                | [](class:rub)
-> `gray-circle`        | [](class:gray-circle)        |`jpy`                | [](class:jpy)
-> `star`               | [](class:star)               |`btc`                | [](class:btc)
-> `heart`              | [](class:heart)              |`try`                | [](class:try)
-> `square`             | [](class:square)             |`krw`                | [](class:krw)
-> `check`              | [](class:check)              |`inr`                | [](class:inr)
-> `lock`               | [](class:lock)               |`danger`             | [](class:danger)
-> `unlock`             | [](class:unlock)             |`question`           | [](class:question)
-> `email`              | [](class:email)              |`website`            | [](class:website)
-> `phone`              | [](class:phone)              |`fax`                | [](class:fax)
-> `tm`                 | [](class:tm)                 |`reg`                | [](class:reg)
-> `copy`               | [](class:copy)               |`red-flag`           | [](class:red-flag)
-> `green-flag`         | [](class:green-flag)         |`yellow-flag`        | [](class:yellow-flag)
-> `story`              | [](class:story)              |`feature`            | [](class:feature)
-> `add`                | [](class:add)                |`remove`             | [](class:remove)
-> `time`               | [](class:time)               |`date`               | [](class:date)
-> `html5`              | [](class:html5)              |`css3`               | [](class:css3)
-> `apple`              | [](class:apple)              |`windows`            | [](class:windows)
-> `linux`              | [](class:linux)              |`android`            | [](class:android)
-> `freebsd`            | [](class:freebsd)            |`aws`                | [](class:aws)
-> `idea`               | [](class:idea)               |`link`               | [](class:link)
-> `chrome`             | [](class:chrome)             |`firefox`            | [](class:firefox)
-> `ie`                 | [](class:ie)                 |`edge`               | [](class:edge)
-> `safari`             | [](class:safari)             |`opera`              | [](class:opera)
-> `sticky`             | [](class:sticky)             |`bluetooth`          | [](class:bluetooth)
-> `wifi`               | [](class:wifi)               |`signal`             | [](class:signal)
-> `usb`                | [](class:usb)                |`print`              | [](class:print)
-> `php`                | [](class:php)                |`erlang`             | [](class:erlang)
-> `python`             | [](class:python)             |`java`               | [](class:java)
-> `nodejs`             | [](class:nodejs)             |`js`                 | [](class:js)
-> `desktop`            | [](class:desktop)            |`laptop`             | [](class:laptop)
-> `mobile`             | [](class:mobile)             |`tablet`             | [](class:tablet)
-> `rss`                | [](class:rss)                |`paperclip`          | [](class:paperclip)
-> `toggle-on`          | [](class:toggle-on)          |`toggle-off`         | [](class:toggle-off)
-> `paypal`             | [](class:paypal)             |`stripe`             | [](class:stripe)
-> `amex`               | [](class:amex)               |`jcb`                | [](class:jcb)
-> `visa`               | [](class:visa)               |`mastercard`         | [](class:mastercard)
-> `diners`             | [](class:diners)             |`discover`           | [](class:discover)
-> `apple-pay`          | [](class:apple-pay)          |`amazon-pay`         | [](class:amazon-pay)
+> Class                      | Badge                              | Class                     | Badge 
+> ---------------------------|------------------------------------|---------------------------|-----------------------------
+> `badge-todo`               | [](class:badge-todo)               |`badge-user`               | [](class:badge-user)
+> `badge-fixme`              | [](class:badge-fixme)              |`badge-tag`                | [](class:badge-tag) 
+> `badge-deadline`           | [](class:badge-deadline)           |`badge-tags`               | [](class:badge-tags) 
+> `badge-comment`            | [](class:badge-comment)            |`badge-attachment`         | [](class:badge-attachment)
+> `badge-urgent`             | [](class:badge-urgent)             |`badge-bug`                | [](class:badge-bug)
+> `badge-verify`             | [](class:badge-verify)             |`badge-geo`                | [](class:badge-geo)
+> `badge-project`            | [](class:badge-project)            |`badge-square`             | [](class:badge-square) 
+> `badge-star`               | [](class:badge-star)               |`badge-check`              | [](class:badge-check) 
+> `badge-heart`              | [](class:badge-heart)              |`badge-rss`                | [](class:badge-rss)               
+> `badge-lock`               | [](class:badge-lock)               |`badge-danger`             | [](class:badge-danger)
+> `badge-unlock`             | [](class:badge-unlock)             |`badge-question`           | [](class:badge-question)
+> `badge-folder`             | [](class:badge-folder)             |`badge-flag`               | [](class:badge-flag)
+> `badge-story`              | [](class:badge-story)              |`badge-feature`            | [](class:badge-feature)
+> `badge-add`                | [](class:badge-add)                |`badge-remove`             | [](class:badge-remove)
+> `badge-time`               | [](class:badge-time)               |`badge-date`               | [](class:badge-date)
+> `badge-html5`              | [](class:badge-html5)              |`badge-css3`               | [](class:badge-css3)
+> `badge-apple`              | [](class:badge-apple)              |`badge-windows`            | [](class:badge-windows)
+> `badge-linux`              | [](class:badge-linux)              |`badge-android`            | [](class:badge-android)
+> `badge-freebsd`            | [](class:badge-freebsd)            |`badge-aws`                | [](class:badge-aws)
+> `badge-idea`               | [](class:badge-idea)               |`badge-link`               | [](class:badge-link)
+> `badge-chrome`             | [](class:badge-chrome)             |`badge-firefox`            | [](class:badge-firefox)
+> `badge-ie`                 | [](class:badge-ie)                 |`badge-edge`               | [](class:badge-edge)
+> `badge-safari`             | [](class:badge-safari)             |`badge-opera`              | [](class:badge-opera)
+> `badge-php`                | [](class:badge-php)                |`badge-erlang`             | [](class:badge-erlang)
+> `badge-python`             | [](class:badge-python)             |`badge-java`               | [](class:badge-java)
+> `badge-nodejs`             | [](class:badge-nodejs)             |`badge-js`                 | [](class:badge-js)
+> `badge-toggle-on`          | [](class:badge-toggle-on)          |`badge-toggle-off`         | [](class:badge-toggle-off)
+> `badge-debian`             | [](class:badge-debian)             |`badge-fedora`             | [](class:badge-fedora)
+> `badge-centos`             | [](class:badge-centos)             |`badge-suse`               | [](class:badge-suse)
+> `badge-redhat`             | [](class:badge-redhat)             |`badge-ubuntu`             | [](class:badge-ubuntu)
+> `badge-rust`               | [](class:badge-rust)               |`badge-go`                 | [](class:badge-go)
+> `badge-rpi`                | [](class:badge-rpi)                |`badge-markdown`           | [](class:badge-markdown)
+> `badge-react`              | [](class:badge-react)              |`badge-angular`            | [](class:badge-angular)
+> `badge-vue`                | [](class:badge-vue)                |`badge-code`               | [](class:badge-code)
+> `badge-address`            | [](class:badge-address)            |`badge-org`                | [](class:badge-org)
+> `badge-toxic`              | [](class:badge-toxic)              |`badge-network`            | [](class:badge-network)
+> `badge-upload`             | [](class:badge-upload)             |`badge-download`           | [](class:badge-download)
 
-## HastyScribe Logo
-
-To display the {{hs}} logo, use the [hastyscribe](class:kwd) class, like this:
-
-`[](class:hastyscribe)` &rarr; [](class:hastyscribe)
 
 ## Anchors
 
@@ -175,5 +159,5 @@ And use them in hyperlinks (note the usage of square brackets instead of round b
 > 
 > * [h3rald@h3rad.com](mailto:h3rald@h3rald.com)
 > * [@h3rald](https://twitter.com/h3rald)
-> * [fabiocevasco](http://it.linkedin.com/in/fabiocevasco)
+> * [fabiocevasco](https://it.linkedin.com/in/fabiocevasco)
 
