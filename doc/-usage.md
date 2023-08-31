@@ -4,7 +4,7 @@
 
 ## Command Line Syntax
 
-[hastyscribe](class:cmd) _filename-or-glob-expression_ **[** [_<options\>_](class:opt) **]**
+[hastyscribe](class:cmd) _filename-or-glob-expression_ **[** [_&lt;options&gt;_](class:opt) **]**
 
 Where:
 
@@ -17,10 +17,10 @@ Where:
     * [\-\-output-file=&lt;file&gt;](class:opt) causes {{hs}} to write output to a local file (Use [\-\-output-file=-](class:opt) to output to standard output).
     * [\-\-watermark=&lt;file&gt;](class:opt) causes {{hs}} to embed and display an image as a watermark throughout the document. 
     * [\-\-fragment](class:opt) causes {{hs}} to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
-    * [\-\-dump=all|styles|fonts](class:opt) causes {{hs}} to dump all resources/stylesheets/fonts to the current directory.
+    * [\-\-noembed](class:opt) causes styles and images not to be embedded.
     * [\-\-help](class:opt) causes {{hs}} to display the usage information and quit.
 
-## Linux/OSX Examples 
+## Linux and macOS Examples 
 
 Executing {{hs}} to compile [my_markdown_file.md](class:file) within the current directory:
 

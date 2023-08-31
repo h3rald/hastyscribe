@@ -113,6 +113,41 @@ Alternatively, you can also use Github-style fenced blocks, by adding three tild
 > 
 > If {{hs}} is unable to download an image, it will leave it linked.
 
+## Details
+
+{{input-text}}
+
+~~~
+<details>
+<summary>Details</summary>
+The `details` element can be used to create a disclosure element whose contents are only visible when the element is toggled open.
+</details>
+~~~
+
+{{output-text}}
+
+<details>
+<summary>Details</summary>
+The `details` element can be used to create a disclosure element whose contents are only visible when the element is toggled open.
+</details>
+
+## Footnotes
+
+{{input-text}}
+
+~~~
+This is some text[^1]
+
+[^1]: This is a footnote!
+~~~
+
+{{output-text}}
+
+This is some text[^1]
+
+[^1]: This is a footnote!
+
+
 {@ -syntax-block-lists.md || 1 @}
 
 {@ -syntax-block-classes.md || 1 @}

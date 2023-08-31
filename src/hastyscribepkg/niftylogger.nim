@@ -1,7 +1,7 @@
 import 
-  logging,
-  strutils,
-  terminal,
+  std/logging,
+  std/strutils,
+  std/terminal,
   std/exitprocs
 
 if isatty(stdin):

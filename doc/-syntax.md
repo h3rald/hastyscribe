@@ -78,10 +78,10 @@ Besides user-defined snippets, {{hs}} also support fields, which can be used to 
 > <code>\{\{$month-name-abbr\}\}</code>       | {{$month-name-abbr}}
 > <code>\{\{$timezone-offset\}\}</code>       | {{$timezone-offset}}
 
-Additionally, you can define your own custom fields via command-line parameters, using the [--field/](class:arg) dynamic parameter, like this:
+Additionally, you can define your own custom fields via command-line parameters, using the [\-\-field/](class:arg) dynamic parameter, like this:
 
 > %terminal%
-> hastyscribe my-document.md --field/product:HastyScribe --field/version:1.2.0
+> hastyscribe my-document.md \-\-field/product:HastyScribe \-\-field/version:1.2.0
 
 In this case it will be possible to access the [product](class:kwd) and [product](class:kwd) fields within [my-document.md](class:file) using <code>\{\{$product\}\}</code> and <code>\{\{$version\}\}</code>.
 

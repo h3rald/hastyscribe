@@ -1,6 +1,6 @@
 # Overview
 
-[](class:hastyscribe) is a self-contained {{mdlink -> [Markdown][df]}} compiler that can create single-file HTML documents. All documents created by {{hs -> HastyScribe}} use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser (don't even try to display them in IE8 or lower).
+{{hs -> HastyScribe}} is a self-contained {{mdlink -> [Markdown][df]}} compiler that can create single-file HTML documents. All documents created by {{hs}} use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser (don't even try to display them in IE8 or lower).
 
 In other words, all documents created by HastyScribe are constituted by only one [.HTML](class:ext) file, for easy distribution.
 

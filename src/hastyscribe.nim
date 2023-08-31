@@ -278,7 +278,7 @@ proc load_styles(hs: var HastyScribe) =
     hs.noteStyles[matches[1].strip] = matches[0].strip
   # Links
   let peg_linkstyle_def = peg"""
-    definition <- { 'a[href' ('^=' / '*=' / '$=') '\'' {link} '\']:before' \s* @ (\n / $) }
+    definition <- { 'a[href' { ('^=' / '*=' / '$=') '\'' link } '\']:before' \s* @ (\n / $) }
     link <- [a-z0-9-.#]+
   """
   for def in stylesheet_links.findAll(peg_linkstyle_def):
@@ -382,19 +382,28 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
   let linkHrefs = html.querySelectorAll("a[href]")
     .mapIt(it.attr("href"))
   var linkRules = newSeq[string]()
+  # Add #document-top rule because it is always needed and added at the end.
+  linkRules.add hs.linkStyles["^='#document-top"]
   for href in linkHrefs:
     for key in hs.linkStyles.keys.toSeq:
-      if href.contains(key) and not linkRules.contains(key):
-        linkRules.add hs.linkStyles[key]
-        break
+      if not linkRules.contains(hs.linkStyles[key]):
+        let op = key[0..1]
+        let value = key[3..^1] # Skip first '
+        var matches = newSeq[string]() # Save matches in order of priority
+        if op == "$=" and href.endsWith(value):
+          matches.add key
+        if op == "*=" and href.contains(value):
+          matches.add key
+        if op == "^=" and href.startsWith(value):
+          matches.add key
+        # Add last match
+        if matches.len > 0:
+          linkRules.add hs.linkStyles[matches[^1]]
+          break
   result &= linkRules.join("\n")
   result = result.style_tag
 
 # Public API
-
-proc dump*(hs: var HastyScribe, data="all", dest=".") =
-  if data == "all" or data == "styles":
-      (dest/"hastyscribe.css").writeFile(stylesheet)
 
 proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
   hs.options.input = input
@@ -402,7 +411,7 @@ proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): str
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
   # Process markdown
-  var flags = MKD_EXTRA_FOOTNOTE or MKD_NOHEADER or MKD_DLEXTRA or MKD_FENCEDCODE or MKD_GITHUBTAGS or MKD_HTML5ANCHOR
+  var flags = MKD_EXTRA_FOOTNOTE or MKD_NOHEADER or MKD_DLEXTRA or MKD_FENCEDCODE or MKD_GITHUBTAGS or MKD_URLENCODEDANCHOR
   if toc:
     flags = flags or MKD_TOC
   hs.document = hs.document.md(flags)
@@ -428,6 +437,10 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
     header_tag = ""
     toc = ""
     metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
+  let logo_datauri = encode_image(hastyscribe_logo, "svg")
+  let hastyscribe_svg = """
+  <img src="$#" width="80" height="23" alt="HastyScribe">
+  """ % [logo_datauri]
   # Process markdown
   hs.document = hs.document.md(0, metadata)
   # Manage metadata
@@ -492,7 +505,7 @@ $body
     </div>
     <div id="footer">
       <p>$author_footer $date</p>
-      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
+      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe" class="hastyscribe-logo">$hastyscribe_svg</a></p>
     </div>
   </div>
   $js
@@ -504,6 +517,7 @@ $body
   "date", timeinfo.format("MMMM d, yyyy"), 
   "toc", toc, 
   "main_css_tag", main_css_tag, 
+  "hastyscribe_svg", hastyscribe_svg,
   "optional_css_tag", optional_css_tag, 
   "user_css_tag", user_css_tag, 
   "headings", headings, 
@@ -514,6 +528,8 @@ $body
   if hs.options.embed:
     hs.embed_images(dir)
   hs.document = add_jump_to_top_links(hs.document)
+  # Use IDs instead of names for anchors
+  hs.document = hs.document.replace("<a name=", "<a id=")
   return hs.document
 
 proc compile*(hs: var HastyScribe, input_file: string) =
@@ -558,7 +574,6 @@ when isMainModule:
     --noembed               If specified, styles and images will not be embedded.
     --fragment              If specified, an HTML fragment will be generated, without 
                             embedding images ir stylesheets. 
-    --dump=all|styles       Dumps all resources to the current directory.
     --help                  Display the usage information."""
     
 
@@ -566,7 +581,6 @@ when isMainModule:
   var files = newSeq[string](0)
   var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false, embed: true)
   var fields = initTable[string, string]()
-  var dumpdata = ""
 
   # Parse Parameters
 
@@ -576,11 +590,6 @@ when isMainModule:
       input = key
     of cmdShortOption, cmdLongOption:
       case key
-      of "dump":
-        if not ["all", "styles"].contains(val):
-          fatal "[dump] Invalid value: " & val
-          quit(7)
-        dumpdata = val
       of "notoc":
         options.toc = false
       of "noembed":
@@ -611,7 +620,7 @@ when isMainModule:
   for file in walkFiles(input):
     files.add(file)
 
-  if files.len == 0 and dumpdata == "":
+  if files.len == 0:
     if input == "":
       echo usage
       quit(0)
@@ -619,9 +628,6 @@ when isMainModule:
     quit(2)
   else:
     var hs = newHastyScribe(options, fields)
-    if dumpdata != "":
-      hs.dump(dumpdata)
-      quit(0)
     try:
       for file in files:
         hs.compile(file)

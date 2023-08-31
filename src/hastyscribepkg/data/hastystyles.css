@@ -7,7 +7,6 @@
  */
 article,
 aside,
-details,
 figcaption,
 figure,
 footer,
@@ -54,9 +53,7 @@ template {
 html {
   font-family: sans-serif;
   /* 1 */
-  -ms-text-size-adjust: 100%;
-  /* 2 */
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   /* 2 */
 }
 /**
@@ -258,7 +255,6 @@ select {
 /**
  * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
  *    and `video` controls.
- * 2. Correct inability to style clickable `input` types in iOS.
  * 3. Improve usability and consistency of cursor style between image-type
  *    `input` and others.
  */
@@ -266,8 +262,6 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */
   cursor: pointer;
   /* 3 */
 }
@@ -290,25 +284,11 @@ input[type="radio"] {
   /* 2 */
 }
 /**
- * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
  * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
  *    (include `-moz` to future-proof).
  */
 input[type="search"] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
-  /* 2 */
   box-sizing: content-box;
-}
-/**
- * Remove inner padding and search cancel button in Safari 5 and Chrome
- * on OS X.
- */
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
 }
 /**
  * Remove inner padding and border in Firefox 4+.
@@ -345,15 +325,12 @@ table {
   font-weight: 400;
 }
 .mix-no-border-radius {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
   border-radius: 0px;
 }
 @media screen and (max-width: 639px) {
   .mix-responsive {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .mix-responsive td {
     white-space: nowrap;
@@ -464,7 +441,6 @@ pre {
   pre {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   pre td {
     white-space: nowrap;
@@ -475,9 +451,6 @@ pre code {
   border: none;
   line-height: 1.2em;
 }
-pre .hljs {
-  padding: 0 3px;
-}
 .responsive {
   width: 100%;
 }
@@ -485,7 +458,6 @@ pre .hljs {
   .responsive {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .responsive td {
     white-space: nowrap;
@@ -520,10 +492,8 @@ address {
 hr {
   border: 0;
   height: 1px;
-  background-image: -webkit-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
-  background-image: -moz-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
-  background-image: -ms-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
-  background-image: -o-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }
 .center {
   margin: auto;
@@ -602,11 +572,7 @@ span.kbd {
   display: inline-block;
   width: auto;
   margin: 1px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -642,11 +608,7 @@ span.samp {
   display: inline-block;
   width: auto;
   margin: 1px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -702,16 +664,18 @@ a:hover,
 a:visited:hover {
   text-decoration: underline;
 }
+a.hastyscribe-logo:before {
+  display: inline;
+}
+a.hastyscribe-logo img {
+  vertical-align: middle;
+}
 /* Checkboxes */
 li.github_checkbox {
   list-style-type: none;
 }
 .note {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -748,18 +712,13 @@ li.github_checkbox {
 }
 .note pre,
 .note code {
-  font-size: 400;
   color: #19324c;
 }
 .note a {
   color: #132639;
 }
 .tip {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -796,18 +755,13 @@ li.github_checkbox {
 }
 .tip pre,
 .tip code {
-  font-size: 400;
   color: #006619;
 }
 .tip a {
   color: #004d13;
 }
 .warning {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -844,18 +798,13 @@ li.github_checkbox {
 }
 .warning pre,
 .warning code {
-  font-size: 400;
   color: #3d2e00;
 }
 .warning a {
   color: #241b00;
 }
 .blank-sidebar {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -892,18 +841,13 @@ li.github_checkbox {
 }
 .blank-sidebar pre,
 .blank-sidebar code {
-  font-size: 400;
   color: #3b3b3b;
 }
 .blank-sidebar a {
   color: #2f2f2f;
 }
 .sidebar {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -940,18 +884,13 @@ li.github_checkbox {
 }
 .sidebar pre,
 .sidebar code {
-  font-size: 400;
   color: #3b3b3b;
 }
 .sidebar a {
   color: #2f2f2f;
 }
 .output {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -979,11 +918,7 @@ li.github_checkbox {
   }
 }
 .terminal {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -1019,7 +954,6 @@ li.github_checkbox {
   .terminal {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .terminal td {
     white-space: nowrap;
@@ -1056,11 +990,7 @@ li.github_checkbox {
   content: "$ ";
 }
 .terminal-su {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -1096,7 +1026,6 @@ li.github_checkbox {
   .terminal-su {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .terminal-su td {
     white-space: nowrap;
@@ -1145,6 +1074,54 @@ div .terminal {
     margin-left: 80px;
     margin-right: 80px;
   }
+}
+details {
+  font-size: 95%;
+  background-clip: padding-box;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 4px 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555;
+  background-color: #f8f8f8;
+  border: 1px solid #fefefe;
+  display: block;
+}
+details code,
+details samp,
+details pre {
+  color: #555;
+}
+details a {
+  color: #264c72;
+}
+details p {
+  margin: 0 auto;
+}
+@media screen and (min-width: 880px) {
+  details {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+}
+details > summary::before {
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 448 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23555555' d='M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z' /%3E %3C/svg%3E");
+  display: inline-block;
+  margin-right: 2px;
+  vertical-align: text-top;
+  height: 11px;
+  width: 11px;
+}
+details[open] > summary::before {
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23555555' d='M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z' /%3E %3C/svg%3E");
+}
+summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+summary > * {
+  display: inline;
 }
 .headings h1 {
   font-size: 2em;
@@ -1233,9 +1210,6 @@ div .terminal {
   body {
     width: 700px;
   }
-  @prince-pdf {
-    prince-pdf-page-mode: show-bookmarks;
-  }
   /* Table of Contents */
   #toc {
     width: 650px;
@@ -1322,7 +1296,6 @@ div .terminal {
   }
   h1 {
     margin-bottom: 50px;
-    string-set: title content();
     border-bottom: 0;
   }
   h2 {
@@ -1336,37 +1309,14 @@ div .terminal {
   h5,
   h6 {
     page-break-after: avoid;
-    prince-bookmark-state: closed;
-  }
-  #footer {
-    display: none;
-  }
-  @page :first {
-    @top-center {
-      content: "";
-    }
   }
   @page {
     size: A4;
     margin: 50pt 30pt 50pt 30pt;
     padding-top: 20pt;
-    @top-center {
-      font-family: 'Arial';
-      font-size: 0.8em;
-      content: string(title);
-    }
-  }
-  @page :left {
-    @bottom-left {
-      content: counter(page);
-      font-family: "Arial", "Sans Serif";
-      font-size: 0.8em;
-    }
-  }
-  @page :right {
     @bottom-right {
       content: counter(page);
-      font-family: "Arial", "Sans Serif";
+      font-family: 'sans-serif';
       font-size: 0.8em;
     }
   }

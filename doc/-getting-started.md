@@ -18,14 +18,14 @@ If you already have [Nim][nim] installed on your computer, you can simply run
 
 ## Building from Source
 
-You can also build HastyScribe from source, if there is no pre-built binary for your platform.
+To build on a different operating system and architecture from the ones for which a pre-built binary is provided, you also need to get or build the `markdown` static library (see [Orc/discount](https://github.com/Orc/discount) for more information and sources).
 
-To do so, you can:
+Then:
 
 1. Download and install [Nim][nim].
-2. Download and build [Nifty][nifty], and put the nifty executable somewhere in your $PATH.
 3. Clone the HastyScribe [repository]({{repo -> https://github.com/h3rald/hastyscribe}}).
-4. Navigate to the HastyScribe repository local folder.
-5. Run **nifty install** to download HastyScribe's dependencies.
-6. Run **nifty build discount** to build the Discount markdown library.
-7. Run **nim c -d:release -d:discount hastyscribe.nim**
+4. Run the following command:
+
+   `nimble build -d:release --passL:"-static -L<dir> -lmarkdown"`
+
+Where `<dir>` is a directory containing the `libmarkdown.a` static library.

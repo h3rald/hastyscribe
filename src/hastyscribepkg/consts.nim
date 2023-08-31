@@ -5,6 +5,7 @@ const
   stylesheet_icons* = "./data/hastystyles.icons.css".slurp
   stylesheet_links* = "./data/hastystyles.links.css".slurp
   stylesheet_notes* = "./data/hastystyles.notes.css".slurp
+  hastyscribe_logo* = "./data/hastyscribe.svg".slurp
   watermark_style* = """
 #container {
   position: relative;

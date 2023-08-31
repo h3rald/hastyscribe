@@ -8,26 +8,33 @@ Besides its command libe, you can also import {{hs}} as a library within your [N
 
 ```
 HastyOptions* = object
-  toc*: bool
-  input*: string
-  output*: string
-  css*: string
-  js*: string
-  watermark*: string
-  fragment*: bool
+     toc*: bool
+     input*: string
+     output*: string
+     css*: string
+     js*: string
+     watermark*: string
+     fragment*: bool
+     embed*: bool
 
-HastyFields* = Table[string, proc():string]
-
+HastyFields* = Table[string, string]
 HastySnippets* = Table[string, string]
-
 HastyMacros* = Table[string, string]
+HastyLinkStyles* = Table[string, string]
+HastyIconStyles* = Table[string, string]
+HastyNoteStyles* = Table[string, string]
+HastyBadgeStyles* = Table[string, string]
 
 HastyScribe* = object
-  options: HastyOptions
-  fields: HastyFields
-  snippets: HastySnippets
-  macros: HastyMacros
-  document: string
+     options: HastyOptions
+     fields: HastyFields
+     snippets: HastySnippets
+     macros: HastyMacros
+     document: string
+     linkStyles: HastyLinkStyles
+     iconStyles: HastyIconStyles
+     noteStyles: HastyNoteStyles
+     badgeStyles: HastyBadgeStyles
 ```
 
 ## Procs
@@ -39,21 +46,6 @@ HastyScribe* = object
      proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe
 
 Instantiates a new {{hs}} object.
-
-### dump
-
-     proc dump*(hs: var HastyScribe, data="all", dest=".")
-
-Saves linked resources to the [dest](class:dir) directory.
-
-[data](class:kwd) can be set to one of the following values:
-
-all
-: Dumps all resource files.
-styles
-: Dumps all stylesheet files.
-fonts
-: Dumps all font files.
 
 ### compileFragment
 

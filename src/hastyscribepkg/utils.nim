@@ -1,8 +1,8 @@
 import
-  base64,
-  os,
-  strutils,
-  pegs
+  std/base64,
+  std/os,
+  std/strutils,
+  std/pegs
 
 import
   consts
@@ -14,8 +14,19 @@ proc style_link_tag*(css: string): string =
   result = "<link rel=\"stylesheet\" href=\"$1\"/>" % [css]
 
 proc encode_image*(contents, format: string): string =
-    let enc_contents = contents.encode
-    return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
+    if format == "svg":
+      let encoded_svg = contents
+        .replace("\"", "'")
+        .replace("%", "%25")
+        .replace("#", "%23")
+        .replace("{", "%7B")
+        .replace("}", "%7D")
+        .replace("<", "%3C")
+        .replace(">", "%3E")
+        .replace(" ", "%20")
+      return "data:image/svg+xml,$#" % [encoded_svg]
+    else:
+      return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", contents.encode]
 
 proc encode_image_file*(file, format: string): string =
   if (file.fileExists):
@@ -38,26 +49,3 @@ proc watermark_css*(imgfile: string): string =
 
 proc add_jump_to_top_links*(document: string): string =
   result = document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
-
-proc encode_font*(font, format: string): string =
-    let enc_contents = font.encode
-    return "data:application/$format;charset=utf-8;base64,$enc_contents" % ["format", format, "enc_contents", enc_contents]
-
-proc create_font_face*(font, family, style: string, weight: int, embed=true): string=
-  var font_src = ""
-  if embed:
-    font_src = encode_font(font, "x-font-woff")
-  else:
-    font_src = font  
-  return """
-    @font-face {
-      font-family:"$family";
-      src:url($font) format('woff');
-      font-style:$style;
-      font-weight:$weight;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  """ % ["family", family, "font", font_src, "style", style, "weight", $weight]
-
-

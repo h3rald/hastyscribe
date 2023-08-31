@@ -15,7 +15,6 @@
  */
 article,
 aside,
-details,
 figcaption,
 figure,
 footer,
@@ -62,9 +61,7 @@ template {
 html {
   font-family: sans-serif;
   /* 1 */
-  -ms-text-size-adjust: 100%;
-  /* 2 */
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   /* 2 */
 }
 /**
@@ -266,7 +263,6 @@ select {
 /**
  * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
  *    and `video` controls.
- * 2. Correct inability to style clickable `input` types in iOS.
  * 3. Improve usability and consistency of cursor style between image-type
  *    `input` and others.
  */
@@ -274,8 +270,6 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */
   cursor: pointer;
   /* 3 */
 }
@@ -298,25 +292,11 @@ input[type="radio"] {
   /* 2 */
 }
 /**
- * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
  * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
  *    (include `-moz` to future-proof).
  */
 input[type="search"] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
-  /* 2 */
   box-sizing: content-box;
-}
-/**
- * Remove inner padding and search cancel button in Safari 5 and Chrome
- * on OS X.
- */
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
 }
 /**
  * Remove inner padding and border in Firefox 4+.
@@ -353,15 +333,12 @@ table {
   font-weight: 400;
 }
 .mix-no-border-radius {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
   border-radius: 0px;
 }
 @media screen and (max-width: 639px) {
   .mix-responsive {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .mix-responsive td {
     white-space: nowrap;
@@ -472,7 +449,6 @@ pre {
   pre {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   pre td {
     white-space: nowrap;
@@ -483,9 +459,6 @@ pre code {
   border: none;
   line-height: 1.2em;
 }
-pre .hljs {
-  padding: 0 3px;
-}
 .responsive {
   width: 100%;
 }
@@ -493,7 +466,6 @@ pre .hljs {
   .responsive {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .responsive td {
     white-space: nowrap;
@@ -528,10 +500,8 @@ address {
 hr {
   border: 0;
   height: 1px;
-  background-image: -webkit-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
-  background-image: -moz-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
-  background-image: -ms-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
-  background-image: -o-linear-gradient(left, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.75), rgba(99, 99, 99, 0));
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }
 .center {
   margin: auto;
@@ -610,11 +580,7 @@ span.kbd {
   display: inline-block;
   width: auto;
   margin: 1px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -650,11 +616,7 @@ span.samp {
   display: inline-block;
   width: auto;
   margin: 1px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -710,16 +672,18 @@ a:hover,
 a:visited:hover {
   text-decoration: underline;
 }
+a.hastyscribe-logo:before {
+  display: inline;
+}
+a.hastyscribe-logo img {
+  vertical-align: middle;
+}
 /* Checkboxes */
 li.github_checkbox {
   list-style-type: none;
 }
 .note {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -756,18 +720,13 @@ li.github_checkbox {
 }
 .note pre,
 .note code {
-  font-size: 400;
   color: #19324c;
 }
 .note a {
   color: #132639;
 }
 .tip {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -804,18 +763,13 @@ li.github_checkbox {
 }
 .tip pre,
 .tip code {
-  font-size: 400;
   color: #006619;
 }
 .tip a {
   color: #004d13;
 }
 .warning {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -852,18 +806,13 @@ li.github_checkbox {
 }
 .warning pre,
 .warning code {
-  font-size: 400;
   color: #3d2e00;
 }
 .warning a {
   color: #241b00;
 }
 .blank-sidebar {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -900,18 +849,13 @@ li.github_checkbox {
 }
 .blank-sidebar pre,
 .blank-sidebar code {
-  font-size: 400;
   color: #3b3b3b;
 }
 .blank-sidebar a {
   color: #2f2f2f;
 }
 .sidebar {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -948,18 +892,13 @@ li.github_checkbox {
 }
 .sidebar pre,
 .sidebar code {
-  font-size: 400;
   color: #3b3b3b;
 }
 .sidebar a {
   color: #2f2f2f;
 }
 .output {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -987,11 +926,7 @@ li.github_checkbox {
   }
 }
 .terminal {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -1027,7 +962,6 @@ li.github_checkbox {
   .terminal {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .terminal td {
     white-space: nowrap;
@@ -1064,11 +998,7 @@ li.github_checkbox {
   content: "$ ";
 }
 .terminal-su {
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 10px auto;
   padding: 2px 4px 0 4px;
@@ -1104,7 +1034,6 @@ li.github_checkbox {
   .terminal-su {
     overflow-y: hidden;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
   .terminal-su td {
     white-space: nowrap;
@@ -1153,6 +1082,54 @@ div .terminal {
     margin-left: 80px;
     margin-right: 80px;
   }
+}
+details {
+  font-size: 95%;
+  background-clip: padding-box;
+  border-radius: 3px;
+  margin: 10px auto;
+  padding: 2px 4px 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #555;
+  background-color: #f8f8f8;
+  border: 1px solid #fefefe;
+  display: block;
+}
+details code,
+details samp,
+details pre {
+  color: #555;
+}
+details a {
+  color: #264c72;
+}
+details p {
+  margin: 0 auto;
+}
+@media screen and (min-width: 880px) {
+  details {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+}
+details > summary::before {
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 448 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23555555' d='M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z' /%3E %3C/svg%3E");
+  display: inline-block;
+  margin-right: 2px;
+  vertical-align: text-top;
+  height: 11px;
+  width: 11px;
+}
+details[open] > summary::before {
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23555555' d='M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z' /%3E %3C/svg%3E");
+}
+summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+summary > * {
+  display: inline;
 }
 .headings h1 {
   font-size: 2em;
@@ -1241,9 +1218,6 @@ div .terminal {
   body {
     width: 700px;
   }
-  @prince-pdf {
-    prince-pdf-page-mode: show-bookmarks;
-  }
   /* Table of Contents */
   #toc {
     width: 650px;
@@ -1330,7 +1304,6 @@ div .terminal {
   }
   h1 {
     margin-bottom: 50px;
-    string-set: title content();
     border-bottom: 0;
   }
   h2 {
@@ -1344,37 +1317,14 @@ div .terminal {
   h5,
   h6 {
     page-break-after: avoid;
-    prince-bookmark-state: closed;
-  }
-  #footer {
-    display: none;
-  }
-  @page :first {
-    @top-center {
-      content: "";
-    }
   }
   @page {
     size: A4;
     margin: 50pt 30pt 50pt 30pt;
     padding-top: 20pt;
-    @top-center {
-      font-family: 'Arial';
-      font-size: 0.8em;
-      content: string(title);
-    }
-  }
-  @page :left {
-    @bottom-left {
-      content: counter(page);
-      font-family: "Arial", "Sans Serif";
-      font-size: 0.8em;
-    }
-  }
-  @page :right {
     @bottom-right {
       content: counter(page);
-      font-family: "Arial", "Sans Serif";
+      font-family: 'sans-serif';
       font-size: 0.8em;
     }
   }
@@ -1484,15 +1434,13 @@ div .terminal {
 .note > p:first-child:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23264c72' d='M32 32C32 14.3 46.3 0 64 0H320c17.7 0 32 14.3 32 32s-14.3 32-32 32H290.5l11.4 148.2c36.7 19.9 65.7 53.2 79.5 94.7l1 3c3.3 9.8 1.6 20.5-4.4 28.8s-15.7 13.3-26 13.3H32c-10.3 0-19.9-4.9-26-13.3s-7.7-19.1-4.4-28.8l1-3c13.8-41.5 42.8-74.8 79.5-94.7L93.5 64H64C46.3 64 32 49.7 32 32zM160 384h64v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V384z' /%3E %3C/svg%3E") }
 .tip > p:first-child:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23009926' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z' /%3E %3C/svg%3E") }
 .warning > p:first-child:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23705400' d='M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z' /%3E %3C/svg%3E") }
-.sidebar > p:first-child:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23555555' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' /%3E %3C/svg%3E") }a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 496 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z' /%3E %3C/svg%3E") }
-a[href$='.zip']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM96 48c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm-6.3 71.8c3.7-14 16.4-23.8 30.9-23.8h14.8c14.5 0 27.2 9.7 30.9 23.8l23.5 88.2c1.4 5.4 2.1 10.9 2.1 16.4c0 35.2-28.8 63.7-64 63.7s-64-28.5-64-63.7c0-5.5 .7-11.1 2.1-16.4l23.5-88.2zM112 336c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H112z' /%3E %3C/svg%3E") }
-a[href$='.zip']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM96 48c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm-6.3 71.8c3.7-14 16.4-23.8 30.9-23.8h14.8c14.5 0 27.2 9.7 30.9 23.8l23.5 88.2c1.4 5.4 2.1 10.9 2.1 16.4c0 35.2-28.8 63.7-64 63.7s-64-28.5-64-63.7c0-5.5 .7-11.1 2.1-16.4l23.5-88.2zM112 336c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H112z' /%3E %3C/svg%3E") }
-a[href$='.zip']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM96 48c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm-6.3 71.8c3.7-14 16.4-23.8 30.9-23.8h14.8c14.5 0 27.2 9.7 30.9 23.8l23.5 88.2c1.4 5.4 2.1 10.9 2.1 16.4c0 35.2-28.8 63.7-64 63.7s-64-28.5-64-63.7c0-5.5 .7-11.1 2.1-16.4l23.5-88.2zM112 336c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H112z' /%3E %3C/svg%3E") }
+.sidebar > p:first-child:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23555555' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' /%3E %3C/svg%3E") }a[href^='#document-top']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 448 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M246.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 109.3 361.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160zm160 352l-160-160c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 301.3 361.4 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3z' /%3E %3C/svg%3E") }
+a[href^='http']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z' /%3E %3C/svg%3E") }
 a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 496 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z' /%3E %3C/svg%3E") }
-a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 496 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z' /%3E %3C/svg%3E") }
+a[href$='.zip']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 384 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM96 48c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm-6.3 71.8c3.7-14 16.4-23.8 30.9-23.8h14.8c14.5 0 27.2 9.7 30.9 23.8l23.5 88.2c1.4 5.4 2.1 10.9 2.1 16.4c0 35.2-28.8 63.7-64 63.7s-64-28.5-64-63.7c0-5.5 .7-11.1 2.1-16.4l23.5-88.2zM112 336c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H112z' /%3E %3C/svg%3E") }
+a[href^='mailto']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z' /%3E %3C/svg%3E") }
 a[href*='twitter.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z' /%3E %3C/svg%3E") }
-a[href*='linkedin.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 448 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z' /%3E %3C/svg%3E") }
-a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 496 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z' /%3E %3C/svg%3E") }</style>
+a[href*='linkedin.com']:before { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 448 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%234183c4' d='M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z' /%3E %3C/svg%3E") }</style>
   
   
   
@@ -1535,7 +1483,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
   <li><a href="#Usage">Usage</a>
   <ul>
    <li><a href="#Command-Line-Syntax">Command Line Syntax</a></li>
-   <li><a href="#Linux/OSX-Examples">Linux/OSX Examples</a></li>
+   <li><a href="#Linux-and-macOS-Examples">Linux and macOS Examples</a></li>
    <li><a href="#Windows-Examples">Windows Examples</a></li>
   </ul>
   </li>
@@ -1562,6 +1510,8 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
     <li><a href="#Block-Quotes">Block Quotes</a></li>
     <li><a href="#Code-Blocks">Code Blocks</a></li>
     <li><a href="#Images">Images</a></li>
+    <li><a href="#Details">Details</a></li>
+    <li><a href="#Footnotes">Footnotes</a></li>
     <li><a href="#Lists">Lists</a>
     <ul>
      <li><a href="#Unordered-Lists">Unordered Lists</a></li>
@@ -1610,14 +1560,14 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 </div>
     <div id="main">
-<a name="Overview"></a>
+<a id="Overview"></a>
 <h2>Overview<a href="#document-top" title="Go to top"></a></h2>
 
-<p><span class="hastyscribe"></span> is a self-contained <a href="https://daringfireball.net/projects/markdown/">Markdown</a> compiler that can create single-file HTML documents. All documents created by HastyScribe use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser (don&rsquo;t even try to display them in IE8 or lower).</p>
+<p>HastyScribe is a self-contained <a href="https://daringfireball.net/projects/markdown/">Markdown</a> compiler that can create single-file HTML documents. All documents created by HastyScribe use well-formed HTML and embed all stylesheets, fonts, and images that are necessary to display them in any (modern) browser (don&rsquo;t even try to display them in IE8 or lower).</p>
 
 <p>In other words, all documents created by HastyScribe are constituted by only one <span class="ext">.HTML</span> file, for easy distribution.</p>
 
-<a name="Rationale"></a>
+<a id="Rationale"></a>
 <h3>Rationale<a href="#document-top" title="Go to top"></a></h3>
 
 <p>There are plenty of programs and services that can convert <a href="https://daringfireball.net/projects/markdown/">Markdown</a> into HTML but they are typically either too simple &ndash;they convert markdown code into an HTML fragment&ndash; or too complex &ndash;they produce a well-formed document, but they require too much configuration, or the installation of additional software dependencies.</p>
@@ -1633,10 +1583,10 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 
 
-<a name="Key-Features"></a>
+<a id="Key-Features"></a>
 <h3>Key Features<a href="#document-top" title="Go to top"></a></h3>
 
-<a name="Standard-Markdown"></a>
+<a id="Standard-Markdown"></a>
 <h4>Standard Markdown<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe supports standard markdown for formatting text. Markdown is a lightweight markup language created by John Gruber, and used on many web sites and programs to enable users to write HTML code <em>without actually writing HTML tags</em>.</p>
@@ -1645,7 +1595,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <p>You can learn about Markdown syntax in the <a href="#Syntax-Reference">Syntax Reference</a> section of this document. Alternatively, you can also read the original <a href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax page</a> on John Gruber&rsquo;s blog, Daring Fireball.</p></div>
 
-<a name="Discount-Extensions"></a>
+<a id="Discount-Extensions"></a>
 <h4>Discount Extensions<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Standard markdown is great, but sometimes you wish it had a few more features, like tables or fenced code blocks perhaps. The good news is that under the hood HastyScribe uses <a href="http://www.pell.portland.or.us/~orc/Code/discount/">Discount</a>, a markdown compiler library written in C that extends markdown with a few useful extensions, which allow you to, for example:</p>
@@ -1657,27 +1607,27 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 
 
-<a name="Text-Snippets"></a>
+<a id="Text-Snippets"></a>
 <h4>Text Snippets<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Although not part of neither markdown nor Discount, HastyScribe allows you to create text <a href="#Snippets">snippets</a> to reuse content. Useful when you have to use a sentence or a formatted block of text over and over in a document, or shorten long words (like the word <em>HastyScribe</em> in this document <span class="fa-face-smile"></span>).</p>
 
-<a name="Custom-Fields"></a>
+<a id="Custom-Fields"></a>
 <h4>Custom Fields<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe also supports <a href="#Fields">fields</a> to easily include things like the current date or time, but also custom values specified as command-line parameters.</p>
 
-<a name="Content-Transclusion"></a>
+<a id="Content-Transclusion"></a>
 <h4>Content Transclusion<a href="#document-top" title="Go to top"></a></h4>
 
 <p>When managing long documents, you can take advantage of HastyScribe&rsquo;s <a href="#Transclusion">transclusion</a> support to split your content into several files, and transclude them as you see fit.</p>
 
-<a name="Substitution-Macros"></a>
+<a id="Substitution-Macros"></a>
 <h4>Substitution Macros<a href="#document-top" title="Go to top"></a></h4>
 
 <p>If you find yourself writing chunks of text that follows the same format except for some content, you can define simple text substitution <a href="#Macros">macros</a> for even higher content reuse.</p>
 
-<a name="Image-(and-font)-Embedding"></a>
+<a id="Image-(and-font)-Embedding"></a>
 <h4>Image (and font) Embedding<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe only produces single HTML files. With <em>no dependencies</em>:</p>
@@ -1688,12 +1638,12 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 
 
-<a name="FontAwesome-Icons"></a>
+<a id="FontAwesome-Icons"></a>
 <h4>FontAwesome Icons<a href="#document-top" title="Go to top"></a></h4>
 
-<p><a href="http://fortawesome.github.io/Font-Awesome/">FontAwesome</a> icons can be used in <a href="#Badges">badges</a> or simply to customize text. <span class="fa-thumbs-up"></span></p>
+<p><a href="https://fontawesome.com">FontAwesome</a> icons can be used in <a href="#Badges">badges</a> or simply to customize text. <span class="fa-thumbs-up"></span></p>
 
-<a name="Notes,-tips,-warnings,-sidebars-and-badges"></a>
+<a id="Notes,-tips,-warnings,-sidebars-and-badges"></a>
 <h4>Notes, tips, warnings, sidebars and badges<a href="#document-top" title="Go to top"></a></h4>
 
 <div class="sidebar"><p>About notes etc.</p>
@@ -1702,65 +1652,65 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <p><span class="draftcomment">&hellip;and this is a comment badge.</span></p>
 
-<a name="Responsive-Design"></a>
+<a id="Responsive-Design"></a>
 <h4>Responsive Design<a href="#document-top" title="Go to top"></a></h4>
 
 <p>All HTML documents created by HastyScribe are responsive and can be viewed perfectly on small devices.</p>
 
-<a name="Printed-Media-Support"></a>
+<a id="Printed-Media-Support"></a>
 <h4>Printed Media Support<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe&rsquo;s stylesheet contains styles that are specific for printed media. This means that if you try to print an HTML file generated by HastyScribe it will paginate properly and it will display headers and footers (with page numbers).</p>
 
-<a name="Getting-Started"></a>
+<a id="Getting-Started"></a>
 <h2>Getting Started<a href="#document-top" title="Go to top"></a></h2>
 
-<a name="Downloading-Pre-built-Binaries"></a>
+<a id="Downloading-Pre-built-Binaries"></a>
 <h3>Downloading Pre-built Binaries<a href="#document-top" title="Go to top"></a></h3>
 
 <p>The easiest way to get HastyScribe is by downloading one of the prebuilt binaries from the <a href="https://github.com/h3rald/hastyscribe/releases/download/v">Github Release Page</a>:</p>
 
 <ul>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a></li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_windows_x64.zip">HastyScribe for Windows (x64)</a></li>
-<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v/hastyscribe_v_linux_x64.zip">HastyScribe for Linux (x64)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v2.0.0/hastyscribe_v2.0.0_macosx_x64.zip">HastyScribe for Mac OS X (x64)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v2.0.0/hastyscribe_v2.0.0_windows_x64.zip">HastyScribe for Windows (x64)</a></li>
+<li><a href="https://github.com/h3rald/hastyscribe/releases/download/v2.0.0/hastyscribe_v2.0.0_linux_x64.zip">HastyScribe for Linux (x64)</a></li>
 </ul>
 
 
-<a name="Installing-using-Nimble"></a>
+<a id="Installing-using-Nimble"></a>
 <h3>Installing using Nimble<a href="#document-top" title="Go to top"></a></h3>
 
 <p>If you already have <a href="http://nim-lang.org/">Nim</a> installed on your computer, you can simply run</p>
 
 <p><span class="cmd">nimble install hastyscribe</span></p>
 
-<a name="Building-from-Source"></a>
+<a id="Building-from-Source"></a>
 <h3>Building from Source<a href="#document-top" title="Go to top"></a></h3>
 
-<p>You can also build HastyScribe from source, if there is no pre-built binary for your platform.</p>
+<p>To build on a different operating system and architecture from the ones for which a pre-built binary is provided, you also need to get or build the <code>markdown</code> static library (see <a href="https://github.com/Orc/discount">Orc/discount</a> for more information and sources).</p>
 
-<p>To do so, you can:</p>
+<p>Then:</p>
 
 <ol>
 <li>Download and install <a href="http://nim-lang.org/">Nim</a>.</li>
-<li>Download and build <a href="https://github.com/h3rald/nifty">Nifty</a>, and put the nifty executable somewhere in your $PATH.</li>
 <li>Clone the HastyScribe <a href="https://github.com/h3rald/hastyscribe">repository</a>.</li>
-<li>Navigate to the HastyScribe repository local folder.</li>
-<li>Run <strong>nifty install</strong> to download HastyScribe&rsquo;s dependencies.</li>
-<li>Run <strong>nifty build discount</strong> to build the Discount markdown library.</li>
-<li>Run <strong>nim c -d:release -d:discount hastyscribe.nim</strong></li>
+<li><p>Run the following command:</p>
+
+<p><code>nimble build -d:release --passL:"-static -L&lt;dir&gt; -lmarkdown"</code></p></li>
 </ol>
 
 
-<a name="Usage"></a>
+<p>Where <code>&lt;dir&gt;</code> is a directory containing the <code>libmarkdown.a</code> static library.</p>
+
+<a id="Usage"></a>
 <h2>Usage<a href="#document-top" title="Go to top"></a></h2>
 
 <p>HastyScribe is a command-line application that can compile one or more Markdown files into one or more HTML files with the same name(s).</p>
 
-<a name="Command-Line-Syntax"></a>
+<a id="Command-Line-Syntax"></a>
 <h3>Command Line Syntax<a href="#document-top" title="Go to top"></a></h3>
 
-<p><span class="cmd">hastyscribe</span> <em>filename-or-glob-expression</em> <strong>[</strong> <span class="opt"><em><options\></em></span> <strong>]</strong></p>
+<p><span class="cmd">hastyscribe</span> <em>filename-or-glob-expression</em> <strong>[</strong> <span class="opt"><em>&lt;options&gt;</em></span> <strong>]</strong></p>
 
 <p>Where:</p>
 
@@ -1776,15 +1726,15 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 <li><span class="opt">--output-file=&lt;file&gt;</span> causes HastyScribe to write output to a local file (Use <span class="opt">--output-file=-</span> to output to standard output).</li>
 <li><span class="opt">--watermark=&lt;file&gt;</span> causes HastyScribe to embed and display an image as a watermark throughout the document.</li>
 <li><span class="opt">--fragment</span> causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.</li>
-<li><span class="opt">--dump=all|styles|fonts</span> causes HastyScribe to dump all resources/stylesheets/fonts to the current directory.</li>
+<li><span class="opt">--noembed</span> causes styles and images not to be embedded.</li>
 <li><span class="opt">--help</span> causes HastyScribe to display the usage information and quit.</li>
 </ul>
 </li>
 </ul>
 
 
-<a name="Linux/OSX-Examples"></a>
-<h3>Linux/OSX Examples<a href="#document-top" title="Go to top"></a></h3>
+<a id="Linux-and-macOS-Examples"></a>
+<h3>Linux and macOS Examples<a href="#document-top" title="Go to top"></a></h3>
 
 <p>Executing HastyScribe to compile <span class="file">my_markdown_file.md</span> within the current directory:</p>
 
@@ -1794,7 +1744,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <div class="terminal"><p>./hastyscribe *.md</p></div>
 
-<a name="Windows-Examples"></a>
+<a id="Windows-Examples"></a>
 <h3>Windows Examples<a href="#document-top" title="Go to top"></a></h3>
 
 <p>Executing HastyScribe to compile <span class="file">my_markdown_file.md</span> within the current directory:</p>
@@ -1809,10 +1759,10 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <p>You can also drag a Markdown file directly on <span class="kwd">hastyscribe.exe</span> to compile it to HTML.</p></div>
 
-<a name="Syntax-Reference"></a>
+<a id="Syntax-Reference"></a>
 <h2>Syntax Reference<a href="#document-top" title="Go to top"></a></h2>
 
-<a name="Document-Headers"></a>
+<a id="Document-Headers"></a>
 <h3>Document Headers<a href="#document-top" title="Go to top"></a></h3>
 
 <p>HastyScribe supports <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a>-style Document Headers, as implemented by the <a href="http://www.pell.portland.or.us/~orc/Code/discount/">Discount</a> library. Basically, you can specify the title of the document, author and date as the first three lines of the document, prepending each with a <span class="kwd">%</span>, like this</p>
@@ -1830,7 +1780,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 </div>
 
-<a name="Transclusion"></a>
+<a id="Transclusion"></a>
 <h3>Transclusion<a href="#document-top" title="Go to top"></a></h3>
 
 <p>When writing a long document, it is often useful to split it into many different files, to manage its contents better. HastyScribe provides basic content transclusion support through the following syntax:</p>
@@ -1847,7 +1797,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 </div>
 
-<a name="Snippets"></a>
+<a id="Snippets"></a>
 <h3>Snippets<a href="#document-top" title="Go to top"></a></h3>
 
 <p>If you want to reuse a few words or even entire blocks of texts, you can use HastyScribe&rsquo;s snippets.</p>
@@ -1866,7 +1816,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <p><code>{{test => This snippet definition will not be evaluated to its body text.}}</code></p></div>
 
-<a name="Fields"></a>
+<a id="Fields"></a>
 <h3>Fields<a href="#document-top" title="Go to top"></a></h3>
 
 <p>Besides user-defined snippets, HastyScribe also support fields, which can be used to insert current time and date information in a variety of formats:</p>
@@ -1881,51 +1831,51 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 <tbody>
 <tr>
 <td><code>{{$timestamp}}</code>             </td>
-<td> 1693412724</td>
+<td> 1693490700</td>
 </tr>
 <tr>
 <td><code>{{$date}}</code>                  </td>
-<td> 2023-08-30</td>
+<td> 2023-08-31</td>
 </tr>
 <tr>
 <td><code>{{$full-date}}</code>             </td>
-<td> Wednesday, August 30, 2023</td>
+<td> Thursday, August 31, 2023</td>
 </tr>
 <tr>
 <td><code>{{$long-date}}</code>             </td>
-<td> August 30, 2023</td>
+<td> August 31, 2023</td>
 </tr>
 <tr>
 <td><code>{{$medium-date}}</code>           </td>
-<td> Aug 30, 2023</td>
+<td> Aug 31, 2023</td>
 </tr>
 <tr>
 <td><code>{{$short-date}}</code>            </td>
-<td> 8/30/23</td>
+<td> 8/31/23</td>
 </tr>
 <tr>
 <td><code>{{$short-time}}</code>            </td>
-<td> 18:25 PM</td>
+<td> 16:05 PM</td>
 </tr>
 <tr>
 <td><code>{{$short-time-24}}</code>         </td>
-<td> 18:25</td>
+<td> 16:05</td>
 </tr>
 <tr>
 <td><code>{{$time}}</code>                  </td>
-<td> 18:25:24 PM</td>
+<td> 16:05:00 PM</td>
 </tr>
 <tr>
 <td><code>{{$time-24}}</code>               </td>
-<td> 18:25:24</td>
+<td> 16:05:00</td>
 </tr>
 <tr>
 <td><code>{{$day}}</code>                   </td>
-<td> 30</td>
+<td> 31</td>
 </tr>
 <tr>
 <td><code>{{$short-day}}</code>             </td>
-<td> 30</td>
+<td> 31</td>
 </tr>
 <tr>
 <td><code>{{$month}}</code>                 </td>
@@ -1945,11 +1895,11 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </tr>
 <tr>
 <td><code>{{$weekday}}</code>               </td>
-<td> Wednesday</td>
+<td> Thursday</td>
 </tr>
 <tr>
 <td><code>{{$weekday-abbr}}</code>          </td>
-<td> 30</td>
+<td> 31</td>
 </tr>
 <tr>
 <td><code>{{$month-name}}</code>            </td>
@@ -1967,13 +1917,13 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </table>
 </div>
 
-<p>Additionally, you can define your own custom fields via command-line parameters, using the <span class="arg">&ndash;field/</span> dynamic parameter, like this:</p>
+<p>Additionally, you can define your own custom fields via command-line parameters, using the <span class="arg">--field/</span> dynamic parameter, like this:</p>
 
-<div class="terminal"><p>hastyscribe my-document.md &ndash;field/product:HastyScribe &ndash;field/version:1.2.0</p></div>
+<div class="terminal"><p>hastyscribe my-document.md --field/product:HastyScribe --field/version:1.2.0</p></div>
 
 <p>In this case it will be possible to access the <span class="kwd">product</span> and <span class="kwd">product</span> fields within <span class="file">my-document.md</span> using <code>{{$product}}</code> and <code>{{$version}}</code>.</p>
 
-<a name="Macros"></a>
+<a id="Macros"></a>
 <h3>Macros<a href="#document-top" title="Go to top"></a></h3>
 
 <p>If snippets are not enough, and you want to reuse chunks of <em>similar</em> content, you can define substitution macros using the following syntax:</p>
@@ -1994,7 +1944,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 </div>
 
-<a name="Inline-Formatting"></a>
+<a id="Inline-Formatting"></a>
 <h3>Inline Formatting<a href="#document-top" title="Go to top"></a></h3>
 
 <p>The following table lists all the most common ways to format inline text:</p>
@@ -2071,7 +2021,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <p>The <span class="kwd">kwd</span>, <span class="kwd">opt</span>, <span class="kwd">file</span>, <span class="kwd">dir</span>, <span class="kwd">arg</span>, <span class="kwd">tt</span> and <span class="kwd">cmd</span> classes are all rendered as inline monospace text. <span class="kwd">kwd</span> and <span class="ext">ext</span> are also rendered in bold.</p></div>
 
-<a name="SmartyPants-Substitutions"></a>
+<a id="SmartyPants-Substitutions"></a>
 <h4>SmartyPants Substitutions<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Special characters can be easily entered using some special character sequences.</p>
@@ -2095,10 +2045,10 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 
 
-<a name="Icons"></a>
+<a id="Icons"></a>
 <h4>Icons<a href="#document-top" title="Go to top"></a></h4>
 
-<p>HastyScribe bundles the <a href="http://fortawesome.github.io/Font-Awesome/">FontAwesome</a> icon font. To prepend an icon to text you can use Discount&rsquo;s <em>class:</em> pseudo-protocol, and specify a valid <span class="kwd">fa-*</span> (non-alias) class.</p>
+<p>HastyScribe bundles the <a href="https://fontawesome.com">FontAwesome</a> icon font. To prepend an icon to text you can use Discount&rsquo;s <em>class:</em> pseudo-protocol, and specify a valid <span class="kwd">fa-*</span> (non-alias) class.</p>
 
 <p>Examples:</p>
 
@@ -2128,9 +2078,9 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <div class="tip"><p>Tip</p>
 
-<p>See the <a href="http://fortawesome.github.io/Font-Awesome/icons/">FontAwesome Icon Reference</a> for a complete list of all CSS classes to use for icons (aliases are not supported).</p></div>
+<p>See the <a href="https://fontawesome.com/icons">FontAwesome Icon Reference</a> for a complete list of all CSS classes to use for icons (aliases are not supported).</p></div>
 
-<a name="Badges"></a>
+<a id="Badges"></a>
 <h4>Badges<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Badges are shorthands for <a href="#Icons">Icons</a> formatted with different colors. To add a <em>badge</em> to some inline text, use the corresponding class among those listed in the following table. For example, the following code:</p>
@@ -2380,7 +2330,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </table>
 </div>
 
-<a name="Anchors"></a>
+<a id="Anchors"></a>
 <h4>Anchors<a href="#document-top" title="Go to top"></a></h4>
 
 <p>You can define HTML anchors inline by wrapping their ID in hashes. For example, the following code:</p>
@@ -2401,7 +2351,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 </div>
 
-<a name="Links"></a>
+<a id="Links"></a>
 <h4>Links<a href="#document-top" title="Go to top"></a></h4>
 
 <div class="responsive"><table>
@@ -2447,10 +2397,10 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 </ul>
 </div>
 
-<a name="Block-level-Formatting"></a>
+<a id="Block-level-Formatting"></a>
 <h3>Block-level Formatting<a href="#document-top" title="Go to top"></a></h3>
 
-<a name="Headings"></a>
+<a id="Headings"></a>
 <h4>Headings<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Headings can be specified simply by prepending <span class="kwd">#</span>s to text, as follows:</p>
@@ -2467,7 +2417,7 @@ a[href*='github.com']:before { background-image: url("data:image/svg+xml,%3Csvg 
 
 <p>If you use <a href="#Document-Headers">Document Headers</a>, A <span class="kwd">H1</span> is used for the title of the HastyScribe document. Within the document, start using headings from <span class="kwd">H2</span>.</p></div>
 
-<a name="Tables"></a>
+<a id="Tables"></a>
 <h4>Tables<a href="#document-top" title="Go to top"></a></h4>
 
 <p>HastyScribe supports <a href="http://michelf.com/projects/php-markdown/extra/">PHP Markdown Extra</a> table syntax using pipes and dashes.</p>
@@ -2519,7 +2469,7 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 
 <p>To make tables responsive, put them in a <em>responsive</em> block, like in the previous example. The <span class="kwd">responsive</span> class causes a table not to shrink and makes it scrollable horizontally on small devices.</p></div>
 
-<a name="Block-Quotes"></a>
+<a id="Block-Quotes"></a>
 <h4>Block Quotes<a href="#document-top" title="Go to top"></a></h4>
 
 <p>Block quotes can be created simply by prepending a <span class="kwd">></span> to a line, and they can be nested by prepending additional <span class="kwd">></span>s.</p>
@@ -2536,7 +2486,7 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 
 <blockquote><p>This is a nested quote.</p></blockquote></blockquote>
 
-<a name="Code-Blocks"></a>
+<a id="Code-Blocks"></a>
 <h4>Code Blocks<a href="#document-top" title="Go to top"></a></h4>
 
 <p>To format a block of source code, indent it by at least four spaces. Here&rsquo;s the result:</p>
@@ -2556,7 +2506,7 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 
 <p>HastyScribe does not support syntax highlighting for code blocks. To do so, it would require Javascript and HastyScribe is currently kept purposedly &ldquo;Javascript-free&rdquo;.</p></div>
 
-<a name="Images"></a>
+<a id="Images"></a>
 <h4>Images<a href="#document-top" title="Go to top"></a></h4>
 
 <p>The following HastyScribe Markdown code:</p>
@@ -2585,10 +2535,42 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 
 <p>If HastyScribe is unable to download an image, it will leave it linked.</p></div>
 
-<a name="Lists"></a>
+<a id="Details"></a>
+<h4>Details<a href="#document-top" title="Go to top"></a></h4>
+
+<p>The following HastyScribe Markdown code:</p>
+
+<pre><code>&lt;details&gt;
+&lt;summary&gt;Details&lt;/summary&gt;
+The `details` element can be used to create a disclosure element whose contents are only visible when the element is toggled open.
+&lt;/details&gt;
+</code></pre>
+
+<p>Produces the following output:</p>
+
+<p><details>
+<summary>Details</summary>
+The <code>details</code> element can be used to create a disclosure element whose contents are only visible when the element is toggled open.
+</details></p>
+
+<a id="Footnotes"></a>
+<h4>Footnotes<a href="#document-top" title="Go to top"></a></h4>
+
+<p>The following HastyScribe Markdown code:</p>
+
+<pre><code>This is some text[^1]
+
+[^1]: This is a footnote!
+</code></pre>
+
+<p>Produces the following output:</p>
+
+<p>This is some text<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+
+<a id="Lists"></a>
 <h4>Lists<a href="#document-top" title="Go to top"></a></h4>
 
-<a name="Unordered-Lists"></a>
+<a id="Unordered-Lists"></a>
 <h5>Unordered Lists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>The following HastyScribe Markdown code:</p>
@@ -2607,7 +2589,7 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 </ul>
 
 
-<a name="Ordered-Lists"></a>
+<a id="Ordered-Lists"></a>
 <h5>Ordered Lists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>The following HastyScribe Markdown code:</p>
@@ -2630,7 +2612,7 @@ Cell 3,1        | Cell 3,2        | Cell 3, 3
 
 <p>You don&rsquo;t have to write numbers in order &ndash; any number followed by a dot will do.</p></div>
 
-<a name="Alphabetical-Lists"></a>
+<a id="Alphabetical-Lists"></a>
 <h5>Alphabetical Lists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>The following HastyScribe Markdown code:</p>
@@ -2653,7 +2635,7 @@ c. Third item
 
 <p>You don&rsquo;t have to write letters in order &ndash; any letter followed by a dot will do.</p></div>
 
-<a name="Checklists"></a>
+<a id="Checklists"></a>
 <h5>Checklists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>The following HastyScribe Markdown code:</p>
@@ -2672,7 +2654,7 @@ c. Third item
 </ul>
 
 
-<a name="Unstyled-Lists"></a>
+<a id="Unstyled-Lists"></a>
 <h5>Unstyled Lists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>The following HastyScribe Markdown code:</p>
@@ -2692,7 +2674,7 @@ c. Third item
 </ul>
 </div>
 
-<a name="Nested-Lists"></a>
+<a id="Nested-Lists"></a>
 <h5>Nested Lists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>To create a list within a list, simply indent the whole nested list with four space.</p>
@@ -2729,7 +2711,7 @@ c. Third item
 </ul>
 
 
-<a name="Definition-Lists"></a>
+<a id="Definition-Lists"></a>
 <h5>Definition Lists<a href="#document-top" title="Go to top"></a></h5>
 
 <p>In some cases you may want to write a list of terms and their corresponding definitions. You could use an ordinary unordered list, but semantically speaking the <em>proper</em> type of list to use in this case is a definition list.</p>
@@ -2774,10 +2756,10 @@ of numbers</dd>
   A list of terms and definitions.
 </code></pre>
 
-<a name="Class-Blocks"></a>
+<a id="Class-Blocks"></a>
 <h4>Class Blocks<a href="#document-top" title="Go to top"></a></h4>
 
-<a name="Notes"></a>
+<a id="Notes"></a>
 <h5>Notes<a href="#document-top" title="Go to top"></a></h5>
 
 <p><a href="http://www.pell.portland.or.us/~orc/Code/discount/">Discount</a> supports the definition of <em>class blocks</em>: <span class="kwd">div</span>s with a class attribute. The syntax is very similar to the one used for <a href="#Block-Quotes">block quotes</a>, with the addition of the class name wrapped in <span class="kwd">%</span>s on the first line.</p>
@@ -2798,7 +2780,7 @@ of numbers</dd>
 
 <p>This is a note.</p></div>
 
-<a name="Tips"></a>
+<a id="Tips"></a>
 <h5>Tips<a href="#document-top" title="Go to top"></a></h5>
 
 <p>Tips are used for optional information that can help the user in some way.</p>
@@ -2817,7 +2799,7 @@ of numbers</dd>
 
 <p>This is a tip.</p></div>
 
-<a name="Warnings"></a>
+<a id="Warnings"></a>
 <h5>Warnings<a href="#document-top" title="Go to top"></a></h5>
 
 <p>Warnings are used for important information the user should not overlook.</p>
@@ -2836,7 +2818,7 @@ of numbers</dd>
 
 <p>This is a warning or an important note.</p></div>
 
-<a name="Sidebars"></a>
+<a id="Sidebars"></a>
 <h5>Sidebars<a href="#document-top" title="Go to top"></a></h5>
 
 <p>Sidebars are used for digressions and asides.</p>
@@ -2856,7 +2838,7 @@ of numbers</dd>
 
 <p>Although not always placed on the side of the page, <em>sidebars</em> contain additional content and asides.</p></div>
 
-<a name="Blank-Sidebars"></a>
+<a id="Blank-Sidebars"></a>
 <h5>Blank Sidebars<a href="#document-top" title="Go to top"></a></h5>
 
 <p>Blank sidebars can be customized to include custom icons. They are suitable for conditional (operating system or browser specific) instructions.</p>
@@ -2875,7 +2857,7 @@ of numbers</dd>
 
 <p>This web app supports only modern browsers, i.e. the latest versions of Google Chrome, Mozilla Firefox and Microsoft Edge, but <em>not</em> Microsoft Internet Explorer.</p></div>
 
-<a name="Terminal-Sessions"></a>
+<a id="Terminal-Sessions"></a>
 <h5>Terminal Sessions<a href="#document-top" title="Go to top"></a></h5>
 
 <p>Terminal sessions are used to display commands entered in a terminal, in sequence, without displaying their output.</p>
@@ -2912,12 +2894,12 @@ of numbers</dd>
 
 <div class="terminal-su"><p>shutdown -h now</p></div>
 
-<a name="Nim-API"></a>
+<a id="Nim-API"></a>
 <h2>Nim API<a href="#document-top" title="Go to top"></a></h2>
 
 <p>Besides its command libe, you can also import HastyScribe as a library within your <a href="https://nim-lang.org">Nim</a> program.</p>
 
-<a name="Types"></a>
+<a id="Types"></a>
 <h3>Types<a href="#document-top" title="Go to top"></a></h3>
 
 <p>HastyScribe exposes the following Nim types:</p>
@@ -2945,12 +2927,12 @@ HastyScribe* = object
   document: string
 </code></pre>
 
-<a name="Procs"></a>
+<a id="Procs"></a>
 <h3>Procs<a href="#document-top" title="Go to top"></a></h3>
 
 <p>HastyScribe exposes the following <span class="kwd">proc</span>s.</p>
 
-<a name="newHastyScribe"></a>
+<a id="newHastyScribe"></a>
 <h4>newHastyScribe<a href="#document-top" title="Go to top"></a></h4>
 
 <pre><code> proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe
@@ -2958,7 +2940,7 @@ HastyScribe* = object
 
 <p>Instantiates a new HastyScribe object.</p>
 
-<a name="dump"></a>
+<a id="dump"></a>
 <h4>dump<a href="#document-top" title="Go to top"></a></h4>
 
 <pre><code> proc dump*(hs: var HastyScribe, data="all", dest=".")
@@ -2977,7 +2959,7 @@ HastyScribe* = object
 <dd>Dumps all font files.</dd>
 </dl>
 
-<a name="compileFragment"></a>
+<a id="compileFragment"></a>
 <h4>compileFragment<a href="#document-top" title="Go to top"></a></h4>
 
 <pre><code> proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.}
@@ -2985,7 +2967,7 @@ HastyScribe* = object
 
 <p>Compiles the <span class="kwd">input</span> markdown text into an HTML fragment, without embedding stylesheets or fonts. <span class="kwd">dir</span> identifies the directory containing the input text (it is only used to resolve transclusions).</p>
 
-<a name="compileDocument"></a>
+<a id="compileDocument"></a>
 <h4>compileDocument<a href="#document-top" title="Go to top"></a></h4>
 
 <pre><code> proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.}
@@ -2993,7 +2975,7 @@ HastyScribe* = object
 
 <p>Compiles the <span class="kwd">input</span> markdown text into a self-contained HTML document, embedding stylesheets and fonts. <span class="kwd">dir</span> identifies the directory containing the input text (it is only used to resolve transclusions).</p>
 
-<a name="compile"></a>
+<a id="compile"></a>
 <h4>compile<a href="#document-top" title="Go to top"></a></h4>
 
 <pre><code> proc compile*(hs: var HastyScribe, input_file: string)
@@ -3001,16 +2983,15 @@ HastyScribe* = object
 
 <p>Compiles the markdown file <span class="kwd">input_file</span> into a self-contained HTML document.</p>
 
-<a name="Credits"></a>
+<a id="Credits"></a>
 <h2>Credits<a href="#document-top" title="Go to top"></a></h2>
 
 <p>HastyScribe is powered by the following open source software (see <a href="https://github.com/h3rald/hastyscribe/blob/master/LICENSE.md">LICENSE.md</a> for licensing details):</p>
 
 <ul>
 <li>The wonderful <a href="http://www.pell.portland.or.us/~orc/Code/discount/">Discount</a> C library, used to parse markdown code.</li>
-<li>The &hellip;awesome <a href="http://fortawesome.github.io/Font-Awesome/">FontAwesome</a> font, used for all the icons.</li>
+<li>The &hellip;awesome <a href="https://fontawesome.com">FontAwesome</a> font, used for all the icons.</li>
 <li>The beautiful <a href="http://www.sudtipos.com/">Mr Bedfort</a> font, used as the base for the HastyScribe logo.</li>
-<li>The neat <a href="https://store1.adobe.com/cfusion/store/html/index.cfm?event=displayFontPackage&amp;code=1959">Source Sans Pro</a> and <a href="http://store1.adobe.com/cfusion/store/html/index.cfm?event=displayFontPackage&amp;code=1960">Source Code Pro</a> fonts, used for all standard text.</li>
 </ul>
 
 
@@ -3023,10 +3004,20 @@ HastyScribe* = object
 
 
 <p style="text-align:center;"> <span class="fa-creative-commons"></span> <span class="fa-creative-commons-by"></span> <span class="fa-creative-commons-nc"></span> <span class="fa-creative-commons-nd"></span></p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+This is a footnote!<a href="#fnref:1" rev="footnote">&#8617;</a></li>
+</ol>
+</div>
+
     </div>
     <div id="footer">
-      <p><span class="copy"></span> Fabio Cevasco &ndash; August 30, 2023</p>
-      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe"><span class="hastyscribe"></span></a></p>
+      <p><span class="copy"></span> Fabio Cevasco &ndash; August 31, 2023</p>
+      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe" class="hastyscribe-logo">  <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='350.755'%20height='102.312'%3E%3Cg%20font-family='Mr%20Bedfort'%20font-size='72'%20font-weight='400'%20letter-spacing='0'%20style='line-height:125%25;-inkscape-font-specification:Mr%20Bedfort'%20word-spacing='0'%3E%3Cpath%20d='m17.352%2044.784-1.296-5.616c-3.552-1.2-7.2-2.52-10.944-3.96-.048%200-.072.024-.072.072.048%201.008%204.152%204.176%2012.312%209.504m6.12-3.24c.96%204.224%201.56%206.96%201.8%208.208%2011.424%206.96%2018.744%2010.464%2021.96%2010.512l-3.888-13.896c-6.432-1.248-13.056-2.856-19.872-4.824M18%204.752l-.288%204.608c0%204.464%201.512%2013.32%204.536%2026.568%206.24%201.92%2012.792%203.576%2019.656%204.968-1.968-7.44-3.408-13.848-4.32-19.224-.912-5.424-1.368-11.208-1.368-17.352.096-.528%201.032-1.368%202.808-2.52C40.848.6%2042.144%200%2042.912%200c.384%200%20.576.264.576.792l-.36%205.04c0%207.776%202.016%2019.872%206.048%2036.288%205.664.864%2010.944%201.368%2015.84%201.512.336%200%20.504.168.504.504%200%20.288-1.056%201.008-3.168%202.16-2.112%201.152-3.36%201.728-3.744%201.728-2.256%200-4.944-.192-8.064-.576l2.808%2010.08c0%20.816-1.704%202.208-5.112%204.176-3.84%200-11.376-3.336-22.608-10.008.48%202.688.768%205.04.864%207.056-.096.096-1.056.576-2.88%201.44-1.824.864-2.856%201.296-3.096%201.296-.624%200-.936-.456-.936-1.368-.432-4.56-1.056-9-1.872-13.32-4.896-3.168-9.072-6.048-12.528-8.64C1.728%2035.52%200%2033.912%200%2033.336c0-.768%201.584-2.088%204.752-3.96l.216-.144c3.264%201.536%206.48%202.88%209.648%204.032-2.736-10.416-4.104-17.496-4.104-21.24%200-1.68.192-3%20.576-3.96.096-.144%201.152-.816%203.168-2.016%202.016-1.2%203.168-1.8%203.456-1.8.192%200%20.288.168.288.504M78.01%2040.104c.144-.288%201.44-.432%203.888-.432%202.496%200%203.744.36%203.744%201.08%200%20.144-.144.432-.432.864-1.68%202.304-2.52%204.704-2.52%207.2%200%202.496.576%204.56%201.728%206.192%201.2%201.584%202.712%202.376%204.536%202.376%202.976%200%206-2.112%209.072-6.336l.504.864c-3.744%205.952-7.872%208.928-12.384%208.928-3.408%200-6.024-1.752-7.848-5.256-.768%201.152-2.016%202.232-3.744%203.24-1.728%201.008-3.36%201.512-4.896%201.512-4.176%200-6.264-1.752-6.264-5.256%200-2.736%201.152-5.592%203.456-8.568%202.352-3.024%204.656-4.536%206.912-4.536.192%200%20.288.072.288.216%200%20.144-.096.312-.288.504-1.008.528-1.872%201.632-2.592%203.312a13.12%2013.12%200%200%200-1.008%205.04c0%203.504%201.344%205.256%204.032%205.256.768%200%201.488-.192%202.16-.576.72-.432%201.152-1.032%201.296-1.8a14.973%2014.973%200%200%201-.936-5.256c0-1.824.072-3.36.216-4.608.384-2.64.744-3.96%201.08-3.96'/%3E%3Cpath%20d='m119.772%2051.048.504.864c-2.016%203.216-4.44%205.664-7.272%207.344-2.832%201.728-5.52%202.592-8.064%202.592-5.136%200-8.544-2.208-10.224-6.624%200-.24.552-1.032%201.656-2.376%201.104-1.344%201.824-2.016%202.16-2.016.384%200%20.6.12.648.36.288%201.536%201.08%203.168%202.376%204.896%201.344%201.728%202.568%202.592%203.672%202.592%201.728%200%202.616-.48%202.664-1.44%200-1.488-1.752-3.744-5.256-6.768-1.296-1.152-2.496-2.616-3.6-4.392-1.056-1.824-1.584-3.696-1.584-5.616%200-.384.072-.648.216-.792%202.112-1.92%203.504-2.88%204.176-2.88.528%200%20.792.408.792%201.224.048%201.776.792%203.624%202.232%205.544%201.488%201.872%202.928%203.672%204.32%205.4%201.44%201.728%202.16%203.456%202.16%205.184%200%201.68-.84%203.192-2.52%204.536%203.936-.096%207.584-2.64%2010.944-7.632'/%3E%3Cpath%20d='M122.633%2024.264c.768%2022.56%204.248%2033.84%2010.44%2033.84%202.64%200%205.808-2.352%209.504-7.056l.504.864c-4.512%206.72-8.832%2010.08-12.96%2010.08-4.08%200-7.392-3.12-9.936-9.36-2.544-6.288-3.888-14.64-4.032-25.056%200%200-.347-5.071%200-4.827.096-3.648.264-5.229.504-8.493%200-.432.216-.72.648-.864%202.88-1.152%204.488-1.728%204.824-1.728.384%200%20.576.216.576.648a165.13%20165.13%200%200%200-.144%206.552'/%3E%3Cpath%20d='M157.87%2082.728c0%203.984%201.176%207.728%203.528%2011.232%202.352%203.504%204.536%205.256%206.552%205.256%201.728%200%202.592-1.536%202.592-4.608%200-2.256-.84-5.712-2.52-10.368a1998.05%201998.05%200%200%200-2.808-7.704%20452.798%20452.798%200%200%201-2.952-8.136c-2.928%204.464-4.392%209.24-4.392%2014.328m15.84%205.544c0%204.704-.792%208.208-2.376%2010.512-1.584%202.352-3.6%203.528-6.048%203.528-3.12%200-6-1.68-8.64-5.04-2.592-3.312-3.888-7.44-3.888-12.384.336-3.408%201.248-6.552%202.736-9.432%201.536-2.88%203.576-5.856%206.12-8.928-1.632-4.464-2.76-7.992-3.384-10.584-2.064%202.64-4.44%203.96-7.128%203.96-2.688%200-5.04-1.368-7.056-4.104-2.016-2.736-3.024-6.672-3.024-11.808%200-.528.384-.888%201.152-1.08%202.304-.48%203.624-.72%203.96-.72.576%200%20.864.288.864.864%200%204.368.984%207.8%202.952%2010.296%201.248%201.536%202.808%202.304%204.68%202.304%201.008%200%202.064-.456%203.168-1.368-.72-3.216-1.08-5.904-1.08-8.064%200-2.208.504-3.816%201.512-4.824%202.064-1.2%203.216-1.8%203.456-1.8.48%200%20.72.36.72%201.08%200%205.232.96%2010.752%202.88%2016.56l1.224%203.816c3.6-3.888%206.336-7.224%208.208-10.008l.504.864c-1.152%201.824-2.208%203.312-3.168%204.464a161.359%20161.359%200%200%201-3.096%203.6%20676.433%20676.433%200%200%201-2.016%202.376c3.504%2010.032%205.424%2015.912%205.76%2017.64.672%203.408%201.008%206.168%201.008%208.28'/%3E%3Cpath%20d='M178.334%2012.888c0%204.608%202.736%208.904%208.208%2012.888%202.544-6.528%203.816-11.712%203.816-15.552%200-1.68-.552-3.24-1.656-4.68-1.104-1.44-2.352-2.16-3.744-2.16-1.344%200-2.568.72-3.672%202.16-1.056%201.44-1.824%202.88-2.304%204.32-.432%201.392-.648%202.4-.648%203.024m-9.36%2046.944c-.336.336-.624.504-.864.504-.384%200-.576-.192-.576-.576%200-.384.096-.696.288-.936%202.16-2.4%204.704-6.024%207.632-10.872a162.099%20162.099%200%200%200%208.064-15.12c-6.144-4.272-9.216-8.64-9.216-13.104%200-2.976.696-6%202.088-9.072%201.44-3.072%203.336-5.616%205.688-7.632%202.4-2.016%204.68-3.024%206.84-3.024%202.208%200%203.696.528%204.464%201.584.816%201.008%201.224%202.496%201.224%204.464%200%203.696-2.232%2010.608-6.696%2020.736%201.584%201.056%203.696%202.352%206.336%203.888a295.464%20295.464%200%200%201%206.84%203.888%2056.857%2056.857%200%200%201%205.76%203.816c3.936%203.024%205.904%206.312%205.904%209.864%200%203.504-1.824%206.792-5.472%209.864-3.648%203.024-7.344%204.536-11.088%204.536-5.904%200-11.16-3.072-15.768-9.216-.528-.72-.792-1.32-.792-1.8%200-.528.6-1.272%201.8-2.232%201.2-1.008%202.136-1.512%202.808-1.512.144%200%20.264.072.36.216%201.296%202.256%203.624%204.656%206.984%207.2%203.36%202.544%206.648%203.816%209.864%203.816%203.984-.288%205.976-2.256%205.976-5.904%200-3.072-1.752-5.952-5.256-8.64-2.592-1.968-5.784-4.032-9.576-6.192-3.792-2.208-6.408-3.792-7.848-4.752-5.808%2012.192-11.064%2020.928-15.768%2026.208M230.382%2041.688c0-1.44-.912-2.16-2.736-2.16-1.824%200-3.336.816-4.536%202.448-1.2%201.632-1.8%203.72-1.8%206.264%200%202.496.96%204.776%202.88%206.84%201.968%202.016%204.896%203.024%208.784%203.024%202.448%200%204.824-.576%207.128-1.728%202.352-1.2%204.344-2.976%205.976-5.328l.504.864c-1.728%203.12-4.392%205.544-7.992%207.272-3.552%201.728-7.152%202.592-10.8%202.592-3.6%200-6.552-.768-8.856-2.304-2.256-1.488-3.384-3.648-3.384-6.48%200-3.6%201.416-7.008%204.248-10.224%202.88-3.216%206.456-4.824%2010.728-4.824%201.488%200%202.592.384%203.312%201.152.72.72%201.08%201.704%201.08%202.952%200%201.2-.432%202.4-1.296%203.6-.864%201.152-1.848%201.728-2.952%201.728-.576%200-1.176-.216-1.8-.648-.576-.48-.864-.864-.864-1.152%200-.336.12-.6.36-.792.24-.24.528-.456.864-.648.768-.384%201.152-1.2%201.152-2.448'/%3E%3Cpath%20d='m251.359%2047.088-1.368-.072c-.48%200-.816.216-1.008.648-.576%201.44-1.488%203.072-2.736%204.896l-.576-.792c.96-1.296%201.704-2.928%202.232-4.896%200-.384-.168-.648-.504-.792-2.16-.72-3.24-2.616-3.24-5.688%200-.672.576-1.296%201.728-1.872%201.152-.624%202.112-.936%202.88-.936.768%200%201.152.336%201.152%201.008%200%203.6%201.68%205.4%205.04%205.4.816%200%201.464-.072%201.944-.216.528-.192.816-.288.864-.288.48%200%20.72.36.72%201.08%200%20.672-.192%201.152-.576%201.44-.336.24-.72.792-1.152%201.656-.432.816-.648%201.776-.648%202.88%200%202.16.624%203.864%201.872%205.112%201.296%201.2%202.88%201.8%204.752%201.8%201.92%200%203.816-.552%205.688-1.656%201.872-1.104%203.504-2.688%204.896-4.752l.504.864c-1.68%202.928-4.008%205.28-6.984%207.056-2.976%201.776-5.64%202.664-7.992%202.664-4.8%200-7.2-2.184-7.2-6.552%200-.816.288-1.92.864-3.312.576-1.392%201.152-2.568%201.728-3.528l.864-1.44c0-.192-.072-.288-.216-.288-1.536.384-2.712.576-3.528.576'/%3E%3Cpath%20d='M273.24%2042.84c-.24%202.016-.36%203.672-.36%204.968%200%204.56.864%208.112%202.592%2010.656%201.776%202.496%203.912%203.744%206.408%203.744%202.544%200%205.064-.888%207.56-2.664%202.496-1.728%204.824-4.272%206.984-7.632l-.504-.864c-3.744%205.136-7.2%207.704-10.368%207.704-2.016%200-3.648-1.08-4.896-3.24-1.248-2.16-1.872-5.088-1.872-8.784%200-1.92.168-3.864.504-5.832%200-.432-.192-.648-.576-.648-.336%200-1.944.576-4.824%201.728-.432.144-.648.432-.648.864m5.976-15.48c.768.816%201.152%201.8%201.152%202.952s-.384%202.136-1.152%202.952c-.72.816-1.608%201.224-2.664%201.224-1.008%200-1.872-.408-2.592-1.224-.72-.816-1.08-1.8-1.08-2.952s.36-2.136%201.08-2.952c.72-.816%201.584-1.224%202.592-1.224%201.056%200%201.944.408%202.664%201.224'/%3E%3Cpath%20d='M310.14%2045.36c-.576%200-.864.576-.864%201.728%200%201.152.456%202.52%201.368%204.104.96%201.536%202.16%202.76%203.6%203.672.048-.24.072-.6.072-1.08%200-2.112-.408-4.032-1.224-5.76-.816-1.776-1.8-2.664-2.952-2.664m-13.464-24.912c0%209.6%201.104%2017.76%203.312%2024.48%202.16-5.904%203.24-13.8%203.24-23.688%200-4.272-.264-7.8-.792-10.584s-1.248-4.176-2.16-4.176c-1.2%200-2.112%201.296-2.736%203.888-.576%202.544-.864%205.904-.864%2010.08m11.448-6.84c0%204.704-.816%2010.32-2.448%2016.848-1.584%206.528-3.312%2011.832-5.184%2015.912%201.488%204.224%203.192%207.488%205.112%209.792%201.92%202.256%203.672%203.384%205.256%203.384s2.64-.984%203.168-2.952c-2.16-.96-4.008-2.496-5.544-4.608-1.488-2.112-2.232-4.224-2.232-6.336%200-1.104.264-1.992.792-2.664.528-.672%201.296-1.008%202.304-1.008%202.496%200%204.416.96%205.76%202.88%201.392%201.872%202.088%204.128%202.088%206.768%200%201.488-.24%202.904-.72%204.248.48.144%201.032.216%201.656.216%202.64%200%204.992-1.68%207.056-5.04l.576.72c-2.16%203.696-4.872%205.544-8.136%205.544-.384%200-.96-.048-1.728-.144-1.68%203.12-4.224%204.68-7.632%204.68-3.936%200-7.536-2.352-10.8-7.056-1.584-2.352-2.856-5.568-3.816-9.648-1.008-4.128-1.512-8.712-1.512-13.752%200-5.04.432-9.6%201.296-13.68.816-4.08%202.064-7.44%203.744-10.08%201.68-2.64%203.6-3.96%205.76-3.96%203.456%200%205.184%203.312%205.184%209.936'/%3E%3Cpath%20d='m332.694%2037.656.072-.936c0-.576-.648-.864-1.944-.864a5.858%205.858%200%200%200-3.528%201.152c-1.008.768-1.512%201.8-1.512%203.096%200%202.304%201.656%203.456%204.968%203.456.528%200%201.056-.072%201.584-.216a5.437%205.437%200%200%201%201.728-.288c.576%200%20.864.192.864.576%200%20.048-.192.168-.576.36-.384.144-.864.384-1.44.72-.528.336-1.08.768-1.656%201.296-1.344%201.248-2.016%202.952-2.016%205.112s.648%203.816%201.944%204.968c1.296%201.104%202.976%201.656%205.04%201.656s4.176-.6%206.336-1.8a14.695%2014.695%200%200%200%205.256-4.896l.504.864c-1.824%203.168-4.368%205.664-7.632%207.488-3.216%201.872-6.168%202.808-8.856%202.808-2.64%200-4.68-.552-6.12-1.656-1.392-1.104-2.088-2.52-2.088-4.248%200-1.776.432-3.408%201.296-4.896.864-1.488%201.608-2.544%202.232-3.168.672-.672%201.152-1.128%201.44-1.368.336-.288.504-.48.504-.576%200-.144-.024-.216-.072-.216-1.536.576-3.024.864-4.464.864-2.544%200-3.816-1.032-3.816-3.096%200-2.784%201.584-5.184%204.752-7.2%203.168-2.016%205.928-3.024%208.28-3.024%202.4%200%203.6.576%203.6%201.728%200%20.72-.384%201.488-1.152%202.304-.768.816-1.464%201.224-2.088%201.224-.96%200-1.44-.408-1.44-1.224'/%3E%3C/g%3E%3Ctext%20xml:space='preserve'%20x='280.368'%20y='13.976'%20font-family='Mr%20Bedfort'%20font-size='40'%20font-weight='400'%20letter-spacing='0'%20style='line-height:125%25;-inkscape-font-specification:Mr%20Bedfort'%20transform='translate(-177.39%20-82.362)'%20word-spacing='0'/%3E%3Cpath%20fill-rule='evenodd'%20d='M99.36%2029.25c-.061-.106.474-.57%201.596-1.31%201.123-.74%202.835-1.75%205.15-2.876%202.313-1.127%205.233-2.365%208.729-3.583%203.496-1.218%207.573-2.41%2012.103-3.567%205.291-1.357%2011.259-2.645%2017.812-3.778%206.554-1.133%2013.693-2.108%2021.297-2.923%2013.686-1.47%2028.926-2.381%2045.127-2.565%207.483-.085%2015.175-.02%2023.015.229%207.834.248%2015.51.67%2022.968%201.25%2014.92%201.156%2028.998%202.957%2041.703%205.435%206.104%201.186%2011.931%202.505%2017.35%204.046%205.42%201.541%2010.433%203.303%2014.965%205.263%204.145%201.79%207.906%203.808%2011.06%206.11%201.442%201.044%202.772%202.171%203.92%203.37%201.146%201.199%202.11%202.469%202.864%203.785a13.434%2013.434%200%200%201%201.512%203.986c.295%201.494.276%202.914.074%204.176a14.011%2014.011%200%200%201-1.3%203.977%2016.406%2016.406%200%200%201-1.587%202.577c-.977%201.305-1.626%201.855-1.732%201.773-.106-.082.333-.802%201.064-2.196a22.47%2022.47%200%200%200%201.191-2.616c.393-1.05.749-2.284.853-3.7a10.664%2010.664%200%200%200-.315-3.59c-.293-1.107-.799-2.24-1.502-3.34-.713-1.123-1.625-2.201-2.717-3.229-1.092-1.027-2.363-2.005-3.75-2.943-3.044-2.044-6.684-3.82-10.755-5.44-4.459-1.771-9.383-3.354-14.721-4.736-5.338-1.383-11.09-2.564-17.15-3.648-12.586-2.244-26.524-3.873-41.336-4.949a561.489%20561.489%200%200%200-22.791-1.181%20602.786%20602.786%200%200%200-22.847-.285c-16.088.1-31.21.836-44.806%202.057-7.56.68-14.646%201.492-21.154%202.44-6.509.95-12.44%202.035-17.714%203.176-4.53.984-8.59%201.971-12.085%202.975a106.17%20106.17%200%200%200-8.788%202.925c-2.358.907-4.145%201.7-5.364%202.228-1.22.527-1.876.783-1.938.677z'/%3E%3C/svg%3E
+" width="80" height="23" alt="HastyScribe">
+  </a></p>
     </div>
   </div>
   
