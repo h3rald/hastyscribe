@@ -1,22 +1,24 @@
-import 
-  std/macros,
-  std/os, 
-  std/parseopt, 
-  std/strutils,
-  std/sequtils,
-  std/times, 
-  std/pegs, 
-  std/xmltree,
-  std/tables,
-  std/httpclient,
-  std/logging
+import std/[
+    macros,
+    os,
+    parseopt,
+    strutils,
+    sequtils,
+    times,
+    pegs,
+    xmltree,
+    tables,
+    httpclient,
+    logging,
+    critbits
+  ]
 
 from nimquery import querySelectorAll
 from std/htmlparser import parseHtml
 
 import
   hastyscribepkg/niftylogger,
-  hastyscribepkg/markdown, 
+  hastyscribepkg/markdown,
   hastyscribepkg/config,
   hastyscribepkg/consts,
   hastyscribepkg/utils
@@ -24,7 +26,7 @@ import
 export
   consts
 
-when defined(windows) and defined(amd64): 
+when defined(windows) and defined(amd64):
   {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/windows -lmarkdown".}
 elif defined(linux) and defined(amd64):
   {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/linux -lmarkdown".}
@@ -34,14 +36,14 @@ elif defined(macosx) and defined(amd64):
 
 type
   HastyOptions* = object
-    toc*: bool
-    input*: string
-    output*: string
-    css*: string
-    js*: string
+    toc*: bool = true
+    input*: string = ""
+    output*: string = ""
+    css*: string = ""
+    js*: string = ""
     watermark*: string
-    fragment*: bool
-    embed*: bool
+    fragment*: bool = false
+    embed*: bool = true
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
@@ -116,7 +118,7 @@ proc embed_images(hs: var HastyScribe, dir: string) =
     if imgformat == "svg":
       imgformat = "svg+xml"
     var imgcontent = ""
-    if imgfile.startsWith(peg"'data:'"): 
+    if imgfile.startsWith(peg"'data:'"):
       continue
     elif imgfile.startsWith(peg"'http' 's'? '://'"):
       try:
@@ -337,7 +339,7 @@ proc remove_escapes(hs: var HastyScribe, document: string): string =
 proc parse_anchors(hs: var HastyScribe, document: string): string =
   result = document
   let peg_anchor = peg"""
-    anchor <- \s '#' {id} '#' 
+    anchor <- \s '#' {id} '#'
     id <- [a-zA-Z][a-zA-Z0-9:._-]+
   """
   for anchor in document.findAll(peg_anchor):
@@ -346,7 +348,7 @@ proc parse_anchors(hs: var HastyScribe, document: string): string =
     var id = matches[0]
     result = result.replace(anchor, " <a id=\""&id&"\"></a>")
 
-proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string = 
+proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string =
   result = hs.parse_transclusions(document, dir, offset)
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
@@ -425,7 +427,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
   # Document Variables
-  var 
+  var
     main_css_tag = ""
     optional_css_tag = ""
     user_css_tag = ""
@@ -475,8 +477,8 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
   try:
     timeinfo = parse(metadata.date, "yyyy-MM-dd")
   except CatchableError:
-    timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
-  
+    timeinfo = parse(getDateStr(), "yyyy-MM-dd")
+
   if hs.options.embed:
     main_css_tag = stylesheet.style_tag
     optional_css_tag = hs.create_optional_css(hs.document)
@@ -510,20 +512,20 @@ $body
   </div>
   $js
 </body>""" % [
-  "title_tag", title_tag, 
-  "header_tag", header_tag, 
-  "author", metadata.author, 
-  "author_footer", author_footer, 
-  "date", timeinfo.format("MMMM d, yyyy"), 
-  "toc", toc, 
-  "main_css_tag", main_css_tag, 
+  "title_tag", title_tag,
+  "header_tag", header_tag,
+  "author", metadata.author,
+  "author_footer", author_footer,
+  "date", timeinfo.format("MMMM d, yyyy"),
+  "toc", toc,
+  "main_css_tag", main_css_tag,
   "hastyscribe_svg", hastyscribe_svg,
-  "optional_css_tag", optional_css_tag, 
-  "user_css_tag", user_css_tag, 
-  "headings", headings, 
-  "body", hs.document, 
-  "internal_css_tag", metadata.css, 
-  "watermark_css_tag", watermark_css_tag, 
+  "optional_css_tag", optional_css_tag,
+  "user_css_tag", user_css_tag,
+  "headings", headings,
+  "body", hs.document,
+  "internal_css_tag", metadata.css,
+  "watermark_css_tag", watermark_css_tag,
   "js", user_js_tag]
   if hs.options.embed:
     hs.embed_images(dir)
@@ -532,24 +534,24 @@ $body
   hs.document = hs.document.replace("<a name=", "<a id=")
   return hs.document
 
-proc compile*(hs: var HastyScribe, input_file: string) =
-  let inputsplit = input_file.splitFile
-  var input = input_file.readFile
-  var output: string
-
-  if hs.options.output == "":
-    output = inputsplit.dir/inputsplit.name & ".htm"
-  else:
-    output = hs.options.output
+proc compile*(hs: var HastyScribe, input_file: string)
+                       {.raises: [IOError, ref ValueError, Exception].} =
+  let
+    (dir, name, _) = input_file.splitFile()
+    input: string = input_file.readFile()
+    output: string = if hs.options.output == "":
+        dir/name & ".htm"
+      else:
+        hs.options.output
 
   if hs.options.fragment:
-    hs.compileFragment(input, inputsplit.dir)
+    hs.compileFragment(input, dir)
   else:
-    hs.compileDocument(input, inputsplit.dir)
-  if output != "-":
-    output.writeFile(hs.document)
-  else:
+    hs.compileDocument(input, dir)
+  if output == "-":
     stdout.write(hs.document)
+  else:
+    output.writeFile(hs.document)
 
 ### MAIN
 
@@ -559,7 +561,7 @@ when isMainModule:
   (c) 2013-2023 Fabio Cevasco
 
   Usage:
-    hastyscribe <markdown_file_or_glob> [options]
+    hastyscribe [options] <markdown_file_or_glob> ...
 
   Arguments:
     markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
@@ -572,22 +574,24 @@ when isMainModule:
                             (Use "--output-file=-" to output to stdout)
     --watermark=<file>      Use the image in <file> as a watermark.
     --noembed               If specified, styles and images will not be embedded.
-    --fragment              If specified, an HTML fragment will be generated, without 
-                            embedding images ir stylesheets. 
-    --help                  Display the usage information."""
-    
+    --fragment              If specified, an HTML fragment will be generated, without
+                            embedding images or stylesheets.
+    --help                  Display the usage information.
+    --version               Print version and exit."""
 
-  var input = ""
-  var files = newSeq[string](0)
-  var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false, embed: true)
-  var fields = initTable[string, string]()
+
+
+  var
+    inputs: seq[string]
+    options = default(HastyOptions)
+    fields = initTable[string, string]()
 
   # Parse Parameters
 
   for kind, key, val in getopt():
     case kind
     of cmdArgument:
-      input = key
+        inputs.add(key)
     of cmdShortOption, cmdLongOption:
       case key
       of "notoc":
@@ -609,29 +613,47 @@ when isMainModule:
         quit(0)
       of "h", "help":
         echo usage
-        quit(0)  
+        quit(0)
       else:
         if key.startsWith("field/"):
           let val = val
-          fields[key.replace("field/", "")] = val          
-        discard
-    else: 
-      discard
-  for file in walkFiles(input):
-    files.add(file)
-
-  if files.len == 0:
-    if input == "":
-      echo usage
-      quit(0)
-    fatal "\"$1\" does not match any file" % [input]
-    quit(2)
+          fields[key.replace("field/", "")] = val
+        else:
+          warn """Unknown option "$#", ignoring""" % key
+    of cmdEnd: assert(false)
+  if inputs.len == 0:
+    echo usage
+    quit(0)
   else:
-    var hs = newHastyScribe(options, fields)
-    try:
+    type ErrorKinds = enum errENOENT, errEIO
+    var errorsOccurred: set[ErrorKinds] = {}
+    var files: CritBitTree[void] # Deduplicates different globs expanding to same files
+    for glob in inputs:
+      var globMatchCount = 0
+      for file in walkFiles(glob):
+        # TODO: files can still contain relative and absolute paths pointing to the same file
+        let path = file.normalizedPath()
+        if files.containsOrIncl(path):
+          notice "Input file \"$1\" provided multiple times" % path
+        globMatchCount.inc()
+      if globMatchCount == 0:
+        errorsOccurred.incl errENOENT
+        fatal "\"$1\" does not match any file" % glob
+    if files.len == 0:
+      errorsOccurred.incl errENOENT
+    else:
+      if files.len > 1 and options.output != "":
+        warn "Option `output-file` is set but multiple input files given, ignoring"
+        options.output = ""
+      var hs = newHastyScribe(options, fields)
       for file in files:
-        hs.compile(file)
-    except IOError:
-      let msg = getCurrentExceptionMsg()
-      fatal msg
-      quit(3)
+        try:
+          hs.compile(file)
+        except IOError as e:
+          errorsOccurred.incl errEIO
+          fatal e.msg
+          continue
+        info "\"$1\" converted successfully" % file
+    if errENOENT in errorsOccurred: quit(2)
+    elif errEIO in errorsOccurred: quit(5)
+    else: discard # ok
