@@ -44,6 +44,7 @@ type
     watermark*: string
     fragment*: bool = false
     embed*: bool = true
+    iso*: bool = false
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
@@ -325,27 +326,16 @@ proc parse_snippets(hs: var HastyScribe, document: string): string =
       warn "Snippet '" & id & "' not defined."
       result = result.replace(snippet, "")
 
-# Substitute escaped brackets or hashes *after* preprocessing
 proc remove_escapes(hs: var HastyScribe, document: string): string =
-  result = document
-  for lb in document.findAll(peg"'\\{'"):
-    result = result.replace(lb, "{")
-  for rb in document.findAll(peg"'\\}'"):
-    result = result.replace(rb, "}")
-  for h in document.findAll(peg"'\\#'"):
-    result = result.replace(h, "#")
+  ## Substitute escaped brackets or hashes *after* preprocessing
+  document.replacef(peg"'\\' {'{' / '}' / '#'}", "$1")
 
 proc parse_anchors(hs: var HastyScribe, document: string): string =
-  result = document
   let peg_anchor = peg"""
     anchor <- \s '#' {id} '#'
     id <- [a-zA-Z][a-zA-Z0-9:._-]+
   """
-  for anchor in document.findAll(peg_anchor):
-    var matches:array[0..0, string]
-    discard anchor.match(peg_anchor, matches)
-    var id = matches[0]
-    result = result.replace(anchor, " <a id=\""&id&"\"></a>")
+  document.replacef(peg_anchor, """ <a id="$1"></a>""")
 
 proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string =
   result = hs.parse_transclusions(document, dir, offset)
@@ -383,20 +373,15 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
   # Add #document-top rule because it is always needed and added at the end.
   linkRules.add hs.linkStyles["^='#document-top"]
   for href in linkHrefs:
-    for key in hs.linkStyles.keys:
-      if not linkRules.contains(hs.linkStyles[key]):
+    for (key, val) in hs.linkStyles.pairs:
+      if val notin linkRules:
         let op = key[0..1]
         let value = key[3..^1] # Skip first '
-        var matches = newSeq[string]() # Save matches in order of priority
-        if op == "$=" and href.endsWith(value):
-          matches.add key
-        if op == "*=" and href.contains(value):
-          matches.add key
-        if op == "^=" and href.startsWith(value):
-          matches.add key
-        # Add last match
-        if matches.len > 0:
-          linkRules.add hs.linkStyles[matches[^1]]
+        # Save matches in order of priority
+        if (op == "$=" and href.endsWith(value)) or
+           (op == "*=" and href.contains(value)) or
+           (op == "^=" and href.startsWith(value)):
+          linkRules.add val
           break
   result &= linkRules.join("\n")
   result = result.style_tag
@@ -453,12 +438,14 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
         ("", "")
 
   # Date parsing and validation
-  var timeinfo: DateTime = local(getTime())
-
-  try:
-    timeinfo = parse(metadata.date, "yyyy-MM-dd")
-  except CatchableError:
-    timeinfo = parse(getDateStr(), "yyyy-MM-dd")
+  let date: string = block:
+    const IsoDate = initTimeFormat("yyyy-MM-dd")
+    const DefaultDate = initTimeFormat("MMMM d, yyyy")
+    let timeinfo: DateTime = try:
+        parse(metadata.date, IsoDate)
+      except CatchableError:
+        local(getTime())
+    timeinfo.format(if hs.options.iso: IsoDate else: DefaultDate)
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -493,7 +480,7 @@ $body
     "header_tag", header_tag,
     "author", metadata.author,
     "author_footer", author_footer,
-    "date", timeinfo.format("MMMM d, yyyy"),
+    "date", date,
     "toc", toc,
     "main_css_tag", main_css_tag,
     "hastyscribe_img", hastyscribe_img,
@@ -533,7 +520,7 @@ proc compile*(hs: var HastyScribe, input_file: string)
 ### MAIN
 
 when isMainModule:
-  let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
+  const usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2023 Fabio Cevasco
 
@@ -553,6 +540,7 @@ when isMainModule:
     --noembed               If specified, styles and images will not be embedded.
     --fragment              If specified, an HTML fragment will be generated, without
                             embedding images or stylesheets.
+    --iso                   Use ISO 8601 date format (e.g., 2000-12-31) in the footer.
     --help                  Display the usage information.
     --version               Print version and exit."""
 
@@ -564,7 +552,8 @@ when isMainModule:
     fields = initTable[string, string]()
 
   # Parse Parameters
-
+  template noVal() =
+    if val != "": fatal "Option '" & key & "' takes no value"; quit(1)
   for kind, key, val in getopt():
     case kind
     of cmdArgument:
@@ -572,8 +561,10 @@ when isMainModule:
     of cmdShortOption, cmdLongOption:
       case key
       of "notoc":
+        noVal()
         options.toc = false
       of "noembed":
+        noVal()
         options.embed = false
       of "user-css":
         options.css = val
@@ -584,7 +575,11 @@ when isMainModule:
       of "output-file":
         options.output = val
       of "fragment":
+        noVal()
         options.fragment = true
+      of "iso":
+        noVal()
+        options.iso = true
       of "v", "version":
         echo pkgVersion
         quit(0)
