@@ -1,13 +1,14 @@
-import 
-  std/logging,
-  std/strutils,
-  std/terminal,
-  std/exitprocs
+import std/[
+    logging,
+    strutils,
+    terminal,
+    exitprocs,
+  ]
 
 if isatty(stdin):
   addExitProc(resetAttributes)
 
-type  
+type
   NiftyLogger* = ref object of Logger
 
 proc logPrefix*(level: Level): tuple[msg: string, color: ForegroundColor] =
@@ -17,7 +18,7 @@ proc logPrefix*(level: Level): tuple[msg: string, color: ForegroundColor] =
     of lvlInfo:
       return ("(i)", fgCyan)
     of lvlNotice:
-      return ("   ", fgWhite)
+      return ("   ", fgBlue)
     of lvlWarn:
       return ("(!)", fgYellow)
     of lvlError:
@@ -25,12 +26,12 @@ proc logPrefix*(level: Level): tuple[msg: string, color: ForegroundColor] =
     of lvlFatal:
       return ("(x)", fgRed)
     else:
-      return ("   ", fgWhite)
+      return ("   ", fgDefault)
 
 method log*(logger: NiftyLogger; level: Level; args: varargs[string, `$`]) =
   var f = stdout
   if level >= getLogFilter() and level >= logger.levelThreshold:
-    if level >= lvlWarn: 
+    if level >= lvlWarn:
       f = stderr
     let ln = substituteLog(logger.fmtStr, level, args)
     let prefix = level.logPrefix()

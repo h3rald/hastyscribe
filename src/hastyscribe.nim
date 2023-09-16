@@ -3,7 +3,6 @@ import std/[
     os,
     parseopt,
     strutils,
-    sequtils,
     times,
     pegs,
     xmltree,
@@ -15,6 +14,7 @@ import std/[
 
 from nimquery import querySelectorAll
 from std/htmlparser import parseHtml
+from std/sequtils import mapIt
 
 import
   hastyscribepkg/niftylogger,
@@ -124,10 +124,9 @@ proc embed_images(hs: var HastyScribe, dir: string) =
       try:
         let client = newHttpClient()
         imgcontent = encode_image(client.getContent(imgfile), imgformat)
-      except CatchableError:
-        warn "Unable to download '" & imgfile & "'"
-        warn "  Reason: " & getCurrentExceptionMsg()
-        warn "  -> Image will be linked instead"
+      except CatchableError as e:
+        warn "Unable to download '$1'\n    Reason: $2\n" % [imgfile, e.msg] &
+             "     -> Image will be linked instead"
         continue
     else:
       imgcontent = encode_image_file(current_dir & imgfile, imgformat)
@@ -367,18 +366,15 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
   let html = document.parseHtml
   # Check icons
   let iconRules = html.querySelectorAll("span[class^=fa-]")
-    .mapIt(it.attr("class"))
-    .mapIt(getTableValue(hs.iconStyles, it, "Icon"))
+    .mapIt(getTableValue(hs.iconStyles, it.attr("class"), "Icon"))
   result &= iconRules.join("\n")
   # Check badges
   let badgeRules = html.querySelectorAll("span[class^=badge-]")
-    .mapIt(it.attr("class"))
-    .mapIt(getTableValue(hs.badgeStyles, it, "Badge"))
+    .mapIt(getTableValue(hs.badgeStyles, it.attr("class"), "Badge"))
   result &= badgeRules.join("\n")
   # Check notes
   let noteRules = html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar")
-    .mapIt(it.attr("class"))
-    .mapIt(getTableValue(hs.noteStyles, it, "Note"))
+    .mapIt(getTableValue(hs.noteStyles, it.attr("class"), "Note"))
   result &= noteRules.join("\n")
   # Check links
   let linkHrefs = html.querySelectorAll("a[href]")
@@ -387,7 +383,7 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
   # Add #document-top rule because it is always needed and added at the end.
   linkRules.add hs.linkStyles["^='#document-top"]
   for href in linkHrefs:
-    for key in hs.linkStyles.keys.toSeq:
+    for key in hs.linkStyles.keys:
       if not linkRules.contains(hs.linkStyles[key]):
         let op = key[0..1]
         let value = key[3..^1] # Skip first '
@@ -408,8 +404,7 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
 # Public API
 
 proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
-  hs.options.input = input
-  hs.document = hs.options.input
+  hs.document = input
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
   # Process markdown
@@ -420,68 +415,50 @@ proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): str
   return hs.document
 
 proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
-  hs.options.input = input
-  hs.document = hs.options.input
+  hs.document = input
   # Load style rules to be included on-demand
   hs.load_styles()
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
-  # Document Variables
-  var
-    main_css_tag = ""
-    optional_css_tag = ""
-    user_css_tag = ""
-    user_js_tag = ""
-    watermark_css_tag  = ""
-    headings = " class=\"headings\""
-    author_footer = ""
-    title_tag = ""
-    header_tag = ""
-    toc = ""
-    metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
-  let logo_datauri = encode_image(hastyscribe_logo, "svg")
-  let hastyscribe_svg = """
-  <img src="$#" width="80" height="23" alt="HastyScribe">
-  """ % [logo_datauri]
   # Process markdown
+  var metadata: TMDMetaData
   hs.document = hs.document.md(0, metadata)
-  # Manage metadata
-  if metadata.author != "":
-    author_footer = "<span class=\"copy\"></span> " & metadata.author & " &ndash;"
-  if metadata.title != "":
-    title_tag = "<title>" & metadata.title & "</title>"
-    header_tag = "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
-  else:
-    title_tag = ""
-    header_tag = ""
 
-  if hs.options.toc and metadata.toc != "":
-    toc = "<div id=\"toc\">" & metadata.toc & "</div>"
-  else:
-    headings = ""
-    toc = ""
+  # Document Variables
+  const hastyscribe_img = """
+<img src="$#" width="80" height="23" alt="HastyScribe">
+""" % encode_image(hastyscribe_logo, "svg")
+  let
+    (headings, toc) = if hs.options.toc and metadata.toc != "":
+        (" class=\"headings\"", "<div id=\"toc\">" & metadata.toc & "</div>")
+      else: ("", "")
+    user_css_tag = if hs.options.css == "": "" else:
+        hs.options.css.readFile.style_tag
+    user_js_tag = if hs.options.js == "": "" else:
+      "<script type=\"text/javascript\">\n" & hs.options.js.readFile & "\n</script>"
+    watermark_css_tag = if hs.options.watermark == "": "" else:
+      watermark_css(hs.options.watermark)
 
-  if hs.options.css != "":
-    user_css_tag = hs.options.css.readFile.style_tag
+    # Manage metadata
+    author_footer = if metadata.author == "": "" else:
+      "<span class=\"copy\"></span> " & metadata.author & " &ndash;"
+    title_tag = if metadata.title == "": "" else:
+      "<title>" & metadata.title & "</title>"
+    header_tag = if metadata.title == "": "" else:
+      "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
 
-  if hs.options.js != "":
-    user_js_tag = "<script type=\"text/javascript\">\n" & hs.options.js.readFile & "\n</script>"
-
-  if hs.options.watermark != "":
-    watermark_css_tag = watermark_css(hs.options.watermark)
+    (main_css_tag, optional_css_tag) = if hs.options.embed:
+        (stylesheet.style_tag, hs.create_optional_css(hs.document))
+      else:
+        ("", "")
 
   # Date parsing and validation
   var timeinfo: DateTime = local(getTime())
-
 
   try:
     timeinfo = parse(metadata.date, "yyyy-MM-dd")
   except CatchableError:
     timeinfo = parse(getDateStr(), "yyyy-MM-dd")
-
-  if hs.options.embed:
-    main_css_tag = stylesheet.style_tag
-    optional_css_tag = hs.create_optional_css(hs.document)
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -507,26 +484,26 @@ $body
     </div>
     <div id="footer">
       <p>$author_footer $date</p>
-      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe" class="hastyscribe-logo">$hastyscribe_svg</a></p>
+      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe" class="hastyscribe-logo">$hastyscribe_img</a></p>
     </div>
   </div>
   $js
 </body>""" % [
-  "title_tag", title_tag,
-  "header_tag", header_tag,
-  "author", metadata.author,
-  "author_footer", author_footer,
-  "date", timeinfo.format("MMMM d, yyyy"),
-  "toc", toc,
-  "main_css_tag", main_css_tag,
-  "hastyscribe_svg", hastyscribe_svg,
-  "optional_css_tag", optional_css_tag,
-  "user_css_tag", user_css_tag,
-  "headings", headings,
-  "body", hs.document,
-  "internal_css_tag", metadata.css,
-  "watermark_css_tag", watermark_css_tag,
-  "js", user_js_tag]
+    "title_tag", title_tag,
+    "header_tag", header_tag,
+    "author", metadata.author,
+    "author_footer", author_footer,
+    "date", timeinfo.format("MMMM d, yyyy"),
+    "toc", toc,
+    "main_css_tag", main_css_tag,
+    "hastyscribe_img", hastyscribe_img,
+    "optional_css_tag", optional_css_tag,
+    "user_css_tag", user_css_tag,
+    "headings", headings,
+    "body", hs.document,
+    "internal_css_tag", metadata.css,
+    "watermark_css_tag", watermark_css_tag,
+    "js", user_js_tag]
   if hs.options.embed:
     hs.embed_images(dir)
   hs.document = add_jump_to_top_links(hs.document)
