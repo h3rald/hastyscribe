@@ -45,6 +45,7 @@ type
     fragment*: bool = false
     embed*: bool = true
     iso*: bool = false
+    noclobber*: bool = false
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
@@ -498,8 +499,10 @@ $body
   hs.document = hs.document.replace("<a name=", "<a id=")
   return hs.document
 
+type ClobberError = object of CatchableError
+
 proc compile*(hs: var HastyScribe, input_file: string)
-                       {.raises: [IOError, ref ValueError, Exception].} =
+                       {.raises: [IOError, ref ValueError, Exception, ClobberError].} =
   let
     (dir, name, _) = input_file.splitFile()
     input: string = input_file.readFile()
@@ -513,9 +516,13 @@ proc compile*(hs: var HastyScribe, input_file: string)
   else:
     hs.compileDocument(input, dir)
   if output == "-":
+    # TODO: Notify user if outputting multiple files
     stdout.write(hs.document)
   else:
-    output.writeFile(hs.document)
+    if fileExists(output) and hs.options.noclobber:
+      raise newException(ClobberError, output)
+    else:
+      output.writeFile(hs.document)
 
 ### MAIN
 
@@ -541,6 +548,7 @@ when isMainModule:
     --fragment              If specified, an HTML fragment will be generated, without
                             embedding images or stylesheets.
     --iso                   Use ISO 8601 date format (e.g., 2000-12-31) in the footer.
+    --no-clobber | -n       Do not overwrite existing files.
     --help                  Display the usage information.
     --version               Print version and exit."""
 
@@ -580,6 +588,9 @@ when isMainModule:
       of "iso":
         noVal()
         options.iso = true
+      of "n", "no-clobber", "noclobber":
+        noVal()
+        options.noclobber = true
       of "v", "version":
         echo pkgVersion
         quit(0)
@@ -624,6 +635,9 @@ when isMainModule:
         except IOError as e:
           errorsOccurred.incl errEIO
           fatal e.msg
+          continue
+        except ClobberError as e:
+          warn "File '" & e.msg & "' exists, not overwriting"
           continue
         info "\"$1\" converted successfully" % file
     if errENOENT in errorsOccurred: quit(2)
