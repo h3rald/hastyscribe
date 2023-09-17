@@ -353,39 +353,37 @@ proc getTableValue(table: Table[string, string], key: string, obj: string): stri
     warn obj & " not found: " & key
 
 proc create_optional_css*(hs: HastyScribe, document: string): string =
-  result = ""
-  let html = document.parseHtml
+  let html = document.parseHtml()
+  var rules: seq[string]
   # Check icons
-  let iconRules = html.querySelectorAll("span[class^=fa-]")
-    .mapIt(getTableValue(hs.iconStyles, it.attr("class"), "Icon"))
-  result &= iconRules.join("\n")
+  for icon in html.querySelectorAll("span[class^=fa-]"):
+    rules.add getTableValue(hs.iconStyles, icon.attr("class"), "Icon")
   # Check badges
-  let badgeRules = html.querySelectorAll("span[class^=badge-]")
-    .mapIt(getTableValue(hs.badgeStyles, it.attr("class"), "Badge"))
-  result &= badgeRules.join("\n")
+  for badge in html.querySelectorAll("span[class^=badge-]"):
+    rules.add getTableValue(hs.badgeStyles, badge.attr("class"), "Badge")
   # Check notes
-  let noteRules = html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar")
-    .mapIt(getTableValue(hs.noteStyles, it.attr("class"), "Note"))
-  result &= noteRules.join("\n")
+  for note in html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar"):
+    rules.add getTableValue(hs.noteStyles, note.attr("class"), "Note")
   # Check links
-  let linkHrefs = html.querySelectorAll("a[href]")
-    .mapIt(it.attr("href"))
-  var linkRules = newSeq[string]()
+  let linkHrefs = html.querySelectorAll("a[href]").mapIt(it.attr("href"))
+  var linkRulesSet: CritBitTree[void]
   # Add #document-top rule because it is always needed and added at the end.
-  linkRules.add hs.linkStyles["^='#document-top"]
+  rules.add hs.linkStyles["^='#document-top"]
+
   for href in linkHrefs:
     for (key, val) in hs.linkStyles.pairs:
-      if val notin linkRules:
+      if val notin linkRulesSet:
         let op = key[0..1]
         let value = key[3..^1] # Skip first '
-        # Save matches in order of priority
+        # TODO: debug logic
+        # Save matches in order of priority (?)
         if (op == "$=" and href.endsWith(value)) or
            (op == "*=" and href.contains(value)) or
            (op == "^=" and href.startsWith(value)):
-          linkRules.add val
+          linkRulesSet.incl val
+          rules.add val
           break
-  result &= linkRules.join("\n")
-  result = result.style_tag
+  rules.join("\n").style_tag()
 
 # Public API
 

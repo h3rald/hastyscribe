@@ -8,8 +8,8 @@ import std/[
 import
   consts
 
-proc style_tag*(css: string): string =
-  result = "<style>$1</style>" % [css]
+template style_tag*(css: string): string =
+  "<style>" & css & "</style>"
 
 proc style_link_tag*(css: string): string =
   result = "<link rel=\"stylesheet\" href=\"$1\"/>" % [css]
