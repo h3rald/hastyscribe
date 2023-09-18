@@ -12,8 +12,8 @@ import
 template style_tag*(css: string): string =
   "<style>" & css & "</style>"
 
-proc style_link_tag*(css: string): string =
-  result = "<link rel=\"stylesheet\" href=\"$1\"/>" % [css]
+template style_link_tag*(css: string): string =
+  "<link rel=\"stylesheet\" href=\"" & css & "\"/>"
 
 proc encode_image*(contents, format: string): string =
   if format == "svg":
@@ -51,7 +51,7 @@ proc watermark_css*(imgfile: string): string =
     result = (watermark_style % [img]).style_tag
 
 proc add_jump_to_top_links*(document: string): string =
-  result = document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
+  document.replacef(peg"'</h' {[23456]} '>'", "<a href=\"#document-top\" title=\"Go to top\"></a></h$1>")
 
 proc makeFNameUnique*(baseName, dir: string): string =
   ## Uses file placement (`dir`) as a unique name identifier
