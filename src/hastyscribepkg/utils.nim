@@ -1,32 +1,35 @@
-import
-  std/base64,
-  std/os,
-  std/strutils,
-  std/pegs
+import std/[
+    base64,
+    os,
+    strutils,
+    pegs,
+    hashes,
+  ]
 
 import
   consts
 
-proc style_tag*(css: string): string =
-  result = "<style>$1</style>" % [css]
+template style_tag*(css: string): string =
+  "<style>" & css & "</style>"
 
 proc style_link_tag*(css: string): string =
   result = "<link rel=\"stylesheet\" href=\"$1\"/>" % [css]
 
 proc encode_image*(contents, format: string): string =
-    if format == "svg":
-      let encoded_svg = contents
-        .replace("\"", "'")
-        .replace("%", "%25")
-        .replace("#", "%23")
-        .replace("{", "%7B")
-        .replace("}", "%7D")
-        .replace("<", "%3C")
-        .replace(">", "%3E")
-        .replace(" ", "%20")
-      return "data:image/svg+xml,$#" % [encoded_svg]
-    else:
-      return "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", contents.encode]
+  if format == "svg":
+    let encoded_svg = contents.multireplace([
+        ("\"", "'"),
+        ("%", "%25"),
+        ("#", "%23"),
+        ("{", "%7B"),
+        ("}", "%7D"),
+        ("<", "%3C"),
+        (">", "%3E"),
+        (" ", "%20"),
+      ])
+    "data:image/svg+xml,$#" % [encoded_svg]
+  else:
+    "data:image/$format;base64,$enc_contents" % ["format", format, "enc_contents", contents.encode]
 
 proc encode_image_file*(file, format: string): string =
   if (file.fileExists):
@@ -49,3 +52,14 @@ proc watermark_css*(imgfile: string): string =
 
 proc add_jump_to_top_links*(document: string): string =
   result = document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
+
+proc makeFNameUnique*(baseName, dir: string): string =
+  ## Uses file placement (`dir`) as a unique name identifier
+  ## Files in relative root (`dir` is empty) are returned unchanged.
+  if dir notin ["", ".", "./"]:
+    let
+      dir = when dosLikeFileSystem: dir.replace('\\', '/') else: dir
+      hashBytes = cast[array[sizeof(Hash), byte]](hash(dir))
+      uniquePrefix = encode(hashBytes, safe=true)
+    baseName & '_' & uniquePrefix
+  else: baseName

@@ -1,22 +1,24 @@
-import 
-  std/macros,
-  std/os, 
-  std/parseopt, 
-  std/strutils,
-  std/sequtils,
-  std/times, 
-  std/pegs, 
-  std/xmltree,
-  std/tables,
-  std/httpclient,
-  std/logging
+import std/[
+    macros,
+    os,
+    parseopt,
+    strutils,
+    times,
+    pegs,
+    xmltree,
+    tables,
+    httpclient,
+    logging,
+    critbits,
+  ]
 
 from nimquery import querySelectorAll
 from std/htmlparser import parseHtml
+from std/sequtils import mapIt
 
 import
   hastyscribepkg/niftylogger,
-  hastyscribepkg/markdown, 
+  hastyscribepkg/markdown,
   hastyscribepkg/config,
   hastyscribepkg/consts,
   hastyscribepkg/utils
@@ -24,7 +26,7 @@ import
 export
   consts
 
-when defined(windows) and defined(amd64): 
+when defined(windows) and defined(amd64):
   {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/windows -lmarkdown".}
 elif defined(linux) and defined(amd64):
   {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/linux -lmarkdown".}
@@ -34,14 +36,18 @@ elif defined(macosx) and defined(amd64):
 
 type
   HastyOptions* = object
-    toc*: bool
-    input*: string
-    output*: string
-    css*: string
-    js*: string
+    toc*: bool = true
+    input*: string = ""
+    output*: string = ""
+    css*: string = ""
+    js*: string = ""
     watermark*: string
-    fragment*: bool
-    embed*: bool
+    fragment*: bool = false
+    embed*: bool = true
+    iso*: bool = false
+    noclobber*: bool = false
+    outputToDir*: bool = false
+    processingMultiple: bool = false
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
@@ -116,16 +122,15 @@ proc embed_images(hs: var HastyScribe, dir: string) =
     if imgformat == "svg":
       imgformat = "svg+xml"
     var imgcontent = ""
-    if imgfile.startsWith(peg"'data:'"): 
+    if imgfile.startsWith(peg"'data:'"):
       continue
     elif imgfile.startsWith(peg"'http' 's'? '://'"):
       try:
         let client = newHttpClient()
         imgcontent = encode_image(client.getContent(imgfile), imgformat)
-      except CatchableError:
-        warn "Unable to download '" & imgfile & "'"
-        warn "  Reason: " & getCurrentExceptionMsg()
-        warn "  -> Image will be linked instead"
+      except CatchableError as e:
+        warn "Unable to download '$1'\n    Reason: $2\n" % [imgfile, e.msg] &
+             "     -> Image will be linked instead"
         continue
     else:
       imgcontent = encode_image_file(current_dir & imgfile, imgformat)
@@ -324,29 +329,18 @@ proc parse_snippets(hs: var HastyScribe, document: string): string =
       warn "Snippet '" & id & "' not defined."
       result = result.replace(snippet, "")
 
-# Substitute escaped brackets or hashes *after* preprocessing
 proc remove_escapes(hs: var HastyScribe, document: string): string =
-  result = document
-  for lb in document.findAll(peg"'\\{'"):
-    result = result.replace(lb, "{")
-  for rb in document.findAll(peg"'\\}'"):
-    result = result.replace(rb, "}")
-  for h in document.findAll(peg"'\\#'"):
-    result = result.replace(h, "#")
+  ## Substitute escaped brackets or hashes *after* preprocessing
+  document.replacef(peg"'\\' {'{' / '}' / '#'}", "$1")
 
 proc parse_anchors(hs: var HastyScribe, document: string): string =
-  result = document
   let peg_anchor = peg"""
-    anchor <- \s '#' {id} '#' 
+    anchor <- \s '#' {id} '#'
     id <- [a-zA-Z][a-zA-Z0-9:._-]+
   """
-  for anchor in document.findAll(peg_anchor):
-    var matches:array[0..0, string]
-    discard anchor.match(peg_anchor, matches)
-    var id = matches[0]
-    result = result.replace(anchor, " <a id=\""&id&"\"></a>")
+  document.replacef(peg_anchor, """ <a id="$1"></a>""")
 
-proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string = 
+proc preprocess*(hs: var HastyScribe, document, dir: string, offset = 0): string =
   result = hs.parse_transclusions(document, dir, offset)
   result = hs.parse_fields(result)
   result = hs.parse_snippets(result)
@@ -361,53 +355,42 @@ proc getTableValue(table: Table[string, string], key: string, obj: string): stri
     warn obj & " not found: " & key
 
 proc create_optional_css*(hs: HastyScribe, document: string): string =
-  result = ""
-  let html = document.parseHtml
+  let html = document.parseHtml()
+  var rules: seq[string]
   # Check icons
-  let iconRules = html.querySelectorAll("span[class^=fa-]")
-    .mapIt(it.attr("class"))
-    .mapIt(getTableValue(hs.iconStyles, it, "Icon"))
-  result &= iconRules.join("\n")
+  for icon in html.querySelectorAll("span[class^=fa-]"):
+    rules.add getTableValue(hs.iconStyles, icon.attr("class"), "Icon")
   # Check badges
-  let badgeRules = html.querySelectorAll("span[class^=badge-]")
-    .mapIt(it.attr("class"))
-    .mapIt(getTableValue(hs.badgeStyles, it, "Badge"))
-  result &= badgeRules.join("\n")
+  for badge in html.querySelectorAll("span[class^=badge-]"):
+    rules.add getTableValue(hs.badgeStyles, badge.attr("class"), "Badge")
   # Check notes
-  let noteRules = html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar")
-    .mapIt(it.attr("class"))
-    .mapIt(getTableValue(hs.noteStyles, it, "Note"))
-  result &= noteRules.join("\n")
+  for note in html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar"):
+    rules.add getTableValue(hs.noteStyles, note.attr("class"), "Note")
   # Check links
-  let linkHrefs = html.querySelectorAll("a[href]")
-    .mapIt(it.attr("href"))
-  var linkRules = newSeq[string]()
+  let linkHrefs = html.querySelectorAll("a[href]").mapIt(it.attr("href"))
+  var linkRulesSet: CritBitTree[void]
   # Add #document-top rule because it is always needed and added at the end.
-  linkRules.add hs.linkStyles["^='#document-top"]
+  rules.add hs.linkStyles["^='#document-top"]
+
   for href in linkHrefs:
-    for key in hs.linkStyles.keys.toSeq:
-      if not linkRules.contains(hs.linkStyles[key]):
+    for (key, val) in hs.linkStyles.pairs:
+      if val notin linkRulesSet:
         let op = key[0..1]
         let value = key[3..^1] # Skip first '
-        var matches = newSeq[string]() # Save matches in order of priority
-        if op == "$=" and href.endsWith(value):
-          matches.add key
-        if op == "*=" and href.contains(value):
-          matches.add key
-        if op == "^=" and href.startsWith(value):
-          matches.add key
-        # Add last match
-        if matches.len > 0:
-          linkRules.add hs.linkStyles[matches[^1]]
+        # TODO: debug logic
+        # Save matches in order of priority (?)
+        if (op == "$=" and href.endsWith(value)) or
+           (op == "*=" and href.contains(value)) or
+           (op == "^=" and href.startsWith(value)):
+          linkRulesSet.incl val
+          rules.add val
           break
-  result &= linkRules.join("\n")
-  result = result.style_tag
+  rules.join("\n").style_tag()
 
 # Public API
 
 proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): string {.discardable.} =
-  hs.options.input = input
-  hs.document = hs.options.input
+  hs.document = input
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
   # Process markdown
@@ -418,68 +401,52 @@ proc compileFragment*(hs: var HastyScribe, input, dir: string, toc = false): str
   return hs.document
 
 proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discardable.} =
-  hs.options.input = input
-  hs.document = hs.options.input
+  hs.document = input
   # Load style rules to be included on-demand
   hs.load_styles()
   # Parse transclusions, fields, snippets, and macros
   hs.document = hs.preprocess(hs.document, dir)
-  # Document Variables
-  var 
-    main_css_tag = ""
-    optional_css_tag = ""
-    user_css_tag = ""
-    user_js_tag = ""
-    watermark_css_tag  = ""
-    headings = " class=\"headings\""
-    author_footer = ""
-    title_tag = ""
-    header_tag = ""
-    toc = ""
-    metadata = TMDMetaData(title:"", author:"", date:"", toc:"", css:"")
-  let logo_datauri = encode_image(hastyscribe_logo, "svg")
-  let hastyscribe_svg = """
-  <img src="$#" width="80" height="23" alt="HastyScribe">
-  """ % [logo_datauri]
   # Process markdown
+  var metadata: TMDMetaData
   hs.document = hs.document.md(0, metadata)
-  # Manage metadata
-  if metadata.author != "":
-    author_footer = "<span class=\"copy\"></span> " & metadata.author & " &ndash;"
-  if metadata.title != "":
-    title_tag = "<title>" & metadata.title & "</title>"
-    header_tag = "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
-  else:
-    title_tag = ""
-    header_tag = ""
 
-  if hs.options.toc and metadata.toc != "":
-    toc = "<div id=\"toc\">" & metadata.toc & "</div>"
-  else:
-    headings = ""
-    toc = ""
+  # Document Variables
+  const hastyscribe_img = """
+<img src="$#" width="80" height="23" alt="HastyScribe">
+""" % encode_image(hastyscribe_logo, "svg")
+  let
+    (headings, toc) = if hs.options.toc and metadata.toc != "":
+        (" class=\"headings\"", "<div id=\"toc\">" & metadata.toc & "</div>")
+      else: ("", "")
+    user_css_tag = if hs.options.css == "": "" else:
+        hs.options.css.readFile.style_tag
+    user_js_tag = if hs.options.js == "": "" else:
+      "<script type=\"text/javascript\">\n" & hs.options.js.readFile & "\n</script>"
+    watermark_css_tag = if hs.options.watermark == "": "" else:
+      watermark_css(hs.options.watermark)
 
-  if hs.options.css != "":
-    user_css_tag = hs.options.css.readFile.style_tag
+    # Manage metadata
+    author_footer = if metadata.author == "": "" else:
+      "<span class=\"copy\"></span> " & metadata.author & " &ndash;"
+    title_tag = if metadata.title == "": "" else:
+      "<title>" & metadata.title & "</title>"
+    header_tag = if metadata.title == "": "" else:
+      "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
 
-  if hs.options.js != "":
-    user_js_tag = "<script type=\"text/javascript\">\n" & hs.options.js.readFile & "\n</script>"
-
-  if hs.options.watermark != "":
-    watermark_css_tag = watermark_css(hs.options.watermark)
+    (main_css_tag, optional_css_tag) = if hs.options.embed:
+        (stylesheet.style_tag, hs.create_optional_css(hs.document))
+      else:
+        ("", "")
 
   # Date parsing and validation
-  var timeinfo: DateTime = local(getTime())
-
-
-  try:
-    timeinfo = parse(metadata.date, "yyyy-MM-dd")
-  except CatchableError:
-    timeinfo = parse(getDateStr(), "yyyy-MM-dd")   
-  
-  if hs.options.embed:
-    main_css_tag = stylesheet.style_tag
-    optional_css_tag = hs.create_optional_css(hs.document)
+  let date: string = block:
+    const IsoDate = initTimeFormat("yyyy-MM-dd")
+    const DefaultDate = initTimeFormat("MMMM d, yyyy")
+    let timeinfo: DateTime = try:
+        parse(metadata.date, IsoDate)
+      except CatchableError:
+        local(getTime())
+    timeinfo.format(if hs.options.iso: IsoDate else: DefaultDate)
 
   hs.document = """<!doctype html>
 <html lang="en">
@@ -505,26 +472,26 @@ $body
     </div>
     <div id="footer">
       <p>$author_footer $date</p>
-      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe" class="hastyscribe-logo">$hastyscribe_svg</a></p>
+      <p><span>Powered by</span> <a href="https://h3rald.com/hastyscribe" class="hastyscribe-logo">$hastyscribe_img</a></p>
     </div>
   </div>
   $js
 </body>""" % [
-  "title_tag", title_tag, 
-  "header_tag", header_tag, 
-  "author", metadata.author, 
-  "author_footer", author_footer, 
-  "date", timeinfo.format("MMMM d, yyyy"), 
-  "toc", toc, 
-  "main_css_tag", main_css_tag, 
-  "hastyscribe_svg", hastyscribe_svg,
-  "optional_css_tag", optional_css_tag, 
-  "user_css_tag", user_css_tag, 
-  "headings", headings, 
-  "body", hs.document, 
-  "internal_css_tag", metadata.css, 
-  "watermark_css_tag", watermark_css_tag, 
-  "js", user_js_tag]
+    "title_tag", title_tag,
+    "header_tag", header_tag,
+    "author", metadata.author,
+    "author_footer", author_footer,
+    "date", date,
+    "toc", toc,
+    "main_css_tag", main_css_tag,
+    "hastyscribe_img", hastyscribe_img,
+    "optional_css_tag", optional_css_tag,
+    "user_css_tag", user_css_tag,
+    "headings", headings,
+    "body", hs.document,
+    "internal_css_tag", metadata.css,
+    "watermark_css_tag", watermark_css_tag,
+    "js", user_js_tag]
   if hs.options.embed:
     hs.embed_images(dir)
   hs.document = add_jump_to_top_links(hs.document)
@@ -532,67 +499,114 @@ $body
   hs.document = hs.document.replace("<a name=", "<a id=")
   return hs.document
 
-proc compile*(hs: var HastyScribe, input_file: string) =
-  let inputsplit = input_file.splitFile
-  var input = input_file.readFile
-  var output: string
+type ClobberError = object of CatchableError
 
-  if hs.options.output == "":
-    output = inputsplit.dir/inputsplit.name & ".htm"
-  else:
-    output = hs.options.output
+proc compile(hs: var HastyScribe; input_file, out_basename: string)
+     {.raises: [IOError, ref ValueError, OSError, Exception, ClobberError].} =
+  const OutputExt = ".htm"
+  let
+    (dir, name, _) = input_file.splitFile()
+    input: string = input_file.readFile()
+    outBaseName = if out_basename != "": out_basename else: name
+    outputPath: string = if hs.options.output == "":
+        dir/outBaseName & OutputExt
+      else:
+        if hs.options.outputToDir: # explicit name is a dir
+          hs.options.output / outBaseName & OutputExt
+        else: # explicit name is a file path
+          hs.options.output
 
   if hs.options.fragment:
-    hs.compileFragment(input, inputsplit.dir)
+    hs.compileFragment(input, dir)
   else:
-    hs.compileDocument(input, inputsplit.dir)
-  if output != "-":
-    output.writeFile(hs.document)
-  else:
+    hs.compileDocument(input, dir)
+  if outputPath == "-":
     stdout.write(hs.document)
+    if hs.options.processingMultiple:
+      stdout.write("\n" & (eof_separator % ["name", name]) & "\n")
+  else:
+    if fileExists(outputPath) and hs.options.noclobber:
+      raise newException(ClobberError, outputPath)
+    else:
+      # TODO: implement atomic writes with temp files
+      outputPath.writeFile(hs.document)
+
+proc compile*(hs: var HastyScribe, input_file: string)
+     {.raises: [IOError, ref ValueError, OSError, Exception, ClobberError].} =
+  compile(hs, input_file, "")
+
+proc fileNameMappings(paths: sink CritBitTree[void]): seq[tuple[path, name: string]] =
+  ## This function preemptively deals with potential name collisions on
+  ## writing multiple files to a flat output directory
+  ## Outputs a mapping of file paths to their unique base names
+  var baseNameSet: CritBitTree[(int, bool)] # (indexInMap, madeUnique)
+  var i = 0
+  for path in paths:
+    let (dir, name, _) = path.splitFile()
+    if baseNameSet.containsOrIncl(name, (i, false)):
+      let (oldIdx, madeUnique) = baseNameSet[name]
+      if not madeUnique: # First collision, make both old and new files unique
+        let oldMap = result[oldIdx]
+        let newName = makeFNameUnique(oldMap.name, oldMap.path.splitFile.dir)
+        result[oldIdx] = (path: oldMap.path, name: newName)
+        baseNameSet[name] = (oldIdx, true)
+      # Subsequent name collisions, make only the new name unique
+      result.add (path: path, name: makeFNameUnique(name, dir))
+    else:
+      baseNameSet.incl(name, (i, false))
+      result.add (path: path, name: name)
+    i.inc()
 
 ### MAIN
-
 when isMainModule:
-  let usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
+  const usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
   (c) 2013-2023 Fabio Cevasco
 
   Usage:
-    hastyscribe <markdown_file_or_glob> [options]
+    hastyscribe [options] <markdown_file_or_glob> ...
 
   Arguments:
     markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
   Options:
-    --field/<field>=<value> Define a new field called <field> with value <value>.
-    --notoc                 Do not generate a Table of Contents.
-    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
-    --user-js=<file>        Insert contents of <file> as a Javascript script.
     --output-file=<file>    Write output to <file>.
                             (Use "--output-file=-" to output to stdout)
+    --output-dir=<dir>, -d=<dir> Write output files to <dir>. Overrides "output-file".
+                                 Input directory structure is not preserved.
+    --field/<field>=<value> Define a new field called <field> with value <value>.
+    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
+    --user-js=<file>        Insert contents of <file> as a Javascript script.
     --watermark=<file>      Use the image in <file> as a watermark.
+    --notoc                 Do not generate a Table of Contents.
     --noembed               If specified, styles and images will not be embedded.
-    --fragment              If specified, an HTML fragment will be generated, without 
-                            embedding images ir stylesheets. 
-    --help                  Display the usage information."""
-    
+    --fragment              If specified, an HTML fragment will be generated, without
+                            embedding images or stylesheets.
+    --iso                   Use ISO 8601 date format (e.g., 2000-12-31) in the footer.
+    --no-clobber, -n        Do not overwrite existing files.
+    --help,       -h        Display the usage information.
+    --version,    -v        Print version and exit."""
 
-  var input = ""
-  var files = newSeq[string](0)
-  var options = HastyOptions(toc: true, output: "", css: "", watermark: "", fragment: false, embed: true)
-  var fields = initTable[string, string]()
+  type ErrorKinds = enum errENOENT = 2, errEIO = 5
+
+  var
+    inputs: seq[string]
+    options = default(HastyOptions)
+    fields = initTable[string, string]()
 
   # Parse Parameters
-
+  template noVal() =
+    if val != "": fatal "Option '" & key & "' takes no value"; quit(1)
   for kind, key, val in getopt():
     case kind
     of cmdArgument:
-      input = key
+        inputs.add(key)
     of cmdShortOption, cmdLongOption:
       case key
       of "notoc":
+        noVal()
         options.toc = false
       of "noembed":
+        noVal()
         options.embed = false
       of "user-css":
         options.css = val
@@ -601,37 +615,86 @@ when isMainModule:
       of "watermark":
         options.watermark = val
       of "output-file":
-        options.output = val
+        if not options.outputToDir:
+          if val == "": fatal "Output file path can't be empty"; quit(1)
+          options.output = val
+      of "d", "output-dir":
+        options.outputToDir = true
+        if dirExists(val): options.output = val.normalizedPath()
+        else:
+          fatal "Directory '" & val & "' does not exist";
+          quit(errENOENT.ord)
       of "fragment":
+        noVal()
         options.fragment = true
+      of "iso":
+        noVal()
+        options.iso = true
+      of "n", "no-clobber", "noclobber":
+        noVal()
+        options.noclobber = true
       of "v", "version":
         echo pkgVersion
         quit(0)
       of "h", "help":
         echo usage
-        quit(0)  
+        quit(0)
       else:
         if key.startsWith("field/"):
           let val = val
-          fields[key.replace("field/", "")] = val          
-        discard
-    else: 
-      discard
-  for file in walkFiles(input):
-    files.add(file)
-
-  if files.len == 0:
-    if input == "":
-      echo usage
-      quit(0)
-    fatal "\"$1\" does not match any file" % [input]
-    quit(2)
+          fields[key.replace("field/", "")] = val
+        else:
+          warn """Unknown option "$#", ignoring""" % key
+    of cmdEnd: assert(false)
+  if inputs.len == 0:
+    echo usage
+    quit(0)
   else:
-    var hs = newHastyScribe(options, fields)
-    try:
-      for file in files:
-        hs.compile(file)
-    except IOError:
-      let msg = getCurrentExceptionMsg()
-      fatal msg
-      quit(3)
+    var errorsOccurred: set[ErrorKinds] = {}
+    var paths: CritBitTree[void] # Deduplicates different globs expanding to same files
+    for glob in inputs:
+      var globMatchCount = 0
+      for file in walkFiles(glob):
+        # TODO: files can still contain relative and absolute paths pointing to the same file
+        let path = file.normalizedPath()
+        if paths.containsOrIncl(path):
+          notice "Input file \"$1\" provided multiple times" % path
+        globMatchCount.inc()
+      if globMatchCount == 0:
+        errorsOccurred.incl errENOENT
+        fatal "\"$1\" does not match any file" % glob
+    if paths.len == 0:
+      errorsOccurred.incl errENOENT
+    else:
+      var fileMappings: seq[tuple[path, name: string]]
+      if paths.len > 1:
+        options.processingMultiple = true
+        if not options.outputToDir:
+          case options.output:
+            of "": discard
+            of "-":
+              notice "Multiple files will be printed to stdout using the\n" &
+                   "    \"" & eof_Separator & "\" separator."
+            else:
+              warn "Option `output-file` is set but multiple input files given, ignoring"
+              options.output = ""
+        fileMappings = fileNameMappings(paths)
+      else:
+        for p in paths.keys:
+          fileMappings.add (path: p, name: "")
+
+      var hs = newHastyScribe(options, fields)
+      for (path, outName) in fileMappings:
+        try:
+          hs.compile(path, outName)
+        except IOError as e:
+          errorsOccurred.incl errEIO
+          fatal e.msg
+          continue
+        except ClobberError as e:
+          warn "File '" & e.msg & "' exists, not overwriting"
+          continue
+        info "\"$1\" converted successfully" % path
+    if errENOENT in errorsOccurred: quit(errENOENT.ord)
+    elif errEIO in errorsOccurred: quit(errEIO.ord)
+    else: discard # ok

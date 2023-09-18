@@ -1,5 +1,5 @@
 
-const 
+const
   stylesheet* = "./data/hastystyles.css".slurp
   stylesheet_badges* = "./data/hastystyles.badges.css".slurp
   stylesheet_icons* = "./data/hastystyles.icons.css".slurp
@@ -26,3 +26,4 @@ const
   background-attachment: fixed;
 }
 """
+  eof_separator* = "<!-- $name: EOF -->"
