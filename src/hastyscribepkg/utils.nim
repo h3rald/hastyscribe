@@ -3,6 +3,7 @@ import std/[
     os,
     strutils,
     pegs,
+    hashes,
   ]
 
 import
@@ -51,3 +52,14 @@ proc watermark_css*(imgfile: string): string =
 
 proc add_jump_to_top_links*(document: string): string =
   result = document.replacef(peg"{'</h' [23456] '>'}", "<a href=\"#document-top\" title=\"Go to top\"></a>$1")
+
+proc makeFNameUnique*(baseName, dir: string): string =
+  ## Uses file placement (`dir`) as a unique name identifier
+  ## Files in relative root (`dir` is empty) are returned unchanged.
+  if dir notin ["", ".", "./"]:
+    let
+      dir = when dosLikeFileSystem: dir.replace('\\', '/') else: dir
+      hashBytes = cast[array[sizeof(Hash), byte]](hash(dir))
+      uniquePrefix = encode(hashBytes, safe=true)
+    baseName & '_' & uniquePrefix
+  else: baseName

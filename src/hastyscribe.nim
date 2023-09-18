@@ -9,7 +9,7 @@ import std/[
     tables,
     httpclient,
     logging,
-    critbits
+    critbits,
   ]
 
 from nimquery import querySelectorAll
@@ -46,6 +46,8 @@ type
     embed*: bool = true
     iso*: bool = false
     noclobber*: bool = false
+    outputToDir*: bool = false
+    processingMultiple: bool = false
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
@@ -499,31 +501,63 @@ $body
 
 type ClobberError = object of CatchableError
 
-proc compile*(hs: var HastyScribe, input_file: string)
-                       {.raises: [IOError, ref ValueError, Exception, ClobberError].} =
+proc compile(hs: var HastyScribe; input_file, out_basename: string)
+     {.raises: [IOError, ref ValueError, OSError, Exception, ClobberError].} =
+  const OutputExt = ".htm"
   let
     (dir, name, _) = input_file.splitFile()
     input: string = input_file.readFile()
-    output: string = if hs.options.output == "":
-        dir/name & ".htm"
+    outBaseName = if out_basename != "": out_basename else: name
+    outputPath: string = if hs.options.output == "":
+        dir/outBaseName & OutputExt
       else:
-        hs.options.output
+        if hs.options.outputToDir: # explicit name is a dir
+          hs.options.output / outBaseName & OutputExt
+        else: # explicit name is a file path
+          hs.options.output
 
   if hs.options.fragment:
     hs.compileFragment(input, dir)
   else:
     hs.compileDocument(input, dir)
-  if output == "-":
-    # TODO: Notify user if outputting multiple files
+  if outputPath == "-":
     stdout.write(hs.document)
+    if hs.options.processingMultiple:
+      stdout.write("\n" & (eof_separator % ["name", name]) & "\n")
   else:
-    if fileExists(output) and hs.options.noclobber:
-      raise newException(ClobberError, output)
+    if fileExists(outputPath) and hs.options.noclobber:
+      raise newException(ClobberError, outputPath)
     else:
-      output.writeFile(hs.document)
+      # TODO: implement atomic writes with temp files
+      outputPath.writeFile(hs.document)
+
+proc compile*(hs: var HastyScribe, input_file: string)
+     {.raises: [IOError, ref ValueError, OSError, Exception, ClobberError].} =
+  compile(hs, input_file, "")
+
+proc fileNameMappings(paths: sink CritBitTree[void]): seq[tuple[path, name: string]] =
+  ## This function preemptively deals with potential name collisions on
+  ## writing multiple files to a flat output directory
+  ## Outputs a mapping of file paths to their unique base names
+  var baseNameSet: CritBitTree[(int, bool)] # (indexInMap, madeUnique)
+  var i = 0
+  for path in paths:
+    let (dir, name, _) = path.splitFile()
+    if baseNameSet.containsOrIncl(name, (i, false)):
+      let (oldIdx, madeUnique) = baseNameSet[name]
+      if not madeUnique: # First collision, make both old and new files unique
+        let oldMap = result[oldIdx]
+        let newName = makeFNameUnique(oldMap.name, oldMap.path.splitFile.dir)
+        result[oldIdx] = (path: oldMap.path, name: newName)
+        baseNameSet[name] = (oldIdx, true)
+      # Subsequent name collisions, make only the new name unique
+      result.add (path: path, name: makeFNameUnique(name, dir))
+    else:
+      baseNameSet.incl(name, (i, false))
+      result.add (path: path, name: name)
+    i.inc()
 
 ### MAIN
-
 when isMainModule:
   const usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
@@ -535,22 +569,24 @@ when isMainModule:
   Arguments:
     markdown_file_or_glob   The markdown (or glob expression) file to compile into HTML.
   Options:
-    --field/<field>=<value> Define a new field called <field> with value <value>.
-    --notoc                 Do not generate a Table of Contents.
-    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
-    --user-js=<file>        Insert contents of <file> as a Javascript script.
     --output-file=<file>    Write output to <file>.
                             (Use "--output-file=-" to output to stdout)
+    --output-dir=<dir>, -d=<dir> Write output files to <dir>. Overrides "output-file".
+                                 Input directory structure is not preserved.
+    --field/<field>=<value> Define a new field called <field> with value <value>.
+    --user-css=<file>       Insert contents of <file> as a CSS stylesheet.
+    --user-js=<file>        Insert contents of <file> as a Javascript script.
     --watermark=<file>      Use the image in <file> as a watermark.
+    --notoc                 Do not generate a Table of Contents.
     --noembed               If specified, styles and images will not be embedded.
     --fragment              If specified, an HTML fragment will be generated, without
                             embedding images or stylesheets.
     --iso                   Use ISO 8601 date format (e.g., 2000-12-31) in the footer.
-    --no-clobber | -n       Do not overwrite existing files.
-    --help                  Display the usage information.
-    --version               Print version and exit."""
+    --no-clobber, -n        Do not overwrite existing files.
+    --help,       -h        Display the usage information.
+    --version,    -v        Print version and exit."""
 
-
+  type ErrorKinds = enum errENOENT = 2, errEIO = 5
 
   var
     inputs: seq[string]
@@ -579,7 +615,15 @@ when isMainModule:
       of "watermark":
         options.watermark = val
       of "output-file":
-        options.output = val
+        if not options.outputToDir:
+          if val == "": fatal "Output file path can't be empty"; quit(1)
+          options.output = val
+      of "d", "output-dir":
+        options.outputToDir = true
+        if dirExists(val): options.output = val.normalizedPath()
+        else:
+          fatal "Directory '" & val & "' does not exist";
+          quit(errENOENT.ord)
       of "fragment":
         noVal()
         options.fragment = true
@@ -606,30 +650,43 @@ when isMainModule:
     echo usage
     quit(0)
   else:
-    type ErrorKinds = enum errENOENT, errEIO
     var errorsOccurred: set[ErrorKinds] = {}
-    var files: CritBitTree[void] # Deduplicates different globs expanding to same files
+    var paths: CritBitTree[void] # Deduplicates different globs expanding to same files
     for glob in inputs:
       var globMatchCount = 0
       for file in walkFiles(glob):
         # TODO: files can still contain relative and absolute paths pointing to the same file
         let path = file.normalizedPath()
-        if files.containsOrIncl(path):
+        if paths.containsOrIncl(path):
           notice "Input file \"$1\" provided multiple times" % path
         globMatchCount.inc()
       if globMatchCount == 0:
         errorsOccurred.incl errENOENT
         fatal "\"$1\" does not match any file" % glob
-    if files.len == 0:
+    if paths.len == 0:
       errorsOccurred.incl errENOENT
     else:
-      if files.len > 1 and options.output != "":
-        warn "Option `output-file` is set but multiple input files given, ignoring"
-        options.output = ""
+      var fileMappings: seq[tuple[path, name: string]]
+      if paths.len > 1:
+        options.processingMultiple = true
+        if not options.outputToDir:
+          case options.output:
+            of "": discard
+            of "-":
+              notice "Multiple files will be printed to stdout using the\n" &
+                   "    \"" & eof_Separator & "\" separator."
+            else:
+              warn "Option `output-file` is set but multiple input files given, ignoring"
+              options.output = ""
+        fileMappings = fileNameMappings(paths)
+      else:
+        for p in paths.keys:
+          fileMappings.add (path: p, name: "")
+
       var hs = newHastyScribe(options, fields)
-      for file in files:
+      for (path, outName) in fileMappings:
         try:
-          hs.compile(file)
+          hs.compile(path, outName)
         except IOError as e:
           errorsOccurred.incl errEIO
           fatal e.msg
@@ -637,7 +694,7 @@ when isMainModule:
         except ClobberError as e:
           warn "File '" & e.msg & "' exists, not overwriting"
           continue
-        info "\"$1\" converted successfully" % file
-    if errENOENT in errorsOccurred: quit(2)
-    elif errEIO in errorsOccurred: quit(5)
+        info "\"$1\" converted successfully" % path
+    if errENOENT in errorsOccurred: quit(errENOENT.ord)
+    elif errEIO in errorsOccurred: quit(errEIO.ord)
     else: discard # ok
