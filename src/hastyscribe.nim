@@ -14,7 +14,6 @@ import std/[
 
 from nimquery import querySelectorAll
 from std/htmlparser import parseHtml
-from std/sequtils import mapIt
 
 import
   hastyscribepkg/niftylogger,
@@ -51,7 +50,6 @@ type
   HastyFields* = Table[string, string]
   HastySnippets* = Table[string, string]
   HastyMacros* = Table[string, string]
-  HastyLinkStyles* = Table[string, string]
   HastyIconStyles* = Table[string, string]
   HastyNoteStyles* = Table[string, string]
   HastyBadgeStyles* = Table[string, string]
@@ -61,7 +59,6 @@ type
     snippets: HastySnippets
     macros: HastyMacros
     document: string
-    linkStyles: HastyLinkStyles
     iconStyles: HastyIconStyles
     noteStyles: HastyNoteStyles
     badgeStyles: HastyBadgeStyles
@@ -281,15 +278,7 @@ proc load_styles(hs: var HastyScribe) =
     var matches: StyleRuleMatches
     discard def.match(peg_notestyle_def, matches)
     hs.noteStyles[matches[1].strip] = matches[0].strip
-  # Links
-  let peg_linkstyle_def = peg"""
-    definition <- { 'a[href' { ('^=' / '*=' / '$=') '\'' link } '\']:before' \s* @ (\n / $) }
-    link <- [a-z0-9-.#]+
-  """
-  for def in stylesheet_links.findAll(peg_linkstyle_def):
-    var matches: StyleRuleMatches
-    discard def.match(peg_linkstyle_def, matches)
-    hs.linkStyles[matches[1].strip] = matches[0].strip
+  # Links -> already in `const.css_rules_links`
 
 # Snippet Definition:
 # {{test -> My test snippet}}
@@ -355,6 +344,9 @@ proc getTableValue(table: Table[string, string], key: string, obj: string): stri
     warn obj & " not found: " & key
 
 proc create_optional_css*(hs: HastyScribe, document: string): string =
+  ## Analyzes the provided HTML document for using elements matching
+  ## the set of "hastystyles" CSS rules and prepares a custom CSS with the
+  ## used resources.
   let html = document.parseHtml()
   var rules: seq[string]
   # Check icons
@@ -367,25 +359,26 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
   for note in html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar"):
     rules.add getTableValue(hs.noteStyles, note.attr("class"), "Note")
   # Check links
-  let linkHrefs = html.querySelectorAll("a[href]").mapIt(it.attr("href"))
-  var linkRulesSet: CritBitTree[void]
-  # Add #document-top rule because it is always needed and added at the end.
-  rules.add hs.linkStyles["^='#document-top"]
+  # Init with `document-top`: it's added to the document later with `utils.add_jump_to_top_links`
+  var linkHrefs: CritBitTree[void] = ["#document-top"].toCritBitTree()
+  for link in html.querySelectorAll("a[href]"): linkHrefs.incl(link.attr("href"))
+  block linkStyles:
+    var linkRulesSet: tuple[exts, doms, protos: CritBitTree[void]]
+    for href in linkHrefs.keys:
+      block search:
+        for (val, rule) in css_rules_links.extensions:
+          if href.endsWith(val): linkRulesSet.exts.incl(rule); break search
+        for (val, rule) in css_rules_links.domains:
+          if href.contains(val): linkRulesSet.doms.incl(rule); break search
+        for (val, rule) in css_rules_links.protocols:
+          if href.startsWith(val): linkRulesSet.protos.incl(rule); break search
+    # Adding to rules in reversed order of precedence
+    for rule in linkRulesSet.protos.keys: rules.add(rule)
+    for rule in linkRulesSet.doms.keys: rules.add(rule)
+    for rule in linkRulesSet.exts.keys: rules.add(rule)
 
-  for href in linkHrefs:
-    for (key, val) in hs.linkStyles.pairs:
-      if val notin linkRulesSet:
-        let op = key[0..1]
-        let value = key[3..^1] # Skip first '
-        # TODO: debug logic
-        # Save matches in order of priority (?)
-        if (op == "$=" and href.endsWith(value)) or
-           (op == "*=" and href.contains(value)) or
-           (op == "^=" and href.startsWith(value)):
-          linkRulesSet.incl val
-          rules.add val
-          break
   rules.join("\n").style_tag()
+
 
 # Public API
 
