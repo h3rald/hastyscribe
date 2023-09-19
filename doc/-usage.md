@@ -19,6 +19,7 @@ Where:
     * [\-\-notoc](class:opt) causes {{hs}} to output HTML documents _without_ automatically generating a Table of Contents at the start.
     * [\-\-noembed](class:opt) causes styles and images not to be embedded.
     * [\-\-fragment](class:opt) causes {{hs}} to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
+    * [\-\-minify-css](class:opt) uses an unsophisticated minifier on the built-in stylesheet before embedding it into HTML. Ignored when combined with [\-\-noembed](class:opt).
     * [\-\-iso](class:opt) enables {{hs}} to use the ISO 8601 date format (e.g., 2000-12-31) in the footer of the generated HTML documents.
     * [\-\-no-clobber](class:opt) or [\-n](class:opt) prevents {{hs}} from overwriting existing files. If a file with the same name already exists, {{hs}} will issue a warning and will not overwrite it.
     * [\-\-help](class:opt) causes {{hs}} to display the usage information and quit.

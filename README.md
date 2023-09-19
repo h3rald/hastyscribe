@@ -25,6 +25,7 @@ Where:
   - **--noembed** causes styles and images not to be embedded.
   - **--fragment** causes HastyScribe to output just an HTML fragment instead of a full document, without embedding any image, font or stylesheet.
   - **--iso** enables HastyScribe to use the ISO 8601 date format (e.g., 2000-12-31) in the footer of the generated HTML documents.
+  - **--minify-css** uses an unsophisticated minifier on the built-in stylesheet before embedding it into HTML. Ignored when combined with `--noembed`.
   - **--no-clobber** or **-n** prevents HastyScribe from overwriting existing files. If a file with the same name already exists, HastyScribe will issue a warning and will not overwrite it.
   - **--help** causes HastyScribe to display the usage information and quit.
 

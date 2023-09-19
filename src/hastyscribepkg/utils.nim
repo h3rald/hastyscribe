@@ -63,3 +63,12 @@ proc makeFNameUnique*(baseName, dir: string): string =
       uniquePrefix = encode(hashBytes, safe=true)
     baseName & '_' & uniquePrefix
   else: baseName
+
+proc minifyCss*(css: string): string =
+  css.parallelReplace([
+    (peg" '/*' @ '*/'", ""),
+    (peg" {\w} \s* {[ \>\< ]} \s* {\w / '*'} ", "$1$2$3" ),
+    (peg" \s* { [ \,\{\}\[\]\:\; ] } \s* ", "$1"),
+    (peg" \s+ ", " "),
+    (peg""" ')' \s* \" """, ")\"" ),
+  ])
