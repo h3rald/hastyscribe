@@ -8,7 +8,7 @@ HastyScribe is powered by the following open source software (see [LICENSE.md]({
 
 Special thanks to:
 
-* Philip Wernersbach and Joshua Ellis, for contributing to {{hs}}.
+* Philip Wernersbach, Joshua Ellis, and [ZoomRmc](https://github.com/ZoomRmc) for contributing to {{hs}}.
 * Andreas Rumpf, creator of the amazing [Nim][nim] programming language, used to implement {{hs}}.
 
 -> [](class:fa-creative-commons) [](class:fa-creative-commons-by) [](class:fa-creative-commons-nc) [](class:fa-creative-commons-nd) <-
