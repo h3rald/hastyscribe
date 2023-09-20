@@ -2,12 +2,15 @@ import std/[pegs]
 from std/strutils import strip
 
 type
-  Rule = tuple[selValue: string, definition: string]
+  CssSelPriority* = enum csspIgnore, csspLowProto, csspDom, csspExt, csspProto
+  Rule = tuple[selValue: string, definition: string] ## CSS selector rule
   Rules = seq[Rule]
 
-proc parseLinkRules(css: string): tuple[extensions, domains, protocols: Rules] =
+const CssSelLowPriorityProtos = ["http", "https"]
+
+proc parseLinkRules(css: string): array[CssSelPriority, Rules] =
   ## Parses a CSS in format adgering to `hastystyles.links.css`:
-  ## Each line is a link styling with a single selector of 
+  ## Each line is a link styling with a single selector of
   ## `^=` / `*=` / `$=` and a `:before`
   # TODO: - Support multiple selectors for a styling:
   #         either in form of "a[href$='.zip']:before, a[href$='.gz']:before"
@@ -19,14 +22,8 @@ proc parseLinkRules(css: string): tuple[extensions, domains, protocols: Rules] =
     op <- ['^*$'] '='
     val <- [a-z0-9-.#]+
   """
-  type
-    CssSelectorKind = enum
-      selUnknown = "", selEnds = "$=", selContains = "*=", selStarts = "^="
-    RuleAttrs = object
-      kind: CssSelectorKind = selUnknown
-      selValue: string = ""
-  var extensions, domains, protocols: Rules
-  var attrs = default(RuleAttrs)
+  var attr: tuple[kind: CssSelPriority; selValue: string]
+  var linkRules: array[CssSelPriority, Rules]
   let parse = peg_linkstyle_def.eventParser:
     pkNonTerminal:
       leave:
@@ -35,25 +32,24 @@ proc parseLinkRules(css: string): tuple[extensions, domains, protocols: Rules] =
           case p.nt.name
           of "op":
             # debugEcho "  op:", s.substr(start, start+1)
-            attrs.kind = case s[start]:
-              of '$': selEnds
-              of '*': selContains
-              of '^': selStarts
-              else: selUnknown
-          of "val": attrs.selValue = s.substr(start, start+length-1)
+            attr.kind = case s[start]:
+              of '$': csspExt   # endsWiths
+              of '*': csspDom   # contains
+              of '^': csspProto # startsWith
+              else: csspIgnore
+          of "val":
+            attr.selValue = s.substr(start, start+length-1)
+            if attr.kind == csspProto and attr.selValue in CssSelLowPriorityProtos:
+              attr.kind = csspLowProto
           of "definition":
             let definition = s.substr(start, start+length-1).strip()
-            if attrs.kind == selUnknown or attrs.selValue == "" or definition == "":
+            if attr.kind == csspIgnore or attr.selValue == "" or definition == "":
               echo "Error parsing `stylesheet_links`!"; quit(1)
-            case attrs.kind:
-              of selEnds: extensions.add((attrs.selValue, definition))
-              of selContains: domains.add((attrs.selValue, definition))
-              of selStarts: protocols.add((attrs.selValue, definition))
-              else: doAssert(false) # already checked
-            attrs = default(RuleAttrs)
+            linkRules[attr.kind].add((attr.selValue, definition))
+            attr = (csspLowProto, "")
           else: discard # parsed the file
   discard parse(css)
-  (extensions: extensions, domains: domains, protocols: protocols)
+  linkRules
 
 
 const
