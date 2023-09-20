@@ -366,19 +366,21 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
     # Init with `document-top`: it's added to the document later with `utils.add_jump_to_top_links`
     var linkHrefs: CritBitTree[void] = ["#document-top"].toCritBitTree()
     for link in html.querySelectorAll("a[href]"): linkHrefs.incl(link.attr("href"))
-    var linkRulesSet: tuple[exts, doms, protos: CritBitTree[void]]
+    var linkRulesSets: array[CssSelPriority, CritBitTree[void]]
     for href in linkHrefs.keys:
       block search:
-        for (val, rule) in css_rules_links.extensions:
-          if href.endsWith(val): linkRulesSet.exts.incl(rule); break search
-        for (val, rule) in css_rules_links.domains:
-          if href.contains(val): linkRulesSet.doms.incl(rule); break search
-        for (val, rule) in css_rules_links.protocols:
-          if href.startsWith(val): linkRulesSet.protos.incl(rule); break search
-    # Adding to rules in reversed order of precedence
-    for rule in linkRulesSet.protos.keys: rules.add(rule)
-    for rule in linkRulesSet.doms.keys: rules.add(rule)
-    for rule in linkRulesSet.exts.keys: rules.add(rule)
+        for prio in countDown(csspProto, csspLowProto): # Traverse rules in order of decreasing priority
+          for (val, rule) in css_rules_links[prio]:
+            let match =
+              case prio:
+                of csspLowProto, csspProto: href.startsWith(val)
+                of csspDom: href.contains(val)
+                of csspExt: href.endsWith(val)
+                else: false
+            if match: linkRulesSets[prio].incl(rule); break search
+    # Adding rules in order of increasing priority
+    for prio in CssSelPriority:
+      for rule in linkRulesSets[prio]: rules.add(rule)
 
   rules.join("\n").style_tag()
 
