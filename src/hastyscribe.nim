@@ -10,6 +10,7 @@ import std/[
     httpclient,
     logging,
     critbits,
+    sets,
   ]
 
 from nimquery import querySelectorAll
@@ -248,6 +249,7 @@ proc parse_fields(hs: var HastyScribe, document: string): string {.gcsafe.} =
       warn "Field '" & id & "' not defined."
       result = result.replace(field, "")
 
+
 proc load_styles(hs: var HastyScribe) =
   type
     StyleRuleMatches = array[0..1, string]
@@ -278,7 +280,7 @@ proc load_styles(hs: var HastyScribe) =
     var matches: StyleRuleMatches
     discard def.match(peg_notestyle_def, matches)
     hs.noteStyles[matches[1].strip] = matches[0].strip
-  # Links -> already in `const.css_rules_links`
+  # Links -> already in `consts.css_rules_links`
 
 # Snippet Definition:
 # {{test -> My test snippet}}
@@ -349,20 +351,21 @@ proc create_optional_css*(hs: HastyScribe, document: string): string =
   ## used resources.
   let html = document.parseHtml()
   var rules: seq[string]
-  # Check icons
-  for icon in html.querySelectorAll("span[class^=fa-]"):
-    rules.add getTableValue(hs.iconStyles, icon.attr("class"), "Icon")
-  # Check badges
-  for badge in html.querySelectorAll("span[class^=badge-]"):
-    rules.add getTableValue(hs.badgeStyles, badge.attr("class"), "Badge")
-  # Check notes
-  for note in html.querySelectorAll("div.tip, div.warning, div.note, div.sidebar"):
-    rules.add getTableValue(hs.noteStyles, note.attr("class"), "Note")
-  # Check links
-  # Init with `document-top`: it's added to the document later with `utils.add_jump_to_top_links`
-  var linkHrefs: CritBitTree[void] = ["#document-top"].toCritBitTree()
-  for link in html.querySelectorAll("a[href]"): linkHrefs.incl(link.attr("href"))
-  block linkStyles:
+
+  block icons_badges_notes:
+    var selSet: HashSet[string]
+    template fillFrom(rules: var seq[string]; t: Table[string, string]; selector, obj: string) =
+      for el in html.querySelectorAll(selector): selSet.incl(el.attr("class"))
+      for selV in selSet.items: rules.add(getTableValue(t, selV, obj))
+      selSet.init()
+    rules.fillFrom(hs.iconStyles, "span[class^=fa-]", "Icon") # Check icons
+    rules.fillFrom(hs.badgeStyles, "span[class^=badge-]", "Badge") # Check badges
+    rules.fillFrom(hs.noteStyles, "div.tip, div.warning, div.note, div.sidebar", "Note") # Check notes
+
+  block linkStyles: # Check links
+    # Init with `document-top`: it's added to the document later with `utils.add_jump_to_top_links`
+    var linkHrefs: CritBitTree[void] = ["#document-top"].toCritBitTree()
+    for link in html.querySelectorAll("a[href]"): linkHrefs.incl(link.attr("href"))
     var linkRulesSet: tuple[exts, doms, protos: CritBitTree[void]]
     for href in linkHrefs.keys:
       block search:
