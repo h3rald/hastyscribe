@@ -44,6 +44,7 @@ type
     fragment*: bool = false
     embed*: bool = true
     iso*: bool = false
+    minifycss*: bool = false
     noclobber*: bool = false
     outputToDir*: bool = false
     processingMultiple: bool = false
@@ -59,6 +60,7 @@ type
     snippets: HastySnippets
     macros: HastyMacros
     document: string
+    hastyStylesheet: string
     iconStyles: HastyIconStyles
     noteStyles: HastyNoteStyles
     badgeStyles: HastyBadgeStyles
@@ -94,7 +96,18 @@ proc initFields(fields: HastyFields): HastyFields {.gcsafe.} =
   result["timezone-offset"] = now.format("zzz")
 
 proc newHastyScribe*(options: HastyOptions, fields: HastyFields): HastyScribe =
-  return HastyScribe(options: options, fields: initFields(fields), snippets: initTable[string, string](), macros: initTable[string, string](), document: "")
+  HastyScribe(
+    options: options,
+    fields: initFields(fields),
+    snippets: initTable[string, string](),
+    macros: initTable[string, string](),
+    document: "",
+    hastyStylesheet: (
+      if not options.embed: ""
+      elif options.minifycss: stylesheet.minifyCss()
+      else: stylesheet
+    ),
+  )
 
 # Utility Procedures
 
@@ -427,7 +440,7 @@ proc compileDocument*(hs: var HastyScribe, input, dir: string): string {.discard
       "<div id=\"header\"><h1>" & metadata.title & "</h1></div>"
 
     (main_css_tag, optional_css_tag) = if hs.options.embed:
-        (stylesheet.style_tag, hs.create_optional_css(hs.document))
+        (hs.hastyStylesheet.style_tag, hs.create_optional_css(hs.document))
       else:
         ("", "")
 
@@ -575,6 +588,7 @@ when isMainModule:
     --fragment              If specified, an HTML fragment will be generated, without
                             embedding images or stylesheets.
     --iso                   Use ISO 8601 date format (e.g., 2000-12-31) in the footer.
+    --minify-css,           Minify the built-in stylesheet before embedding.
     --no-clobber, -n        Do not overwrite existing files.
     --help,       -h        Display the usage information.
     --version,    -v        Print version and exit."""
@@ -623,6 +637,9 @@ when isMainModule:
       of "iso":
         noVal()
         options.iso = true
+      of "minify-css":
+        noVal()
+        options.minifycss = true
       of "n", "no-clobber", "noclobber":
         noVal()
         options.noclobber = true
