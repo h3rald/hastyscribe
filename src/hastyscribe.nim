@@ -572,7 +572,7 @@ proc fileNameMappings(paths: sink CritBitTree[void]): seq[tuple[path, name: stri
 when isMainModule:
   const usage = "  HastyScribe v" & pkgVersion & " - Self-contained Markdown Compiler" & """
 
-  (c) 2013-2023 Fabio Cevasco
+  (c) 2013-2026 Fabio Cevasco
 
   Usage:
     hastyscribe [options] <markdown_file_or_glob> ...
