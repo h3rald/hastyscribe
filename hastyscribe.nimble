@@ -20,7 +20,7 @@ bin           = @["hastyscribe"]
 srcDir        = "src"
 installExt    = @["nim", "json", "a", "css", "png", "svg", "c", "h", "in"]
 
-requires "nim >= 2.0.0", "nimquery >= 2.0.1"
+requires "nim >= 2.0.0", "nimquery >= 2.0.1", "htmlparser >= 0.1.0"
 
 # Tasks
 

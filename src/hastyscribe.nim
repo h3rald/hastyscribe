@@ -14,7 +14,7 @@ import std/[
   ]
 
 from nimquery import querySelectorAll
-from std/htmlparser import parseHtml
+from pkg/htmlparser import parseHtml
 
 import
   hastyscribepkg/niftylogger,
@@ -27,11 +27,11 @@ export
   consts
 
 when defined(windows) and defined(amd64):
-  {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/windows -lmarkdown".}
+  {.passL: "-static -L"&currentSourcePath().parentDir&"/hastyscribepkg/vendor/markdown/windows -lmarkdown".}
 elif defined(linux) and defined(amd64):
-  {.passL: "-static -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/linux -lmarkdown".}
+  {.passL: "-static -L"&currentSourcePath().parentDir&"/hastyscribepkg/vendor/markdown/linux -lmarkdown".}
 elif defined(macosx) and defined(amd64):
-  {.passL: "-Bstatic -L"&getProjectPath()&"/hastyscribepkg/vendor/markdown/macosx -lmarkdown -Bdynamic".}
+  {.passL: "-Bstatic -L"&currentSourcePath().parentDir&"/hastyscribepkg/vendor/markdown/macosx -lmarkdown -Bdynamic".}
 
 
 type
