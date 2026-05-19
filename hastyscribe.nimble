@@ -12,9 +12,9 @@ else:
 
 # Package
 
-version       = pkgVersion
-author        = pkgAuthor
-description   = pkgDescription
+version       = "2.1.1"
+author        = "Fabio Cevasco"
+description   = "Self-contained markdown compiler generating self-contained HTML documents"
 license       = "MIT"
 bin           = @["hastyscribe"]
 srcDir        = "src"
