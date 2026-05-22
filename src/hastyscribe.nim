@@ -32,6 +32,8 @@ elif defined(linux) and defined(amd64):
   {.passL: "-static -L"&currentSourcePath().parentDir&"/hastyscribepkg/vendor/markdown/linux -lmarkdown".}
 elif defined(macosx) and defined(amd64):
   {.passL: "-Bstatic -L"&currentSourcePath().parentDir&"/hastyscribepkg/vendor/markdown/macosx -lmarkdown -Bdynamic".}
+else:
+  {.passL: "-static -L"&currentSourcePath().parentDir&"/hastyscribepkg/vendor/markdown/unknown -lmarkdown".}
 
 
 type
